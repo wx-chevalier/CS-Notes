@@ -4,10 +4,27 @@ package wx;
  * Hello world!
  *
  */
-public class App 
+public class App
 {
+    private String appName = "appName";
+
+    public void set(){
+        InnerClass innerClass = new InnerClass();
+        innerClass.print();
+    }
+
+    public class InnerClass{
+
+        public void print(){
+            System.out.print(appName);
+        }
+    }
+
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+
+        App app = new App();
+        app.set();
+
     }
 }
