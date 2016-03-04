@@ -74,6 +74,14 @@
             <version>4.5.1</version>
         </dependency>
 
+        <!--Netty-->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>5.0.0.Alpha2</version>
+        </dependency>
+
+
 
         <!--Storage-->
         <dependency>
