@@ -36,7 +36,6 @@
 
     <!--全局变量定义-->
     <properties>
-        <spring.version>4.2.2.RELEASE</spring.version>
     </properties>
 
     <repositories>
