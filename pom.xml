@@ -93,6 +93,11 @@
             <artifactId>redisson</artifactId>
             <version>2.2.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.3.1</version>
+        </dependency>
 
         <!--Advanced-->
         <dependency>

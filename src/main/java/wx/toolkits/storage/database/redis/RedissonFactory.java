@@ -1,4 +1,4 @@
-package wx.storage.database.redis;
+package wx.toolkits.storage.database.redis;
 
 import org.redisson.Config;
 import org.redisson.Redisson;
