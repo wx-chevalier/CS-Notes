@@ -69,7 +69,17 @@ public class MergeObservables {
         })
                 .subscribeOn(Schedulers.newThread());
 
-        Observable<Object> observable_combined = Observable.merge(observable_1, observable_2);
+        //observable_3是运行在主线程中的一个同步的被观察者,可以看出它会自主运行而不受子线程影响
+        Observable<Object> observable_3 = Observable.create(subscriber -> {
+
+            subscriber.onNext(5);
+
+            subscriber.onNext(6);
+
+        });
+
+
+        Observable<Object> observable_combined = Observable.merge(observable_1, observable_2, observable_3);
 
         observable_combined.subscribe(
                 (value) -> {

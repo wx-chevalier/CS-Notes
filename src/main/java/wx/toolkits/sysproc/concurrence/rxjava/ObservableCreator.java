@@ -26,17 +26,21 @@ public class ObservableCreator {
         /*
          * Example with 'reduce' that takes a lambda with 2 arguments (Func2)
          */
-        Observable.from(arrayList)
+        Observable o = Observable.from(arrayList)
                 .reduce((seed, value) -> {
+                    System.out.println("In Reducer");
                     // sum all values from the sequence
                     return seed + value;
                 })
                 .map((v) -> {
                     return "DecoratedValue: " + v;
-                })
-                .subscribe((value) -> {
-                    System.out.println(value);
                 });
+
+        //此部分演示某个Observable仅在
+        System.out.println("Before Subscribe");
+
+
+        o.subscribe(System.out::println);
 
     }
 
