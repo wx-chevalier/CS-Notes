@@ -8,6 +8,62 @@ WXJavaToolkits存放了笔者的个人Java的学习笔记与示范代码,以及�
 
 # Basic:语法基础
 
+## DataStructure:数据结构
+
+### Serialization:序列化
+
+- [Java中JSON使用的入门与最佳实践:Jackson,FastJSON](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/basic/ds/serialization/java-json.md)
+
+## Class
+
+### Utils
+
+- [Lombok详解与最佳实践](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/basic/class/utils/lombok.md)
+
+# Storage:存储
+
+## Database:数据库
+
+- [14个构建高性能Java持久化层的建议](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/storage/database/14-high-performance-java-persistence-tips.md)
 
 
+
+# JVM:Java Virtual Machine
+
+- [JVM导论](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/jvm)
+
+## Memory
+
+- [JVM中内存结构详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/memory/jvm-memorystructure.md)
+- [JVM中内存分配策略详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/memory/jvm-memoryallocation.md)
+- [JVM中对象尺寸详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/memory/jvm-objectsize.md)
+
+## Class
+
+- [JVM中类文件结构详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/class/jvm-class.md)
+
+### ClassLoading:类加载
+
+
+- [JVM中类加载过程详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/class/classloading/jvm-classloading.md)
+
+### ClassLoader:类加载器
+
+## GC
+
+- [GC基础详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/gc/gc-basics.md)
+
+- [JVM中GC算法概论](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/gc/gc-algorithms.md)
+
+- [Serial串行垃圾收集器详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/gc/gc-serial.md)
+
+- [ThroughPut并行垃圾收集器详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/gc/gc-throughput.md)
+
+- [CMS并发垃圾收集器详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/gc/gc-cms.md)
+
+- [JVM中对象生命周期详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/gc/object-lifecycle.md)
+
+## Tunning
+
+- [JVM常见调优策略详解](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/blogs/jvm/tunning/jvm-tunning.md)
 
