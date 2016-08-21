@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [WXJavaToolkits](#wxjavatoolkits)
+- [Basic:语法基础](#basic%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80)
+  - [DataStructure:数据结构](#datastructure%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
+    - [Serialization:序列化](#serialization%E5%BA%8F%E5%88%97%E5%8C%96)
+  - [Class](#class)
+    - [Utils](#utils)
+- [Storage:存储](#storage%E5%AD%98%E5%82%A8)
+  - [Database:数据库](#database%E6%95%B0%E6%8D%AE%E5%BA%93)
+- [JVM:Java Virtual Machine](#jvmjava-virtual-machine)
+  - [Memory](#memory)
+  - [Class](#class-1)
+    - [ClassLoading:类加载](#classloading%E7%B1%BB%E5%8A%A0%E8%BD%BD)
+    - [ClassLoader:类加载器](#classloader%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8)
+  - [GC](#gc)
+  - [Tunning](#tunning)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # WXJavaToolkits
 
 WXJavaToolkits存放了笔者的个人Java的学习笔记与示范代码,以及一些封装好的工具类和最佳实践等。仓库的总的目录层次为:

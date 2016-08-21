@@ -5,6 +5,8 @@ package wx.toolkits.jvm.clasz.loading;
  */
 public class Child extends Parent {
 
+    static Child child = new Child();
+
     static {
         System.out.println("子类静态初始化");
     }
