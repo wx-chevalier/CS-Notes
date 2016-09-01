@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * @function 从DOCX到ＰＤＦ的转化类
  */
-public class PDFConverterFromDOCX {
+public class POIConverter {
 
 
     /**
@@ -56,7 +56,7 @@ public class PDFConverterFromDOCX {
     public void test_convertWithPOI() {
 
         //获取测试的输入流
-        InputStream inpuFile = PDFConverterFromDOCX.class.getResourceAsStream("/storage/big.docx");
+        InputStream inpuFile = POIConverter.class.getResourceAsStream("/storage/big.docx");
 
         //输出流放置到build/pdf目录下
         File outFile = new File("build/pdf/convertWithPOI_big.pdf");
@@ -64,7 +64,7 @@ public class PDFConverterFromDOCX {
         long startTime = System.currentTimeMillis();
 
         //调用PDF转化类
-        PDFConverterFromDOCX.convertWithPOI(inpuFile, outFile);
+        POIConverter.convertWithPOI(inpuFile, outFile);
 
         System.out.println("利用Apache POI进行转化,耗时:" + (System.currentTimeMillis() - startTime));
     }
@@ -105,7 +105,7 @@ public class PDFConverterFromDOCX {
     public void test_convertFromTemplateWithFreemarker() {
 
         //获取测试的输入流
-        InputStream inpuFile = PDFConverterFromDOCX.class.getResourceAsStream("/storage/big.docx");
+        InputStream inpuFile = POIConverter.class.getResourceAsStream("/storage/big.docx");
 
         //输出流放置到build/pdf目录下
         File outFile = new File("build/pdf/convertFromTemplateWithFreemarker_big.pdf");
@@ -118,7 +118,7 @@ public class PDFConverterFromDOCX {
         long startTime = System.currentTimeMillis();
 
         //调用PDF转化类
-        PDFConverterFromDOCX.convertFromTemplateWithFreemarker(inpuFile, outFile, renderParams);
+        POIConverter.convertFromTemplateWithFreemarker(inpuFile, outFile, renderParams);
 
         System.out.println("利用Apache POI进行转化,耗时:" + (System.currentTimeMillis() - startTime));
 

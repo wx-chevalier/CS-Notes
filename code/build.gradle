@@ -57,6 +57,9 @@ dependencies {
     compile 'fr.opensagres.xdocreport:fr.opensagres.xdocreport.template.freemarker:1.0.5'
     compile 'fr.opensagres.xdocreport:fr.opensagres.xdocreport.document.docx:1.0.5'
 
+    //JACOB 调用本地的COM端口
+    compile group: "net.sf.jacob-project", name: "jacob", version: "1.14.3"
+
     //Microsoft Office
     compile 'org.docx4j:docx4j:3.3.0'
 
