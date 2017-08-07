@@ -1,3 +1,5 @@
+![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/1/maxresdefault.jpg)
+
 # 现代 Java 开发基础
 Copyright © 2017 王下邀月熊
 ![](https://camo.githubusercontent.com/322fefce6b2264d9ff2ad35ea5dcd4622e437b04/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c6963656e73652d434325323042592d2d4e432d2d5341253230342e302d626c75652e737667)
@@ -9,27 +11,23 @@ Java 是当之无愧的过去、现在乃至于未来的互联网编程之王；
 
 # 目录
 
-- [构建工具]()
+> [返回目录](https://parg.co/bgk)  !重要!，由于尚在写作中，目录链接可能存在错误，请直接浏览文件列表阅读相关文章。
 
-    - [Maven]()
+- [Maven]()
+    - [Maven 项目构建基础]()
+    - [深入 Maven 依赖管理与资源管理]()
+    - [Maven 工作流实践：运行、测试、打包与发布]()
+    
+- [Gradle]()
 
-    - [Gradle]()
+- [表达式]()
 
-- [Java 语法基础]()
+- [类与对象]()
 
 - [基础数据结构]()
 
 - [集合]()
 
-- [Java 并发编程]()
-
 - [Stream API]()
 
-- [Java NIO]()
-
-- [基于 Spring Boot 的服务端应用程序开发]()
-
-- [深入 JVM 内部架构]()
-
-    - [垃圾回收机制]()
-
+- [函数式 Java 开发]()
