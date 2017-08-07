@@ -1,6 +1,8 @@
 [返回目录](https://parg.co/bgk) 
 
-> [Maven 项目构建基础](https://parg.co/bFi)从属于笔者的[现代 Java 开发基础](https://parg.co/bgk)系列文章，介绍了 Maven 的历史背景与多种构建工具对比，以及 Maven 的基本配置安装与使用；本文涉及的参考资料声明在 [Java 学习与实践资料索引](https://parg.co/bgv)。本文整理时间也较早，最近因为整理 Java 相关的资料所以重新归纳了下。
+
+
+> [Maven 项目构建基础](https://parg.co/bFi)从属于笔者的[现代 Java 开发基础](https://parg.co/bgk)系列文章，介绍了 Maven 的历史背景与多种构建工具对比，以及 Maven 的基本配置安装与使用；本文涉及的参考资料声明在 [Java 学习与实践资料索引](https://parg.co/bgv)以及 [Maven 学习与资料索引](https://parg.co/bFL)。本文整理时间也较早，最近因为整理 Java 相关的资料所以重新归纳了下。
 
 # Maven 
 
@@ -31,23 +33,32 @@ Maven 的安装也非常方便，可从 Apache 官方下载最新的 Maven 压�
 部分常用的Maven命令如下：
 
 ```
-mvn -v 查看maven版本
+mvn -v # 查看maven版本
 
-mvn compile 编译
+mvn compile # 编译
 
-mvn test 测试
+mvn test # 测试
 
-mvn package 打包
+mvn package # 打包
 
-mvn clean 删除target
+mvn clean # 删除 target
 
-mvn install 安装jar包到本地仓库中
+mvn install # 安装jar包到本地仓库中
 
-mvn archetype:generate -DgroupId=co.hoteam -DartifactId=Zigbee -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false 创建一个新工程
+mvn archetype:generate -DgroupId=co.hoteam -DartifactId=Zigbee -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false # 创建一个新工程
 ```
 ## 网络代理
 
-编辑 ~/.m2/settings.xml 文件（如果没有该文件，则复制 $M2HOME/conf/settings.xml）。添加代理配置如下：
+众所周知的原因，国内有时候并不能够很顺畅的访问 Maven 的中央仓库，往往我们需要访问国内的镜像地址：
+``` 
+<mirror>
+<id>CN</id>
+<name>OSChina Central</name> 
+<url>http://maven.oschina.net/content/groups/public/</url>
+<mirrorOf>central</mirrorOf>
+</mirror>
+```
+或者编辑 ~/.m2/settings.xml 文件（如果没有该文件，则复制 $M2HOME/conf/settings.xml），添加代理配置如下：
 
 ``` xml
 <settings>
@@ -76,17 +87,6 @@ mvn archetype:generate -DgroupId=co.hoteam -DartifactId=Zigbee -DarchetypeArtifa
 
 这样配置后将使用指定目录下的maven，而非eclipse的maven内置插件。
 
-
-众所周知的原因，国内有时候并不能够很顺畅的访问Maven的中央仓库，往往我们需要访问国内的镜像地址：
-
-``` 
-<mirror>
-<id>CN</id>
-<name>OSChina Central</name> 
-<url>http://maven.oschina.net/content/groups/public/</url>
-<mirrorOf>central</mirrorOf>
-</mirror>
-```
 
 ## 其他错误处理
 
@@ -123,7 +123,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 http://maven.apache.org/maven-v4_0_0.xsd">
 <modelVersion>4.0.0</modelVersion>
-<groupId>com.juvenxu.mvnbook</groupId>
+<groupId>com.wx.mvn</groupId>
 <artifactId>hello-world</artifactId>
 <version>1.0-SNAPSHOT</version>
 <name>Maven Hello World Project</name>
@@ -135,20 +135,22 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 - 代码的第一行是 XML 头，指定了该 xml 文档的版本和编码方式。紧接着是 project 元素，project 是所有 pom.xml 的根元素，它还声明了一些 POM 相关的命名空间及 xsd 元素，虽然这些属性不是必须的，但使用这些属性能够让第三方工具（如 IDE 中的 XML 编辑器）帮助我们快速编辑 POM。
 
 
-- 根元素下的第一个子元素modelVersion指定了当前POM模型的版本，对于Maven2及Maven 3来说，它只能是4.0.0。这段代码中最重要的是groupId，artifactId和version三行。这三个元素定义了一个项目基本的坐标，在Maven的世界，任何的jar、pom或者war都是以基于这些基本的坐标进行区分的。
+- 根元素下的第一个子元素 modelVersion 指定了当前 POM 模型的版本，对于 Maven 2 及 Maven 3 来说，它只能是4.0.0。这段代码中最重要的是 groupId，artifactId 和 version 三行。这三个元素定义了一个项目基本的坐标，在Maven 的世界，任何的 jar、pom 或者 war 都是以基于这些基本的坐标进行区分的。
 
 
-- groupId定义了项目属于哪个组，这个组往往和项目所在的组织或公司存在关联，譬如你在googlecode上建立了一个名为myapp的项目，那么groupId就应该是com.googlecode.myapp，如果你的公司是mycom，有一个项目为myapp，那么groupId就应该是com.mycom.myapp。本书中所有的代码都基于groupId com.juvenxu.mvnbook。
+- groupId 定义了项目属于哪个组，这个组往往和项目所在的组织或公司存在关联，譬如你在 googlecode 上建立了一个名为 myapp 的项目，那么 groupId 就应该是 com.googlecode.myapp，如果你的公司是 mycom，有一个项目为 myapp，那么 groupId 就应该是 com.mycom.myapp。
 
 
-- artifactId定义了当前Maven项目在组中唯一的ID，我们为这个Hello World项目定义artifactId为hello-world，本书其他章节代码会被分配其他的artifactId。而在前面的groupId为com.googlecode.myapp的例子中，你可能会为不同的子项目（模块）分配artifactId，如：myapp-util、myapp-domain、myapp-web等等。
+- artifactId 定义了当前 Maven 项目在组中唯一的 ID，我们为这个 Hello World 项目定义 artifactId 为 hello-world，本书其他章节代码会被分配其他的 artifactId。而在前面的 groupId 为 com.googlecode.myapp 的例子中，你可能会为不同的子项目（模块）分配 artifactId，如：myapp-util、myapp-domain、myapp-web 等等。
 
 
-- version指定了Hello World项目当前的版本——1.0-SNAPSHOT。SNAPSHOT意为快照，说明该项目还处于开发中，是不稳定的版本。随着项目的发展，version会不断更新，如升级为1.0、1.1-SNAPSHOT、1.1、2.0等等。
-- 最后一个name元素声明了一个对于用户更为友好的项目名称，虽然这不是必须的，但我还是推荐为每个POM声明name，以方便信息交流。 没有任何实际的Java代码，我们就能够定义一个Maven项目的POM，这体现了Maven的一大优点，它能让项目对象模型最大程度地与实际代码相独立，我们可以称之为解耦，或者正交性，这在很大程度上避免了Java代码和POM代码的相互影响。比如当项目需要升级版本时，只需要修改POM，而不需要更改Java代码；而在POM稳定之后，日常的Java代码开发工作基本不涉及POM的修改。
+- version 指定了 Hello World 项目当前的版本——1.0-SNAPSHOT。SNAPSHOT 意为快照，说明该项目还处于开发中，是不稳定的版本。随着项目的发展，version 会不断更新，如升级为 1.0、1.1-SNAPSHOT、1.1、2.0 等等。
+
+- 最后一个 name 元素声明了一个对于用户更为友好的项目名称，虽然这不是必须的，但我还是推荐为每个 POM 声明 name，以方便信息交流。 没有任何实际的 Java 代码，我们就能够定义一个 Maven 项目的 POM，这体现了 Maven 的一大优点，它能让项目对象模型最大程度地与实际代码相独立，我们可以称之为解耦，或者正交性，这在很大程度上避免了 Java 代码和 POM 代码的相互影响。比如当项目需要升级版本时，只需要修改 POM，而不需要更改 Java 代码；而在 POM 稳定之后，日常的 Java 代码开发工作基本不涉及 POM 的修改。
 
 
 ## 变量替换
+
 在 pom.xml 定义 properties 标签
 ```
 <properties>
@@ -174,10 +176,10 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 ## 目录结构
 
-项目主代码和测试代码不同，项目的主代码会被打包到最终的构件中（比如 jar），而测试代码只在运行测试时用到，不会被打包。默认情况下，Maven 假设项目主代码位于 `src/main/java` 目录，我们遵循 Maven 的约定，创建该目录，然后在该目录下创建文件 `com/juvenxu/mvnbook/helloworld/HelloWorld.java`，其内容如下:
+项目主代码和测试代码不同，项目的主代码会被打包到最终的构件中（比如 jar），而测试代码只在运行测试时用到，不会被打包。默认情况下，Maven 假设项目主代码位于 `src/main/java` 目录，我们遵循 Maven 的约定，创建该目录，然后在该目录下创建文件 `com/wx/mvn/helloworld/HelloWorld.java`，其内容如下:
 
 ``` java
-package com.juvenxu.mvnbook.helloworld;
+package com.wx.mvn.helloworld;
 
 public class HelloWorld
 {
@@ -193,12 +195,13 @@ public class HelloWorld
 }
 ```
 
-关于该Java代码有两点需要注意。首先，在95%以上的情况下，我们应该把项目主代码放到src/main/java/目录下（遵循Maven的约定），而无须额外的配置，Maven会自动搜寻该目录找到项目主代码。其次，该Java类的包名是com.juvenxu.mvnbook.helloworld，这与我们之前在POM中定义的groupId和artifactId相吻合。一般来说，项目中Java类的包都应该基于项目的groupId和artifactId，这样更加清晰，更加符合逻辑，也方便搜索构件或者Java类。 代码编写完毕后，我们使用Maven进行编译，在项目根目录下运行命令 mvn clean compile 即可。
-
-clean告诉Maven清理输出目录target/，compile告诉Maven编译项目主代码，从输出中我们看到Maven首先执行了clean:clean任务，删除target/目录，默认情况下Maven构建的所有输出都在target/目录中；接着执行resources:resources任务（未定义项目资源，暂且略过）；最后执行compiler:compile任务，将项目主代码编译至target/classes目录(编译好的类为com/juvenxu/mvnbook/helloworld/HelloWorld.Class）。
+关于该 Java 代码有两点需要注意。首先，大部分情况下我们应该把项目主代码放到 src/main/java/ 目录下（遵循Maven的约定），而无须额外的配置，Maven 会自动搜寻该目录找到项目主代码。其次，该 Java 类的包名是 com.wx.mvn.helloworld，这与我们之前在 POM 中定义的 groupId 和 artifactId 相吻合。一般来说，项目中 Java 类的包都应该基于项目的 groupId 和 artifactId，这样更加清晰，更加符合逻辑，也方便搜索构件或者 Java 类。 代码编写完毕后，我们使用 Maven 进行编译，在项目根目录下运行命令 `mvn clean compile` 即可。Maven 首先执行了clean:clean 任务，删除 target/ 目录，默认情况下 Maven 构建的所有输出都在 target/ 目录中；接着执行 resources:resources 任务（未定义项目资源，暂且略过）；最后执行 compiler:compile 任务，将项目主代码编译至 target/classes 目录(编译好的类为 com/wx/mvn/helloworld/HelloWorld.Class）。
 
 ## 仓库配置
-下面介绍一些maven仓库工作的原理。典型的一个maven依赖下会有这三个文件，可以参考[这里](https://github.com/hengyunabc/maven-repo/tree/master/repository/io/github/hengyunabc/mybatis-ehcache-spring/0.0.1-SNAPSHOT)
+
+![](http://hengyunabc.github.io/img/maven-repositories.png)
+
+下面介绍一些 Maven 仓库工作的原理。典型的一个 Maven依赖下会有这三个文件：
 ```
 maven-metadata.xml
 maven-metadata.xml.md5
@@ -220,15 +223,7 @@ maven-metadata.xml里面记录了最后deploy的版本和时间。
   </versioning>
 </metadata>
 ```
-其中md5, sha1校验文件是用来保证这个meta文件的完整性。
-maven在编绎项目时，会先尝试请求maven-metadata.xml，如果没有找到，则会直接尝试请求到jar文件，在下载jar文件时也会尝试下载jar的md5, sha1文件。
-maven-metadata.xml文件很重要，如果没有这个文件来指明最新的jar版本，那么即使远程仓库里的jar更新了版本，本地maven编绎时用上-U参数，也不会拉取到最新的jar！
-所以并不能简单地把jar包放到github上就完事了，一定要先在本地Deploy，生成maven-metadata.xml文件，并上传到github上。
-maven的repository并没有优先级的配置，也不能单独为某些依赖配置repository。所以如果项目配置了多个repository，在首次编绎时，会依次尝试下载依赖。如果没有找到，尝试下一个，整个流程会很长。
-所以尽量多个依赖放同一个仓库，不要每个项目都有一个自己的仓库。
-
-![](http://hengyunabc.github.io/img/maven-repositories.png)
-想要使用本地file仓库里，在项目的pom.xml里配置，如：
+其中 md5, sha1 校验文件是用来保证这个 meta 文件的完整性。Maven 在编绎项目时，会先尝试请求 maven-metadata.xml，如果没有找到，则会直接尝试请求到jar文件，在下载 jar 文件时也会尝试下载 jar 的 md5, sha1 文件。Maven 的 repository 并没有优先级的配置，也不能单独为某些依赖配置 repository。所以如果项目配置了多个repository，在首次编绎时，会依次尝试下载依赖。如果没有找到，尝试下一个，整个流程会很长。所以尽量多个依赖放同一个仓库，不要每个项目都有一个自己的仓库。如果想要使用本地file仓库里，在项目的pom.xml里配置，如：
 ```
 <repositories>
        <repository>
@@ -237,9 +232,6 @@ maven的repository并没有优先级的配置，也不能单独为某些依赖�
        </repository>
 </repositories>
 ```
-
-
-
 
 
 
