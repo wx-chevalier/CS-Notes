@@ -1,6 +1,6 @@
 ![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/1/1-roedigbmFjRYkZobdZWuKg.jpeg)
 
-# 现代 JavaScript 开发：语法基础与实践技巧
+# 现代 JavaScript 开发：语法基础与工程实践
 Copyright © 2017 王下邀月熊
 
 ![](https://camo.githubusercontent.com/322fefce6b2264d9ff2ad35ea5dcd4622e437b04/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c6963656e73652d434325323042592d2d4e432d2d5341253230342e302d626c75652e737667)
@@ -34,6 +34,7 @@ JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO G
     - [变量作用域与提升]()
 
 - [内置数据结构]()
+    - [数值类型与运算符]()
     - [字符串]()
     - [正则表达式]()
     - [时间与日期]()
@@ -53,7 +54,6 @@ JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO G
 
 - [异步编程]()
     - [JavaScript 异步编程综述：回调、Promise、Generator、async/await]()
-    - [Event Loop 详解与应用]()：函数调用栈，事件循环进程模型与应用，Node.js Event Loop
     - [Promise/A 标准与实现]()
 
 - [面向对象编程]()
@@ -80,6 +80,9 @@ JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO G
 
 - [WebAssembly]()
 
+- [深入 JavaScript 运行机制]()
+    - [Event Loop 详解与应用]()：函数调用栈，事件循环进程模型与应用，Node.js Event Loop
+
 - [剖析 V8 引擎]()
     - [Object 内存结构与属性访问]()
 
@@ -87,7 +90,7 @@ JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO G
 
 # 狗粮
 
-如果觉得本系列对你有所帮助，欢迎给我家布丁买点狗粮~
+如果觉得本系列对你有所帮助，欢迎给我家布丁买点狗粮（支付宝扫码）~
 
 ![](https://github.com/wxyyxc1992/OSS/blob/master/2017/8/1/Buding.jpg?raw=true)
 
