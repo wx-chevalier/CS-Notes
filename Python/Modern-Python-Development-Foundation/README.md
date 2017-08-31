@@ -1,4 +1,4 @@
-# 现代 Python 开发基础
+# 现代 Python 开发：语法基础与工程实践
 
 Copyright © 2017 王下邀月熊
 
