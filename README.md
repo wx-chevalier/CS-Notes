@@ -5,7 +5,7 @@
 
 - JavaScript: [现代 JavaScript 开发：语法基础与工程实践](https://parg.co/bxN)、[JavaScript 设计模式与应用架构](https://parg.co/bxM)
 
-- Java: [现代 Java 开发：语法基础与工程实践](https://parg.co/bgk)、[Java 设计模式与应用架构](https://parg.co/bgJ)、[Java 并发编程](https://parg.co/bgi)、[JVM 内部原理与性能调优](https://parg.co/bgL)
+- Java: [现代 Java 开发：语法基础与工程实践](https://parg.co/bgk)、[Java 设计模式与应用架构](https://parg.co/bgJ)、[深入浅出 Java 并发编程](https://parg.co/b7l)、[JVM 内部原理与性能调优](https://parg.co/bgL)、[Spring Boot 5 与 Spring Cloud 微服务实践](https://parg.co/b7Y)
 
 - Python: [现代 Python 开发：语法基础与工程实践](https://parg.co/bxt)、[Python 设计模式与应用架构](https://parg.co/bxV)
 
