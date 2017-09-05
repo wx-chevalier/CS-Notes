@@ -1,9 +1,80 @@
+[toc]
 
-# JavaScript Event Loop
+> [JavaScript/Node.js 中 Event Loop 机制详解与实践应用](https://zhuanlan.zhihu.com/p/28508795)归纳于笔者的[现代 JavaScript 开发：语法基础与实践技巧](https://parg.co/bjK)系列文章。本文依次介绍了函数调用栈、MacroTask 与 MicroTask 执行顺序、浅析 Vue.js 中 nextTick 实现等内容；本文中引用的参考资料统一声明在 [JavaScript 学习与实践资料索引](https://parg.co/b2O)。
+
+# 事件循环机制详解与实践应用
+
+JavaScript 是典型的单线程单并发语言，即表示在同一时间片内其只能执行单个任务或者部分代码片。换言之，我们可以认为 JavaScript 主线程拥有一个函数调用栈以及一个任务队列；主线程会依次执行代码，当遇到函数时，会先将函数入栈，函数运行完毕后再将该函数出栈，直到所有代码执行完毕。当函数调用栈为空时，运行时即会根据事件循环（Event Loop）机制来从任务队列中提取出待执行的回调并执行，执行的过程同样会进行函数帧的入栈出栈操作。Event Loop（事件循环）并不是 JavaScript 中独有的，其广泛应用于各个领域的异步编程实现中；所谓的 Event Loop 即是一系列回调函数的集合，在执行某个异步函数时，会将其回调压入队列中，JavaScript 引擎会在异步代码执行完毕后开始处理其关联的回调。
+
+![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/2/event-loop.png)
+
+在 Web 开发中，我们常常会需要处理网络请求等相对较慢的操作，如果将这些操作全部以同步阻塞方式运行无疑会大大降低用户界面的体验。另一方面，我们点击某些按钮之后的响应事件可能会导致界面重渲染，如果因为响应事件的执行而阻塞了界面的渲染，同样会影响整体性能。实际开发中我们会采用异步回调来处理这些操作，这种调用者与响应之间的解耦保证了 JavaScript 能够在等待异步操作完成之前仍然能够执行其他的代码。Event Loop 正是负责执行队列中的回调并且将其压入到函数调用栈中，其基本的代码逻辑如下所示：
+
+```
+while (queue.waitForMessage()) {
+  queue.processNextMessage();
+}
+```
+
+完整的浏览器中 JavaScript 事件循环机制图解如下：
+
+![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/3/1--MMBHKy_ZxCrouecRqvsBg.png)
+
+在 Web 浏览器中，任何时刻都有可能会有事件被触发，而仅有那些设置了回调的事件会将其相关的任务压入到任务队列中。回调函数被调用时即会在函数调用栈中创建初始帧，而直到整个函数调用栈清空之前任何产生的任务都会被压入到任务队列中延后执行；顺序的同步函数调用则会创建新的栈帧。
 
 
 
-JavaScript 主线程拥有一个 执行栈 以及一个 任务队列，主线程会依次执行代码，当遇到函数时，会先将函数 入栈，函数运行完毕后再将该函数 出栈，直到所有代码执行完毕。
+# 函数调用栈与任务队列
+
+
+在[变量作用域与提升](https://parg.co/bT4)一节中我们介绍过所谓执行上下文（Execution Context）的概念，在 JavaScript 代码执行过程中，我们可能会拥有一个全局上下文，多个函数上下文或者块上下文；每个函数调用都会创造新的上下文与局部作用域。而这些执行上下文堆叠就形成了所谓的执行上下文栈（Execution Context STack），便如上文介绍的 JavaScript 是单线程事件循环机制，同时刻仅会执行单个事件，而其他事件都在所谓的执行栈中排队等待：
+
+![](http://p0.qhimg.com/t01e858c269438d695a.jpg)
+
+而从 JavaScript 内存模型的角度，我们可以将内存划分为调用栈（Call Stack）、堆（Heap）以及队列（Queue）等几个部分：
+
+![](https://github.com/wxyyxc1992/OSS/blob/master/2017/8/1/1-ZSFHnq9iMHIApVLcgwczPQ.png?raw=true)
+
+其中的调用栈会记录所有的函数调用信息，当我们调用某个函数时，会将其参数与局部变量等压入栈中；在执行完毕后，会弹出栈首的元素。而堆则存放了大量的非结构化数据，譬如程序分配的变量与对象。队列则包含了一系列待处理的信息与相关联的回调函数，每个 JavaScript 运行时都必须包含一个任务队列。当调用栈为空时，运行时会从队列中取出某个消息并且执行其关联的函数（也就是创建栈帧的过程）；运行时会递归调用函数并创建调用栈，直到函数调用栈全部清空再从任务队列中取出消息。换言之，譬如按钮点击或者 HTTP 请求响应都会作为消息存放在任务队列中；需要注意的是，仅当这些事件的回调函数存在时才会被放入任务队列，否则会被直接忽略。
+
+这里我们着重函数调用栈的执行机制，以[]()整理的代码调用图为例：
+
+
+![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/2/11111111.jpg)
+
+```
+
+(function test() {
+    setTimeout(function() {console.log(4)}, 0);
+    new Promise(function executor(resolve) {
+        console.log(1);
+        for( var i=0 ; i<10000 ; i++ ) {
+            i == 9999 && resolve();
+        }
+        console.log(2);
+    }).then(function() {
+        console.log(5);
+    });
+    console.log(3);
+})()
+
+
+```
+
+Promise.then是异步执行的，而创建Promise实例（executor）是同步执行的。
+要想找到原因，最自然的做法就是去看规范。我们首先去看看Promise的规范。
+
+摘录promise.then相关的部分如下：
+
+promise.then(onFulfilled, onRejected)
+
+2.2.4 onFulfilled or onRejected must not be called until the execution context stack contains only platform code. [3.1].
+
+Here “platform code” means engine, environment, and promise implementation code. In practice, this requirement ensures that onFulfilled and onRejected execute asynchronously, after the event loop turn in which then is called, and with a fresh stack. This can be implemented with either a “macro-task” mechanism such as setTimeout or setImmediate, or with a “micro-task” mechanism such as MutationObserver or process.nextTick. Since the promise implementation is considered platform code, it may itself contain a task-scheduling queue or “trampoline” in which the handlers are called.
+规范要求，onFulfilled必须在 执行上下文栈（execution context stack） 只包含 平台代码（platform code） 后才能执行。平台代码指 引擎，环境，Promise实现代码。实践上来说，这个要求保证了onFulfilled的异步执行（以全新的栈），在then被调用的这个事件循环之后。
+
+
+# MacroTask（Task） 与 MicroTask（Job）
 
 
 ```
@@ -56,15 +127,14 @@ microtasks: process.nextTick, Promises, Object.observe, MutationObserver
 
 
 
-# 函数调用栈
 
-# 事件循环进程模型与应用
-
-## MacroTask 与 MicroTask 的执行顺序
 
 ![](http://mmbiz.qpic.cn/mmbiz_png/meG6Vo0Mevia3qqAdZXbGMvOQWvD3AxX5RExFksDUS067icPUUmVweUqmuaR2vHlkOqia7x0XydvVfstK6Lf5l7GQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1)
 
+首先，micro-task在ES2015规范中称为Job。 其次，macro-task代指task。
+
 whatwg规范：[https://html.spec.whatwg.org/multipage/webappapis.html#task-queue](https://html.spec.whatwg.org/multipage/webappapis.html#task-queue)
+
 
 - 一个事件循环(event loop)会有一个或多个任务队列(task queue) task queue 就是 macrotask queue
 - 每一个 event loop 都有一个 microtask queue
@@ -91,6 +161,13 @@ whatwg规范：[https://html.spec.whatwg.org/multipage/webappapis.html#task-queu
    - g: 结束 microtask 队列
 7. 跳到第一步
 
+
+每个线程有自己的事件循环，所以每个web worker有自己的，所以它才可以独立执行。然而，所有同属一个origin的windows共享一个事件循环，所以它们可以同步交流。
+事件循环不间断在跑，执行任何进入队列的task。
+一个事件循环可以有多个task source，每个task source保证自己的任务列表的执行顺序，但由浏览器在（事件循环的）每轮中挑选某个task source的task。
+tasks are scheduled，所以浏览器可以从内部到JS/DOM，保证动作按序发生。在tasks之间，浏览器可能会render updates。从鼠标点击到事件回调需要schedule task，解析html，setTimeout这些都需要。
+microtasks are scheduled，经常是为需要直接在当前脚本执行完后立即发生的事，比如async某些动作但不必承担新开task的弊端。microtask queue在回调之后执行，只要没有其它JS在执行中，并且在每个task的结尾。microtask中添加的microtask也被添加到microtask queue的末尾并处理。microtask包括mutation observer callbacks和promise callbacks。
+
 上面就算是一个简单的 event-loop 执行模型
 
 再简单点可以总结为：
@@ -101,7 +178,7 @@ whatwg规范：[https://html.spec.whatwg.org/multipage/webappapis.html#task-queu
 3. 下一个循环，执行下一个 macrotask 中的任务 (再跳到第2步)
 
 
-## 浅析 Vue.js 中 nextTick 的实现
+# 浅析 Vue.js 中 nextTick 的实现
 
 在 Vue.js 中，其会异步执行 DOM 更新；当观察到数据变化时，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。如果同一个 watcher 被多次触发，只会一次推入到队列中。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作上非常重要。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际（已去重的）工作。Vue 在内部尝试对异步队列使用原生的 `Promise.then` 和 `MutationObserver`，如果执行环境不支持，会采用 `setTimeout(fn, 0)` 代替。
 
@@ -239,81 +316,6 @@ export const nextTick = (function() {
 ```
 
 
-# Node.js Event Loop
+# 延伸阅读
 
-![](https://blog-assets.risingstack.com/2016/10/the-Node-js-event-loop.png)
-
-```
-   ┌───────────────────────┐
-┌─>│        timers         │
-│  └──────────┬────────────┘
-│  ┌──────────┴────────────┐
-│  │     I/O callbacks     │
-│  └──────────┬────────────┘
-│  ┌──────────┴────────────┐
-│  │     idle, prepare     │
-│  └──────────┬────────────┘      ┌───────────────┐
-│  ┌──────────┴────────────┐      │   incoming:   │
-│  │         poll          │<─────┤  connections, │
-│  └──────────┬────────────┘      │   data, etc.  │
-│  ┌──────────┴────────────┐      └───────────────┘
-│  │        check          │
-│  └──────────┬────────────┘
-│  ┌──────────┴────────────┐
-└──┤    close callbacks    │
-   └───────────────────────┘
-```
-
-
-## nextTick 与 setImmediate
-
-我们通过比较以下两个用例来了解 setImmediate 与 nextTick 的区别：
-- setImmediate
-
-```
-setImmediate(function A() {
-  setImmediate(function B() {
-    log(1);
-    setImmediate(function D() { log(2); });
-    setImmediate(function E() { log(3); });
-  });
-  setImmediate(function C() {
-    log(4);
-    setImmediate(function F() { log(5); });
-    setImmediate(function G() { log(6); });
-  });
-});
-
-setTimeout(function timeout() {
-  console.log('TIMEOUT FIRED');
-}, 0)
-
-// 'TIMEOUT FIRED' 1 4 2 3 5 6
-// OR
-// 1 'TIMEOUT FIRED' 4 2 3 5 6
-```
-- nextTick
-```
-process.nextTick(function A() {
-  process.nextTick(function B() {
-    log(1);
-    process.nextTick(function D() { log(2); });
-    process.nextTick(function E() { log(3); });
-  });
-  process.nextTick(function C() {
-    log(4);
-    process.nextTick(function F() { log(5); });
-    process.nextTick(function G() { log(6); });
-  });
-});
-
-setTimeout(function timeout() {
-  console.log('TIMEOUT FIRED');
-}, 0)
-
-// 1 4 2 3 5 6 'TIMEOUT FIRED'
-```
-如上文所述，通过 setImmediate 设置的回调会以 MacroTask 加入到 Event Loop 中，每个循环中会提取出某个回调执行；setImmediate 能够避免 Event Loop 被阻塞，从而允许其他完成的 I/O 操作或者定时器回调顺利执行。而通过 nextTick 加入的回调会在当前代码执行完毕（即函数调用栈执行完毕）后立刻执行，即会在返回 Event Loop 之前立刻执行。譬如上面的例子中，setTimeout 的回调会在 Event Loop 中调用，因此 TIMEOUT FIRED 的输出会在所有的 nextTick 回调执行完毕后打印出来。
-
-## 浏览器中实现 setImmediate 
-当我们使用 Webpack 打包应用时，其默认会添加 setImmediate 的垫片
+- [深入浅出 Node.js 全栈架构 - Node.js 事件循环机制详解与实践](https://parg.co/b2s)
