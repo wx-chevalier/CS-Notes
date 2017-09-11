@@ -184,31 +184,29 @@ End of next queue
 Middle of queue
 ```
 
-上述代码中首个 TaskQueue 即为 foo()，foo() 又调用了 bar() 构建了新的 TaskQueue，bar() 调用之后 foo() 又产生了 MicroTask 并被压入了唯一的 MicroTask 队列。我们最后再总计下 JavaScript MacroTask 与 MicroTask 的执行顺序，当执行栈(call stack)为空的时候，开始依次执行：
+上述代码中首个 TaskQueue 即为 foo()，foo() 又调用了 bar() 构建了新的 TaskQueue，bar() 调用之后 foo() 又产生了 MicroTask 并被压入了唯一的 MicroTask 队列。我们最后再总计下 JavaScript MacroTask 与 MicroTask 的执行顺序，当执行栈(Call Stack)为空的时候，开始依次执行：
 
-1. 把最早的任务(task A)放入任务队列
-2. 如果 task A 为null (那任务队列就是空)，直接跳到第6步
-3. 将 currently running task 设置为 task A
-4. 执行 task A (也就是执行回调函数)
-5. 将 currently running task 设置为 null 并移出 task A
-6. 执行 microtask 队列
-   - a: 在 microtask 中选出最早的任务 task X
-   - b: 如果 task X 为null (那 microtask 队列就是空)，直接跳到 g
-   - c: 将 currently running task 设置为 task X
-   - d: 执行 task X
-   - e: 将 currently running task 设置为 null 并移出 task X
-   - f: 在 microtask 中选出最早的任务 , 跳到 b
-   - g: 结束 microtask 队列
+1. 从当前的 TaskQueue 中取出队列首部的 Task A，并且放入任务队列；
+2. 如果 Task A 为空，即任务队列为空，则直接转入执行 MicroTask 队列；
+3. 将 Currently Running Task 设置为取出的 Task A，并且执行该任务，即执行其回调函数；
+4. 将 Currently Running Task 设置为 Null，并且移除该 Task；
+5. 执行 MicroTask 队列：
+    a. 从 MicroTask 队列中取出队列首部的任务 Task X；
+    b. 如果 Task X 为 Null，则结束执行 MicroTask 队列；
+    c. 将 Current Running Task 设置为 Task X，
+    d. 执行该任务，如果产生新的 MicroTask，直接压入当前队列；
+    e. 将 Current Running Task 设置为 Null，并移出 Task X；
+    f. 重新从 MicroTask 中选出最早的任务，跳转到 b；
+    g. 结束 MicroTask 队列的执行。
+
 7. 跳到第一步
 
 # 4. 浅析 Vue.js 中 nextTick 的实现
 
-在 Vue.js 中，其会异步执行 DOM 更新；当观察到数据变化时，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。如果同一个 watcher 被多次触发，只会一次推入到队列中。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作上非常重要。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际（已去重的）工作。Vue 在内部尝试对异步队列使用原生的 `Promise.then` 和 `MutationObserver`，如果执行环境不支持，会采用 `setTimeout(fn, 0)` 代替。
-
-为啥要用 microtask？根据 HTML Standard，在每个 task 运行完以后，UI 都会重渲染，那么在 microtask 中就完成数据更新，当前 task 结束就可以得到最新的 UI 了。反之如果新建一个 task 来做数据更新，那么渲染就会进行两次。根据我们上面提到的事件循环进程模型，每一次执行 task 后，然后执行 microtasks queue，最后进行页面更新。如果我们使用 task 来设置 DOM 更新，那么效率会更低。而 microtask 则会在页面更新之前完成数据更新，会得到更高的效率。
+在 Vue.js 中，其会异步执行 DOM 更新；当观察到数据变化时，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。如果同一个 watcher 被多次触发，只会一次推入到队列中。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作上非常重要。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际（已去重的）工作。Vue 在内部尝试对异步队列使用原生的 `Promise.then` 和 `MutationObserver`，如果执行环境不支持，会采用 `setTimeout(fn, 0)` 代替。Vue.js 选择使用 MicroTask 来进行数据更新，是为了保证能够在当前界面渲染的 Task 执行完毕之后即得到最新的界面，而不是历经两次渲染，从而提高效率。
 
 而当我们希望在数据更新之后执行某些 DOM 操作，就需要使用 `nextTick` 函数来添加回调：
-```
+```javascript
 // HTML
 <div id="example">{{message}}</div>
 
