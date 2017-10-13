@@ -1,67 +1,89 @@
-> [JavaScript 语法树与代码转化实践](https://zhuanlan.zhihu.com/p/28054817) 归纳于笔者的[现代 JavaScript 开发：语法基础与实践技巧](https://parg.co/b1c)系列文章中。本文引用的参考资料声明于[ JavaScript 学习与实践资料索引](https://parg.co/bMI)中，特别需要声明是部分代码片引用自[ Babel Handbook ](https://github.com/thejameskyle/babel-handbook)开源手册；也欢迎关注[前端每周清单系列](https://parg.co/bh1)获得一手资讯。
+[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
+ - [JavaScript 语法树与代码转化](#javascript-%E8%AF%AD%E6%B3%95%E6%A0%91%E4%B8%8E%E4%BB%A3%E7%A0%81%E8%BD%AC%E5%8C%96)
+  * [Babel](#babel)
+  * [抽象语法树](#%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91)
+  * [自定义插件](#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8F%92%E4%BB%B6)
+  * [常用转化操作](#%E5%B8%B8%E7%94%A8%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C)
+    + [遍历](#%E9%81%8D%E5%8E%86)
+    + [操作](#%E6%93%8D%E4%BD%9C)
+    + [作用域](#%E4%BD%9C%E7%94%A8%E5%9F%9F) 
+
+
+[![](https://parg.co/UYU)](https://parg.co/bxN)
+
+
 
 # JavaScript 语法树与代码转化
 
+
 ![](http://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2016/04/1459949808babel.png)
 
-浏览器的兼容性问题一直是前端项目开发中的难点之一，往往客户端浏览器的升级无法与语法特性的迭代保持一致；因此我们需要使用大量的垫片（Polyfill），以保证现代语法编写而成的 JavaScript 顺利运行在生产环境下的浏览器中，从而在可用性与代码的可维护性之间达成较好的平衡。而以 Babel 为代表的语法转化工具能够帮我们自动将 ES6 等现代 JavaScript 代码转化为可以运行在旧版本浏览器中的 ES5 或其他同等的实现；实际上，Babel 不仅仅是语法解析器，其更是拥有丰富插件的平台，稍加扩展即可被应用在前端监控埋点、错误日志收集等场景中。笔者也利用 Babel 以及 Babylon 为 [swagger-decorator](https://github.com/wxyyxc1992/swagger-decorator) 实现了 `flowToDecorator` 函数，其能够从 Flow 文件中自动提取出类型信息并为类属性添加合适的注解。
+
+浏览器的兼容性问题一直是前端项目开发中的难点之一，往往客户端浏览器的升级无法与语法特性的迭代保持一致；因此我们需要使用大量的垫片（Polyfill），以保证现代语法编写而成的 JavaScript 顺利运行在生产环境下的浏览器中，从而在可用性与代码的可维护性之间达成较好的平衡。而以 Babel 为代表的语法转化工具能够帮我们自动将 ES6 等现代 JavaScript 代码转化为可以运行在旧版本浏览器中的 ES5 或其他同等的实现；实际上，Babel 不仅仅是语法解析器，其更是拥有丰富插件的平台，稍加扩展即可被应用在前端监控埋点、错误日志收集等场景中。笔者也利用 Babel 以及 Babylon 为 [swagger-decorator](https://github.com/wxyyxc1992/swagger-decorator) 实现了 `flowToDecorator` 函数，其能够从 Flow 文件中自动提取出类型信息并为类属性添加合适的注解。
+
 
 ## Babel
 
+
 自 Babel 6 之后，核心的 babel-core 仅暴露了部分核心接口，并使用 Babylon 进行语法树构建，即上图中的 Parse 与 Generate 步骤；实际的转化步骤则是由配置的插件（Plugin）完成。而所谓的 Preset 则是一系列插件的合集，譬如 babel-preset-es2015 的源代码中就定义了一系列的插件：
 ```
-  return {
-    plugins: [
-      [transformES2015TemplateLiterals, { loose, spec }],
-      transformES2015Literals,
-      transformES2015FunctionName,
-      [transformES2015ArrowFunctions, { spec }],
-      transformES2015BlockScopedFunctions,
-      [transformES2015Classes, optsLoose],
-      transformES2015ObjectSuper,
-      ...
-      modules === "commonjs" && [transformES2015ModulesCommonJS, optsLoose],
-      modules === "systemjs" && [transformES2015ModulesSystemJS, optsLoose],
-      modules === "amd" && [transformES2015ModulesAMD, optsLoose],
-      modules === "umd" && [transformES2015ModulesUMD, optsLoose],
-      [transformRegenerator, { async: false, asyncGenerators: false }]
-    ].filter(Boolean) // filter out falsy values
-  };
+  return {
+    plugins: [
+      [transformES2015TemplateLiterals, { loose, spec }],
+      transformES2015Literals,
+      transformES2015FunctionName,
+      [transformES2015ArrowFunctions, { spec }],
+      transformES2015BlockScopedFunctions,
+      [transformES2015Classes, optsLoose],
+      transformES2015ObjectSuper,
+      ...
+
+      modules === "commonjs" && [transformES2015ModulesCommonJS, optsLoose],
+      modules === "systemjs" && [transformES2015ModulesSystemJS, optsLoose],
+      modules === "amd" && [transformES2015ModulesAMD, optsLoose],
+      modules === "umd" && [transformES2015ModulesUMD, optsLoose],
+      [transformRegenerator, { async: false, asyncGenerators: false }]
+    ].filter(Boolean) // filter out falsy values
+
+  };
 ```
 Babel 能够将输入的 JavaScript 代码根据不同的配置将代码进行适当地转化，其主要步骤分为解析（Parse）、转化（Transform）与生成（Generate）：
+
 
 - 在解析步骤中，Babel 分别使用词法分析（Lexical Analysis）与语法分析（Syntactic Analysis）来将输入的代码转化为抽象语法树；其中词法分析步骤会将代码转化为令牌流，而语法分析步骤则是将令牌流转化为语言内置的 AST 表示。
 - 在转化步骤中，Babel 会遍历上一步生成的令牌流，根据配置对节点进行添加、更新与移除等操作；Babel 本身并没有进行转化操作，而是依赖于外置的插件进行实际的转化。
 - 最后的代码生成则是将上一步中经过转化的抽象语法树重新生成为代码，并且同时创建 SourceMap；代码生成相较于前两步会简单很多，其核心思想在于深度优先遍历抽象语法树，然后生成对应的代码字符串。
 
+
 ## 抽象语法树
+
 
 抽象语法树（Abstract Syntax Tree, AST）的作用在于牢牢抓住程序的脉络，从而方便编译过程的后续环节（如代码生成）对程序进行解读。AST 就是开发者为语言量身定制的一套模型，基本上语言中的每种结构都与一种 AST 对象相对应。上文提及的解析步骤中的词法分析步骤会将代码转化为所谓的令牌流，譬如对于代码 `n * n`，其会被转化为如下数组：
 ```
 [
-  { type: { ... }, value: "n", start: 0, end: 1, loc: { ... } },
-  { type: { ... }, value: "*", start: 2, end: 3, loc: { ... } },
-  { type: { ... }, value: "n", start: 4, end: 5, loc: { ... } },
-  ...
+  { type: { ... }, value: "n", start: 0, end: 1, loc: { ... } },
+  { type: { ... }, value: "*", start: 2, end: 3, loc: { ... } },
+  { type: { ... }, value: "n", start: 4, end: 5, loc: { ... } },
+  ...
 ]
 ```
 其中每个 `type` 是一系列描述该令牌属性的集合：
 ```
 {
-  type: {
-    label: 'name',
-    keyword: undefined,
-    beforeExpr: false,
-    startsExpr: true,
-    rightAssociative: false,
-    isLoop: false,
-    isAssign: false,
-    prefix: false,
-    postfix: false,
-    binop: null,
-    updateContext: null
-  },
-  ...
+  type: {
+    label: 'name',
+    keyword: undefined,
+    beforeExpr: false,
+    startsExpr: true,
+    rightAssociative: false,
+    isLoop: false,
+    isAssign: false,
+    prefix: false,
+    postfix: false,
+    binop: null,
+    updateContext: null
+  },
+  ...
 }
 ```
 这里的每一个 `type` 类似于 AST 中的节点都拥有 `start`、`end`、`loc` 等属性；在实际应用中，譬如对于 ES6 中的箭头函数，我们可以通过 `babylon` 解释器生成如下的 AST 表示：
@@ -69,98 +91,103 @@ Babel 能够将输入的 JavaScript 代码根据不同的配置将代码进行�
 // 源代码
 (foo, bar) => foo + bar;
 
+
+
 // 简化的 AST 表示
 {
-    "program": {
-        "body": [
-            {
-                "type": "ExpressionStatement",
-                "expression": {
-                    "type": "ArrowFunctionExpression",
-                    "params": [
-                        {
-                            "type": "Identifier",
-                            "name": "foo"
-                        },
-                        {
-                            "type": "Identifier",
-                            "name": "bar"
-                        }
-                    ],
-                    "body": {
-                        "type": "BinaryExpression",
-                        "left": {
-                            "type": "Identifier",
-                            "name": "foo"
-                        },
-                        "operator": "+",
-                        "right": {
-                            "type": "Identifier",
-                            "name": "bar"
-                        }
-                    }
-                }
-            }
-        ]
-    }
+    "program": {
+        "body": [
+            {
+                "type": "ExpressionStatement",
+                "expression": {
+                    "type": "ArrowFunctionExpression",
+                    "params": [
+                        {
+                            "type": "Identifier",
+                            "name": "foo"
+                        },
+                        {
+                            "type": "Identifier",
+                            "name": "bar"
+                        }
+                    ],
+                    "body": {
+                        "type": "BinaryExpression",
+                        "left": {
+                            "type": "Identifier",
+                            "name": "foo"
+                        },
+                        "operator": "+",
+                        "right": {
+                            "type": "Identifier",
+                            "name": "bar"
+                        }
+                    }
+                }
+            }
+        ]
+    }
 }
 ```
-我们可以使用[ AST Explorer ](http://astexplorer.net/)这个工具进行在线预览与编辑；在上述的 AST 表示中，顾名思义，ArrowFunctionExpression 就表示该表达式为箭头函数表达式。该函数拥有 foo 与 bar 这两个参数，参数所属的 Identifiers 类型是没有任何子节点的变量名类型；接下来我们发现加号运算符被表示为了 BinaryExpression 类型，并且其 `operator` 属性设置为 `+`，而左右两个参数分别挂载于 `left` 与 `right` 属性下。在接下来的转化步骤中，我们即是需要对这样的抽象语法树进行转换，该步骤主要由 Babel Preset 与 Plugin 控制；Babel 内部提供了 `babel-traverse` 这个库来辅助进行 AST 遍历，该库还提供了一系列内置的替换与操作接口。而经过转化之后的 AST 表示如下，在实际开发中我们也常常首先对比转化前后代码的 AST 表示的不同，以了解应该进行怎样的转化操作：
+我们可以使用[ AST Explorer ](http://astexplorer.net/)这个工具进行在线预览与编辑；在上述的 AST 表示中，顾名思义，ArrowFunctionExpression 就表示该表达式为箭头函数表达式。该函数拥有 foo 与 bar 这两个参数，参数所属的 Identifiers 类型是没有任何子节点的变量名类型；接下来我们发现加号运算符被表示为了 BinaryExpression 类型，并且其 `operator` 属性设置为 `+`，而左右两个参数分别挂载于 `left` 与 `right` 属性下。在接下来的转化步骤中，我们即是需要对这样的抽象语法树进行转换，该步骤主要由 Babel Preset 与 Plugin 控制；Babel 内部提供了 `babel-traverse` 这个库来辅助进行 AST 遍历，该库还提供了一系列内置的替换与操作接口。而经过转化之后的 AST 表示如下，在实际开发中我们也常常首先对比转化前后代码的 AST 表示的不同，以了解应该进行怎样的转化操作：
 ```
+
 // AST shortened for clarity
 {
-    "program": {
-        "type": "Program",
-        "body": [
-            {
-                "type": "ExpressionStatement",
-                "expression": {
-                    "type": "Literal",
-                    "value": "use strict"
-                }
-            },
-            {
-                "type": "ExpressionStatement",
-                "expression": {
-                    "type": "FunctionExpression",
-                    "async": false,
-                    "params": [
-                        {
-                            "type": "Identifier",
-                            "name": "foo"
-                        },
-                        {
-                            "type": "Identifier",
-                            "name": "bar"
-                        }
-                    ],
-                    "body": {
-                        "type": "BlockStatement",
-                        "body": [
-                            {
-                                "type": "ReturnStatement",
-                                "argument": {
-                                    "type": "BinaryExpression",
-                                    "left": {
-                                        "type": "Identifier",
-                                        "name": "foo"
-                                    },
-                                    "operator": "+",
-                                    "right": {
-                                        "type": "Identifier",
-                                        "name": "bar"
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    "parenthesizedExpression": true
-                }
-            }
-        ]
-    }
+    "program": {
+        "type": "Program",
+        "body": [
+            {
+                "type": "ExpressionStatement",
+                "expression": {
+                    "type": "Literal",
+                    "value": "use strict"
+                }
+            },
+            {
+                "type": "ExpressionStatement",
+                "expression": {
+                    "type": "FunctionExpression",
+                    "async": false,
+                    "params": [
+                        {
+                            "type": "Identifier",
+                            "name": "foo"
+                        },
+                        {
+                            "type": "Identifier",
+                            "name": "bar"
+                        }
+                    ],
+                    "body": {
+                        "type": "BlockStatement",
+                        "body": [
+                            {
+                                "type": "ReturnStatement",
+                                "argument": {
+                                    "type": "BinaryExpression",
+                                    "left": {
+                                        "type": "Identifier",
+                                        "name": "foo"
+                                    },
+                                    "operator": "+",
+                                    "right": {
+                                        "type": "Identifier",
+                                        "name": "bar"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "parenthesizedExpression": true
+                }
+            }
+        ]
+    }
 }
 ```
+
+
 
 ## 自定义插件
 Babel 支持以观察者（Visitor）模式定义插件，我们可以在 visitor 中预设想要观察的 Babel 结点类型，然后进行操作；譬如我们需要将下述箭头函数源代码转化为 ES5 中的函数定义：
@@ -168,51 +195,63 @@ Babel 支持以观察者（Visitor）模式定义插件，我们可以在 visito
 // Source Code
 const func = (foo, bar) => foo + bar;
 
+
+
 // Transformed Code
 "use strict";
+
 const _func = function(_foo, _bar) {
-  return _foo + _bar;
+  return _foo + _bar;
 };
 ```
-在上一节中我们对比过转化前后两个函数语法树的差异，这里我们就开始定义转化插件。首先每个插件都是以 babel 对象为输入参数，返回某个包含 visitor 的对象的函数。最后我们需要调用 babel-core 提供的 transform 函数来注册插件，并且指定需要转化的源代码或者源代码文件：
+在上一节中我们对比过转化前后两个函数语法树的差异，这里我们就开始定义转化插件。首先每个插件都是以 babel 对象为输入参数，返回某个包含 visitor 的对象的函数。最后我们需要调用 babel-core 提供的 transform 函数来注册插件，并且指定需要转化的源代码或者源代码文件：
 ```
 // plugin.js 文件，定义插件
-import type NodePath from "babel-traverse";
+import type NodePath from "babel-traverse";
+
+
 
 export default function(babel) {
-  const { types: t } = babel;
+  const { types: t } = babel;
 
-  return {
-    name: "ast-transform", // not required
-    visitor: {
-      Identifier(path) {
-        path.node.name = `_${path.node.name}`;
-      },
-      ArrowFunctionExpression(path: NodePath<BabelNodeArrowFunctionExpression>, state: Object) {
-        // In some conversion cases, it may have already been converted to a function while this callback
-        // was queued up.
-        if (!path.isArrowFunctionExpression()) return;
 
-        path.arrowFunctionToExpression({
-          // While other utils may be fine inserting other arrows to make more transforms possible,
-          // the arrow transform itself absolutely cannot insert new arrow functions.
-          allowInsertArrow: false,
-          specCompliant: !!state.opts.spec
-        });
-      }
-    }
-  };
+  return {
+    name: "ast-transform", // not required
+    visitor: {
+      Identifier(path) {
+        path.node.name = `_${path.node.name}`;
+      },
+      ArrowFunctionExpression(path: NodePath<BabelNodeArrowFunctionExpression>, state: Object) {
+        // In some conversion cases, it may have already been converted to a function while this callback
+        // was queued up.
+        if (!path.isArrowFunctionExpression()) return;
+
+
+        path.arrowFunctionToExpression({
+          // While other utils may be fine inserting other arrows to make more transforms possible,
+          // the arrow transform itself absolutely cannot insert new arrow functions.
+          allowInsertArrow: false,
+          specCompliant: !!state.opts.spec
+        });
+      }
+    }
+  };
 }
 
+
 // babel.js 使用插件
+
 var babel = require('babel-core');
 var plugin= require('./plugin');
 
+
+
 var out = babel.transform(src, {
-  plugins: [plugin]
+  plugins: [plugin]
 });
 ```
 ## 常用转化操作
+
 
 ### 遍历
 - 获取子节点路径
@@ -220,64 +259,69 @@ var out = babel.transform(src, {
 ```
 // the BinaryExpression AST node has properties: `left`, `right`, `operator`
 BinaryExpression(path) {
-  path.node.left;
-  path.node.right;
-  path.node.operator;
+  path.node.left;
+  path.node.right;
+  path.node.operator;
 }
 ```
 我们也可以使用某个路径对象的 `get` 方法，通过传入子路径的字符串表示来访问某个属性：
 ```
 BinaryExpression(path) {
-  path.get('left');
+  path.get('left');
 }
 Program(path) {
-  path.get('body.0');
+  path.get('body.0');
 }
 ```
 - 判断某个节点是否为指定类型
 babel 内置的 type 对象提供了许多可以直接用来判断节点类型的工具函数：
 ```
 BinaryExpression(path) {
-  if (t.isIdentifier(path.node.left)) {
-    // ...
-  }
+  if (t.isIdentifier(path.node.left)) {
+    // ...
+  }
 }
 ```
 或者同时以浅比较来查看节点属性：
 ```
 BinaryExpression(path) {
-  if (t.isIdentifier(path.node.left, { name: "n" })) {
-    // ...
-  }
+  if (t.isIdentifier(path.node.left, { name: "n" })) {
+    // ...
+  }
 }
+
 
 // 等价于
 BinaryExpression(path) {
-  if (
-    path.node.left != null &&
-    path.node.left.type === "Identifier" &&
-    path.node.left.name === "n"
-  ) {
-    // ...
-  }
+  if (
+    path.node.left != null &&
+    path.node.left.type === "Identifier" &&
+    path.node.left.name === "n"
+  ) {
+    // ...
+  }
 }
 ```
 - 判断某个路径对应的节点是否为指定类型
 ```
 BinaryExpression(path) {
-  if (path.get('left').isIdentifier({ name: "n" })) {
-    // ...
-  }
+  if (path.get('left').isIdentifier({ name: "n" })) {
+    // ...
+  }
 }
 ```
+
 
 - 获取指定路径的父节点
 有时候我们需要从某个指定节点开始向上遍历获取某个父节点，此时我们可以通过传入检测的回调来判断：
 ```
 path.findParent((path) => path.isObjectExpression());
 
+
+
 // 获取最近的函数声明节点
 path.getFunctionParent();
+
 ```
 - 获取兄弟路径
 如果某个路径存在于 Function 或者 Program 中的类似列表的结构中，那么其可能会包含兄弟路径：
@@ -287,192 +331,215 @@ var a = 1; // pathA, path.key = 0
 var b = 2; // pathB, path.key = 1
 var c = 3; // pathC, path.key = 2
 
+
 // 插件定义
 export default function({ types: t }) {
-  return {
-    visitor: {
-      VariableDeclaration(path) {
-        // if the current path is pathA
-        path.inList // true
-        path.listKey // "body"
-        path.key // 0
-        path.getSibling(0) // pathA
-        path.getSibling(path.key + 1) // pathB
-        path.container // [pathA, pathB, pathC]
-      }
-    }
-  };
+  return {
+    visitor: {
+      VariableDeclaration(path) {
+        // if the current path is pathA
+        path.inList // true
+        path.listKey // "body"
+        path.key // 0
+        path.getSibling(0) // pathA
+        path.getSibling(path.key + 1) // pathB
+        path.container // [pathA, pathB, pathC]
+      }
+    }
+  };
 }
 ```
 - 停止遍历
 部分情况下插件需要停止遍历，我们此时只需要在插件中添加 return 表达式：
 ```
 BinaryExpression(path) {
-  if (path.node.operator !== '**') return;
+  if (path.node.operator !== '**') return;
 }
 ```
 我们也可以指定忽略遍历某个子路径：
 ```
 outerPath.traverse({
-  Function(innerPath) {
-    innerPath.skip(); // if checking the children is irrelevant
-  },
-  ReferencedIdentifier(innerPath, state) {
-    state.iife = true;
-    innerPath.stop(); // if you want to save some state and then stop traversal, or deopt
-  }
+  Function(innerPath) {
+    innerPath.skip(); // if checking the children is irrelevant
+  },
+  ReferencedIdentifier(innerPath, state) {
+    state.iife = true;
+    innerPath.stop(); // if you want to save some state and then stop traversal, or deopt
+  }
 });
 ```
 
+
 ### 操作
--  替换节点
+-  替换节点
 ```
 // 插件定义
 BinaryExpression(path) {
-  path.replaceWith(
-    t.binaryExpression("**", path.node.left, t.numberLiteral(2))
-  );
+  path.replaceWith(
+    t.binaryExpression("**", path.node.left, t.numberLiteral(2))
+  );
 }
 
+
 // 代码结果
-  function square(n) {
--   return n * n;
-+   return n ** 2;
-  }
+  function square(n) {
+-   return n * n;
++   return n ** 2;
+  }
 ```
+
 
 - 将某个节点替换为多个节点
 ```
 // 插件定义
+
 ReturnStatement(path) {
-  path.replaceWithMultiple([
-    t.expressionStatement(t.stringLiteral("Is this the real life?")),
-    t.expressionStatement(t.stringLiteral("Is this just fantasy?")),
-    t.expressionStatement(t.stringLiteral("(Enjoy singing the rest of the song in your head)")),
-  ]);
+  path.replaceWithMultiple([
+    t.expressionStatement(t.stringLiteral("Is this the real life?")),
+    t.expressionStatement(t.stringLiteral("Is this just fantasy?")),
+    t.expressionStatement(t.stringLiteral("(Enjoy singing the rest of the song in your head)")),
+  ]);
 }
 
+
 // 代码结果
-  function square(n) {
--   return n * n;
-+   "Is this the real life?";
-+   "Is this just fantasy?";
-+   "(Enjoy singing the rest of the song in your head)";
-  }
+  function square(n) {
+-   return n * n;
++   "Is this the real life?";
++   "Is this just fantasy?";
++   "(Enjoy singing the rest of the song in your head)";
+  }
 ```
+
 
 - 将某个节点替换为源代码字符串
 ```
 // 插件定义
+
 FunctionDeclaration(path) {
-  path.replaceWithSourceString(`function add(a, b) {
-    return a + b;
-  }`);
+  path.replaceWithSourceString(`function add(a, b) {
+    return a + b;
+  }`);
 }
 
+
 // 代码结果
+
 - function square(n) {
--   return n * n;
+-   return n * n;
 + function add(a, b) {
-+   return a + b;
-  }
++   return a + b;
+  }
 ```
+
 
 - 插入兄弟节点
 ```
 // 插件定义
 FunctionDeclaration(path) {
-  path.insertBefore(t.expressionStatement(t.stringLiteral("Because I'm easy come, easy go.")));
-  path.insertAfter(t.expressionStatement(t.stringLiteral("A little high, little low.")));
+  path.insertBefore(t.expressionStatement(t.stringLiteral("Because I'm easy come, easy go.")));
+  path.insertAfter(t.expressionStatement(t.stringLiteral("A little high, little low.")));
 }
 
+
 // 代码结果
+
 + "Because I'm easy come, easy go.";
-  function square(n) {
-    return n * n;
-  }
+  function square(n) {
+    return n * n;
+  }
 + "A little high, little low.";
 ```
+
 
 - 移除某个节点
 ```
 // 插件定义
 FunctionDeclaration(path) {
-  path.remove();
+  path.remove();
 }
+
 
 // 代码结果
 - function square(n) {
--   return n * n;
+-   return n * n;
 - }
 ```
+
 
 - 替换节点
 ```
 // 插件定义
 BinaryExpression(path) {
-  path.parentPath.replaceWith(
-    t.expressionStatement(t.stringLiteral("Anyway the wind blows, doesn't really matter to me, to me."))
-  );
+  path.parentPath.replaceWith(
+    t.expressionStatement(t.stringLiteral("Anyway the wind blows, doesn't really matter to me, to me."))
+  );
 }
 
+
 // 代码结果
-  function square(n) {
--   return n * n;
-+   "Anyway the wind blows, doesn't really matter to me, to me.";
-  }
+
+  function square(n) {
+-   return n * n;
++   "Anyway the wind blows, doesn't really matter to me, to me.";
+  }
 ```
+
 
 - 移除某个父节点
 ```
 // 插件定义
 BinaryExpression(path) {
-  path.parentPath.remove();
+  path.parentPath.remove();
 }
 
+
 // 代码结果
-  function square(n) {
--   return n * n;
-  }
+  function square(n) {
+-   return n * n;
+  }
 ```
 ### 作用域
 - 判断某个局部变量是否被绑定：
 ```
 FunctionDeclaration(path) {
-  if (path.scope.hasBinding("n")) {
-    // ...
-  }
+  if (path.scope.hasBinding("n")) {
+    // ...
+  }
 }
 
+
 FunctionDeclaration(path) {
-  if (path.scope.hasOwnBinding("n")) {
-    // ...
-  }
+  if (path.scope.hasOwnBinding("n")) {
+    // ...
+  }
 }
 ```
 - 创建 UID
 ```
 FunctionDeclaration(path) {
-  path.scope.generateUidIdentifier("uid");
-  // Node { type: "Identifier", name: "_uid" }
-  path.scope.generateUidIdentifier("uid");
-  // Node { type: "Identifier", name: "_uid2" }
+  path.scope.generateUidIdentifier("uid");
+  // Node { type: "Identifier", name: "_uid" }
+  path.scope.generateUidIdentifier("uid");
+  // Node { type: "Identifier", name: "_uid2" }
 }
 ```
+
 
 - 将某个变量声明提取到副作用中
 ```
 // 插件定义
 FunctionDeclaration(path) {
-  const id = path.scope.generateUidIdentifierBasedOnNode(path.node.id);
-  path.remove();
-  path.scope.parent.push({ id, init: path.node });
+  const id = path.scope.generateUidIdentifierBasedOnNode(path.node.id);
+  path.remove();
+  path.scope.parent.push({ id, init: path.node });
 }
+
 
 // 代码结果
 - function square(n) {
 + var _square = function square(n) {
-    return n * n;
+    return n * n;
 - }
 + };
 ```
