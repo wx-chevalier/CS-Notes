@@ -1,12 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [JavaScript 模块演化简史](#javascript-%E6%A8%A1%E5%9D%97%E6%BC%94%E5%8C%96%E7%AE%80%E5%8F%B2)
-- [命名空间模式](#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E6%A8%A1%E5%BC%8F)
-- [依赖注入](#%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5)
-- [CommonJS](#commonjs)
-- [AMD](#amd)
-- [UMD](#umd)
-- [ES2015 Modules](#es2015-modules) 
-
 
 
 

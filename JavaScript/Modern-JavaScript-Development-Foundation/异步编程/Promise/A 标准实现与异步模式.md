@@ -1,9 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [Promise/A 标准实现与异步模式](#promisea-%E6%A0%87%E5%87%86%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F)
-- [异步设计模式](#%E5%BC%82%E6%AD%A5%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
-  * [失败重试](#%E5%A4%B1%E8%B4%A5%E9%87%8D%E8%AF%95)
-  * [数组转换](#%E6%95%B0%E7%BB%84%E8%BD%AC%E6%8D%A2) 
-
 
 # Promise/A 标准实现与异步模式
 

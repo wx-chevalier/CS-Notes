@@ -1,13 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [JavaScript 语法树与代码转化](#javascript-%E8%AF%AD%E6%B3%95%E6%A0%91%E4%B8%8E%E4%BB%A3%E7%A0%81%E8%BD%AC%E5%8C%96)
-  * [Babel](#babel)
-  * [抽象语法树](#%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91)
-  * [自定义插件](#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8F%92%E4%BB%B6)
-  * [常用转化操作](#%E5%B8%B8%E7%94%A8%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C)
-    + [遍历](#%E9%81%8D%E5%8E%86)
-    + [操作](#%E6%93%8D%E4%BD%9C)
-    + [作用域](#%E4%BD%9C%E7%94%A8%E5%9F%9F) 
-
 
 [![](https://parg.co/UYU)](https://parg.co/bxN)
 

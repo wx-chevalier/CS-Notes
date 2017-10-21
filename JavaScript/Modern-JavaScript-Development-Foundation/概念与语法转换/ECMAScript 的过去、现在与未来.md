@@ -1,6 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [ECMAScript 的过去、现在与未来](#ecmascript-%E7%9A%84%E8%BF%87%E5%8E%BB%E7%8E%B0%E5%9C%A8%E4%B8%8E%E6%9C%AA%E6%9D%A5) 
-
 
 # ECMAScript 的过去、现在与未来
 

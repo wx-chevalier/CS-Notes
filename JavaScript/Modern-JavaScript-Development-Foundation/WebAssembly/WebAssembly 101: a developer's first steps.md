@@ -1,8 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [编译环境搭建](#%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)
-- [与 JavaScript 集成使用](#%E4%B8%8E-javascript-%E9%9B%86%E6%88%90%E4%BD%BF%E7%94%A8)
-- [简单游戏引擎重构](#%E7%AE%80%E5%8D%95%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E9%87%8D%E6%9E%84) 
-
 
 > [WebAssembly 初体验：从零开始重构计算模块](https://zhuanlan.zhihu.com/p/27410280)从属于笔者的[  Web 前端入门与工程实践](https://github.com/wxyyxc1992/Web-Development-And-Engineering-Practices)，更多相关资料文章参考[WebAssembly 学习与实践资料索引](https://github.com/wxyyxc1992/Coder-Knowledge-Management/tree/master/Awesome-Reference/Web/Syntax/WebAssembly)和[ React 学习与实践资料索引](https://parg.co/bM1)。本文中使用的游戏代码修改自  [WebAssembly 101: a developer's first steps](http://blog.openbloc.fr/webassembly-first-steps/)。
 

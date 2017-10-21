@@ -1,10 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [1. 事件循环机制详解与实践应用](#1-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%AE%9E%E8%B7%B5%E5%BA%94%E7%94%A8)
-- [2. 函数调用栈与任务队列](#2-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%A0%88%E4%B8%8E%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97)
-- [3. MacroTask（Task） 与 MicroTask（Job）](#3-macrotasktask-%E4%B8%8E-microtaskjob)
-- [4. 浅析 Vue.js 中 nextTick 的实现](#4-%E6%B5%85%E6%9E%90-vuejs-%E4%B8%AD-nexttick-%E7%9A%84%E5%AE%9E%E7%8E%B0)
-- [5. 延伸阅读](#5-%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB) 
-
 
 > [JavaScript Event Loop 机制详解与 Vue.js 中实践应用](https://zhuanlan.zhihu.com/p/28508795)归纳于笔者的[现代 JavaScript 开发：语法基础与实践技巧](https://parg.co/bjK)系列文章。本文依次介绍了函数调用栈、MacroTask 与 MicroTask 执行顺序、浅析 Vue.js 中 nextTick 实现等内容；本文中引用的参考资料统一声明在 [JavaScript 学习与实践资料索引](https://parg.co/b2O)。
 

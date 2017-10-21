@@ -1,14 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [JavaScript 异步编程](#javascript-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B)
-- [回调](#%E5%9B%9E%E8%B0%83)
-  * [事件监听](#%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC)
-- [Promise](#promise)
-  * [链式调用](#%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8)
-- [Generator](#generator)
-- [async/await](#asyncawait)
-  * [多函数调用](#%E5%A4%9A%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8)
-  * [异常处理](#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86) 
-
 
 
 

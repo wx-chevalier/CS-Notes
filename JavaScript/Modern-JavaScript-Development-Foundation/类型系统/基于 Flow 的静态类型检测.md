@@ -1,20 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [基于 Flow 的静态类型检测](#%E5%9F%BA%E4%BA%8E-flow-%E7%9A%84%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%B5%8B)
-- [安装配置](#%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE)
-  * [开发环境](#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)
-  * [项目配置](#%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE)
-- [基础数据类型](#%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B)
-- [复合类型](#%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B)
-- [函数](#%E5%87%BD%E6%95%B0)
-  * [读写限定](#%E8%AF%BB%E5%86%99%E9%99%90%E5%AE%9A)
-- [类与对象](#%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1)
-  * [接口](#%E6%8E%A5%E5%8F%A3)
-- [Immutability](#immutability)
-- [类型扩展](#%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95)
-  * [Typeof](#typeof)
-  * [强制类型转换](#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2)
-  * [模块化](#%E6%A8%A1%E5%9D%97%E5%8C%96) 
-
 
 
 

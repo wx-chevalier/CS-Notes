@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<jni4net-proxygen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://jni4net.sf.net/0.8.8.0/toolConfig.xsd">
-  <TargetDirJvm>.\jvm</TargetDirJvm>
-  <TargetDirClr>.\clr</TargetDirClr>
-  <AssemblyReference Assembly="testlib.dll" Generate="true" />
-</jni4net-proxygen>

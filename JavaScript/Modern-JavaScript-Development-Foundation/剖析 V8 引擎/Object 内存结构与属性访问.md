@@ -1,13 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [V8 Object 内存结构与属性访问](#v8-object-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8E%E5%B1%9E%E6%80%A7%E8%AE%BF%E9%97%AE)
-- [Property Name:属性名](#property-name%E5%B1%9E%E6%80%A7%E5%90%8D)
-- [In-Object Properties & Fast Property Access:对象内属性与访问优化](#in-object-properties--fast-property-access%E5%AF%B9%E8%B1%A1%E5%86%85%E5%B1%9E%E6%80%A7%E4%B8%8E%E8%AE%BF%E9%97%AE%E4%BC%98%E5%8C%96)
-  * [Reused Hidden Class:重复使用的隐藏类](#reused-hidden-class%E9%87%8D%E5%A4%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E9%9A%90%E8%97%8F%E7%B1%BB)
-  * [Methods & Prototypes:方法与原型](#methods--prototypes%E6%96%B9%E6%B3%95%E4%B8%8E%E5%8E%9F%E5%9E%8B)
-- [Dictionary Mode](#dictionary-mode)
-- [Fast Elements:数值下标的属性](#fast-elements%E6%95%B0%E5%80%BC%E4%B8%8B%E6%A0%87%E7%9A%84%E5%B1%9E%E6%80%A7)
-- [Object 代码声明](#object-%E4%BB%A3%E7%A0%81%E5%A3%B0%E6%98%8E) 
-
 
 # V8 Object 内存结构与属性访问
 

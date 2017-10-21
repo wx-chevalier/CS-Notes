@@ -1,6 +1,3 @@
-[![章节头]("https://parg.co/UG3")](﻿https://parg.co/bxN) 
- - [模块化与构建工具](#%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8E%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7) 
-
 
 > [JavaScript 模块衍化史与构建工具对比]()归纳于笔者的[现代 JavaScript 开发：语法基础与实践技巧](https://parg.co/b1c)系列文章中；也欢迎关注[前端每周清单系列](https://parg.co/bh1)获得一手资讯。
 
