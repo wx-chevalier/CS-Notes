@@ -1,9 +1,4 @@
-
-[![](https://parg.co/UYU)](https://parg.co/bxN)
-
-
-
-# JavaScript 语法树与代码转化
+# 基于 Babel 的 JavaScript 语法树构造与代码转化
 
 
 ![](http://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2016/04/1459949808babel.png)

@@ -1,6 +1,6 @@
+# 现代 JavaScript 开发
 
 # ECMAScript 的过去、现在与未来
-
 
 WTF is ECMAScript?
 
