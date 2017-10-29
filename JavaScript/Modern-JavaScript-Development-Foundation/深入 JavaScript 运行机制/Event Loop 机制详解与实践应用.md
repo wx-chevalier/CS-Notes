@@ -1,3 +1,7 @@
+[![返回目录](https://parg.co/USw)](https://parg.co/bxN) 
+ 
+ 
+ 
 
 > [JavaScript Event Loop 机制详解与 Vue.js 中实践应用](https://zhuanlan.zhihu.com/p/28508795)归纳于笔者的[现代 JavaScript 开发：语法基础与实践技巧](https://parg.co/bjK)系列文章。本文依次介绍了函数调用栈、MacroTask 与 MicroTask 执行顺序、浅析 Vue.js 中 nextTick 实现等内容；本文中引用的参考资料统一声明在 [JavaScript 学习与实践资料索引](https://parg.co/b2O)。
 

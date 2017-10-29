@@ -1,3 +1,7 @@
+[![返回目录](https://parg.co/USw)](https://parg.co/bxN) 
+ 
+ 
+ 
 
 > [WebAssembly 初体验：从零开始重构计算模块](https://zhuanlan.zhihu.com/p/27410280)从属于笔者的[  Web 前端入门与工程实践](https://github.com/wxyyxc1992/Web-Development-And-Engineering-Practices)，更多相关资料文章参考[WebAssembly 学习与实践资料索引](https://github.com/wxyyxc1992/Coder-Knowledge-Management/tree/master/Awesome-Reference/Web/Syntax/WebAssembly)和[ React 学习与实践资料索引](https://parg.co/bM1)。本文中使用的游戏代码修改自  [WebAssembly 101: a developer's first steps](http://blog.openbloc.fr/webassembly-first-steps/)。
 

@@ -1,19 +1,6 @@
-
-		
-		
-		
-		
-	
-	
-> [Java 9 特性概述]()从属于笔者的[]()，主要是对于 Java 9 的特性与简要用法进行介绍。
-
-
-
-[Java 9 Released — 9 Biggest Features & Download Links Are Here](https://fossbytes.com/java-9-features-released-download-course/) 以及 [Java 9 Features with Examples](https://www.journaldev.com/13121/java-9-features-with-examples)
- 
+> [Java 9 特性概述]()从属于笔者的[]()，主要是对于 Java 9 的特性与简要用法进行介绍。[Java 9 Released — 9 Biggest Features & Download Links Are Here](https://fossbytes.com/java-9-features-released-download-course/) 以及 [Java 9 Features with Examples](https://www.journaldev.com/13121/java-9-features-with-examples)
 
 # Java 9 特性概述
-
 
 Java 9 为我们提供了用于创建不可变列表、集合与映射的工厂方法，用于完善 Java 8 中提供的 Collections.unmodifiableXXX 系列方法；工厂方法允许创建包含不超过十个不等元素的不可变对象，这些对象在被创建后即不能再被添加、更新或者删除：
 ```

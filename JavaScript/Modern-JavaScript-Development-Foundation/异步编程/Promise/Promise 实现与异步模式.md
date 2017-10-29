@@ -1,3 +1,7 @@
+[![返回目录](https://parg.co/USw)](https://parg.co/bxN) 
+ 
+ 
+ 
 
 # Promise/A 标准实现与异步模式
 
