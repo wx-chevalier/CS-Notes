@@ -1,15 +1,6 @@
 [![返回目录](https://parg.co/USw)](https://parg.co/bxN) 
- 
- 
- 
-
-
-
-
 
 [![](https://parg.co/UYU)](https://parg.co/bxN)
-
-
 
 # JavaScript 异步编程
 
@@ -199,9 +190,6 @@ function asyncTask () {  
 }
 ```
 
-
-
-
 ## 多函数调用
 
 
@@ -224,5 +212,5 @@ async function executeParallelAsyncTasks () {  
 ```
 ## 异常处理
 
-
+引入[此文](https://blog.lavrton.com/javascript-loops-how-to-handle-async-await-6252dd3c795)中对于 async/await 的循环的写法
 
