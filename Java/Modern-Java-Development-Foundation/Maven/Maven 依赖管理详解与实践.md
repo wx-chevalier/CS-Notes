@@ -1,232 +1,243 @@
 
+依赖管理是maven的一大特征，对于一个简单的项目，对依赖的管理并不是什么困难的事，但是如果这个项目依赖的库文件达到几十个甚至于上百个的时候就不是一个简单的问题了。在这个时候maven对于依赖管理的作用就显露出来了。下面主要讨论几个方面的内容：传递性依赖，依赖范围，依赖管理，系统依赖，可选依赖
+# Dependence Usage(依赖使用)
+## 本地依赖
+### 安装到本地的Maven Repo中
+### 使用system依赖范围 
+在下文中会有对于依赖的scope的详细解释，这里只需要知道如果将scope设置为了system即是自动在本地路径中寻找依赖的Jar包即可。
+```
+        <dependency>
+			<groupId>dnsns</groupId>
+			<artifactId>dnsns</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/lib/dnsns.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>localedata</groupId>
+			<artifactId>localedata</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/lib/localedata.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>sunjce_provider</groupId>
+			<artifactId>sunjce_provider</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/lib/sunjce_provider.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>sunpkcs11</groupId>
+			<artifactId>sunpkcs11</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/lib/sunpkcs11.jar</systemPath>
+		</dependency>
 
-> [Maven 项目构建基础](https://parg.co/bFi)从属于笔者的[现代 Java 开发基础](https://parg.co/bgk)系列文章，介绍了 Maven 的历史背景与多种构建工具对比，以及 Maven 的基本配置安装与使用；本文涉及的参考资料声明在 [Java 学习与实践资料索引](https://parg.co/bgv)以及 [Maven 学习与资料索引](https://parg.co/bFL)。本文整理时间也较早，最近因为整理 Java 相关的资料所以重新归纳了下。
-
-# Maven 
-
-Maven 是功能强大的构建工具能够帮我们自动化构建过程，从清理、编译、测试到生成报告，再到打包和部署。我们只需要输入简单的命令（如 `mvn clean install`），Maven 就会帮我们处理繁琐的任务；它最大化的消除了构建的重复，抽象了构建生命周期，并且为绝大部分的构建任务提供了已实现的插件。比如说测试，我们只需要遵循 Maven 的约定编写好测试用例，当我们运行构建的时候，这些测试便会自动运行。除此之外，Maven 能帮助我们标准化构建过程。在 Maven 之前，十个项目可能有十种构建方式，但通过 Maven，所有项目的构建命令都是简单一致的。有利于促进项目团队的标准化。
-
-# 构建工具对比
-
-Maven 是笔者接触的第一个脱离于 IDE 的命令行构建工具，笔者之前一直是基于 Visual Studio 下进行 Windows 驱动开发，并不是很能明白 Builder 与 IDE 之间的区别。依赖大量的手工操作。编译、测试、代码生成等工作都是相互独立的，很难一键完成所有工作。手工劳动往往意味着低效，意味着容易出错。很难在项目中统一所有的 IDE 配置，每个人都有自己的喜好。也正是由于这个原因，一个在机器 A 上可以成功运行的任务，到了机器 B 的 IDE 中可能就会失败。
-
-在 Linux C 开发中我们常常使用 Make 进行构建，不过 Make 将自己和操作系统绑定在一起了；也就是说，使用Make，就不能实现（至少很难）跨平台的构建，这对于Java来说是非常不友好的。此外，Makefile 的语法也成问题，很多人抱怨 Make 构建失败的原因往往是一个难以发现的空格或 Tab 使用错误。而在 Java 发展过程中常见的自动化构建工具以 Ant、Maven、Gradle 为代表，整个自动化流程往往包含以下步骤：编译源代码、运行单元测试和集成测试、执行静态代码分析、生成分析报告、创建发布版本、部署到目标环境、部署传递过程以及执行冒烟测试和自动功能测试。
-
-和 Make 一样，Ant 也都是过程式的，开发者显式地指定每一个目标，以及完成该目标所需要执行的任务。针对每一个项目，开发者都需要重新编写这一过程，这里其实隐含着很大的重复。Maven 是声明式的，项目构建过程和过程各个阶段所需的工作都由插件实现，并且大部分插件都是现成的，开发者只需要声明项目的基本元素，Maven 就执行内置的、完整的构建过程。这在很大程度上消除了重复。
-
-此外，Ant 是没有依赖管理的，所以很长一段时间 Ant 用户都不得不手工管理依赖，这是一个令人头疼的问题。幸运的是，Ant 用户现在可以借助 Ivy 管理依赖。而对于 Maven 用户来说，依赖管理是理所当然的，Maven 不仅内置了依赖管理，更有一个可能拥有全世界最多 Java 开源软件包的中央仓库，Maven 用户无须进行任何配置就可以直接享用。
-
-而 Gradle 抛弃了 Maven 的基于 XML 的繁琐配置；众所周知 XML 的阅读体验比较差，对于机器来说虽然容易识别，但毕竟是由人去维护的。取而代之的是 Gradle 采用了领域特定语言 Groovy 的配置，大大简化了构建代码的行数。Maven 的设计核心 Convention Over Configuration 被 Gradle 更加发扬光大，而 Gradle 的配置即代码又超越了Maven。在 Gradle 中任何配置都可以作为代码被执行的，我们也可以随时使用已有的 Ant 脚本（Ant task 是 Gradle 中的一等公民）、Java 类库、Groovy 类库来辅助完成构建任务的编写。在[现代 Java 开发基础](https://parg.co/bgk)系列文章中也有专门的章节讲解 Gradle，笔者在 Android 与 Spring 项目构建中也会优先选择 Gradle。
-
-
-# 环境配置
-
-Maven 的安装也非常方便，可从 Apache 官方下载最新的 Maven 压缩包然后解压，也可以使用 [SDK Man](http://sdkman.io/) 执行安装；如果是手动配置的话我们还需要配置设置下系统的环境变量：
-
-- M2HOME: 指向Maven安装目录
-- Path: 追加 Maven 安装目录下的 bin 目录
-
-在用户目录下，我们可以发现 .m2 文件夹。默认情况下，该文件夹下放置了 Maven 本地仓库 .m2/repository。所有的 Maven 构件（artifact）都被存储到该仓库中，以方便重用。默认情况下，~/.m2 目录下除了 repository 仓库之外就没有其他目录和文件了，不过大多数 Maven 用户需要复制 M2HOME/conf/settings.xml 文件到 ~/.m2/settings.xml。
-
-部分常用的Maven命令如下：
 
 ```
-mvn -v # 查看maven版本
 
-mvn compile # 编译
+# Dependency Mediation(依赖调停)
+![](http://www.yiibai.com/uploads/allimg/131228/212042K00-0.jpg)
 
-mvn test # 测试
+传递性依赖是在maven2中添加的新特征，这个特征的作用就是你不需要考虑你依赖的库文件所需要依赖的库文件，能够将依赖模块的依赖自动的引入。例如我们依赖于spring的库文件，但是spring本身也有依赖，如果没有传递性依赖那就需要我们了解spring项目依赖，然后也要添加到我们的项目中。
+  由于没有限制依赖的数量，如果出现循环依赖的时候会出现问题，这个时候有两种方式处理，一种是通过build-helper-maven-plugin插件来规避，另一种就是重构两个相互依赖的项目。
+  通过传递性依赖，项目的依赖结构能够很快生成。但是因为这个新的特性会有一些其他的特性被添加进来来限制由于传递性依赖所引入的包。
+  依赖调节：如果在一个项目里面出现不同的模块，依赖了一个项目的不同版本的时候判断依赖的版本。maven2.0的时候仅仅支持最近原则也就是在依赖树中的最靠近项目的版本作为依赖版本。到了maven2.0.9的时候又提出了一个最先声明原则，也就是在项目中被最早声明的被判断为依赖的版本。
 
-mvn package # 打包
 
-mvn clean # 删除 target
-
-mvn install # 安装jar包到本地仓库中
-
-mvn archetype:generate -DgroupId=co.hoteam -DartifactId=Zigbee -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false # 创建一个新工程
+调停什么？谁会有冲突？是版本！同一个jar包，又会有不同的版本，因为总是在升级嘛。当你所依赖的jar有不同的版本的时候，该选择那一个呢？那位说了，就选最新的呗。好主意，毕竟大部门软件都向下兼容，但这也不一定哦。看看maven怎么做。maven选择最近的一个版本。什么意思？ 
+比如你的A项目： 
+A -> B -> C -> D 2.0 and A -> E -> D 1.0，什么意思？A依赖B，。。。一直到依传递依赖到D2.0。同时A还依赖了E到一直到D1.0。这就出现了冲突，你当然也可以再A里面配置指定依赖D2.0。如果你没在A的pom里面配置指定用哪一个。maven会替你找一个近的。哪个近？当然是D1.0，那build A的时候就会选择D1.0。什么原因？这样就好吗？得好好想想？你有什么看法？ 
+有什么好想的？别这么纠结，就指定呗。说的容易，你想想很多时候你是不知道D的存在的，它很可能是个很底层的库，你只熟悉和你最近的项目B和E。
+# Excluded & Optional Dependencies(排除依赖于可选依赖)
+可选依赖使用的情况是对于某个依赖来说系统只有在某个特定的情况下使用到它。例如数据库驱动，有mysql的，oracle的。只有在我们使用到mysql的时候才会被使用。# Scope(依赖作用域)
 ```
-## 网络代理
-
-众所周知的原因，国内有时候并不能够很顺畅的访问 Maven 的中央仓库，往往我们需要访问国内的镜像地址：
-``` 
-<mirror>
-<id>CN</id>
-<name>OSChina Central</name> 
-<url>http://maven.oschina.net/content/groups/public/</url>
-<mirrorOf>central</mirrorOf>
-</mirror>
+    <project>
+      ...
+      <dependencies>
+        <!-- declare the dependency to be set as optional -->
+        <dependency>
+          <groupId>sample.ProjectA</groupId>
+          <artifactId>Project-A</artifactId>
+          <version>1.0</version>
+          <scope>compile</scope>
+         <optional>true</optional> <!-- value will be true or false only -->
+       </dependency>
+     </dependencies>
+   </project>
 ```
-或者编辑 ~/.m2/settings.xml 文件（如果没有该文件，则复制 $M2HOME/conf/settings.xml），添加代理配置如下：
+```
+  <project>
+     ...
+      <dependencies>
+        <dependency>
+          <groupId>sample.ProjectA</groupId>
+          <artifactId>Project-A</artifactId>
+          <version>1.0</version>
+          <scope>compile</scope>
+          <exclusions>
+           <exclusion>  <!-- declare the exclusion here -->
+             <groupId>sample.ProjectB</groupId>
+             <artifactId>Project-B</artifactId>
+           </exclusion>
+         </exclusions> 
+       </dependency>
+     </dependencies>
+   </project>
+```
+# Dependency Scope
+maven有三套classpath（编译classpath，运行classpath，测试classpath）分别对应构建的三个阶段。依赖范围就是控制依赖与这三套classpath的关系。依赖范围有六种：
+在POM 4中，<dependency>中还引入了<scope>，它主要管理依赖的部署。目前<scope>可以使用5个值：   
+    * compile，缺省值，适用于所有阶段，会随着项目一起发布。  compile 是默认的范围；如果没有提供一个范围，那该依赖的范围就是编译范围。编译范围依赖在所有的classpath 中可用，同时它们也会被打包。  
+    * provided，provided 依赖只有在当JDK 或者一个容器已提供该依赖之后才使用。例如，如果你开发了一个web 应用，你可能在编译classpath 中需要可用的ServletAPI 来编译一个servlet，但是你不会想要在打包好的WAR中包含这个ServletAPI；这个Servlet API JAR 由你的应用服务器或者servlet 容器提供。已提供范围的依赖在编译classpath（不是运行时）可用。它们不是传递性的，也不会被打包。    * runtime， runtime 依赖在运行和测试系统的时候需要，但在编译的时候不需要。比如，你可能在编译的时候只需要JDBC API JAR，而只有在运行的时候才需要JDBC驱动实现。
+    * test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。    
+    * system，system 范围依赖与provided 类似，但是你必须显式的提供一个对于本地系统中JAR 文件的路径。这么做是为了允许基于本地对象编译，而这些对象是系统类库的一部分。这样的构件应该是一直可用的，Maven 也不会在仓库中去寻找它。如果你将一个依赖范围设置成系统范围，你必须同时提供一个systemPath元素。注意该范围是不推荐使用的（你应该一直尽量去从公共或定制的Maven仓库中引用依赖）。
+```
+    <project>
+      ...
+      <dependencies>
+        <dependency>
+          <groupId>javax.sql</groupId>
+          <artifactId>jdbc-stdext</artifactId>
+          <version>2.0</version>
+          <scope>system</scope>
+          <systemPath>${java.home}/lib/rt.jar</systemPath>
+       </dependency>
+     </dependencies>
+     ...
+   </project>
+```
+# Dependency Management
+
+Maven 使用dependencyManagement 元素来提供了一种管理依赖版本号的方式。通常会在一个组织或者项目的最顶层的父POM 中看到dependencyManagement 元素。使用pom.xml 中的dependencyManagement 元素能让所有在子项目中引用一个依赖而不用显式的列出版本号。Maven 会沿着父子层次向上走，直到找到一个拥有dependencyManagement 元素的项目，然后它就会使用在这个dependencyManagement 元素中指定的版本号。
+
+例如在父项目里：
 
 ``` xml
-<settings>
-  ...
-<pqroxies>
-  <proxy>
-    <id>my-proxy</id>
-    <active>true</active>
-    <protocol>http</protocol>
-    <host>代理服务器主机名</host>
-    <port>端口号</port>
-    <!--
-        <username>***</username>
-        <password>***</password>
-        <nonProxyHosts>repository.mycom.com|*.google.com</nonProxyHosts>
--->
-  </proxy>
-  </proxies>
-  ...
-</settings>
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.2</version>
+    </dependency>
+    ...
+  <dependencies>
+</dependencyManagement>
 ```
 
-如果不行试试重启机器或者eclipse等ide还不行试试下面这种方式：windows-->preferences-->maven-->installations  add
-
-![maven config](http://outofmemory.cn/ugc/upload/00/20/20130620/maven-config.png)
-
-这样配置后将使用指定目录下的maven，而非eclipse的maven内置插件。
-
-
-## 其他错误处理
-
-（1）有时候执行```mvn compile```时候会爆出无法找到junit的错误，可能的解决方法有：
-
-- 在Eclipse的Projects选项中使用Projects Clean
-  
-- 在pom.xml中引入junit依赖项，并且保证其scope为compile:
-  
-  ``` 
-  <dependency>
-  	<groupId>junit</groupId>
-  	<artifactId>junit</artifactId>
-  	<version>4.11</version>
-  	<scope>test</scope>
-  </dependency>
-  ```
-
-（2）有时候在Eclipse下执行`mvn compile`或者相关命令时，会报某某文件出现不识别字符或者非UTF-8编码，此时可以做几步检查：
-
-- 检查对应的Java文件是否有Bom头
-- 检查对应的Java文件的编码
-- 如果都没有问题，在Eclipse中先将文件编码设置为GBK，再改回UTF-8试试。
-
-
-# 项目配置
-
-就像 Make 的 Makefile，Ant 的 build.xml 一样，Maven 项目的核心是 pom.xml。首先创建一个名为 hello-world 的文件夹，打开该文件夹，新建一个名为 pom.xml 的文件，输入其内容如下：
+然后在子项目里就可以添加mysql-connector时可以不指定版本号，例如：
 
 ``` xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-http://maven.apache.org/maven-v4_0_0.xsd">
-<modelVersion>4.0.0</modelVersion>
-<groupId>com.wx.mvn</groupId>
-<artifactId>hello-world</artifactId>
-<version>1.0-SNAPSHOT</version>
-<name>Maven Hello World Project</name>
+<dependencies>  
+  <dependency>  
+    <groupId>mysql</groupId>  
+    <artifactId>mysql-connector-java</artifactId>  
+  </dependency>  
+</dependencies>  
+```
+
+同时在dependenceManagement种，也可以从外部导入POM文件中的依赖项：
+
+``` xml
+<dependencyManagement>
+     <dependencies>
+        <dependency>
+            <!-- Import dependency management from Spring Boot -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>1.3.0.RC1</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+[toc]
+
+# Resources(资源管理)
+
+## Resource Directories：资源文件夹
+
+它对应的配置方式为：
+
+``` xml
+<project>
+ ...
+ <build>
+   ...
+   <resources>
+     <resource>
+       <directory>[your folder here]</directory>
+     </resource>
+   </resources>
+   ...
+ </build>
+ ...
 </project>
 ```
 
-## 文件结构
+对于如下的结构：
 
-- 代码的第一行是 XML 头，指定了该 xml 文档的版本和编码方式。紧接着是 project 元素，project 是所有 pom.xml 的根元素，它还声明了一些 POM 相关的命名空间及 xsd 元素，虽然这些属性不是必须的，但使用这些属性能够让第三方工具（如 IDE 中的 XML 编辑器）帮助我们快速编辑 POM。
-
-
-- 根元素下的第一个子元素 modelVersion 指定了当前 POM 模型的版本，对于 Maven 2 及 Maven 3 来说，它只能是4.0.0。这段代码中最重要的是 groupId，artifactId 和 version 三行。这三个元素定义了一个项目基本的坐标，在Maven 的世界，任何的 jar、pom 或者 war 都是以基于这些基本的坐标进行区分的。
-
-
-- groupId 定义了项目属于哪个组，这个组往往和项目所在的组织或公司存在关联，譬如你在 googlecode 上建立了一个名为 myapp 的项目，那么 groupId 就应该是 com.googlecode.myapp，如果你的公司是 mycom，有一个项目为 myapp，那么 groupId 就应该是 com.mycom.myapp。
-
-
-- artifactId 定义了当前 Maven 项目在组中唯一的 ID，我们为这个 Hello World 项目定义 artifactId 为 hello-world，本书其他章节代码会被分配其他的 artifactId。而在前面的 groupId 为 com.googlecode.myapp 的例子中，你可能会为不同的子项目（模块）分配 artifactId，如：myapp-util、myapp-domain、myapp-web 等等。
-
-
-- version 指定了 Hello World 项目当前的版本——1.0-SNAPSHOT。SNAPSHOT 意为快照，说明该项目还处于开发中，是不稳定的版本。随着项目的发展，version 会不断更新，如升级为 1.0、1.1-SNAPSHOT、1.1、2.0 等等。
-
-- 最后一个 name 元素声明了一个对于用户更为友好的项目名称，虽然这不是必须的，但我还是推荐为每个 POM 声明 name，以方便信息交流。 没有任何实际的 Java 代码，我们就能够定义一个 Maven 项目的 POM，这体现了 Maven 的一大优点，它能让项目对象模型最大程度地与实际代码相独立，我们可以称之为解耦，或者正交性，这在很大程度上避免了 Java 代码和 POM 代码的相互影响。比如当项目需要升级版本时，只需要修改 POM，而不需要更改 Java 代码；而在 POM 稳定之后，日常的 Java 代码开发工作基本不涉及 POM 的修改。
-
-
-## 变量替换
-
-在 pom.xml 定义 properties 标签
-```
-<properties>
- <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
- <spring.version>1.2.6</spring.version>
- <developer.organization><![CDATA[xy公司]]></developer.organization>
-</properties>
-```
-以上内容就改成了
-```
-<dependency>
- <groupId>org.springframework</groupId>
- <artifactId>spring-core</artifactId>
- <version>${spring.version}</version>
-</dependency>
-<dependency>
- <groupId>org.springframework</groupId>
- <artifactId>spring-aop</artifactId>
- <version>${spring.version}</version>
-</dependency>
-```
-也可以使用 [maven-properties](http://www.mojohaus.org/properties-maven-plugin/plugin-info.html)  插件来支持外部变量
-
-## 目录结构
-
-项目主代码和测试代码不同，项目的主代码会被打包到最终的构件中（比如 jar），而测试代码只在运行测试时用到，不会被打包。默认情况下，Maven 假设项目主代码位于 `src/main/java` 目录，我们遵循 Maven 的约定，创建该目录，然后在该目录下创建文件 `com/wx/mvn/helloworld/HelloWorld.java`，其内容如下:
-
-``` java
-package com.wx.mvn.helloworld;
-
-public class HelloWorld
-{
-    public String sayHello()
-    {
-        return "Hello Maven";
-    }
-
-    public static void main(String[] args)
-    {
-        System.out.print( new HelloWorld().sayHello() );
-    }
-}
+``` yaml
+Project
+|-- pom.xml
+`-- src
+    `-- my-resources
 ```
 
-关于该 Java 代码有两点需要注意。首先，大部分情况下我们应该把项目主代码放到 src/main/java/ 目录下（遵循Maven的约定），而无须额外的配置，Maven 会自动搜寻该目录找到项目主代码。其次，该 Java 类的包名是 com.wx.mvn.helloworld，这与我们之前在 POM 中定义的 groupId 和 artifactId 相吻合。一般来说，项目中 Java 类的包都应该基于项目的 groupId 和 artifactId，这样更加清晰，更加符合逻辑，也方便搜索构件或者 Java 类。 代码编写完毕后，我们使用 Maven 进行编译，在项目根目录下运行命令 `mvn clean compile` 即可。Maven 首先执行了clean:clean 任务，删除 target/ 目录，默认情况下 Maven 构建的所有输出都在 target/ 目录中；接着执行 resources:resources 任务（未定义项目资源，暂且略过）；最后执行 compiler:compile 任务，将项目主代码编译至 target/classes 目录(编译好的类为 com/wx/mvn/helloworld/HelloWorld.Class）。
+我们需要在pom文件中进行如下配置：
 
-## 仓库配置
+``` xml
+...
+   <resources>
+     <resource>
+       <directory>src/my-resources</directory>
+     </resource>
+   </resources>
+...
+```
 
-![](http://hengyunabc.github.io/img/maven-repositories.png)
 
-下面介绍一些 Maven 仓库工作的原理。典型的一个 Maven依赖下会有这三个文件：
+
+譬如如果我们要用Maven构建一个Web项目，会在src/main目录下构建一个
+
+## 选择包含或者忽视文件或者目录
+
+``` xml
+<project>
+  ...
+  <name>My Resources Plugin Practice Project</name>
+  ...
+  <build>
+    ...
+    <resources>
+      <resource>
+        <directory>src/my-resources</directory>
+        <excludes>
+          <exclude>**/*.bmp</exclude>
+          <exclude>**/*.jpg</exclude>
+          <exclude>**/*.jpeg</exclude>
+          <exclude>**/*.gif</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/my-resources2</directory>
+        <includes>
+          <include>**/*.txt</include>
+        </includes>
+        <excludes>
+          <exclude>**/*test*.*</exclude>
+        </excludes>
+      </resource>
+      ...
+    </resources>
+    ...
+  </build>
+  ...
+</project>
 ```
-maven-metadata.xml
-maven-metadata.xml.md5
-maven-metadata.xml.sha1
-```
-maven-metadata.xml里面记录了最后deploy的版本和时间。
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<metadata modelVersion="1.1.0">
-  <groupId>io.github.hengyunabc</groupId>
-  <artifactId>mybatis-ehcache-spring</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <versioning>
-    <snapshot>
-      <timestamp>20150804.095005</timestamp>
-      <buildNumber>1</buildNumber>
-    </snapshot>
-    <lastUpdated>20150804095005</lastUpdated>
-  </versioning>
-</metadata>
-```
-其中 md5, sha1 校验文件是用来保证这个 meta 文件的完整性。Maven 在编绎项目时，会先尝试请求 maven-metadata.xml，如果没有找到，则会直接尝试请求到jar文件，在下载 jar 文件时也会尝试下载 jar 的 md5, sha1 文件。Maven 的 repository 并没有优先级的配置，也不能单独为某些依赖配置 repository。所以如果项目配置了多个repository，在首次编绎时，会依次尝试下载依赖。如果没有找到，尝试下一个，整个流程会很长。所以尽量多个依赖放同一个仓库，不要每个项目都有一个自己的仓库。如果想要使用本地file仓库里，在项目的pom.xml里配置，如：
-```
-<repositories>
-       <repository>
-           <id>hengyunabc-maven-repo</id>
-           <url>file:/home/hengyunabc/code/maven-repo/repository/</url>
-       </repository>
-</repositories>
-```
+
+## Filter：过滤与内容替换
