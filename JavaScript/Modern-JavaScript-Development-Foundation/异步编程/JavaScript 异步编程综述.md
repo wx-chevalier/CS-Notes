@@ -190,6 +190,18 @@ function asyncTask () {  
 }
 ```
 
+```js
+var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
+
+// Promise syntax
+var prom = wait(2000)  // prom, is a promise
+var showdone = ()=>console.warn('done')
+prom.then(showdone)
+// same thing, using await syntax
+await wait(2000)
+console.warn('done')
+```
+
 ## 多函数调用
 
 
