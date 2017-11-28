@@ -1,10 +1,11 @@
 [![返回目录](https://parg.co/USw)](https://parg.co/bxN) 
  
- 
- 
 # 现代 JavaScript 开发
 
-# ECMAScript 的过去、现在与未来
+JavaScript 是典型的解释型语言，其需要运行在某个容器内：该容器首先将 JavaScript 代码转化为可执行的命令（语法解析以及 JIT），然后注入某些全局变量以允许 JavaScript 与外部进行交互。所谓的 JavaScript 引擎（Engine）就是负责解析与编译，将 JavaScript 脚本转化为机器理解的命令；而 JavaScript 运行时（Runtime）这是提供了程序运行期间能够访问的内建库。譬如在浏览器中运行的代码，能够访问 Window 对象或者 DOM API，其就是由浏览器的 JavaScript 运行时提供的。而 Node.js 提供的运行时则包含了不同的库，譬如 Cluster 或者文件系统接口等等。所有的运行时都会包含基础的数据类型以及常见的 Console 对象这样的工具库。我们可以认为 Chrome 与 Node.js 共用相同的 Google V8 引擎，而拥有不同的运行时。
+
+
+# ECMAScript 的过去、现在与未来
 
 WTF is ECMAScript?
 
