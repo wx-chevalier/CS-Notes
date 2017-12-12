@@ -1,4 +1,4 @@
-﻿[TOC]
+﻿ 
 
 
 
@@ -31,7 +31,7 @@ Sheel , 变量值将丢失）。
  
 ## Reference
 
-- [听说你会 Python ？ ](http://manjusaka.itscoder.com/2016/11/18/Someone-tell-me-that-you-think-Python-is-simple/?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
+- [听说你会 Python ？ ](http://manjusaka.itscoder.com/2016/11/18/Someone-tell-me-that-you-think-Python-is-simple/)
  
 ### Books
 
