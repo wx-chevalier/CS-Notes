@@ -228,3 +228,374 @@ Function.prototype.bind = function() {
 
 };
 ```
+
+# JavaScript this
+
+在 Java 等面向对象的语言中，this 关键字的含义是明确且具体的，即指代当前对象。一般在编译期确定下来，或称为编译期绑定。而在 JavaScript 中，this 是动态绑定，或称为运行期绑定的，这就导致 JavaScript 中的 this 关键字有能力具备多重含义，变得有点随意。而在 ES6 中又引入了 Arrow Function 以及 Class，它们对于 this 指针也带来了一定的影响。
+
+## Default this: 默认情况下 this 的指向
+
+### Global Context( 全局上下文 )
+
+在任何函数之外的全局环境中，不管在不在 strict 模式中，this 指针往往指向一个全局变量。
+
+```javascript
+console.log(this.document === document); // true
+
+// In web browsers, the window object is also the global object:
+console.log(this === window); // true
+
+this.a = 37;
+console.log(window.a); // 37
+```
+
+### Simple Function Context( 简单函数上下文 )
+
+在某个函数中，this 的值取决于该函数的调用者。无论是用`hello("world”)`还是 call 这种方式，都取决于传入该函数的对象。不过，在 ES5 的严格或者不严格模式下，同样的调用方式会有不同的结果。
+
+```javascript
+function hello(thing) {
+  console.log("Hello " + thing);
+}
+
+// this:
+hello("world");
+
+// 编译为
+hello.call(window, "world");
+```
+
+而如果是 strict 模式下：
+
+```javascript
+// this:
+hello("world");
+
+// 编译为
+hello.call(undefined, "world");
+```
+
+### DOM Event handler(DOM 事件 )
+
+当某个函数作为事件监听器时，它的 this 值往往被设置为它的调用者。
+
+```javascript
+// When called as a listener, turns the related element blue
+function bluify(e){
+  // Always true
+  console.log(this === e.currentTarget);
+  // true when currentTarget and target are the same object
+  console.log(this === e.target);
+  this.style.backgroundColor = '#A5D9F3';
+}
+
+// Get a list of every element in the document
+var elements = document.getElementsByTagName('*');
+
+// Add bluify as a click listener so when the
+// element is clicked on, it turns blue
+for(var i=0  i<elements.length  i++){
+  elements[i].addEventListener('click', bluify, false);
+}
+```
+
+如果是行内的事件监听者，this 指针会被设置为其所在的 DOM 元素：
+
+```javascript
+<button onclick="alert(this.tagName.toLowerCase());">Show this</button>;
+```
+
+## Manual Setting: 手动指定 this
+
+### Closures( 闭包 )
+
+```javascript
+var asyncFunction = (param, callback) => {
+  window.setTimeout(() => {
+    callback(param);
+  }, 1);
+};
+
+// Define a reference to `this` outside of the callback,
+// but within the callback's lexical scope
+var o = {
+  doSomething: function() {
+    var self = this;
+    // Here we pass `o` into the async function,
+    // expecting it back as `param`
+    asyncFunction(o, function(param) {
+      console.log("param === this?", param === self);
+    });
+  }
+};
+
+o.doSomething(); // param === this? true
+```
+
+### 对象方法
+
+如果将某个方法设置为 Object 的一个属性，并且作为对象方法进行调用时，那么方法中的 this 指针会默认指向该 Object。
+
+```javascript
+function hello(thing) {
+  console.log(this + " says hello " + thing);
+}
+
+person = { name: "Brendan Eich" };
+person.hello = hello;
+
+person.hello("world"); // still desugars to person.hello.call(person, "world") [object Object] says hello world
+
+hello("world"); // "[object DOMWindow]world"
+```
+
+这种效果等效于使用 apply/call 进行调用。
+
+### call/apply: 运行时指定
+
+```
+var Cat = function (name) {
+    this.name = name;
+}
+var Dog = function (name) {
+    this.name = name;
+}
+Cat.prototype.sayHi = function () {
+    console.log(`${this.name} meows loudly!`);
+};
+Dog.prototype.sayHi = function () {
+    console.log(`${this.name} barks excitedly!`);
+};
+var whiskers = new Cat('whiskers');
+var fluffybottom = new Dog('fluffy bottom');
+whiskers.sayHi(); // => whiskers meows loudly!
+fluffybottom.sayHi(); // => fluffy bottom barks excitedly!
+Cat.prototype.sayHi.call(fluffybottom); // => fluffy bottom meows loudly!
+whiskers.sayHi.call(fluffybottom); // => fluffy bottom meows loudly!
+Dog.prototype.sayHi.call(whiskers); // => whiskers barks excitedly!
+fluffybottom.sayHi.call(whiskers);  // => whiskers barks excitedly!
+```
+
+### bind: 绑定
+
+```js
+                    +-------------------+-------------------+
+                    |                  |                  |
+                    |      time of      |      time of    |
+                    |function execution |    this binding  |
+                    |                  |                  |
++-------------------+-------------------+-------------------+
+|                  |                  |                  |
+|  function object  |      future      |      future      |
+|        f        |                  |                  |
+|                  |                  |                  |
++-------------------+-------------------+-------------------+
+|                  |                  |                  |
+|  function call  |      now        |        now        |
+|        f()        |                  |                  |
+|                  |                  |                  |
++-------------------+-------------------+-------------------+
+|                  |                  |                  |
+|    f.call()      |      now        |        now        |
+|    f.apply()    |                  |                  |
+|                  |                  |                  |
++-------------------+-------------------+-------------------+
+|                  |                  |                  |
+|    f.bind()      |      future      |        now        |
+|                  |                  |                  |
++-------------------+-------------------+-------------------+
+```
+
+很多时候，需要为某个函数指定一个固定的 this 对象，最简单的方式即是使用闭包来获取一个不变的 this 对象。 bind 函数的官方解释为：
+
+> The `bind()` method creates a new function that, when called, has its `this` keyword set to the provided value, with a given sequence of arguments preceding any provided when the new function is called.
+
+其作用可以用下面一个例子进行说明：
+
+```javascript
+this.x = 9;
+var module = {
+  x: 81,
+  getX: function() {
+    return this.x;
+  }
+};
+
+module.getX(); // 81
+
+var getX = module.getX;
+getX(); // 9, because in this case, "this" refers to the global object
+
+// Create a new function with 'this' bound to module
+var boundGetX = getX.bind(module);
+boundGetX(); // 81
+```
+
+bind 方法在 React 中应用的比较广泛，因为 React 声明方程时往往要绑定到 this 指针上。然而在异步编程中，this 指针极有可能指向错误，譬如：
+
+```javascript
+var myObj = {
+  specialFunction: function() {},
+
+  anotherSpecialFunction: function() {},
+
+  getAsyncData: function(cb) {
+    cb();
+  },
+
+  render: function() {
+    var that = this;
+    this.getAsyncData(function() {
+      that.specialFunction();
+      that.anotherSpecialFunction();
+    });
+  }
+};
+
+myObj.render();
+```
+
+如果在 getAsyncData 这个异步方程中调用`that.specialFunction();`，是会得到如下的错误显示：
+
+> Uncaught TypeError: Object [object global] has no method 'specialFunction'
+
+可以将代码以如下方式重写：
+
+```javascript
+render: function () {
+
+    this.getAsyncData(function () {
+
+        this.specialFunction();
+
+        this.anotherSpecialFunction();
+
+    }.bind(this));
+
+}
+```
+
+bind 方程的支持情况如下：
+
+| Browser           | Version support |
+| ----------------- | --------------- |
+| Chrome            | 7               |
+| Firefox (Gecko)   | 4.0 (2)         |
+| Internet Explorer | 9               |
+| Opera             | 11.60           |
+| Safari            | 5.1.4           |
+
+```javascript
+var person = {
+  name: "Brendan Eich",
+  hello: function(thing) {
+    console.log(this.name + " says hello " + thing);
+  }
+};
+
+var boundHello = function(thing) {
+  return person.hello.call(person, thing);
+};
+
+boundHello("world");
+```
+
+不过，这种方式仍然存在着一定的问题，ES5 为 Function 对象引入了一个新的 bind 方法来解决这个问题。bind() 方法会创建一个新函数，当这个新函数被调用时，它的 this 值是传递给 bind() 的第一个参数 , 它的参数是 bind() 的其他参数和其原本的参数。
+
+```
+fun.bind(thisArg[, arg1[, arg2[, ...]]])
+```
+
+* thisArg 当绑定函数被调用时，该参数会作为原函数运行时的 this 指向。当使用 new 操作符调用绑定函数时，该参数无效。
+* arg1, arg2, ... 当绑定函数被调用时，这些参数加上绑定函数本身的参数会按照顺序作为原函数运行时的参数。
+
+```javascript
+var boundHello = person.hello.bind(person);
+boundHello("world"); // "Brendan Eich says hello world"
+```
+
+这种方式在设置回调函数中的 this 指针的时候会起到很大的作用，特别是在 React 中，为了保证指针的稳定性，往往需要为内置方法设置 bind。
+
+```javascript
+var person = {
+  name: "Alex Russell",
+  hello: function() {
+    console.log(this.name + " says hello world");
+  }
+};
+
+$("#some-div").click(person.hello.bind(person));
+
+// when the div is clicked, "Alex Russell says hello world" is printed
+```
+
+```javascript
+var asyncFunction = (param, callback) => {
+  window.setTimeout(() => {
+    callback(param);
+  }, 1);
+};
+
+// Here we control the context of the callback using
+// `bind` ensuring `this` is correct
+var o = {
+  doSomething: function() {
+    // Here we pass `o` into the async function,
+    // expecting it back as `param`
+    asyncFunction(
+      o,
+      function(param) {
+        console.log("param === this?", param === this);
+      }.bind(this)
+    );
+  }
+};
+
+o.doSomething(); // param === this? true
+```
+
+还有一个类似的实例是 array.forEach，在这样一个回调函数中，回调函数的 this 指针是由调用者决定的，完整的 forEach 声明如下：**array.forEach(callback[, thisArg])**，这个传入的 thisArg 即是回调的调用者。
+
+```javascript
+var o = {
+  v: "hello",
+  p: ["a1", "a2"],
+  f: function f() {
+    this.p.forEach(function(item) {
+      console.log(this.v + " " + item);
+    });
+  }
+};
+
+o.f();
+//undefined a1
+//undefined a2
+```
+
+### Arrow Function 绑定
+
+在 ECMAScript 中使用 Arrow Function 时候，会在创建该 Function 的时候即在创建时就被绑定到了闭合的作用域内，不会收到 new、bind 、 call 以及 apply 这些方法的影响。
+
+```javascript
+var asyncFunction = (param, callback) => {
+  window.setTimeout(() => {
+    callback(param);
+  }, 1);
+};
+
+var o = {
+  doSomething: function() {
+    // Here we pass `o` into the async function,
+    // expecting it back as `param`.
+    //
+    // Because this arrow function is created within
+    // the scope of `doSomething` it is bound to this
+    // lexical scope.
+    asyncFunction(o, param => {
+      console.log("param === this?", param === this);
+    });
+  }
+};
+
+o.doSomething(); // param === this? true
+```
