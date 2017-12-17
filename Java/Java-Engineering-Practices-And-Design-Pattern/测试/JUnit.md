@@ -17,7 +17,7 @@ public void testMultiply() {
 ![](http://p.blog.csdn.net/images/p_blog_csdn_net/andycpp/241426/o_JUnit8.jpg)
 
 # JUnit
-> - [unit-tests-rules-annotations-resources](http://www.thedroidsonroids.com/blog/android/unit-tests-rules-annotations-resources/)
+- [unit-tests-rules-annotations-resources](http://www.thedroidsonroids.com/blog/android/unit-tests-rules-annotations-resources/)
 
 - @Test (expected = Exception.class)       表示预期会抛出Exception.class 的异常
 - @Ignore 含义是“某些方法尚未完成，暂不参与此次测试”。这样的话测试结果就会提示你有几个测试被忽略，而不是失败。一旦你完成了相应函数，只需要把@Ignore注解删去，就可以进行正常的测试。

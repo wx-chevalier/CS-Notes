@@ -2,7 +2,7 @@
 
 # Jackson
 
-> - [jackson-databind文档](https://github.com/FasterXML/jackson-databind)
+- [jackson-databind文档](https://github.com/FasterXML/jackson-databind)
 
 Jackson可以轻松的将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象。在项目中如果要引入Jackson，可以直接利用Maven或者Gradle引入：
 ```

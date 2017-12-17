@@ -56,7 +56,7 @@ List<Map.Entry<String,String>> mappingList = null;
 ``` 
 
 # HashMap
-> - [Java HashMap原理解析](https://github.com/HelloListen/Secret/blob/master/content/post/2016/05/java-hashmap-hashcode-hash.md)
+- [Java HashMap原理解析](https://github.com/HelloListen/Secret/blob/master/content/post/2016/05/java-hashmap-hashcode-hash.md)
 
 ## Index&Traversal:索引遍历
 ### 排序:Sort

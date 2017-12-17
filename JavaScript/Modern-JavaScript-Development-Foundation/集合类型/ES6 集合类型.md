@@ -26,7 +26,7 @@ ws.add({ data: 42 });
 // Because the added object has no other references, it will not be held in the set
 ```
 
-> * [Maps,Sets And Iterators in JavaScript](http://bjorn.tipling.com/maps-sets-and-iterators-in-javascript)
+>[Maps,Sets And Iterators in JavaScript](http://bjorn.tipling.com/maps-sets-and-iterators-in-javascript)
 
 # Map
 

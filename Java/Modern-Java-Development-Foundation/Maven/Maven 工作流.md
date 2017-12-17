@@ -409,7 +409,7 @@ weblogic上，允许多个app，把共用的jar包按约定打包成一个war文
 
 # Distribution
 ## DistributionManagement
-> - [maven-deploy-plugin](https://maven.apache.org/plugins/maven-deploy-plugin/)
+- [maven-deploy-plugin](https://maven.apache.org/plugins/maven-deploy-plugin/)
 
 - [deploy:deploy](https://maven.apache.org/plugins/maven-deploy-plugin/deploy-mojo.html) is used to automatically install the artifact, its pom and the attached artifacts produced by a particular project. Most if not all of the information related to the deployment is stored in the project's pom.
 - [deploy:deploy-file](https://maven.apache.org/plugins/maven-deploy-plugin/deploy-file-mojo.html) is used to install a single artifact along with its pom. In that case the artifact information can be taken from an optionally specified pomFile, but can be completed/overriden using the command line.
@@ -471,7 +471,7 @@ git push origin master
 
 > 参考资料
 > 
-> - [Maven单元测试][1]
+- [Maven单元测试][1]
 
 Maven本身并不是一个单元测试框架，它只是在构建执行到特定生命周期阶段的时候，通过插件来执行JUnit或者TestNG的测试用例。这个插件就是maven-surefire-plugin，也可以称为测试运行器(Test Runner)，它能兼容JUnit 3、JUnit 4以及TestNG。在默认情况下，maven-surefire-plugin的test目标会自动执行测试源码路径（默认为src/test/java/）下所有符合一组命名模式的测试类。这组模式为：
 

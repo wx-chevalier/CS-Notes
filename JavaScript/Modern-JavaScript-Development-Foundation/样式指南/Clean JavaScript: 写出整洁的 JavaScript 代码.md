@@ -2015,9 +2015,9 @@ getdata()
 
 > 延伸阅读
 >
-> * [知乎专栏：某熊的全栈之路](https://zhuanlan.zhihu.com/wxyyxc1992)
-> * [知乎专栏：前端当自强](https://zhuanlan.zhihu.com/c_67532981)
-> * [知乎专栏：lotuc 的编程之路](https://zhuanlan.zhihu.com/lotuc)
-> * [2016- 我的技术之路 : 编程知识体系结构](https://zhuanlan.zhihu.com/p/24476917?refer=wxyyxc1992)
-> * [2016- 我的前端之路 : 工具化与工程化](https://zhuanlan.zhihu.com/p/24575395?refer=wxyyxc1992)
-> * [某熊周刊系列 : 一周推荐外文技术资料 (12.1)](https://zhuanlan.zhihu.com/p/24516669?refer=wxyyxc1992)
+>[知乎专栏：某熊的全栈之路](https://zhuanlan.zhihu.com/wxyyxc1992)
+>[知乎专栏：前端当自强](https://zhuanlan.zhihu.com/c_67532981)
+>[知乎专栏：lotuc 的编程之路](https://zhuanlan.zhihu.com/lotuc)
+>[2016- 我的技术之路 : 编程知识体系结构](https://zhuanlan.zhihu.com/p/24476917?refer=wxyyxc1992)
+>[2016- 我的前端之路 : 工具化与工程化](https://zhuanlan.zhihu.com/p/24575395?refer=wxyyxc1992)
+>[某熊周刊系列 : 一周推荐外文技术资料 (12.1)](https://zhuanlan.zhihu.com/p/24516669?refer=wxyyxc1992)

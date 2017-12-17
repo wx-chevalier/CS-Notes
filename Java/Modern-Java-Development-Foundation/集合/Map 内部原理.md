@@ -1,7 +1,7 @@
 
-> - [Java8系列之重新认识HashMap](http://www.importnew.com/20386.html)
+- [Java8系列之重新认识HashMap](http://www.importnew.com/20386.html)
 # Java 8 Enhancement
-> - [hashmap-changes-in-java-8/](https://examples.javacodegeeks.com/core-java/util/hashmap/hashmap-changes-in-java-8/)
+- [hashmap-changes-in-java-8/](https://examples.javacodegeeks.com/core-java/util/hashmap/hashmap-changes-in-java-8/)
 
 ## Performance Benchmark
 HashMap中，如果key经过hash算法得出的数组索引位置全部不相同，即Hash算法非常好，那样的话，getKey方法的时间复杂度就是 O(1)，如果Hash算法技术的结果碰撞非常多，假如Hash算极其差，所有的Hash算法结果得出的索引位置一样，那样所有的键值对都集中到一个桶 中，或者在一个链表中，或者在一个红黑树中，时间复杂度分别为O(n)和O(lgn)。 鉴于JDK1.8做了多方面的优化，总体性能优于JDK1.7，下面我们从两个方面用例子证明这一点。
@@ -395,6 +395,6 @@ e.next = newTable[i] 导致 key(3).next 指向了 key(7)。注意：此时的key
 ![](http://tech.meituan.com/img/java-hashmap/jdk1.7%20hashMap%E6%AD%BB%E5%BE%AA%E7%8E%AF%E4%BE%8B%E5%9B%BE4.png)
 于是，当我们用线程一调用map.get(11)时，悲剧就出现了——Infinite Loop。
 
-> - [LinkedHashMap原理解析](http://uule.iteye.com/blog/1522291)
+- [LinkedHashMap原理解析](http://uule.iteye.com/blog/1522291)
 
 笔者在做途牛的笔试题时，遇见了某个问题就是说如何优化HashMap使其能够记录数据的插入顺序，那么最优的方法肯定就是根据Java自带的LinkedHashMap。
