@@ -1,4 +1,4 @@
-[toc]
+
 # Introduction
 在传统的网络服务器的构建中，IO模式会按照Blocking/Non-Blocking、Synchronous/Asynchronous这两个标准进行分类，其中Blocking与Synchronous基本上一个意思，而NIO与Async的区别在于NIO强调的是Polling(轮询)，而Async强调的是Notification(通知)。譬如在一个典型的单进程单线程Socket接口中，阻塞型的接口必须在上一个Socket连接关闭之后才能接入下一个Socket连接。而对于NIO的Socket而言，Server Application会从内核获取到一个特殊的"Would Block"错误信息，但是并不会阻塞到等待发起请求的Socket Client停止。一般来说，在Linux系统中可以通过调用独立的`select`或者`poll`方法来遍历所有读取好的数据，并且进行写操作。而对于异步Socket而言(譬如Windows中的Sockets或者.Net中实现的Sockets模型)，Server Application会告诉IO Framework去读取某个Socket数据，在数据读取完毕之后IO Framework会自动地调用你的回调(也就是通知应用程序本身数据已经准备好了)。以IO多路复用中的Reactor与Proactor模型为例，非阻塞的模型是需要应用程序本身处理IO的，而异步模型则是由Kernel或者Framework将数据准备好读入缓冲区中，应用程序直接从缓冲区读取数据。
 总结一下：

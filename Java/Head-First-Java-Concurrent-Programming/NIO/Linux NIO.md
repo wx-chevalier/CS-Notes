@@ -184,7 +184,7 @@ events可以是以下几个宏的集合：
 ```
 
 ## Demo
-> 本部分代码实现参考[可能是最接地气的 IO 多路复用小结](https://mengkang.net/726.html?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
+> 本部分代码实现参考[可能是最接地气的 IO 多路复用小结](https://mengkang.net/726.html)
 
 ### 阻塞式网络编程接口
 ```
