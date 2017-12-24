@@ -1,4 +1,4 @@
-﻿.wiz-todo, .wiz-todo-img {width: 16px; height: 16px; cursor: default; padding: 0 10px 0 2px; vertical-align: -10%;-webkit-user-select: none;} .wiz-todo-label { display: inline-block; padding-top: 7px; padding-bottom: 6px; line-height: 1.5;} .wiz-todo-label-checked { /*text-decoration: line-through;*/ color: #666;} .wiz-todo-label-unchecked {text-decoration: initial;} .wiz-todo-completed-info {padding-left: 44px; display: inline-block; } .wiz-todo-avatar { width:20px; height: 20px; vertical-align: -20%; margin-right:10px; border-radius: 2px;} .wiz-todo-account, .wiz-todo-dt { color: #666; }## You don't (may not) need Lodash/Underscore 
+﻿## You don't (may not) need Lodash/Underscore 
 
 Lodash 和 Underscore 是非常优秀的当代JavaScript的工具集合框架，它们被前端开发者广泛地使用。但是，当我们现在是针对现代化浏览器进行开发时，很多时候我们利用的Underscore中的方法已经被ES5与ES6所支持了，如果我们希望我们的项目尽可能地减少依赖的话，我们可以根据目标浏览器来选择不用Lodash或者Underscore。
 
