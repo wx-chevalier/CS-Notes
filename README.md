@@ -6,26 +6,29 @@
 
 本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记，主要分为以下几个方面：
 
-* JavaScript
+---
 
-  * [现代 JavaScript 开发：语法基础与工程实践](./JavaScript/Modern-JavaScript-Development-Foundation)
-
-* Java
-
-  * [现代 Java 开发基础](./Java/Modern-Java-Development-Foundation)
-  * [Java 工程实践与设计模式](./Java/Java-Engineering-Practices-And-Design-Pattern)
-  * [深入浅出 Java 并发编程](./Java/Head-First-Java-Concurrent-Programming)
-  * [JVM 内部原理与性能调优](./Java/JVM-And-Performance-Tunning)
-
-* Python
-
-  * [现代 Python 开发：语法基础与工程实践](./Python/Modern-Python-Development-Foundation)
-
-* Rust
-
-  * [Rust in Action](./Rust/Rust-In-Action)
+✨ 文章/随笔
 
 * [编程语言理论指南](./ProgrammingLanguage-Theory-Primer)
+
+* [现代 JavaScript 开发：语法基础与工程实践](./JavaScript/Modern-JavaScript-Development-Foundation)
+
+* [现代 Java 开发基础](./Java/Modern-Java-Development-Foundation)
+
+* [Java 工程实践与设计模式](./Java/Java-Engineering-Practices-And-Design-Pattern)
+
+* [深入浅出 Java 并发编程](./Java/Head-First-Java-Concurrent-Programming)
+
+* [JVM 内部原理与性能调优](./Java/JVM-And-Performance-Tunning)
+
+* [现代 Python 开发：语法基础与工程实践](./Python/Modern-Python-Development-Foundation)
+
+* [Rust in Action](./Rust/Rust-In-Action)
+
+---
+
+✨ 开源项目/工具
 
 # 关于
 
