@@ -12,6 +12,8 @@ JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO G
 
 我喜爱这门语言，所以我希望能够以绵薄之力让更多的人无痛地使用它。
 
+Next Milestone: 0.1
+
 ## 参考
 
 * [Collection of helpful tips and tricks for VS Code.](https://github.com/Microsoft/vscode-tips-and-tricks)
