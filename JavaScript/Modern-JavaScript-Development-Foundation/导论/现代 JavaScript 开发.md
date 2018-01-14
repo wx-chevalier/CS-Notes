@@ -119,6 +119,12 @@ Handler Table (size = 16)
 
 ![](https://parg.co/UOA)
 
-# Babel 与 TypeScript
+# JIT
+
+# 语法增强
+
+## 类型转换
 
 Webpack、Fuse 、 Rollup、Browserify
+
+## 静态类型
