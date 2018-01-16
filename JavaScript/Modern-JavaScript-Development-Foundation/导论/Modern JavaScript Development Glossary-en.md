@@ -15,6 +15,10 @@ Initially, JavaScript was an interpreted language, making the startup phase fast
 
 In the decade of 2000, technologies like Ajax made web applications been more dynamic, Gmail in 2004 and Google Maps in 2005 was a trending on this use case of Ajax technology. This new “way” of building web applications end up with more logic written on the client side. In 2008 with the appearance of Google and it’s engine V8 which compiled all JavaScript code into bytecode right away.
 
+In computing, just-in-time (JIT) compilation, also known as dynamic translation, is a way of executing computer code that involves compilation during execution of a program – at run time – rather than prior to execution.
+
+Most often this consists of source code or more commonly bytecode translation to machine code, which is then executed directly. A system implementing a JIT compiler typically continuously analyses the code being executed and identifies parts of the code where the speedup gained from compilation or recompilation would outweigh the overhead of compiling that code.
+
 In summary, the phases of JIT compiler could be described as:
 
 * Parse
@@ -49,6 +53,8 @@ function sum(x, y) {
 When profiler marks a piece of code as warm, the JIT sends this code to the baseline compiler, which creates a stub for this part of code while the profiler keeps collecting data regarding the frequency and types used on this code section (among other data). When this code section is executed (on our hypothetical example return x + y;), the JIT only needs to take this compiled piece again. When a warm code is called several times in the same manner (like same types), it’s marked as hot.
 
 ## Optimizer Compiler
+
+JIT 本身并不能带来必然的性能优化
 
 The optimizer compiler generates an even faster version of this code, which is marked as hot. It is only possible based on some assumptions that the optimizer compiler makes like the type of the variables or the shape of objects used in this code. On our example, we can say that a hot code of return x + y; will assume that both x and y are typed as anumber.
 
