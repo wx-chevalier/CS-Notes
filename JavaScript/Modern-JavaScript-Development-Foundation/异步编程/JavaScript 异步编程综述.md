@@ -1,21 +1,21 @@
 [![返回目录](https://parg.co/USw)](https://parg.co/bxN)
 
-[![](https://parg.co/UYU)](https://parg.co/bxN)
-
 # JavaScript 异步编程
 
 异步函数语法在其他语言中存在已久，就像 C# 中的 async/await、Kotlin 中的 coroutines、Go 中的 goroutines；而随着 Node.js 8 的发布，async/await 语法也得到了原生支持而不再需要依赖于 Babel 等转化工具。
 
-```
-var start = new Date;
-setTimeout(function(){
-var end = new Date;
-   console.log('Time elapsed:', end - start, 'ms');
+```js
+var start = new Date();
+setTimeout(function() {
+  var end = new Date();
+  console.log("Time elapsed:", end - start, "ms");
 }, 500);
-while (new Date - start < 1000) {};
+while (new Date() - start < 1000) {}
 ```
 
-# 回调
+![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/6/1/async.png)
+
+# Callback: 回调
 
 ## 事件监听
 
@@ -250,15 +250,13 @@ promise.then((value)=>{
 
 # async/await
 
-![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/6/1/async.png)
-
-```
-function asyncTask () {
-  return functionA()
-    .then((valueA) => functionB(valueA))
-    .then((valueB) => functionC(valueB))
-    .then((valueC) => functionD(valueC))
-    .catch((err) => logger.error(err))
+```js
+function asyncTask() {
+  return functionA()
+    .then(valueA => functionB(valueA))
+    .then(valueB => functionC(valueB))
+    .then(valueC => functionD(valueC))
+    .catch(err => logger.error(err));
 }
 ```
 
@@ -298,6 +296,32 @@ async function executeParallelAsyncTasks () {
 ## 异常处理
 
 引入[此文](https://blog.lavrton.com/javascript-loops-how-to-handle-async-await-6252dd3c795)中对于 async/await 的循环的写法
+
+```js
+async function waitAndMaybeReject() {
+  // Wait one second
+  await new Promise(r => setTimeout(r, 1000));
+  // Toss a coin
+  const isHeads = Boolean(Math.round(Math.random()));
+
+  if (isHeads) return "yay";
+  throw Error("Boo!");
+}
+
+async function foo() {
+  try {
+    // Wait for the result of waitAndMaybeReject() to settle,
+    // and assign the fulfilled value to fulfilledValue:
+    const fulfilledValue = await waitAndMaybeReject();
+    // If the result of waitAndMaybeReject() rejects, our code
+    // throws, and we jump to the catch block.
+    // Otherwise, this block continues to run:
+    return fulfilledValue;
+  } catch (e) {
+    return "caught";
+  }
+}
+```
 
 Promises 是为了让异步代码也能保持这些同步代码的属性：扁平缩进和单异常管道。在 ES6 之前，存在着很多的 Promise 的支持库，譬如著名的 q 以及 jQuery 中都有着对于 Promise 模式的内在的实现。在 ES6 之后，笔者是推荐仅使用 ES6 提供的 Promise 对象。
 
