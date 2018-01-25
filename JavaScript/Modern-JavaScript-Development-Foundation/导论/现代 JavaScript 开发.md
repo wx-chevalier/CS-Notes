@@ -66,7 +66,15 @@ ECMAScript is a standard. JavaScript is the most popular implementation of that 
 
 [Node.js]() React Native、Weex
 
-# ECMAScript 的前世今生
+Stage 0 “strawman” — The starting point for all proposals. These can change significantly before advancing to the next stage. There is no acceptance criteria and anyone can make a new proposal for this stage. There doesn’t need to be any implementation and the spec isn’t held to any standard. This stage is intended to start a discussion about the feature. There are currently over twenty stage 0 proposals.
+
+Stage 1 “proposal” — An actual formal proposal. These require a “champion”(i.e. a member of TC39 committee). At this stage the API should be well thought out and any potential implementation challenges should be outlined. At this stage, a polyfill is developed and demos produced. Major changes might happen after this stage, so use with caution. Proposals at this stage include the long-awaited Observables type and the Promise.try function.
+
+Stage 2 “draft” — At this stage the syntax is precisely described using the formal TC39 spec language. Minor editorial changes might still happen after this stage, but the specification should be complete enough not to need major revisions. If a proposal makes it this far, it’s a good bet that the committee expects the feature to be included eventually.
+
+Stage 3 “candidate” — The proposal has approved and further changes will only occur at the request of implementation authors. Here is where you can expect implementation to begin in JavaScript engines. Polyfills for proposals at this stage are safe to use without worry.
+
+Stage 4 “finished” — Indicates that the proposal has been accepted and the specification has been merged with the main JavaScript spec. No further changes are expected. JavaScript engines are expected to ship their implementations. As of October 2017 there are nine finished proposals, most notably async functions.
 
 # 语法纵览
 
