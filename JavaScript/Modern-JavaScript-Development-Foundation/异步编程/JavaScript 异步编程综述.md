@@ -1,5 +1,7 @@
 [![返回目录](https://parg.co/USw)](https://parg.co/bxN)
 
+[Error Handling In Node/Javascript Sucks. Unless You Know this. 2018](https://parg.co/Uiy)
+
 # JavaScript 异步编程
 
 异步函数语法在其他语言中存在已久，就像 C# 中的 async/await、Kotlin 中的 coroutines、Go 中的 goroutines；而随着 Node.js 8 的发布，async/await 语法也得到了原生支持而不再需要依赖于 Babel 等转化工具。
@@ -534,4 +536,3 @@ function anAsyncCall() {
   });
 }
 ```
-
