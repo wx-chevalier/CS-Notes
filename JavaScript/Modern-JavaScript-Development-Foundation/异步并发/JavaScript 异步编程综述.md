@@ -1,10 +1,8 @@
 [![返回目录](https://parg.co/USw)](https://parg.co/bxN)
 
-[Error Handling In Node/Javascript Sucks. Unless You Know this. 2018](https://parg.co/Uiy)
-
 # JavaScript 异步编程
 
-异步函数语法在其他语言中存在已久，就像 C# 中的 async/await、Kotlin 中的 coroutines、Go 中的 goroutines；而随着 Node.js 8 的发布，async/await 语法也得到了原生支持而不再需要依赖于 Babel 等转化工具。
+异步函数语法在其他语言中存在已久，就像 C# 中的 async/await、Kotlin 中的 coroutines、Go 中的 goroutines；而随着 Node.js 8 的发布，async/await 语法也得到了原生支持而不再需要依赖于 Babel 等转化工具。 浏览器或者 Node.js 这样的 JavaScript Runtime
 
 ```js
 var start = new Date();
@@ -17,9 +15,11 @@ while (new Date() - start < 1000) {}
 
 ![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/6/1/async.png)
 
+[Error Handling In Node/Javascript Sucks. Unless You Know this. 2018](https://parg.co/Uiy)
+
 # Callback: 回调
 
-## 事件监听
+回调常用于事件监听中，
 
 ```js
 function processFile(inputFile) {
@@ -49,8 +49,6 @@ processFile("/path/to/a/input/file.txt");
 
 # Promise
 
-# Promise
-
 一个 Promise 应该会处于以下的几个状态中：
 
 * pending / Unfulfilled ：初始状态，没有完成或者拒绝
@@ -59,9 +57,7 @@ processFile("/path/to/a/input/file.txt");
 
 ## Promise Orchestration: 编排多个 Promise
 
-### Promise.all: 等待一组 Promise 结果
-
-```
+```js
 /*
  * promiseSerial resolves Promises sequentially.
  * @example
@@ -73,32 +69,34 @@ processFile("/path/to/a/input/file.txt");
  *   .catch(console.error)
  */
 const promiseSerial = funcs =>
-  funcs.reduce((promise, func) =>
-    promise.then(result => func().then(Array.prototype.concat.bind(result))),
-    Promise.resolve([]))
+  funcs.reduce(
+    (promise, func) =>
+      promise.then(result => func().then(Array.prototype.concat.bind(result))),
+    Promise.resolve([])
+  );
 
 // some url's to resolve
-const urls = ['/url1', '/url2', '/url3']
+const urls = ["/url1", "/url2", "/url3"];
 
 // convert each url to a function that returns a promise
-const funcs = urls.map(url => () => $.ajax(url))
+const funcs = urls.map(url => () => $.ajax(url));
 
 // execute Promises in serial
 promiseSerial(funcs)
   .then(console.log)
-  .catch(console.error)
+  .catch(console.error);
 ```
 
 ### Promise.race: 返回第一个确定状态
 
 race 函数返回一个 Promise，这个 Promise 根据传入的 Promise 中的第一个确定状态 -- 不管是接受还是拒绝 -- 的状态而确定状态。
 
-```
+```js
 var p1 = new Promise(function(resolve, reject) {
-    setTimeout(resolve, 500, "一");
+  setTimeout(resolve, 500, "一");
 });
 var p2 = new Promise(function(resolve, reject) {
-    setTimeout(resolve, 100, "二");
+  setTimeout(resolve, 100, "二");
 });
 
 Promise.race([p1, p2]).then(function(value) {
@@ -107,43 +105,47 @@ Promise.race([p1, p2]).then(function(value) {
 });
 
 var p3 = new Promise(function(resolve, reject) {
-    setTimeout(resolve, 100, "三");
+  setTimeout(resolve, 100, "三");
 });
 var p4 = new Promise(function(resolve, reject) {
-    setTimeout(reject, 500, "四");
+  setTimeout(reject, 500, "四");
 });
 
-Promise.race([p3, p4]).then(function(value) {
-  console.log(value); // "三"
-  // p3更快，所以被解决（resolve）了
-}, function(reason) {
-  // 未被执行
-});
+Promise.race([p3, p4]).then(
+  function(value) {
+    console.log(value); // "三"
+    // p3更快，所以被解决（resolve）了
+  },
+  function(reason) {
+    // 未被执行
+  }
+);
 
 var p5 = new Promise(function(resolve, reject) {
-    setTimeout(resolve, 500, "五");
+  setTimeout(resolve, 500, "五");
 });
 var p6 = new Promise(function(resolve, reject) {
-    setTimeout(reject, 100, "六");
+  setTimeout(reject, 100, "六");
 });
 
-Promise.race([p5, p6]).then(function(value) {
-  // 未被执行
-}, function(reason) {
-  console.log(reason); // "六"
-  // p6更快，所以被拒绝（reject了）
-});
+Promise.race([p5, p6]).then(
+  function(value) {
+    // 未被执行
+  },
+  function(reason) {
+    console.log(reason); // "六"
+    // p6更快，所以被拒绝（reject了）
+  }
+);
 ```
 
-```
-function executeAsyncTask () {
-  return functionA()
-    .then((valueA) => {
-      return functionB(valueA)
-        .then((valueB) => {
-          return functionC(valueA, valueB)
-        })
-    })
+```js
+function executeAsyncTask() {
+  return functionA().then(valueA => {
+    return functionB(valueA).then(valueB => {
+      return functionC(valueA, valueB);
+    });
+  });
 }
 ```
 
@@ -535,4 +537,55 @@ function anAsyncCall() {
     somethingComplicated();
   });
 }
+```
+
+[stage 4](https://github.com/tc39/proposal-promise-finally),
+
+```js
+let isLoading = true;
+
+fetch(myRequest)
+  .then(function(response) {
+    var contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      return response.json();
+    }
+    throw new TypeError("Oops, we haven't got JSON!");
+  })
+  .then(function(json) {
+    /* process your JSON further */
+  })
+  .catch(function(error) {
+    console.log(error);
+  })
+  .finally(function() {
+    isLoading = false;
+  });
+```
+
+```js
+// 不使用 finally
+showLoadingSpinner();
+fetch("data.json")
+  .then(data => {
+    renderContent(data);
+    hideLoadingSpinner();
+  })
+  .catch(error => {
+    displayError(error);
+    hideLoadingSpinner();
+  });
+
+// 使用 finally
+showLoadingSpinner();
+fetch("data.json")
+  .then(data => {
+    renderContent(data);
+  })
+  .catch(error => {
+    displayError(error);
+  })
+  .finally(() => {
+    hideLoadingSpinner();
+  });
 ```
