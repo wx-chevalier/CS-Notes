@@ -220,7 +220,7 @@ events 可以是以下几个宏的集合：
 
 ### select
 
-```
+```c
     #include <stdio.h>
     #include <stdlib.h>
     #include <unistd.h>
