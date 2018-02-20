@@ -33,6 +33,10 @@ JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO G
   * [现代 JavaScript 开发](./导论/现代%20JavaScript%20开发.md)
   * [JavaScript 编年史](./导论/JavaScript%20编年史.md)
 
-* [表达式与控制流](./表达式与控制流)
+* [表达式与变量](./表达式与变量)
 
-* [剖析 V8 引擎]()
+* [TypeScript](./TypeScript)
+
+  * [介绍配置与语法基础](./TypeScript/介绍配置与语法基础.md)
+
+* [剖析 V8 引擎](./剖析%20V8%20引擎)
