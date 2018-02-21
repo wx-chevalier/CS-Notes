@@ -1,31 +1,4 @@
-﻿# Introduction
-
-## Reference
-
-### Tutorials & Docs
-
-* [Go 语言编程模式](http://www.infoq.com/cn/news/2016/04/go-patterns)
-
-  ### Book & Resource
-
-* [awesome-go](https://github.com/avelino/awesome-go)
-
-* [深入解析 Go](https://tiancaiamao.gitbooks.io/go-internals/content/zh//)
-
-* [Go Web 编程](https://astaxie.gitbooks.io/build-web-application-with-golang/content/zh//)
-
-* [2016-webapp-with-golang-anti-textbook](https://drive.wps.cn/view/l/576006e7ef6c4c4e8fe19663ded5e944)
-  ### Practice & Tool
-  # Quick Start
-  ## Installation
-
-[Mac OSX 下 Go 语言开发环境的搭建与配置--使用 InteliJ IDEA 13](http://www.cnblogs.com/clivelee/p/3870186.html)
-
-### SDK
-
-### IDE
-
-## GOPATH & WorkSpace
+﻿## GOPATH & WorkSpace
 
 前面我们在安装 Go 的时候看到需要设置 GOPATH 变量，Go 从 1.1 版本开始必须设置这个变量，而且不能和 Go 的安装目录一样，这个目录用来存放 Go 源码，Go 的可运行文件，以及相应的编译之后的包文件。所以这个目录下面有三个子目录：src、bin、pkg
 
