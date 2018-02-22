@@ -4,31 +4,19 @@
 > Programmers who program “into” a language first decide what thoughts they want to express, and then they determine how to express those thoughts using the tools provided by their specific language.
 > -- Steve McConnell’s Code Complete
 
-本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记，主要分为以下几个方面：
+本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记，主要分为以下文章/随笔：
 
----
+* [ProgrammingLanguage Theory Primer/编程语言理论指南](./Theory)
 
-✨ 文章/随笔
+* [现代 JavaScript 语法基础与工程实践](./JavaScript): JavaScript 终于成为了一流(First Class)语言。
 
-* [编程语言理论指南](./ProgrammingLanguage-Theory-Primer)
+* [现代 Java 语法基础与工程实践](./Java): 面向对象，面向自己，鉴于内容较多，又细分为：[基础篇](./Java/Fundamentals)，[进阶篇](./Java/DevPractices)，[并发编程篇](./Java/ConcurrentProgramming)，[JVM 篇](./Java/JVM)。
 
-* [现代 JavaScript 开发：语法基础与工程实践](./JavaScript/Modern-JavaScript-Development-Foundation)
+* [现代 Python 语法基础与工程实践](./Python): 人生苦短，请用 Python。
 
-* [现代 Java 开发基础](./Java/Modern-Java-Development-Foundation)
+* [Go 语法基础与工程实践](./Rust): 简单易用，天然并发。
 
-* [Java 工程实践与设计模式](./Java/Java-Engineering-Practices-And-Design-Pattern)
-
-* [深入浅出 Java 并发编程](./Java/Head-First-Java-Concurrent-Programming)
-
-* [JVM 内部原理与性能调优](./Java/JVM-And-Performance-Tunning)
-
-* [现代 Python 开发：语法基础与工程实践](./Python/Modern-Python-Development-Foundation)
-
-* [Rust in Action](./Rust/Rust-In-Action)
-
----
-
-✨ 开源项目/工具
+* [Rust 语法基础与工程实践](./Rust): 安全不易学。
 
 # 关于
 
