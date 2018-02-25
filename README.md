@@ -1,7 +1,9 @@
 # 编程语言语法基础与工程实践
 
 > Programmers who program “in” a language limit their thoughts to constructs that the language directly supports. If the language tools are primitive, the programmer’s thoughts will also be primitive.
+
 > Programmers who program “into” a language first decide what thoughts they want to express, and then they determine how to express those thoughts using the tools provided by their specific language.
+
 > -- Steve McConnell’s Code Complete
 
 本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记，主要分为以下文章/随笔：
