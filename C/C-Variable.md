@@ -1,46 +1,45 @@
-﻿
+﻿# sizeof
 
-# sizeof
+sizeof 计算各种结构体类型的大小绝对是常考题目之一，其核心考点在于一个是简单的各基础类型的大小计算，二是对于复杂类型，譬如 struct，其会存在所谓对齐问题。下图列举了常见的基本类型的 sizeof 计算值与其自身对齐值:
 
+![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2016/9/1/5B5E464B-F95E-4505-93CB-3D00A5E9E96E.png)
 
-sizeof计算各种结构体类型的大小绝对是常考题目之一，其核心考点在于一个是简单的各基础类型的大小计算，二是对于复杂类型，譬如struct，其会存在所谓对齐问题。下图列举了常见的基本类型的sizeof计算值与其自身对齐值:
+sizeof 是 C 语言的一种单目操作符，如 C 语言的其他操作符++、--等。它并不是函数。sizeof 操作符以字节形式给出了其操作数的存储大小。操作数可以是一个表达式或括在括号内的类型名。操作数的存储大小由操作数的类型决定。
+sizeof 有 3 中语法形式,如下:
 
+- [sizeof](#sizeof)
+	- [基本数据类型](#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B)
+		- [void](#void)
+		- [数组](#%E6%95%B0%E7%BB%84)
+		- [表达式](#%E8%A1%A8%E8%BE%BE%E5%BC%8F)
+	- [复杂数据类型](#%E5%A4%8D%E6%9D%82%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B)
+		- [类与结构体](#%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%93)
+		- [Union](#union)
+	- [数据类型对齐](#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AF%B9%E9%BD%90)
+	- [真题分析](#%E7%9C%9F%E9%A2%98%E5%88%86%E6%9E%90)
 
-![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2016/9/1/5B5E464B-F95E-4505-93CB-3D00A5E9E96E.png) 
+sizeof 操作符不能用于函数类型，不完全类型或位字段。不完全类型指具有未知存储大小的数据类型，如未知存储大小的数组类型、未知内容的结构或联合类型、void 类型等。如 sizeof(max)若此时变量 max 定义为 int 　 max(),sizeof(char_v)　若此时 char_v 定义为 char 　 char_v 　[MAX]且 MAX 未知，sizeof(void)都不是正确形式。　　　 sizeof 操作符的一个主要用途是与存储分配和 I/O 系统那样的例程进行通信。例如：
 
-
-
-
-sizeof是C语言的一种单目操作符，如C语言的其他操作符++、--等。它并不是函数。sizeof操作符以字节形式给出了其操作数的存储大小。操作数可以是一个表达式或括在括号内的类型名。操作数的存储大小由操作数的类型决定。
-sizeof有3中语法形式,如下:
-- sizeof( object );//sizeof(对象);
-- sizeof( type_name ):sizeof(类型);
-- sizeof object;//sizeof 对象;
-
-
-sizeof操作符不能用于函数类型，不完全类型或位字段。不完全类型指具有未知存储大小的数据类型，如未知存储大小的数组类型、未知内容的结构或联合类型、void类型等。如sizeof(max)若此时变量max定义为int　max(),sizeof(char_v)　若此时char_v定义为char　char_v　[MAX]且MAX未知，sizeof(void)都不是正确形式。　　　sizeof操作符的一个主要用途是与存储分配和I/O系统那样的例程进行通信。例如：　
+```
+　　   void　*malloc（size_t　size）,
+　   　size_t　fread(void　*ptr, size_t　size, size_t　nmemb,FILE　*　stream)。
 ```
 
-　　   void　*malloc（size_t　size）,　
-　   　size_t　fread(void　*ptr, size_t　size, size_t　nmemb,FILE　*　stream)。　
-```
-sizeof的另一个的主要用途是计算数组中元素的个数。例如：　
-```
-　　   void　*　memset（void　*s,int　c,sizeof(s)）。　
-```
+sizeof 的另一个的主要用途是计算数组中元素的个数。例如：
 
+```
+　　   void　*　memset（void　*s,int　c,sizeof(s)）。
+```
 
 ## 基本数据类型
+
 ### void
-sizeof不能求得void类型的长度，sizeof能求得void类型的指针的长度。32位系统，sizeof(void*) 值为4，及32/8 = 4Byte。64位系统则为64/8 = 8Byte。
+
+sizeof 不能求得 void 类型的长度，sizeof 能求得 void 类型的指针的长度。32 位系统，sizeof(void\*) 值为 4，及 32/8 = 4Byte。64 位系统则为 64/8 = 8Byte。
 
 ### 数组
+
 ```
-
-
-
-
-
 char a[] = "abcd";　　//sizeof(a)值为5，字符串数组末尾有'\0'
 char b[10] = "abcd"; //sizeof(b)值为10
 int c[] = {1, 2, 3};   //sizeof(c)值为12，32位系统整型int的字节数为4Byte，因此4*3=12
@@ -50,11 +49,11 @@ void test1(int a[10])
     cout << sizeof(a) << endl;  // sizeof(a)值为4
 }
 int* a = new int(10);  //sizeof(a)值为4
-
 ```
+
 ### 表达式
-```
 
+```
 int n = 3, m = 4;
 	char a = 'a';
 	cout << sizeof(n+m) << endl;  // 4
@@ -65,77 +64,65 @@ int n = 3, m = 4;
 	cout << a << endl;  // a
 	cout << n << endl;  // 3
 ```
-sizeof返回的是表达式计算结果的类型大小，而不是表达式中占用最大内存的变量的类型大小！尽量不要在sizeof中直接对表达式求大小，以免出现错误，你可以将sizeof(ch = ch+num)；改写成 ch = ch +num;sizeof(ch);虽然多了一条语句，看似冗余了，其实好处多多。
+
+sizeof 返回的是表达式计算结果的类型大小，而不是表达式中占用最大内存的变量的类型大小！尽量不要在 sizeof 中直接对表达式求大小，以免出现错误，你可以将 sizeof(ch = ch+num)；改写成 ch = ch +num;sizeof(ch);虽然多了一条语句，看似冗余了，其实好处多多。
+
 ## 复杂数据类型
 
-
 ### 类与结构体
+
+```
+#pragma pack(1)
+struct test
+{
+    static int a; //static var
+    double m4;
+   char m1;
+   int m3;
+}
+#pragma pack () //恢复对齐状态
+
+
+
+//sizeof(test)=13;
+
+Class test1{ };
+//sizeof(test1)=1;
 ```
 
-#pragma pack(1)  
-struct test  
-{  
-    static int a; //static var  
-    double m4;  
-   char m1;  
-   int m3;  
-}  
-#pragma pack () //恢复对齐状态  
-
-
-
-//sizeof(test)=13;  
-  
-Class test1{ };  
-//sizeof(test1)=1;  
-```
-
-
-- 没有成员变量的结构或类的大小为1，因为必须保证结构或类的每一个实例在内存中都有唯一的地址。
-- 结构或者类中的静态成员不对结构或者类的大小产生影响，因为静态变量的存储位置与结构或者类的实例地址无关；
-
+-  没有成员变量的结构或类的大小为 1，因为必须保证结构或类的每一个实例在内存中都有唯一的地址。
+-  结构或者类中的静态成员不对结构或者类的大小产生影响，因为静态变量的存储位置与结构或者类的实例地址无关；
 
 ### Union
-```
 
+```
 union UBffer
 {
     long buffer; //8
     int number; // 4
 }ubuf;
 ```
-Union的大小取决于它所有的成员中，占用空间最大的一个成员的大小，所以这里的sizeof(ubuf)的值为8。
 
-
-
-
-
+Union 的大小取决于它所有的成员中，占用空间最大的一个成员的大小，所以这里的 sizeof(ubuf)的值为 8。
 
 ## 数据类型对齐
 
-
-sizeof求得的结构体(及其对象)的大小并不等于各个数据成员对象的大小之和，这是因为各个硬件平台对存储空间的处理上有很大不同。一些平台对某些特定类型的数据只能从某些特定地址开始存取。比如有些架构的CPU在访问一个没有进行对齐的变量的时候会发生错误，那么在这种架构下编程必
-须保证字节对齐，其他平台可能没有这种情况，但是最常见的是如果不按照适合其平台要求对数据存放进行对齐，会在存取效率上带来损失。比如有些平台每次读都
-是从偶地址开始，如果一个int型（假设为32位系统）如果存放在偶地址开始的地方，那么一个读周期就可以读出这32bit，而如果存放在奇地址开始的地
-方，就需要2个读周期，并对两次读出的结果的高低字节进行拼凑才能得到该32bit数据，显然在读取效率上下降很多。
+sizeof 求得的结构体(及其对象)的大小并不等于各个数据成员对象的大小之和，这是因为各个硬件平台对存储空间的处理上有很大不同。一些平台对某些特定类型的数据只能从某些特定地址开始存取。比如有些架构的 CPU 在访问一个没有进行对齐的变量的时候会发生错误，那么在这种架构下编程必须保证字节对齐，其他平台可能没有这种情况，但是最常见的是如果不按照适合其平台要求对数据存放进行对齐，会在存取效率上带来损失。比如有些平台每次读都是从偶地址开始，如果一个 int 型（假设为 32 位系统）如果存放在偶地址开始的地方，那么一个读周期就可以读出这 32bit，而如果存放在奇地址开始的地方，就需要 2 个读周期，并对两次读出的结果的高低字节进行拼凑才能得到该 32bit 数据，显然在读取效率上下降很多。
 
 字节对齐的重要原则遵循:
 
-- 数据类型自身的对齐值：对于char型的数据，其自身对齐值为1，对于short型为2，对于int，float，double类型，其自身对齐值为4个字节。
-- 结构体或者类的自身对齐值：其成员中自身对齐值最大的那个值。
-- 指定对齐值：#pragma pack (value)时指定的对齐value。
-- 数据成员、结构体和类的有效对齐值：自身对齐值和指定对齐值中小的那个值。
-
+* 数据类型自身的对齐值：对于 char 型的数据，其自身对齐值为 1，对于 short 型为 2，对于 int，float，double 类型，其自身对齐值为 4 个字节。
+* 结构体或者类的自身对齐值：其成员中自身对齐值最大的那个值。
+* 指定对齐值：#pragma pack (value)时指定的对齐 value。
+* 数据成员、结构体和类的有效对齐值：自身对齐值和指定对齐值中小的那个值。
 
 每个成员分别按自己的方式对齐,并能最小化长度。而复杂类型(如结构)的默认对齐方式是它最长的成员的对齐方式,这样在成员是复杂类型时,可以最小化长度。对齐后的长度必须是成员中最大的对齐参数的整数倍,这样在处理数组时可以保证每一项都边界对齐。而在对齐之后的计算规则为:
 
-
-
-- 结构体变量中成员的偏移量必须是其有效对齐值的整数倍（0被认为是任何数的整数倍） 
-- 结构体大小必须是所有有效对齐值的整数倍，也即所有有效对齐值的公倍数。
-
+* 结构体变量中成员的偏移量必须是其有效对齐值的整数倍（0 被认为是任何数的整数倍）
+* 结构体大小必须是所有有效对齐值的整数倍，也即所有有效对齐值的公倍数。
 
 我们来看一个连贯的例子:
+
 ```
 #include <iostream>
 
@@ -156,7 +143,7 @@ int main()
     cout << "sizeof(double)      = " << sizeof(double) << endl;
     cout << "sizeof(long long)   = " << sizeof(long long) << endl;
     cout << "sizeof(long double) = " << sizeof(long double) << endl << endl;
-    
+
     // 例子1
     {
         struct my_struct
@@ -165,9 +152,9 @@ int main()
             long double b;
         };
         cout << "exapmle-1: sizeof(my_struct) = " << sizeof(my_struct) << endl;
-        
+
         struct my_struct data;
-        
+
         printf("my_struct->a: %u\nmy_struct->b: %u\n\n", &data.a, &data.b);
     }
 
@@ -175,7 +162,7 @@ int main()
     //输出值为32
 
     //这里long double b的对齐值为16，首先a占用了1字节的空间，而b需要从偏移量为16的整数倍处开始安置，因此其直接占用的空间就为32
-    
+
     // 例子2
     {
         #pragma pack(2)
@@ -184,12 +171,12 @@ int main()
             char a;
             long double b;
         };
-        
+
         #pragma pack()
         struct my_struct data;
-        
+
         cout << "exapmle-2: sizeof(my_struct) = " << sizeof(my_struct) << endl;
-        
+
         printf("my_struct->a: %u\nmy_struct->b: %u\n\n", &data.a, &data.b);
     }
 
@@ -197,7 +184,7 @@ int main()
     //输出值为18
     //这里强制了对齐参数为2，b则从偏移量为2的整数倍处安放，其有效占用空间为 2 + 16 = 18.
 
-    
+
     // 例子3
     {
         struct my_struct
@@ -206,17 +193,17 @@ int main()
             double b;
             char c;
         };
-        
+
         struct my_struct data;
-        
+
         cout << "exapmle-3: sizeof(my_struct) = " << sizeof(my_struct) << endl;
-        
+
         printf("my_struct->a: %u\nmy_struct->b: %u\nmy_struct->c: %u\n\n", &data.a, &data.b, &data.c);
     }
 
 
     //这里输出值为24
-    
+
     // 例子4
     {
         struct my_struct
@@ -225,16 +212,16 @@ int main()
             int b;
             char c;
         };
-        
+
         cout << "example-4: sizeof(my_struct) = " << sizeof(struct my_struct) << endl;
-        
+
         struct my_struct data;
         printf("my_struct->a: %u\nmy_struct->b: %u\nmy_struct->c: %u\n\n", &data, &data.b, &data.c);
     }
 
 
    //这里输出值为20, 首先a会占用11个空间，而b的有效对齐值为4，其会从偏移量12处开始排布，并且结构体的有效对齐值为4，因此最终的结果为 12 + 4 + 1 = 17，取最小公倍数为20.
-    
+
     // 例子5
     {
         struct my_test
@@ -242,7 +229,7 @@ int main()
             int my_test_a;
             char my_test_b;
         };
-        
+
         struct my_struct
         {
             struct my_test a;
@@ -251,7 +238,7 @@ int main()
             char my_struct_c;
         };
         cout << "example-5: sizeof(my_struct) = " << sizeof(struct my_struct) << endl;
-        
+
         struct my_struct data;
         printf("my_struct->my_test_a  : %u\n"
                "my_struct->my_test_b  : %u\n"
@@ -264,14 +251,14 @@ int main()
 
    //这里的值为24
    //首先my_test占用的空间为8，有效对齐值为4.my_struct的有效对齐值为8，因此其结果为 8 + 8 + 4 + 1 = 21,取最小公倍数为24.
-    
+
     return 0;
 
 }
 ```
 
-
 其输出结果为:
+
 ```
 sizeof(char)        = 1
 sizeof(short)       = 2
@@ -315,10 +302,9 @@ my_struct->my_struct_c: 1606416108
 Program ended with exit code: 0
 ```
 
-
 ## 真题分析
-```
 
+```
 #pragma pack(2)
 class BU
 {
@@ -333,5 +319,5 @@ class BU
     enum{hdd,ssd,blueray}disk; // 4
 }bu;
 ```
-因此sizeof（bu） = 4+14 +0 +0 +4 = 22 
-　
+
+因此 sizeof（bu） = 4+14 +0 +0 +4 = 22
