@@ -8,7 +8,7 @@
 var start = new Date();
 setTimeout(function() {
   var end = new Date();
-  console.log("Time elapsed:", end - start, "ms");
+  console.log('Time elapsed:', end - start, 'ms');
 }, 500);
 while (new Date() - start < 1000) {}
 ```
@@ -23,24 +23,24 @@ while (new Date() - start < 1000) {}
 
 ```js
 function processFile(inputFile) {
-  var fs = require("fs"),
-    readline = require("readline"),
+  var fs = require('fs'),
+    readline = require('readline'),
     instream = fs.createReadStream(inputFile),
-    outstream = new (require("stream"))(),
+    outstream = new (require('stream'))(),
     rl = readline.createInterface(instream, outstream);
 
-  rl.on("line", function(line) {
+  rl.on('line', function(line) {
     console.log(line);
   });
 
-  rl.on("close", function(line) {
+  rl.on('close', function(line) {
     console.log(line);
 
-    console.log("done reading file.");
+    console.log('done reading file.');
   });
 }
 
-processFile("/path/to/a/input/file.txt");
+processFile('/path/to/a/input/file.txt');
 ```
 
 ## Callback Hell
@@ -76,7 +76,7 @@ const promiseSerial = funcs =>
   );
 
 // some url's to resolve
-const urls = ["/url1", "/url2", "/url3"];
+const urls = ['/url1', '/url2', '/url3'];
 
 // convert each url to a function that returns a promise
 const funcs = urls.map(url => () => $.ajax(url));
@@ -93,10 +93,10 @@ race 函数返回一个 Promise，这个 Promise 根据传入的 Promise 中的�
 
 ```js
 var p1 = new Promise(function(resolve, reject) {
-  setTimeout(resolve, 500, "一");
+  setTimeout(resolve, 500, '一');
 });
 var p2 = new Promise(function(resolve, reject) {
-  setTimeout(resolve, 100, "二");
+  setTimeout(resolve, 100, '二');
 });
 
 Promise.race([p1, p2]).then(function(value) {
@@ -105,10 +105,10 @@ Promise.race([p1, p2]).then(function(value) {
 });
 
 var p3 = new Promise(function(resolve, reject) {
-  setTimeout(resolve, 100, "三");
+  setTimeout(resolve, 100, '三');
 });
 var p4 = new Promise(function(resolve, reject) {
-  setTimeout(reject, 500, "四");
+  setTimeout(reject, 500, '四');
 });
 
 Promise.race([p3, p4]).then(
@@ -122,10 +122,10 @@ Promise.race([p3, p4]).then(
 );
 
 var p5 = new Promise(function(resolve, reject) {
-  setTimeout(resolve, 500, "五");
+  setTimeout(resolve, 500, '五');
 });
 var p6 = new Promise(function(resolve, reject) {
-  setTimeout(reject, 100, "六");
+  setTimeout(reject, 100, '六');
 });
 
 Promise.race([p5, p6]).then(
@@ -184,6 +184,24 @@ promise.then((value)=>{
 // 2 in setTimeout
 ```
 
+```js
+const prom = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(5);
+  }, 1000);
+});
+
+prom.then(value => {
+  console.log(value);
+});
+
+setTimeout(() => {
+  prom.then(value => {
+    console.log(value);
+  });
+}, 5000);
+```
+
 ## 链式调用
 
 # Generator
@@ -209,47 +227,45 @@ promise.then((value)=>{
     g.next();
 ```
 
-```
+```js
 //这个方法用来模拟一个异步调用
-    function delay(time, callback) {
-      setTimeout(function () {
-        callback(`slept for ${time}`);
-      }, time);
-    }
+function delay(time, callback) {
+  setTimeout(function() {
+    callback(`slept for ${time}`);
+  }, time);
+}
 
-    function run(...functions) {
-        //构造一个生成器循环执行传入的方法
-        var generator = function* sync(resume, functions) {
-            let result;
-            for (var func of functions) {
-                result = yield func(result, resume); //前一个方法执行的结果作为下一个方法的入参
-            }
-            return result;
-        }(resume, functions);
+function run(...functions) {
+  //构造一个生成器循环执行传入的方法
+  var generator = (function* sync(resume, functions) {
+    let result;
+    for (var func of functions) {
+      result = yield func(result, resume); //前一个方法执行的结果作为下一个方法的入参
+    }
+    return result;
+  })(resume, functions); //提供一个方法用于推进生成器执行。
 
-        //提供一个方法用于推进生成器执行。
-        function resume(callbackValue) {
-            generator.next(callbackValue);
-        }
-        generator.next(); //触发生成器立即执行第一个方法
-    }
+  function resume(callbackValue) {
+    generator.next(callbackValue);
+  }
+  generator.next(); //触发生成器立即执行第一个方法
+} //模拟异步方法调用, 斐波那契数列
 
-    //模拟异步方法调用, 斐波那契数列
-    function d(result, resume) {
-        delay(1000, (msg) => {
-            let value = result;
-            if (value) {
-                [value.a, value.b] = [value.b, value.a + value.b];
-            } else {
-                value = { a: 0, b: 1 };
-            }
-            console.log(value.a);
-            resume(value);
-        });
-        return result;
-    }
+function d(result, resume) {
+  delay(1000, msg => {
+    let value = result;
+    if (value) {
+      [value.a, value.b] = [value.b, value.a + value.b];
+    } else {
+      value = { a: 0, b: 1 };
+    }
+    console.log(value.a);
+    resume(value);
+  });
+  return result;
+}
 
-    run(d, d, d); //顺序执行异步方法
+run(d, d, d); //顺序执行异步方法
 ```
 
 # async/await
@@ -308,8 +324,8 @@ async function waitAndMaybeReject() {
   // Toss a coin
   const isHeads = Boolean(Math.round(Math.random()));
 
-  if (isHeads) return "yay";
-  throw Error("Boo!");
+  if (isHeads) return 'yay';
+  throw Error('Boo!');
 }
 
 async function foo() {
@@ -322,7 +338,7 @@ async function foo() {
     // Otherwise, this block continues to run:
     return fulfilledValue;
   } catch (e) {
-    return "caught";
+    return 'caught';
   }
 }
 ```
@@ -358,7 +374,7 @@ require('es6-promise').polyfill();
 不过对于 IE < 9 的情况，因为 catch 为保留的关键字，因此需要用如下方式：
 
 ```javascript
-promise["catch"](function(err) {
+promise['catch'](function(err) {
   // ...
 });
 ```
@@ -384,7 +400,7 @@ new Promise(function(resolve, reject) { ... });
 
 ```javascript
 var p1 = new Promise(function(resolve, reject) {
-  resolve("Success!");
+  resolve('Success!');
   // or
   // reject ("Error!");
 });
@@ -546,8 +562,8 @@ let isLoading = true;
 
 fetch(myRequest)
   .then(function(response) {
-    var contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
+    var contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
       return response.json();
     }
     throw new TypeError("Oops, we haven't got JSON!");
@@ -566,7 +582,7 @@ fetch(myRequest)
 ```js
 // 不使用 finally
 showLoadingSpinner();
-fetch("data.json")
+fetch('data.json')
   .then(data => {
     renderContent(data);
     hideLoadingSpinner();
@@ -578,7 +594,7 @@ fetch("data.json")
 
 // 使用 finally
 showLoadingSpinner();
-fetch("data.json")
+fetch('data.json')
   .then(data => {
     renderContent(data);
   })
