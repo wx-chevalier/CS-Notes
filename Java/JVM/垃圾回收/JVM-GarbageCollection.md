@@ -5,7 +5,7 @@
 
 
 
-> [垃圾回收算法与 JVM 垃圾回收器综述](https://parg.co/bga)归纳于笔者的[ JVM 内部原理与性能调优](https://parg.co/bgL)系列文章，文中涉及的引用资料参考[ Java 学习与实践资料索引](https://parg.co/bgv)、[JVM 资料索引](https://parg.co/bg9)。
+> [垃圾回收算法与 JVM 垃圾回收器综述](https://parg.co/bga)归纳于笔者的[ JVM 内部原理与性能调优](https://parg.co/bgL)系列文章，文中涉及的引用资料参考[ Java  Learning & Practices Links](https://parg.co/bgv)、[JVM Links](https://parg.co/bg9)。
 
 
 ![](https://blog-assets.risingstack.com/2016/11/ancient-garbage-collector-in-action.jpg)

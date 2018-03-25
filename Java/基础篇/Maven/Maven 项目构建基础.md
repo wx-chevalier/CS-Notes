@@ -1,5 +1,5 @@
 
-> [Maven 项目构建基础](https://parg.co/bFi)从属于笔者的[现代 Java 开发基础](https://parg.co/bgk)系列文章，介绍了 Maven 的历史背景与多种构建工具对比，以及 Maven 的基本配置安装与使用；本文涉及的参考资料声明在 [Java 学习与实践资料索引](https://parg.co/bgv)以及 [Maven 学习与资料索引](https://parg.co/bFL)。本文整理时间也较早，最近因为整理 Java 相关的资料所以重新归纳了下。
+> [Maven 项目构建基础](https://parg.co/bFi)从属于笔者的[现代 Java 开发基础](https://parg.co/bgk)系列文章，介绍了 Maven 的历史背景与多种构建工具对比，以及 Maven 的基本配置安装与使用；本文涉及的参考资料声明在 [Java  Learning & Practices Links](https://parg.co/bgv)以及 [Maven 学习与资料索引](https://parg.co/bFL)。本文整理时间也较早，最近因为整理 Java 相关的资料所以重新归纳了下。
 
 # Maven 
 
