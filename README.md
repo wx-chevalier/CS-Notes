@@ -10,15 +10,15 @@
 
 * [ProgrammingLanguage Theory Primer/编程语言理论指南](./Theory)
 
-* [现代 JavaScript 语法基础与工程实践](./JavaScript): JavaScript 终于成为了一流(First Class)语言。
+* [现代 JavaScript 开发基础与工程实践](./JavaScript): JavaScript 终于成为了一流(First Class)语言。
 
-* [现代 Java 语法基础与工程实践](./Java): 面向对象，面向自己，鉴于内容较多，又细分为：[基础篇](./Java/Fundamentals)，[进阶篇](./Java/DevPractices)，[并发编程篇](./Java/ConcurrentProgramming)，[JVM 篇](./Java/JVM)。
+* [现代 Java 开发基础与工程实践](./Java): 面向对象，面向自己，鉴于内容较多，又细分为：[基础篇](./Java/Fundamentals)，[进阶篇](./Java/DevPractices)，[并发编程篇](./Java/ConcurrentProgramming)，[JVM 篇](./Java/JVM)。
 
-* [现代 Python 语法基础与工程实践](./Python): 人生苦短，请用 Python。
+* [现代 Python 开发基础与工程实践](./Python): 人生苦短，请用 Python。
 
-* [Go 语法基础与工程实践](./Rust): 简单易用，天然并发。
+* [Go 开发基础与工程实践](./Rust): 简单易用，天然并发。
 
-* [Rust 语法基础与工程实践](./Rust): 安全不易学。
+* [Rust 开发基础与工程实践](./Rust): 安全不易学。
 
 # 关于
 
