@@ -1,0 +1,409 @@
+[TOC]
+
+[TOC]
+
+# Log-Introduction
+
+日志记录一直是每个 Java 应用程序，特别是服务端应用程序的标配。笔者最后还是倾向于使用 Log4j2，因为其提供的大量的第三方 Appender 着实令人心动。Log4j1 也是一款非常非常优秀的日志框架，但是因为其出现较早，本身在设计上也是存在着一定的缺陷，本文就不做讨论。
+
+## java.util.logging.Logger
+
+java.util.logging.Logger 不是什么新鲜东西了，1.4 就有了，可是因为 log4j 的存在，这个 logger 一直沉默着，其实在一些测试性的代码中，jdk 自带的 logger 比 log4j 更方便。
+
+## Slf4j
+
+![](http://www.slf4j.org/images/concrete-bindings.png)
+
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class HelloWorld {
+  public static void main(String[] args) {
+    Logger logger = LoggerFactory.getLogger(HelloWorld.class);
+    logger.info("Hello World");
+  }
+}
+```
+
+_slf4j-log4j12-1.7.13.jar_
+
+Binding for [log4j version 1.2](http://logging.apache.org/log4j/1.2/index.html), a widely used logging framework. You also need to place *log4j.jar* on your class path.
+
+_slf4j-jdk14-1.7.13.jar_
+
+Binding for java.util.logging, also referred to as JDK 1.4 logging
+
+_slf4j-nop-1.7.13.jar_
+
+Binding for [NOP](http://www.slf4j.org/api/org/slf4j/helpers/NOPLogger.html), silently discarding all logging.
+
+_slf4j-simple-1.7.13.jar_
+
+Binding for [Simple ](http://www.slf4j.org/apidocs/org/slf4j/impl/SimpleLogger.html)implementation, which outputs all events to System.err. Only messages of level INFO and higher are printed. This binding may be useful in the context of small applications.
+
+_slf4j-jcl-1.7.13.jar_
+
+Binding for [Jakarta Commons Logging](http://commons.apache.org/logging/). This binding will delegate all SLF4J logging to JCL.
+
+# Log4j2
+
+> * [Log4j 2.0 在开发中的高级使用详解](http://blog.csdn.net/xmtblog/article/details/37996225)
+> * [官方网站](http://logging.apache.org/log4j/2.x/index.html)
+> * [log4j2-xml-configuration-example](http://mycuteblog.com/log4j2-xml-configuration-example/)
+
+Log4j 2 包含了基于 LMAX 分离库的下一代的异步日志系统，在多线程环境下，异步日志系统比  Log4j 1.x 和 Logback 提高了 10 倍性能提升(吞吐量和延迟率)，各种框架的对比可以看到如下所示：
+
+![](http://cdn3.infoqstatic.com/statics_s2_20160105-0313u5/resource/news/2014/08/apache-log4j2/zh/resources/0805000.png)
+
+Log4j 2 是 Log4j 的升级版本，该版本比起其前任来说有着显著的改进，包含很多在  Logback  中的改进以及 Logback 架构中存在的问题。这是 Log4j 2 的首次发行的版本，值得关注的改进包括：
+
+* API 分离 – Log4j 的 API 和其实现进行分类（注：我讨厌这样，本来一个 jar 包搞定的，要变成好几个，跟  slf4j  似的的）
+
+- 为日志审计而设计，与 Log4j 1.x 和 Logback 不同的是 Log4j 2 将不会在重新配置期间丢失事件，支持消息可方便进行审计
+
+* 性能方面的提升，在关键领域比 Log4j 1.x 的性能提升不少，大部分情况下性能跟 Logback 差不多
+
+- 支持多 APIs，支持 SLF4J 和 Commons Logging API
+
+* 自动配置重载，支持 XML 和 JSON 格式的配置
+
+- 插件体系架构，所有可配置的组件都是通过 Log4j 插件进行定义，包括 Appender, Layout, Pattern Converter, 等等
+
+* 配置属性支持
+
+Apache log4j 2.0 要求至少 JDK 5
+
+![](http://logging.apache.org/log4j/2.x/images/Log4jClasses.jpg)
+
+## Configuration
+
+如果需要使用 Log4j2，首先需要在他的依赖文件里引入如下依赖：
+
+```xml
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.4.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.4.1</version>
+      </dependency>
+    </dependencies>
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-slf4j-impl</artifactId>
+        <version>2.0-beta9</version>
+    </dependency>
+```
+
+而后在代码文件中，可以使用 Slf4j，也可以直接使用 Log4j2，如下：
+
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+private static final Logger log = LoggerFactory.getLogger(Test.class);
+```
+
+如果是直接使用的 log4j2，则只要用 LogManager 的 getLogger 函数获取一个 logger，就可以使用 logger 记录日志，代码如下：
+
+```java
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class HelloLog4j {
+	private static Logger logger = LogManager.getLogger("HelloLog4j");
+	public static void main(String[] args) {
+		MyApplication myApplication =  new MyApplication();
+
+		logger.entry();
+		logger.info("Hello, World!");
+		myApplication.doIt();
+        logger.error("Hello, World!");
+        logger.exit();
+	}
+}
+```
+
+需要注意的是，log4j 2.0 与以往的 1.x 有一个明显的不同，其配置文件只能采用.xml, .json 或者 .jsn。在默认情况下，系统选择 configuration 文件的优先级如下：（classpath 为 scr 文件夹）
+
+* classpath 下名为 log4j-test.json 或者 log4j-test.jsn 文件
+
+- classpath 下名为  log4j2-test.xml
+
+* classpath 下名为 log4j.json 或者 log4j.jsn 文件
+
+- classpath 下名为  log4j2.xml
+
+必须注意.xml 文件的文件名为 log4j2，这里让我纠结了一个下午，系统一直找不到配置文件，最后发现是文件名里面少了一个 2。下面以 log4j2.xml 为例来介绍 log4j 的配置。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status=debug 可以查看log4j的装配过程 -->
+<configuration status="off" monitorInterval="1800">
+	<properties>
+		<property name="LOG_HOME">/log/fish</property>
+		<!-- 日志备份目录 -->
+		<property name="BACKUP_HOME">{LOG_HOME}/backup</property>
+		<property name="STAT_NAME">stat</property>
+		<property name="SERVER_NAME">global</property>
+	</properties>
+	<appenders>
+		<!-- 定义控制台输出 -->
+		<Console name="Console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
+		</Console>
+		<!-- 程序员调试日志 -->
+		<RollingRandomAccessFile name="DevLog" fileName="${LOG_HOME}/${SERVER_NAME}"
+			filePattern="${LOG_HOME}/${SERVER_NAME}.%d{yyyy-MM-dd-HH}.log">
+			<PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+			</Policies>
+		</RollingRandomAccessFile>
+		<!-- 游戏产品数据分析日志 -->
+		<RollingRandomAccessFile name="ProductLog"
+			fileName="${LOG_HOME}/${SERVER_NAME}_${STAT_NAME}"
+			filePattern="${LOG_HOME}/${SERVER_NAME}_${STAT_NAME}.%d{yyyy-MM-dd-HH}.log">
+			<PatternLayout
+				pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingRandomAccessFile>
+	</appenders>
+	<loggers>
+		<!-- 3rdparty Loggers -->
+		<logger name="org.springframework.core" level="info">
+		</logger>
+		<logger name="org.springframework.beans" level="info">
+		</logger>
+		<logger name="org.springframework.context" level="info">
+		</logger>
+		<logger name="org.springframework.web" level="info">
+		</logger>
+		<logger name="org.jboss.netty" level="warn">
+		</logger>
+		<logger name="org.apache.http" level="warn">
+		</logger>
+		<logger name="com.mchange.v2" level="warn">
+		</logger>
+		<!-- Game Stat  logger -->
+		<logger name="com.u9.global.service.log" level="info"
+			additivity="false">
+			<appender-ref ref="ProductLog" />
+		</logger>
+		<!-- Root Logger -->
+		<root level="DEBUG" includeLocation="true">
+			<appender-ref ref="DevLog" />
+			<appender-ref ref="Console" />
+		</root>
+	</loggers>
+</configuration>
+```
+
+### Syntax(语法形式)
+
+### Loggers
+
+loggers 标签，用于定义 logger 的 lever 和所采用的 appender，其中 appender-ref 必须为先前定义的 appenders 的名称，例如，此处为 Console。那么 log 就会以 appender 所定义的输出格式来输出 log。root 标签为 log 的默认输出形式，如果一个类的 log 没有在 loggers 中明确指定其输出 lever 与格式，那么就会采用 root 中定义的格式。例如以下定义：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+  <appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </Console>
+  </appenders>
+  <loggers>
+    <logger name="com.relin.HelloLog4j" level="error" additivity="false">
+      <appender-ref ref="Console"/>
+    </logger>
+    <root level="trace">
+      <appender-ref ref="Console"/>
+    </root>
+  </loggers>
+</configuration>
+```
+
+此时，HelloLog4j 则会在 error 级别上输出 log，而其他类则会在 trace 级别上输出 log。需要注意的是 additivity 选项，如果设置为 true（默认值）则 HelloLog4j 的 log 会被打印两次，第二次打印是由于 HelloLog4j 同时也满足 root 里面定义的 trace。在 log4j2 中可以配置不同的 Logger 输出到不同的文件中，如果有时候需要按照不同的级别输出到不同的文件中，则直接在 logger 的 AppenderRef 中定义不同的 level 指向。
+
+```xml
+<Loggers>
+    <logger name="com.mvc.login" level="info" additivity="false">
+        <AppenderRef ref="LoginController" level="error"/>
+        <AppenderRef ref="InfoController" level="info"/>
+    </logger>
+</Loggers>
+```
+
+#### Async Loggers(异步记录器)
+
+## Appender(附加器)
+
+### Console
+
+ConsoleAppender 就是传统的使用`System.err`或者`System.out`作为默认的目标来进行输出，必须要指定一个 Layout，也就是输出的样式。
+
+| Parameter Name   | Type    | Description                                                                                                                                                                                                                                                                                                                                               |
+| ---------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| filter           | Filter  | A Filter to determine if the event should be handled by this Appender. More than one Filter may be used by using a CompositeFilter.                                                                                                                                                                                                                       |
+| layout           | Layout  | The Layout to use to format the LogEvent. If no layout is supplied the default pattern layout of "%m%n" will be used.                                                                                                                                                                                                                                     |
+| follow           | boolean | Identifies whether the appender honors reassignments of System.out or System.err via System.setOut or System.setErr made after configuration. Note that the follow attribute cannot be used with Jansi on Windows.                                                                                                                                        |
+| name             | String  | The name of the Appender.                                                                                                                                                                                                                                                                                                                                 |
+| ignoreExceptions | boolean | The default is true, causing exceptions encountered while appending events to be internally logged and then ignored. When set to false exceptions will be propagated to the caller, instead. You must set this to false when wrapping this Appender in a [FailoverAppender](https://logging.apache.org/log4j/2.x/manual/appenders.html#FailoverAppender). |
+| target           | String  | Either "SYSTEM_OUT" or "SYSTEM_ERR". The default is "SYSTEM_ERR".                                                                                                                                                                                                                                                                                         |
+
+```java
+package com.herman.log4j2.test;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+/**
+ * @see log4j 2.0 简单的配置使用控制台Appender
+ * @author Herman.Xiong
+ * @date 2014年7月21日 14:32:55
+ */
+public class Test1 {
+	/**
+	 * 配置日志级别为info，输出位置为控制台
+	 */
+	private static Logger log = LogManager.getLogger(Test0.class);
+	public static void main(String[] args) {
+		log.trace("trace");
+		log.debug("debug");
+		log.info("info");
+		log.warn("warn");
+		log.error("error");
+		log.fatal("fatal");
+	}
+}
+```
+
+配置文件如下：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+  	<!-- 标准输出 -->
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <!-- 输出格式 -->
+      <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <!-- 配置记录器级别 -->
+    <Root level="debug">
+      <!-- 输出设置 -->
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
+</Configuration>
+```
+
+### File
+
+### DB
+
+### MQ
+
+### Remote
+
+## Layouts(输出格式)
+
+### JsonLayout
+
+JsonLayout 会将所有的信息以 JSON 格式存入到文件中，注意，这会需要在 ClassPath 中引入 Jackson 的 Jar 包。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+    <Properties>
+        <Property name="disableThreadContext">true</Property>
+        <Property name="disableThreadContextStack">true</Property>
+        <Property name="disableThreadContextMap">true</Property>
+        <Property name="log4j2.disable.jmx">true</Property>
+    </Properties>
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <JsonLayout locationInfo="true" complete="false" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <logger name="ir.cvas.logger" level="info" />
+        <Root level="warn">
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+    </Loggers>
+</Configuration>
+```
+
+## Filter(过滤器)
+
+## Extension
+
+### [ErRabbit](https://github.com/soleaf/ErRabbit)
+
+基于 Log4j 的远程日志框架，可以查看并且存储日志记录。
+
+Remote logging console server using Log4j. Visual exception stackTrace log view.
+
+![Structure](https://github.com/soleaf/ErRabbit/raw/master/graphics/structure.png)
+
+# Logback
+
+## Appender(附加器)
+
+# Test
+
+## Assert
+
+junit 中的 assert 方法全部放在 Assert 类中，总结一下 junit 类中 assert 方法的分类。
+
+1.assertTrue/False([String message,]boolean condition);
+
+判断一个条件是 true 还是 false。感觉这个最好用了，不用记下来那么多的方法名。
+
+2.fail([String message,]);
+
+失败，可以有消息，也可以没有消息。
+
+3.assertEquals([String message,]Object expected,Object actual);
+
+判断是否相等，可以指定输出错误信息。
+
+第一个参数是期望值，第二个参数是实际的值。
+
+这个方法对各个变量有多种实现。在 JDK1.5 中基本一样。
+
+但是需要主意的是 float 和 double 最后面多一个 delta 的值。
+
+4.assertNotNull/Null([String message,]Object obj);
+
+判读一个对象是否非空(非空)。
+
+5.assertSame/NotSame([String message,]Object expected,Object actual);
+
+判断两个对象是否指向同一个对象。看内存地址。
+
+7.failNotSame/failNotEquals(String message, Object expected, Object actual)
+
+当不指向同一个内存地址或者不相等的时候，输出错误信息。
+
+注意信息是必须的，而且这个输出是格式化过的。
+
+# Test-Mock
+
+## [mockito](https://github.com/mockito/mockito)
+
+![](https://raw.githubusercontent.com/mockito/mockito/master/src/javadoc/org/mockito/logo.png)
+
+Tasty mocking framework for unit tests in Java
