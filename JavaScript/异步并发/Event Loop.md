@@ -1,7 +1,5 @@
 [![返回目录](https://parg.co/USw)](https://parg.co/bxN)
 
-> [JavaScript Event Loop 机制详解与 Vue.js 中实践应用](https://zhuanlan.zhihu.com/p/28508795)归纳于笔者的[现代 JavaScript 开发：语法基础与实践技巧](https://parg.co/bjK)系列文章。本文依次介绍了函数调用栈、MacroTask 与 MicroTask 执行顺序、浅析 Vue.js 中 nextTick 实现等内容；本文中引用的参考资料统一声明在 [JavaScript  Learning & Practices Links](https://parg.co/b2O)。
-
 # 1. 事件循环机制详解与实践应用
 
 JavaScript 是典型的单线程单并发语言，即表示在同一时间片内其只能执行单个任务或者部分代码片。换言之，我们可以认为某个同域浏览器上下中 JavaScript 主线程拥有一个函数调用栈以及一个任务队列（参考 [whatwg 规范](https://html.spec.whatwg.org/multipage/webappapis.html#task-queue)）；主线程会依次执行代码，当遇到函数时，会先将函数入栈，函数运行完毕后再将该函数出栈，直到所有代码执行完毕。当函数调用栈为空时，运行时即会根据事件循环（Event Loop）机制来从任务队列中提取出待执行的回调并执行，执行的过程同样会进行函数帧的入栈出栈操作。每个线程有自己的事件循环，所以每个 Web Worker 有自己的，所以它才可以独立执行。然而，所有同属一个 origin 的窗体都共享一个事件循环，所以它们可以同步交流。
@@ -197,12 +195,12 @@ Middle of queue
 
 上述代码中首个 TaskQueue 即为 foo()，foo() 又调用了 bar() 构建了新的 TaskQueue，bar() 调用之后 foo() 又产生了 MicroTask 并被压入了唯一的 MicroTask 队列。我们最后再总计下 JavaScript MacroTask 与 MicroTask 的执行顺序，当执行栈(Call Stack)为空的时候，开始依次执行：
 
-1. 从当前的 TaskQueue 中取出队列首部的 Task A，并且放入任务队列；
-2. 如果 Task A 为空，即任务队列为空，则直接转入执行 MicroTask 队列；
-3. 将 Currently Running Task 设置为取出的 Task A，并且执行该任务，即执行其回调函数；
-4. 将  Currently Running Task 设置为 Null，并且移除该 Task；
-5. 执行 MicroTask 队列：
-       a. 从 MicroTask 队列中取出队列首部的任务 Task X；
+1.  从当前的 TaskQueue 中取出队列首部的 Task A，并且放入任务队列；
+2.  如果 Task A 为空，即任务队列为空，则直接转入执行 MicroTask 队列；
+3.  将 Currently Running Task 设置为取出的 Task A，并且执行该任务，即执行其回调函数；
+4.  将  Currently Running Task 设置为 Null，并且移除该 Task；
+5.  执行 MicroTask 队列：
+        a. 从 MicroTask 队列中取出队列首部的任务 Task X；
 
 b. 如果 Task X 为 Null，则结束执行 MicroTask 队列；
 
@@ -214,7 +212,7 @@ f. 重新从 MicroTask 中选出最早的任务，跳转到 b；
 
 g. 结束 MicroTask 队列的执行。
 
-7. 跳到第一步
+7.  跳到第一步
 
 # 4. 浅析 Vue.js 中 nextTick 的实现
 
@@ -228,15 +226,15 @@ g. 结束 MicroTask 队列的执行。
 
 // JS
 var vm = new Vue({
-  el: "#example",
+  el: '#example',
   data: {
-    message: "123"
+    message: '123'
   }
 });
-vm.message = "new message"; // 更改数据
-vm.$el.textContent === "new message"; // false
+vm.message = 'new message'; // 更改数据
+vm.$el.textContent === 'new message'; // false
 Vue.nextTick(function() {
-  vm.$el.textContent === "new message"; // true
+  vm.$el.textContent === 'new message'; // true
 });
 ```
 

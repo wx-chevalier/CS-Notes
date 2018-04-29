@@ -1,16 +1,16 @@
 [![返回目录](https://parg.co/USw)](https://parg.co/bxN)
 
-# Promise/A 标准实现与异步模式
+# Promise/A 内部原理与常见接口实现
 
 ```js
 try {
   let arrayLike = {
-    0: Promise.resolve("233"),
+    0: Promise.resolve('233'),
     length: 1
   };
   Promise.all(arrayLike);
 } catch (e) {
-  console.log("error");
+  console.log('error');
 }
 
 var promises = [
@@ -47,7 +47,7 @@ function requestWithRetry(url, retryCount) {
       const timeout = Math.pow(2, retryCount);
 
       setTimeout(() => {
-        console.log("Waiting", timeout, "ms");
+        console.log('Waiting', timeout, 'ms');
         _requestWithRetry(url, retryCount)
           .then(resolve)
           .catch(reject);
@@ -61,14 +61,14 @@ function requestWithRetry(url, retryCount) {
 function _requestWithRetry(url, retryCount) {
   return request(url, retryCount).catch(err => {
     if (err.statusCode && err.statusCode >= 500) {
-      console.log("Retrying", err.message, retryCount);
+      console.log('Retrying', err.message, retryCount);
       return requestWithRetry(url, ++retryCount);
     }
     throw err;
   });
 }
 
-requestWithRetry("http://localhost:3000")
+requestWithRetry('http://localhost:3000')
   .then(res => {
     console.log(res);
   })
@@ -93,9 +93,9 @@ async function requestWithRetry(url) {
       return await request(url);
     } catch (err) {
       const timeout = Math.pow(2, i);
-      console.log("Waiting", timeout, "ms");
+      console.log('Waiting', timeout, 'ms');
       await wait(timeout);
-      console.log("Retrying", err.message, i);
+      console.log('Retrying', err.message, i);
     }
   }
 }
@@ -142,7 +142,7 @@ filterArray().then(v => {
 ```
 
 ```js
-typeof new Promise((resolve, reject) => {}) === "object"; // true
+typeof new Promise((resolve, reject) => {}) === 'object'; // true
 ```
 
 Promise 本质上只是普通的 JavaScript 对象，包含了允许你执行某些异步代码的方法。

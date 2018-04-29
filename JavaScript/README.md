@@ -10,9 +10,7 @@
 
 JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO Guillermo Rauch 所言：JavaScript 虽然生于泥沼，但是在这么多年不断地迭代中，它也慢慢被开发者与市场所认可，最终化茧成蝶，被广泛地应用在从客户端到服务端，从应用开发、系统构建到数据分析的各个领域。JavaScript 最薄弱的一点在于其是解释性的无类型的语言，这一点让其在大型项目或者系统开发中充满了很多的性能瓶颈或者不稳定性；譬如在 JavaScript 中某个函数可以接受任意数目、任意类型的参数，而 Java 则会在编译时即检测参数类型是否符合预期。早期的 JavaScript 仅被用于为网页添加简单的用户交互，譬如按钮响应事件或者发送 Ajax 请求；不过随着 Webpack 等现代构建工具的发展，开发者可以更加工程化地进行高效的前端项目开发，并且整个网页的加载性能也大大提高，譬如 PWA 等现代 Web 技术能够使 Web 应用拥有与原生应用相近的用户体验。
 
-我喜爱这门语言，所以我希望能够以绵薄之力让更多的人无痛地使用它。
-
-[WIP] Next Milestone: 0.1
+我喜爱这门语言，所以我希望能够以绵薄之力让更多的人无痛地使用它。本系列中提及的很多代码实现与工具库可以参阅笔者的 [coding-snippets/js](https://github.com/wxyyxc1992/coding-snippets) 以及 [js-swissgear](https://github.com/wxyyxc1992/coding-snippets/tree/master/js)。
 
 ## 参考
 
@@ -80,9 +78,9 @@ JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO G
 
 * [异步并发](./异步并发/Index.md)
 
-  * [Event Loop 机制详解与实践应用](./异步并发/Event%20Loop%20机制详解与实践应用.md): 1. 事件循环机制详解与实践应用
-  * [JavaScript 异步编程综述](./异步并发/JavaScript%20异步编程综述.md): JavaScript 异步编程
-  * [Promise 实现与异步模式](./异步并发/Promise%20实现与异步模式.md): Promise/A 标准实现与异步模式
+  * [Event Loop 机制详解与实践应用](./异步并发/Event%20Loop%20.md): 1. 事件循环机制详解与实践应用
+  * [异步编程综述](./异步并发/异步编程综述.md): JavaScript 异步编程
+  * [Promise/A 内部原理与常见接口实现](./异步并发/Promise.md): Promise/A 标准实现与异步模式
   * [Web Worker](./异步并发/Web%20Worker.md): Web Worker
 
 * [元编程](./元编程/Index.md)
