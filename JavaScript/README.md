@@ -29,8 +29,8 @@ JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO G
 * [导论](./导论/Index.md)
 
   * [概述](./导论/概述.md): JavaScript 概述
-  * [JavaScript 编年史](./导论/JavaScript%20编年史.md):
   * [现代 JavaScript 开发](./导论/现代%20JavaScript%20开发.md): 现代 JavaScript 开发
+  * [JavaScript 编年史](./导论/编年史.md):
   * [环境配置与工具链](./导论/环境配置与工具链.md): Visual Studio Code
 
 * [表达式与变量](./表达式与变量/Index.md)

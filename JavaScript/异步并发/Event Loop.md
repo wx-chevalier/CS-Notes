@@ -1,5 +1,7 @@
 [![返回目录](https://parg.co/USw)](https://parg.co/bxN)
 
+# JavaScript Event Loop 与并发编程浅述
+
 # 1. 事件循环机制详解与实践应用
 
 JavaScript 是典型的单线程单并发语言，即表示在同一时间片内其只能执行单个任务或者部分代码片。换言之，我们可以认为某个同域浏览器上下中 JavaScript 主线程拥有一个函数调用栈以及一个任务队列（参考 [whatwg 规范](https://html.spec.whatwg.org/multipage/webappapis.html#task-queue)）；主线程会依次执行代码，当遇到函数时，会先将函数入栈，函数运行完毕后再将该函数出栈，直到所有代码执行完毕。当函数调用栈为空时，运行时即会根据事件循环（Event Loop）机制来从任务队列中提取出待执行的回调并执行，执行的过程同样会进行函数帧的入栈出栈操作。每个线程有自己的事件循环，所以每个 Web Worker 有自己的，所以它才可以独立执行。然而，所有同属一个 origin 的窗体都共享一个事件循环，所以它们可以同步交流。
