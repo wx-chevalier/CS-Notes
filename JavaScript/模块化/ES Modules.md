@@ -93,7 +93,7 @@ import a from "./a"
 export default { a, b: 2 }
 ```
 
-鉴于 CommonJS 并不兼容于 ES Modules，Node.js 打算引入 `.mjs`（Modular JavaScript）文件扩展来指明模块解析规则；这个有点类似于目前对于 JSON 文件的解析，如果我们指明了载入 `.json` 格式文件，Node.js 会自动调用 `JSON.parse` 方法。Node.js  拟计划在 2020 年发布的 9.x 版本中引入内置的 ESM 支持，详细的 Node.js 中 ESM 实现规范查看 Node.js 官方文档 [ES Module Interoperability](https://parg.co/bjW)；而目前主流的办法即是采用 Rollup、Webpack 这样的构建工具或者 Babel 这样的转化工具来进行代码转化。
+鉴于 CommonJS 并不兼容于 ES Modules，Node.js 打算引入 `.mjs`(Modular JavaScript)文件扩展来指明模块解析规则；这个有点类似于目前对于 JSON 文件的解析，如果我们指明了载入 `.json` 格式文件，Node.js 会自动调用 `JSON.parse` 方法。Node.js  拟计划在 2020 年发布的 9.x 版本中引入内置的 ESM 支持，详细的 Node.js 中 ESM 实现规范查看 Node.js 官方文档 [ES Module Interoperability](https://parg.co/bjW)；而目前主流的办法即是采用 Rollup、Webpack 这样的构建工具或者 Babel 这样的转化工具来进行代码转化。
 
 而近日正式发布的 [@std/esm](https://www.npmjs.com/package/@std/esm)  为我们提供了高性能的 Node.js 中 CommonJS 与 ES Modules 模块间调用，其能够作用于 Node.js 4.x 以上版本；它能够顺滑地集成到现有的 Webpack、Babel 环境中，并且支持不同模块使用不同的依赖版本。不同于目前的解决方案需要是发布编译之后的 CommonJS 格式的文件，[@std/esm] 能够以最小的代价的、按需转化的、动态缓存的方式来进行源代码转化，其基本命令行中的使用方式如下所示：
 

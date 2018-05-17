@@ -196,7 +196,7 @@ profiles节点中，定义了二种环境：local、dev(默认激活dev环境)�
 </build>
 ```
 
-resource节点是关键，它表明了哪个目录下的配置文件（不管是xml配置文件，还是properties属性文件），需要根据profile环境来替换属性值。通常配置文件放在resources目录下，build时该目录下的文件都自动会copy到class目录下:
+resource节点是关键，它表明了哪个目录下的配置文件(不管是xml配置文件，还是properties属性文件)，需要根据profile环境来替换属性值。通常配置文件放在resources目录下，build时该目录下的文件都自动会copy到class目录下:
 
 ![](http://images.cnitblog.com/blog/27612/201408/281044295329658.jpg)
 
@@ -473,7 +473,7 @@ git push origin master
 > 
 - [Maven单元测试][1]
 
-Maven本身并不是一个单元测试框架，它只是在构建执行到特定生命周期阶段的时候，通过插件来执行JUnit或者TestNG的测试用例。这个插件就是maven-surefire-plugin，也可以称为测试运行器(Test Runner)，它能兼容JUnit 3、JUnit 4以及TestNG。在默认情况下，maven-surefire-plugin的test目标会自动执行测试源码路径（默认为src/test/java/）下所有符合一组命名模式的测试类。这组模式为：
+Maven本身并不是一个单元测试框架，它只是在构建执行到特定生命周期阶段的时候，通过插件来执行JUnit或者TestNG的测试用例。这个插件就是maven-surefire-plugin，也可以称为测试运行器(Test Runner)，它能兼容JUnit 3、JUnit 4以及TestNG。在默认情况下，maven-surefire-plugin的test目标会自动执行测试源码路径(默认为src/test/java/)下所有符合一组命名模式的测试类。这组模式为：
 
 - **/Test*.java：任何子目录下所有命名以Test开关的Java类。
 - **/*Test.java：任何子目录下所有命名以Test结尾的Java类。
@@ -505,7 +505,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 </project>
 ```
 
-代码中添加了dependencies元素，该元素下可以包含多个dependency元素以声明项目的依赖，这里我们添加了一个依赖——groupId是junit，artifactId是junit，version是4.7。前面我们提到groupId、artifactId和version是任何一个Maven项目最基本的坐标，JUnit也不例外，有了这段声明，Maven就能够自动下载junit-4.7.jar。也许你会问，Maven从哪里下载这个jar呢？在Maven之前，我们可以去JUnit的官网下载分发包。而现在有了Maven，它会自动访问中央仓库（[http://repo1.maven.org/maven2/](http://repo1.maven.org/maven2/)） ,下载需要的文件。读者也可以自己访问该仓库，打开路径junit/junit/4.7/，就能看到junit-4.7.pom和junit-4.7.jar。
+代码中添加了dependencies元素，该元素下可以包含多个dependency元素以声明项目的依赖，这里我们添加了一个依赖——groupId是junit，artifactId是junit，version是4.7。前面我们提到groupId、artifactId和version是任何一个Maven项目最基本的坐标，JUnit也不例外，有了这段声明，Maven就能够自动下载junit-4.7.jar。也许你会问，Maven从哪里下载这个jar呢？在Maven之前，我们可以去JUnit的官网下载分发包。而现在有了Maven，它会自动访问中央仓库([http://repo1.maven.org/maven2/](http://repo1.maven.org/maven2/)) ,下载需要的文件。读者也可以自己访问该仓库，打开路径junit/junit/4.7/，就能看到junit-4.7.pom和junit-4.7.jar。
 
 上述POM代码中还有一个值为test的元素scope，scope为依赖范围，若依赖范围为test则表示该依赖只对测试有效，换句话说，测试代码中的import JUnit代码是没有问题的，但是如果我们在主代码中用import JUnit代码，就会造成编译错误。如果不声明依赖范围，那么默认值就是compile，表示该依赖对主代码和测试代码都有效。
 

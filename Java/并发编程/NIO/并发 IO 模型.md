@@ -24,14 +24,14 @@ BIO 即同步阻塞式 IO，是面向流的，阻塞式的，串行的一个过�
 
 ![](http://rango.swoole.com/static/io/4.png)
 
-多线程模式出现要晚一些，线程与进程相比更轻量，而且线程之间是共享内存堆栈的，所以不同的线程之间交互非常容易实现。比如聊天室这样的程序，客户端连接之间可以交互，比聊天室中的玩家可以任意的其他人发消息。用多线程模式实现非常简单，线程中可以直接读写某一个客户端连接。而多进程模式就要用到管道、消息队列、共享内存实现数据交互，统称进程间通信（IPC）复杂的技术才能实现。
+多线程模式出现要晚一些，线程与进程相比更轻量，而且线程之间是共享内存堆栈的，所以不同的线程之间交互非常容易实现。比如聊天室这样的程序，客户端连接之间可以交互，比聊天室中的玩家可以任意的其他人发消息。用多线程模式实现非常简单，线程中可以直接读写某一个客户端连接。而多进程模式就要用到管道、消息队列、共享内存实现数据交互，统称进程间通信(IPC)复杂的技术才能实现。
 ![](http://rango.swoole.com/static/io/1.png)
 多进程/线程模型的流程如下：
 
-1. 创建一个 socket，绑定服务器端口（bind），监听端口（listen），在 PHP 中用 stream_socket_server 一个函数就能完成上面 3 个步骤，当然也可以使用 php sockets 扩展分别实现。
+1. 创建一个 socket，绑定服务器端口(bind)，监听端口(listen)，在 PHP 中用 stream_socket_server 一个函数就能完成上面 3 个步骤，当然也可以使用 php sockets 扩展分别实现。
 2. 进入 while 循环，阻塞在 accept 操作上，等待客户端连接进入。此时程序会进入随眠状态，直到有新的客户端发起 connect 到服务器，操作系统会唤醒此进程。accept 函数返回客户端连接的 socket
-3. 主进程在多进程模型下通过 fork（php: pcntl_fork）创建子进程，多线程模型下使用 pthread_create（php: new Thread）创建子线程。下文如无特殊声明将使用进程同时表示进程/线程。
-4. 子进程创建成功后进入 while 循环，阻塞在 recv（php: fread）调用上，等待客户端向服务器发送数据。收到数据后服务器程序进行处理然后使用 send（php: fwrite）向客户端发送响应。长连接的服务会持续与客户端交互，而短连接服务一般收到响应就会 close。
+3. 主进程在多进程模型下通过 fork(php: pcntl_fork)创建子进程，多线程模型下使用 pthread_create(php: new Thread)创建子线程。下文如无特殊声明将使用进程同时表示进程/线程。
+4. 子进程创建成功后进入 while 循环，阻塞在 recv(php: fread)调用上，等待客户端向服务器发送数据。收到数据后服务器程序进行处理然后使用 send(php: fwrite)向客户端发送响应。长连接的服务会持续与客户端交互，而短连接服务一般收到响应就会 close。
 5. 当客户端连接关闭时，子进程退出并销毁所有资源。主进程会回收掉此子进程。
 
 ## Leader-Follow 模型
@@ -48,7 +48,7 @@ BIO 即同步阻塞式 IO，是面向流的，阻塞式的，串行的一个过�
 1. 这种模型严重依赖进程的数量解决并发问题，一个客户端连接就需要占用一个进程，工作进程的数量有多少，并发处理能力就有多少。操作系统可以创建的进程数量是有限的。
 2. 启动大量进程会带来额外的进程调度消耗。数百个进程时可能进程上下文切换调度消耗占 CPU 不到 1%可以忽略不接，如果启动数千甚至数万个进程，消耗就会直线上升。调度消耗可能占到 CPU 的百分之几十甚至 100%。
 
-另外有一些场景多进程模型无法解决，比如即时聊天程序（IM），一台服务器要同时维持上万甚至几十万上百万的连接（经典的 C10K 问题），多进程模型就力不从心了。还有一种场景也是多进程模型的软肋。通常 Web 服务器启动 100 个进程，如果一个请求消耗 100ms，100 个进程可以提供 1000qps，这样的处理能力还是不错的。但是如果请求内要调用外网 Http 接口，像 QQ、微博登录，耗时会很长，一个请求需要 10s。那一个进程 1 秒只能处理 0.1 个请求，100 个进程只能达到 10qps，这样的处理能力就太差了。
+另外有一些场景多进程模型无法解决，比如即时聊天程序(IM)，一台服务器要同时维持上万甚至几十万上百万的连接(经典的 C10K 问题)，多进程模型就力不从心了。还有一种场景也是多进程模型的软肋。通常 Web 服务器启动 100 个进程，如果一个请求消耗 100ms，100 个进程可以提供 1000qps，这样的处理能力还是不错的。但是如果请求内要调用外网 Http 接口，像 QQ、微博登录，耗时会很长，一个请求需要 10s。那一个进程 1 秒只能处理 0.1 个请求，100 个进程只能达到 10qps，这样的处理能力就太差了。
 
 # Unix IO 模型
 
@@ -62,7 +62,7 @@ Unix 中内置了 5 种 IO 模型，阻塞式 IO, 非阻塞式 IO，IO 复用模
 
 ![](https://notes.shichao.io/unp/figure_6.2.png)
 
-## I/O Multiplexing: IO 复用（select,poll）
+## I/O Multiplexing: IO 复用(select,poll)
 
 I/O multiplexing means what it says - allowing the programmer to examine and block on multiple I/O streams (or other "synchronizing" events), being notified whenever any one of the streams is active so that it can process data on that stream.
 
@@ -75,7 +75,7 @@ IO 多路复用通过把多个 IO 的阻塞复用到同一个 select 的阻塞�
 IO 多路复用技术通俗阐述，即是由一个线程轮询每个连接，如果某个连接有请求则处理请求，没有请求则处理下一个连接。首先来看下可读事件与可写事件：当如下**任一**情况发生时，会产生套接字的**可读**事件：
 
 * 该套接字的接收缓冲区中的数据字节数大于等于套接字接收缓冲区低水位标记的大小；
-* 该套接字的读半部关闭（也就是收到了 FIN），对这样的套接字的读操作将返回 0（也就是返回 EOF）；
+* 该套接字的读半部关闭(也就是收到了 FIN)，对这样的套接字的读操作将返回 0(也就是返回 EOF)；
 * 该套接字是一个监听套接字且已完成的连接数不为 0；
 * 该套接字有错误待处理，对这样的套接字的读操作将返回-1。
 
@@ -110,7 +110,7 @@ Reactor 模型在 Linux 系统中的具体实现即是 select/poll/epoll/kqueue�
 
 * Synchronous Event Demultiplexer ：同步事件分离器，阻塞等待 Handles 中的事件发生。
 
-* Initiation Dispatcher ：初始分派器，作用为添加 Event handler（事件处理器）、删除 Event handler 以及分派事件给 Event handler。也就是说，Synchronous Event Demultiplexer 负责等待新事件发生，事件发生时通知 Initiation Dispatcher，然后 Initiation Dispatcher 调用 event handler 处理事件。
+* Initiation Dispatcher ：初始分派器，作用为添加 Event handler(事件处理器)、删除 Event handler 以及分派事件给 Event handler。也就是说，Synchronous Event Demultiplexer 负责等待新事件发生，事件发生时通知 Initiation Dispatcher，然后 Initiation Dispatcher 调用 event handler 处理事件。
 
 * Event Handler ：事件处理器的接口
 
@@ -118,7 +118,7 @@ Reactor 模型在 Linux 系统中的具体实现即是 select/poll/epoll/kqueue�
 
 ## 处理逻辑
 
-Reactor 模型的基本的处理逻辑为：（1）我们注册 Concrete Event Handler 到 Initiation Dispatcher 中。（2）Initiation Dispatcher 调用每个 Event Handler 的 get_handle 接口获取其绑定的 Handle。（3）Initiation Dispatcher 调用 handle_events 开始事件处理循环。在这里，Initiation Dispatcher 会将步骤 2 获取的所有 Handle 都收集起来，使用 Synchronous Event Demultiplexer 来等待这些 Handle 的事件发生。（4）当某个（或某几个）Handle 的事件发生时，Synchronous Event Demultiplexer 通知 Initiation Dispatcher。（5）Initiation Dispatcher 根据发生事件的 Handle 找出所对应的 Handler。（6）Initiation Dispatcher 调用 Handler 的 handle_event 方法处理事件。
+Reactor 模型的基本的处理逻辑为：(1)我们注册 Concrete Event Handler 到 Initiation Dispatcher 中。(2)Initiation Dispatcher 调用每个 Event Handler 的 get_handle 接口获取其绑定的 Handle。(3)Initiation Dispatcher 调用 handle_events 开始事件处理循环。在这里，Initiation Dispatcher 会将步骤 2 获取的所有 Handle 都收集起来，使用 Synchronous Event Demultiplexer 来等待这些 Handle 的事件发生。(4)当某个(或某几个)Handle 的事件发生时，Synchronous Event Demultiplexer 通知 Initiation Dispatcher。(5)Initiation Dispatcher 根据发生事件的 Handle 找出所对应的 Handler。(6)Initiation Dispatcher 调用 Handler 的 handle_event 方法处理事件。
 
 时序图如下：
 ![](http://www.dengshenyu.com/assets/redis-reactor/reactor-mode4.png)
@@ -149,5 +149,5 @@ Reactor 和 Proactor 模式的主要区别就是真正的读取和写入操作�
 
 1. 应用程序初始化一个异步读取操作，然后注册相应的事件处理器，此时事件处理器不关注读取就绪事件，而是关注读取完成事件，这是区别于 Reactor 的关键。
 2. 事件分离器等待读取操作完成事件。
-3. 在事件分离器等待读取操作完成的时候，操作系统调用内核线程完成读取操作（异步 IO 都是操作系统负责将数据读写到应用传递进来的缓冲区供应用程序操作，操作系统扮演了重要角色），并将读取的内容放入用户传递过来的缓存区中。这也是区别于 Reactor 的一点，Proactor 中，应用程序需要传递缓存区。
+3. 在事件分离器等待读取操作完成的时候，操作系统调用内核线程完成读取操作(异步 IO 都是操作系统负责将数据读写到应用传递进来的缓冲区供应用程序操作，操作系统扮演了重要角色)，并将读取的内容放入用户传递过来的缓存区中。这也是区别于 Reactor 的一点，Proactor 中，应用程序需要传递缓存区。
 4. 事件分离器捕获到读取完成事件后，激活应用程序注册的事件处理器，事件处理器直接从缓存区读取数据，而不需要进行实际的读取操作。

@@ -1,7 +1,7 @@
 
 # Java NonBlocking IO
 
-Java NIO，被称为新 IO(New IO)，是 Java 1.4 引入的，用来替代 IO API的，它的基础是操作系统提供的I/O多路复用技术。。在JDK1.4推出Java NIO之前，基于Java的所有Socket通信都采用了同步阻塞模式（BIO），这种一请求一应答的通信模型简化了上层的应用开发，但是在性能和可靠性方面却存在着巨大的瓶颈。因此，在很长的一段时间里，大型的应用服务器都采用C或者C++，因为它们可以直接使用操作系统提供的异步I/O能力。 一般来说BIO提供的都是面向流的I/O系统，系统一次一个字节地处理数据，一个输入流产生一个字节的数据，一个输出流消费一个字节的数据，面向流的I/O速度非常慢，而NIO是一个面向块的I/O系统，系统以块的方式处理处理，每一个操作在一步中产生或者消费一个数据库，按块处理要比按字节处理数据快的多。
+Java NIO，被称为新 IO(New IO)，是 Java 1.4 引入的，用来替代 IO API的，它的基础是操作系统提供的I/O多路复用技术。。在JDK1.4推出Java NIO之前，基于Java的所有Socket通信都采用了同步阻塞模式(BIO)，这种一请求一应答的通信模型简化了上层的应用开发，但是在性能和可靠性方面却存在着巨大的瓶颈。因此，在很长的一段时间里，大型的应用服务器都采用C或者C++，因为它们可以直接使用操作系统提供的异步I/O能力。 一般来说BIO提供的都是面向流的I/O系统，系统一次一个字节地处理数据，一个输入流产生一个字节的数据，一个输出流消费一个字节的数据，面向流的I/O速度非常慢，而NIO是一个面向块的I/O系统，系统以块的方式处理处理，每一个操作在一步中产生或者消费一个数据库，按块处理要比按字节处理数据快的多。
 
 # Basic Concepts
 标准的 Java IO API ，你操作的对象是字节流(byte stream)或者字符流(character stream)，而 NIO，你操作的对象是 channels 和 buffers。数据总是从一个 channel 读到一个 buffer 上，或者从一个 buffer 写到 channel 上。Non-blocking 是非阻塞的意思。Java NIO 让你可以做非阻塞的 IO 操作。比如一个线程里，可以从一个 channel 读取数据到一个 buffer 上，在 channel 读取数据到 buffer 的时候，线程可以做其他的事情。当数据读取到 buffer 上后，线程可以继续处理它。
@@ -11,7 +11,7 @@ Java NIO 有三个核心组件(core components)：
 - Selectors
 
 ## Channels
-Channel是一个通道，可以通过它读取和写入数据，它就像自来水管一样，网络数据通过Channel读取和写入。通道与流的不同之处在于通道是双向的，流只是在一个方向上移动（InputStream或OutputStream的子类），而且通道可以用于读、写或者同时用于读写。
+Channel是一个通道，可以通过它读取和写入数据，它就像自来水管一样，网络数据通过Channel读取和写入。通道与流的不同之处在于通道是双向的，流只是在一个方向上移动(InputStream或OutputStream的子类)，而且通道可以用于读、写或者同时用于读写。
 - 一个 Channel 可以读和写，而一个流一般只能读或者写
 - Channel 可以异步(asynchronously)的读和写
 - Channel 总是需要一个 Buffer，不管是读到 Buffer 还是从 Buffer 写到 Channel
@@ -29,9 +29,9 @@ Channel是一个通道，可以通过它读取和写入数据，它就像自来�
 ### 从Channel中读取数据
 
 在前面我们说过，任何时候读取数据，都不是直接从通道读取，而是从通道读取到缓冲区。所以使用NIO读取数据可以分为下面三个步骤： 
-（1）从FileInputStream获取Channel 
-（2）创建Buffer 
-（3）将数据从Channel读取到Buffer中
+(1)从FileInputStream获取Channel 
+(2)创建Buffer 
+(3)将数据从Channel读取到Buffer中
 下面是一个简单的使用NIO从文件中读取数据的例子：
 ```java
 import java.io.*;
@@ -64,9 +64,9 @@ public class Program {
 ```
 ### 向Channel中写入数据
 使用NIO写入数据与读取数据的过程类似，同样数据不是直接写入通道，而是写入缓冲区，可以分为下面三个步骤：
-（1）从FileInputStream获取Channel
-（2）创建Buffer
-（3）将数据从Channel写入到Buffer中
+(1)从FileInputStream获取Channel
+(2)创建Buffer
+(3)将数据从Channel写入到Buffer中
 
 下面是一个简单的使用NIO向文件中写入数据的例子：
 ```

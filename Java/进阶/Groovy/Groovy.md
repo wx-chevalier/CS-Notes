@@ -165,9 +165,9 @@ println parent.child.name
 ```
 
 在上面的例子中，当我们调用 configChild()方法时，我们并没有指出 name 属性是属于 Child 的，但是它的确是在设置 Child 的 name 属性。事实上光从该方法的调用中，我们根本不知道 name 是属于
-    哪个对象的，你可能会认为它是属于 Parent 的。真实情况是，在默认情况下，name 的确被认为是属于 Parent 的，但是我们在 configChild()方法的定义中做了手脚，使其不再访问 Parent 中的 name（Parent 也没有 name 属性），而是 Child 的 name。在 configChild()方法中，我们将该方法接受的闭包的 delegate 设置成了 child，然后将该闭包的 ResolveStrategy 设置成了 DELEGATE_FIRST。这样，在调用 configChild()时，所跟闭包中代码被代理到了 child 上，即这些代码实际上是在 child 上执行的。此外，闭包的 ResolveStrategy 在默认情况下是 OWNER_FIRST，即它会先查找闭包的 owner（这里即 parent），如果 owner 存在，则在 owner 上执行闭包中的代码。这里我们将其设置成了 DELEGATE_FIRST，即该闭 包会首先查找 delegate（本例中即 child），如果找到，该闭包便会在 delegate 上执行。对于上面的 showDescription3，便 是这种情况。当然，实际情况会稍微复杂一点，比如 showDescription3()方法会在内部调用 showDescription3 的 configure()方法，再在 configure()方法中执行闭包中的代码。
+    哪个对象的，你可能会认为它是属于 Parent 的。真实情况是，在默认情况下，name 的确被认为是属于 Parent 的，但是我们在 configChild()方法的定义中做了手脚，使其不再访问 Parent 中的 name(Parent 也没有 name 属性)，而是 Child 的 name。在 configChild()方法中，我们将该方法接受的闭包的 delegate 设置成了 child，然后将该闭包的 ResolveStrategy 设置成了 DELEGATE_FIRST。这样，在调用 configChild()时，所跟闭包中代码被代理到了 child 上，即这些代码实际上是在 child 上执行的。此外，闭包的 ResolveStrategy 在默认情况下是 OWNER_FIRST，即它会先查找闭包的 owner(这里即 parent)，如果 owner 存在，则在 owner 上执行闭包中的代码。这里我们将其设置成了 DELEGATE_FIRST，即该闭 包会首先查找 delegate(本例中即 child)，如果找到，该闭包便会在 delegate 上执行。对于上面的 showDescription3，便 是这种情况。当然，实际情况会稍微复杂一点，比如 showDescription3()方法会在内部调用 showDescription3 的 configure()方法，再在 configure()方法中执行闭包中的代码。
 
 你可能会发现，在使用 Gradle 时，我们并没有像上面的 parent.configChild()一样指明方法调用的对象，而是在 build.gradle 文件中直接调用 task()，apply()和 configuration()方法等，这是
     因为在没有说明调用对象的情况下，Gradle 会自动将调用对象设置成当前 Project。比如调用 apply()方法和调用 project.apply()方法的效果是一样的。查查 Gradle 的 Project 文档，你会发现这些方法都是 Project 类的方法。
 
-另外举个例子，对于 configurations()方法（它的作用我们将在后面的文章中讲到），该方法实际上会将所跟闭包的 delegate 设置成 ConfigurationContainer，然后在该 ConfigurationContainer 上执行闭包中的代码。再比 如，dependencies()方法，该方法会将所跟闭包的 delegate 设置成 DependencyHandler。
+另外举个例子，对于 configurations()方法(它的作用我们将在后面的文章中讲到)，该方法实际上会将所跟闭包的 delegate 设置成 ConfigurationContainer，然后在该 ConfigurationContainer 上执行闭包中的代码。再比 如，dependencies()方法，该方法会将所跟闭包的 delegate 设置成 DependencyHandler。

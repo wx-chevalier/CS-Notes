@@ -4,11 +4,11 @@
 
 当我们需要编写接近实时高性能，稳健，并有足够开发效率的大程序时，譬如数据库、交易系统、大型桌面应用等，往往会首先选择 C 或者 C++。这种情况下我们往往有以下考量：
 
-* 不需要自动垃圾回收（GC ），避免因为垃圾回收导致的程序中断，以及可能引发的错误或者麻烦。
+* 不需要自动垃圾回收(GC )，避免因为垃圾回收导致的程序中断，以及可能引发的错误或者麻烦。
 
 * 有成熟完善的基础组件库，以保证开发效率。这一点正是 C 的不足，其虽然能保证高性能，但却需要重复造轮子；而 C++ 虽然内置了标准库，但是其却缺乏统一、完善的包管理器。
 
-- 零开销抽象（Zero Cost Abstraction ），我们希望有合适的抽象来保证开发效率、可读与可维护性，但是这种抽象必须是没有运行时开销的。因此我们需要静态强类型多范式语言，编译器能够尽早地发现问题，并且在编译阶段即能自动地进行性能优化；譬如 C++ 中，编译器如果发现虚类 (Virtual Class) 没有真正被用到甚至会优化掉虚表 (Virtual Table)。
+- 零开销抽象(Zero Cost Abstraction )，我们希望有合适的抽象来保证开发效率、可读与可维护性，但是这种抽象必须是没有运行时开销的。因此我们需要静态强类型多范式语言，编译器能够尽早地发现问题，并且在编译阶段即能自动地进行性能优化；譬如 C++ 中，编译器如果发现虚类 (Virtual Class) 没有真正被用到甚至会优化掉虚表 (Virtual Table)。
 
 借鉴 [How Stylo Brought Rust and Servo to Firefox](http://bholley.net/blog/2017/stylo.html) 一文中的阐述，Mozilla, Google, Apple, 以及 Microsoft 等优秀公司开发的大型的 C/C++ 应用中，错误与漏洞从未停止，我们需要的是一门安全、高效、可扩展的语言。作为新语言，Rust 没有太多历史的包袱；但是 Rust 也并非一蹴而就，而是近 30 年的编程语言理论研究和实际软件工程的经验的集大成者：
 
@@ -20,7 +20,7 @@
 
 * They built a convenient [package ecosystem](https://crates.io/), allowing the out-of-the-box capabilities of Rust to grow while the core language and standard library remained small.
 
-Rust 是为工业应用而生，并不拘泥于遵循某个范式（ Paradigm ），笔者认为其最核心的特性为 Ownership 与 Lifetime；能够在没有 GC 与 Runtime 的情况下，防止近乎所有的段错误，并且保证线程安全（prevents nearly all segfaults, and guarantees thread safety ）。Rust 为每个引用与指针设置了 Lifetime，对象则不允许在同一时间有两个和两个以上的可变引用，并且在编译阶段即进行了内存分配（栈或者堆）； Rust 还提供了 Closure 等函数式编程语言的特性、编译时多态（Compile-time Polymorphism ）、衍生的错误处理机制、灵活的模块系统等。从应用层面来看，Mozilla 本身就是 Web 领域的执牛耳者，无论是使用 Rust 开发 Node.js 插件，还是 [Rust 默认支持 WebAssembly](https://parg.co/UPo)，都能很好地弥补目前笔者在进行 Web 前端 / Electron 客户端 / Node.js 计算模块的一些性能缺失。
+Rust 是为工业应用而生，并不拘泥于遵循某个范式( Paradigm )，笔者认为其最核心的特性为 Ownership 与 Lifetime；能够在没有 GC 与 Runtime 的情况下，防止近乎所有的段错误，并且保证线程安全(prevents nearly all segfaults, and guarantees thread safety )。Rust 为每个引用与指针设置了 Lifetime，对象则不允许在同一时间有两个和两个以上的可变引用，并且在编译阶段即进行了内存分配(栈或者堆)； Rust 还提供了 Closure 等函数式编程语言的特性、编译时多态(Compile-time Polymorphism )、衍生的错误处理机制、灵活的模块系统等。从应用层面来看，Mozilla 本身就是 Web 领域的执牛耳者，无论是使用 Rust 开发 Node.js 插件，还是 [Rust 默认支持 WebAssembly](https://parg.co/UPo)，都能很好地弥补目前笔者在进行 Web 前端 / Electron 客户端 / Node.js 计算模块的一些性能缺失。
 
 [Rust 官方的教程](https://parg.co/UPm)也是非常优秀的 Rust 学习资料，也可以在 [Rust  Learning & Practices Links](https://parg.co/UZ6)中查询更多的参考资料。下面我们开始在本地安装 Rust 开发环境，可以使用如下脚本，或者在 Windows 上下载 [rustup-init.exe](https://static.rust-lang.org/rustup/dist/i686-pc-windows-gnu/rustup-init.exe)；离线安装的话则可以下载[离线安装包](https://www.rust-lang.org/en-US/other-installers.html)。
 
@@ -60,7 +60,7 @@ fn main() {
     // 打印函数，println! 是 Macro
     println!("Guess the number!");
 
-    // let 进行变量绑定（Variable Bindings）
+    // let 进行变量绑定(Variable Bindings)
     let secret_number = rand::thread_rng().gen_range(1, 101);
 
     loop {

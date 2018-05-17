@@ -125,7 +125,7 @@ public class TestRedis {
     @Test  
     public void test() throws InterruptedException {  
         //jedis 排序  
-        //注意，此处的rpush和lpush是List的操作。是一个双向链表（但从表现来看的）  
+        //注意，此处的rpush和lpush是List的操作。是一个双向链表(但从表现来看的)  
         jedis.del("a");//先清除数据，再加入数据进行测试  
         jedis.rpush("a", "1");  
         jedis.lpush("a","6");  

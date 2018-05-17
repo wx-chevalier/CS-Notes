@@ -6,17 +6,17 @@ Lombok主要依赖编译时代码生成技术，帮你自动生成基于模板�
 ## Quick Start
 ### Installation
 笔者目前用的开发环境是Intellij+Gradle，这里只介绍下这种搭建方式，其他的基于Eclipse或者Maven的可以到官网主页查看。
-（1）在Intellij中添加Plugin
+(1)在Intellij中添加Plugin
 - Go to `File > Settings > Plugins`
 - Click on `Browse repositories...`
 - Search for `Lombok Plugin`
 - Click on `Install plugin`
 - Restart Android Studio
 
-（2）允许注解处理
+(2)允许注解处理
 - Settings -> Compiler -> Annotation Processors
 
-（3）Gradle中添加依赖
+(3)Gradle中添加依赖
 ```
 compile "org.projectlombok:lombok:1.12.6"
 ```

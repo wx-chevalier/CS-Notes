@@ -58,7 +58,7 @@ Log4j 2 包含了基于 LMAX 分离库的下一代的异步日志系统，在多
 
 Log4j 2 是 Log4j 的升级版本，该版本比起其前任来说有着显著的改进，包含很多在  Logback  中的改进以及 Logback 架构中存在的问题。这是 Log4j 2 的首次发行的版本，值得关注的改进包括：
 
-* API 分离 – Log4j 的 API 和其实现进行分类（注：我讨厌这样，本来一个 jar 包搞定的，要变成好几个，跟  slf4j  似的的）
+* API 分离 – Log4j 的 API 和其实现进行分类(注：我讨厌这样，本来一个 jar 包搞定的，要变成好几个，跟  slf4j  似的的)
 
 - 为日志审计而设计，与 Log4j 1.x 和 Logback 不同的是 Log4j 2 将不会在重新配置期间丢失事件，支持消息可方便进行审计
 
@@ -129,7 +129,7 @@ public class HelloLog4j {
 }
 ```
 
-需要注意的是，log4j 2.0 与以往的 1.x 有一个明显的不同，其配置文件只能采用.xml, .json 或者 .jsn。在默认情况下，系统选择 configuration 文件的优先级如下：（classpath 为 scr 文件夹）
+需要注意的是，log4j 2.0 与以往的 1.x 有一个明显的不同，其配置文件只能采用.xml, .json 或者 .jsn。在默认情况下，系统选择 configuration 文件的优先级如下：(classpath 为 scr 文件夹)
 
 * classpath 下名为 log4j-test.json 或者 log4j-test.jsn 文件
 
@@ -232,7 +232,7 @@ loggers 标签，用于定义 logger 的 lever 和所采用的 appender，其中
 </configuration>
 ```
 
-此时，HelloLog4j 则会在 error 级别上输出 log，而其他类则会在 trace 级别上输出 log。需要注意的是 additivity 选项，如果设置为 true（默认值）则 HelloLog4j 的 log 会被打印两次，第二次打印是由于 HelloLog4j 同时也满足 root 里面定义的 trace。在 log4j2 中可以配置不同的 Logger 输出到不同的文件中，如果有时候需要按照不同的级别输出到不同的文件中，则直接在 logger 的 AppenderRef 中定义不同的 level 指向。
+此时，HelloLog4j 则会在 error 级别上输出 log，而其他类则会在 trace 级别上输出 log。需要注意的是 additivity 选项，如果设置为 true(默认值)则 HelloLog4j 的 log 会被打印两次，第二次打印是由于 HelloLog4j 同时也满足 root 里面定义的 trace。在 log4j2 中可以配置不同的 Logger 输出到不同的文件中，如果有时候需要按照不同的级别输出到不同的文件中，则直接在 logger 的 AppenderRef 中定义不同的 level 指向。
 
 ```xml
 <Loggers>

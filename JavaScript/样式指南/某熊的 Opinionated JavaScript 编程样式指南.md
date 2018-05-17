@@ -48,7 +48,7 @@ if (...) {
 ### 目录与文件
 
 * 目录统一以 camel_case 方式命名，子目录不应该包含父目录信息。譬如我们需要定义领域相关目录，应该使用 `user/auth` 而不是 `user/user_auth`；
-* 包含类（组件类）的文件以 CamelCase 方式命名，并且遵循 Single Public Class in Single File 的原则；即每个类文件中只允许导出单个类，允许定义其他私有内部类；一旦某个内部类被其他文件引用（非 PublicClass.PrivateClass 引用），即需要将该内部类提出为公共外部类；
+* 包含类(组件类)的文件以 CamelCase 方式命名，并且遵循 Single Public Class in Single File 的原则；即每个类文件中只允许导出单个类，允许定义其他私有内部类；一旦某个内部类被其他文件引用(非 PublicClass.PrivateClass 引用)，即需要将该内部类提出为公共外部类；
 * 仅包含函数或者配置性质的文件以 camel_case 方式命名，使用 .js 后缀；
 * JavaScript 类文件使用 .js 后缀，React 组件类使用 .jsx 后缀，Vue 组件使用 .vue 后缀；
 
@@ -203,7 +203,7 @@ class Rey extends Jedi {
 
 * 声明并导出公开外部类；
 
-* 声明静态属性（可选）；
+* 声明静态属性(可选)；
 
 * 声明类属性；
 

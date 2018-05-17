@@ -3,7 +3,7 @@
 # Lambda 与闭包
 
 ## Functional Interface: 函数式接口
-Java原本作为纯粹的面向对象的语言，需要对Lambda表达式特性进行支持，其实是基于了一种特殊的函数式接口。换言之，()->{}这样的语法本质上还是继承并且实现了一个接口。FI的定义其实很简单：任何接口，如果只包含    **唯一**    一个抽象方法，那么它就是一个FI。为了让编译器帮助我们确保一个接口满足FI的要求（也就是说有且仅有一个抽象方法），Java8提供了@FunctionalInterface注解。举个简单的例子，Runnable接口就是一个FI，下面是它的源代码：  
+Java原本作为纯粹的面向对象的语言，需要对Lambda表达式特性进行支持，其实是基于了一种特殊的函数式接口。换言之，()->{}这样的语法本质上还是继承并且实现了一个接口。FI的定义其实很简单：任何接口，如果只包含    **唯一**    一个抽象方法，那么它就是一个FI。为了让编译器帮助我们确保一个接口满足FI的要求(也就是说有且仅有一个抽象方法)，Java8提供了@FunctionalInterface注解。举个简单的例子，Runnable接口就是一个FI，下面是它的源代码：  
 
 ``` java
 @FunctionalInterface
@@ -16,7 +16,7 @@ public interface Runnable {
 
 #### Predicate
 
-Predicate是一个布尔类型的函数，该函数只有一个输入参数。Predicate接口包含了多种默认方法，用于处理复杂的逻辑动词（and, or，negate）
+Predicate是一个布尔类型的函数，该函数只有一个输入参数。Predicate接口包含了多种默认方法，用于处理复杂的逻辑动词(and, or，negate)
 
 ``` java
 Predicate<String> predicate = (s) -> s.length() > 0;
@@ -58,7 +58,7 @@ Java是一个完全的面向对象的语言，这也是它为人诟病的一点�
 - 参数
 - 自由变量的值，这里的“自由”指的是那些不是参数并且没有在代码中定义的变量。
 
-Lambda表达式本身是构造了一个继承自某个函数式接口的子类，所以可以用父类指针指向它。Java中本质上闭包中是采用的值捕获，即不可以在闭包中使用可变对象。但是它实际上是允许捕获事实上不变量，譬如不可变的ArrayList，只是指针指向不可变罢了。虽然实现用的是值捕获，但效果看起来跟引用捕获一样；就算以后的Java扩展到允许通用的（对可变变量的）引用捕获，也不会跟已有的代码发生不兼容。
+Lambda表达式本身是构造了一个继承自某个函数式接口的子类，所以可以用父类指针指向它。Java中本质上闭包中是采用的值捕获，即不可以在闭包中使用可变对象。但是它实际上是允许捕获事实上不变量，譬如不可变的ArrayList，只是指针指向不可变罢了。虽然实现用的是值捕获，但效果看起来跟引用捕获一样；就算以后的Java扩展到允许通用的(对可变变量的)引用捕获，也不会跟已有的代码发生不兼容。
 Java中最常见的闭包的使用如下所示：
 ``` 
 Runnable task = () -> {
@@ -72,22 +72,22 @@ Comparator<String> cmp = (s1, s2) -> {
 
 ### 方法引用
 
-有时候Lambda表达式的代码就只是一个简单的方法调用而已，遇到这种情况，Lambda表达式还可以进一步简化为    [方法引用（Method References）](http://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html)    。一共有四种形式的方法引用。
+有时候Lambda表达式的代码就只是一个简单的方法调用而已，遇到这种情况，Lambda表达式还可以进一步简化为    [方法引用(Method References)](http://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html)    。一共有四种形式的方法引用。
 
-（1）静态方法引用
+(1)静态方法引用
 ``` 
 List<Integer> ints = Arrays.asList(1, 2, 3);
 ints.sort(Integer::compare);
 ```
 
-（2）某个特定对象的实例方法
+(2)某个特定对象的实例方法
 
 例如前面那个遍历并打印每一个word的例子可以写成这样：
 ``` 
 words.forEach(System.out::println);
 ```
 
-（3）某个类的实例方法
+(3)某个类的实例方法
 
 例如：
 
@@ -95,7 +95,7 @@ words.forEach(System.out::println);
 words.stream().map(word -> word.length()); // lambda
 words.stream().map(String::length); // method reference
 ```
-（4）构造函数引用
+(4)构造函数引用
 
 ``` 
 // lambda
@@ -112,16 +112,16 @@ words.stream().map(StringBuilder::new);
 - 类成员变量与静态变量可以被读写，即闭包中的this实际指向的是创建该Lambda表达式的方法的this参数。
 - 函数式接口的默认方法不可以在Lambda表达式中被访问。
 
-（1）局部变量
+(1)局部变量
 lambda表达式的方法体与嵌套代码块有着相同的作用域。因此它也适用同样的命名冲突和屏蔽规则。在lambda表达式中不允许声明一个与局部变量同名的参数或者局部变量。
 
 ``` 
 Path first = Paths.get("/usr/bin");
-Comparator<String> comp = （first,second) ->
+Comparator<String> comp = (first,second) ->
     Integer.compare(first.length(),second.length());
 //错误，变量first已经定义了
 ```
-在一个方法里，你不能有两个同名的局部变量，因此，你也不能在lambda表达式中引入这样的变量。在下一个示例中，lambda表达式有两个自由变量，text和count。数据结构表示lambda表达式必须存储这两个变量的值，即“Hello”和20。我们可以说，这些值已经被lambda表达式捕获了（这是一个技术实现的细节。例如，你可以将一个lambda表达式转换为一个只含一个方法的对象，这样自由变量的值就会被复制到该对象的实例变量中）。
+在一个方法里，你不能有两个同名的局部变量，因此，你也不能在lambda表达式中引入这样的变量。在下一个示例中，lambda表达式有两个自由变量，text和count。数据结构表示lambda表达式必须存储这两个变量的值，即“Hello”和20。我们可以说，这些值已经被lambda表达式捕获了(这是一个技术实现的细节。例如，你可以将一个lambda表达式转换为一个只含一个方法的对象，这样自由变量的值就会被复制到该对象的实例变量中)。
 ``` java
 package java8test;
 
@@ -141,7 +141,7 @@ public class T1 {
 }
 ```
 
-（2）this
+(2)this
 当你在lambda表达式中使用this关键字，你会引用创建该lambda表达式的方法的this参数，以下面的代码为例：
 
 ``` 
@@ -154,7 +154,7 @@ public class Application{
 
 表达式this.toString()会调用Application对象的toString()方法，而不是Runnable实例的toString()方法。在lambda表达式中使用this，与在其他地方使用this没有什么不同。lambda表达式的作用域被嵌套在doWork()方法中，并且无论this位于方法的何处，其意义都是一样的。
 
-（3）引用的变量不可更改
+(3)引用的变量不可更改
 Lambda表达式可以捕获闭合作用域中的变量值。在Java中，为了确保被捕获的值是被良好定义的，需要遵守一个重要的约束。在lambda表达式中，被引用的变量的值不可以被更改。例如，下面这个表达式是不合法的：
 ``` java
 public static void repeatMessage(String text,int count){
@@ -185,7 +185,7 @@ for(Path p: files)
     new Thread(() -> {if(p中包含某些属性) matches.add(p);}).start();
 ```
 
-注意matches是“有效final”的（一个有效的final变量被初始化后，就永远不会再被赋一个新值的变量）。在我们的示例中，matches总是引用同一个ArrayList对象，但是，这个对象是可变的，因此是线程不安全的 。如果多个线程同时调用add方法，结果将无法预测。
+注意matches是“有效final”的(一个有效的final变量被初始化后，就永远不会再被赋一个新值的变量)。在我们的示例中，matches总是引用同一个ArrayList对象，但是，这个对象是可变的，因此是线程不安全的 。如果多个线程同时调用add方法，结果将无法预测。
 
 
 ### Polyfill:在Java 8之前使用Lambda

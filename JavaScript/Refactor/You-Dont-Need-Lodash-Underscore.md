@@ -162,7 +162,7 @@ Iterates over a list of elements, yielding each in turn to an iteratee function.
 
 ## _.reduce
 
-接收一个函数作为累加器（accumulator），数组中的每个值（从左到右）开始缩减，最终为一个值。
+接收一个函数作为累加器(accumulator)，数组中的每个值(从左到右)开始缩减，最终为一个值。
 
   ```js
   // Underscore/Lodash
@@ -191,7 +191,7 @@ Iterates over a list of elements, yielding each in turn to an iteratee function.
 
 ## _.reduceRight
 
-接受一个函数作为累加器（accumulator），让每个值（从右到左，亦即从尾到头）缩减为一个值。（与 reduce() 的执行方向相反）
+接受一个函数作为累加器(accumulator)，让每个值(从右到左，亦即从尾到头)缩减为一个值。(与 reduce() 的执行方向相反)
 
   ```js
   // Underscore/Lodash
@@ -344,7 +344,7 @@ Iterates over a list of elements, yielding each in turn to an iteratee function.
 
 ## _.lastIndexOf
 
-返回指定元素（也即有效的 JavaScript 值或变量）在数组中的最后一个的索引，如果不存在则返回 -1。从数组的后面向前查找，从 fromIndex 处开始。
+返回指定元素(也即有效的 JavaScript 值或变量)在数组中的最后一个的索引，如果不存在则返回 -1。从数组的后面向前查找，从 fromIndex 处开始。
 
   ```js
   // Underscore/Lodash

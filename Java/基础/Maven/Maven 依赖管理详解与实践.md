@@ -88,12 +88,12 @@ A -> B -> C -> D 2.0 and A -> E -> D 1.0，什么意思？A依赖B，。。。�
    </project>
 ```
 # Dependency Scope
-maven有三套classpath（编译classpath，运行classpath，测试classpath）分别对应构建的三个阶段。依赖范围就是控制依赖与这三套classpath的关系。依赖范围有六种：
+maven有三套classpath(编译classpath，运行classpath，测试classpath)分别对应构建的三个阶段。依赖范围就是控制依赖与这三套classpath的关系。依赖范围有六种：
 在POM 4中，<dependency>中还引入了<scope>，它主要管理依赖的部署。目前<scope>可以使用5个值：   
     * compile，缺省值，适用于所有阶段，会随着项目一起发布。  compile 是默认的范围；如果没有提供一个范围，那该依赖的范围就是编译范围。编译范围依赖在所有的classpath 中可用，同时它们也会被打包。  
-    * provided，provided 依赖只有在当JDK 或者一个容器已提供该依赖之后才使用。例如，如果你开发了一个web 应用，你可能在编译classpath 中需要可用的ServletAPI 来编译一个servlet，但是你不会想要在打包好的WAR中包含这个ServletAPI；这个Servlet API JAR 由你的应用服务器或者servlet 容器提供。已提供范围的依赖在编译classpath（不是运行时）可用。它们不是传递性的，也不会被打包。    * runtime， runtime 依赖在运行和测试系统的时候需要，但在编译的时候不需要。比如，你可能在编译的时候只需要JDBC API JAR，而只有在运行的时候才需要JDBC驱动实现。
+    * provided，provided 依赖只有在当JDK 或者一个容器已提供该依赖之后才使用。例如，如果你开发了一个web 应用，你可能在编译classpath 中需要可用的ServletAPI 来编译一个servlet，但是你不会想要在打包好的WAR中包含这个ServletAPI；这个Servlet API JAR 由你的应用服务器或者servlet 容器提供。已提供范围的依赖在编译classpath(不是运行时)可用。它们不是传递性的，也不会被打包。    * runtime， runtime 依赖在运行和测试系统的时候需要，但在编译的时候不需要。比如，你可能在编译的时候只需要JDBC API JAR，而只有在运行的时候才需要JDBC驱动实现。
     * test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。    
-    * system，system 范围依赖与provided 类似，但是你必须显式的提供一个对于本地系统中JAR 文件的路径。这么做是为了允许基于本地对象编译，而这些对象是系统类库的一部分。这样的构件应该是一直可用的，Maven 也不会在仓库中去寻找它。如果你将一个依赖范围设置成系统范围，你必须同时提供一个systemPath元素。注意该范围是不推荐使用的（你应该一直尽量去从公共或定制的Maven仓库中引用依赖）。
+    * system，system 范围依赖与provided 类似，但是你必须显式的提供一个对于本地系统中JAR 文件的路径。这么做是为了允许基于本地对象编译，而这些对象是系统类库的一部分。这样的构件应该是一直可用的，Maven 也不会在仓库中去寻找它。如果你将一个依赖范围设置成系统范围，你必须同时提供一个systemPath元素。注意该范围是不推荐使用的(你应该一直尽量去从公共或定制的Maven仓库中引用依赖)。
 ```
     <project>
       ...

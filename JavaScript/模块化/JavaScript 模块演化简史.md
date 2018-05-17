@@ -12,7 +12,7 @@
 </script>
 ```
 
-不过随着单页应用与富客户端的流行，不断增长的代码库也急需合理的代码分割与依赖管理的解决方案，这也就是我们在软件工程领域所熟悉的模块化（Modularity）。所谓模块化主要是解决代码分割、作用域隔离、模块之间的依赖管理以及发布到生产环境时的自动化打包与处理等多个方面。二十年间流行过的 JavaScript 模块化解决方案包括但不限于直接声明依赖（Directly Defined Dependences）、命名空间（Namespace Pattern）、模块模式（Module Pattern）、依赖分离定义（Detached Dependency Definitions）、沙盒（Sandbox）、依赖注入（Dependency Injection）、CommonJS、AMD、UMD、标签化模块（Labeled Modules）、YModules、ES 2015 Modules。在早期的 Web 开发中，所有的嵌入到网页内的 JavaScript 对象都会使用全局的 `window` 对象来存放未使用 `var` 定义的变量。大概在上世纪末，JavaScript 多用于解决简单的任务，这也就意味着我们只需编写少量的 JavaScript 代码；不过随着代码库的线性增长，我们首先会碰到的就是所谓命名冲突（Name Collisions）困境：
+不过随着单页应用与富客户端的流行，不断增长的代码库也急需合理的代码分割与依赖管理的解决方案，这也就是我们在软件工程领域所熟悉的模块化(Modularity)。所谓模块化主要是解决代码分割、作用域隔离、模块之间的依赖管理以及发布到生产环境时的自动化打包与处理等多个方面。二十年间流行过的 JavaScript 模块化解决方案包括但不限于直接声明依赖(Directly Defined Dependences)、命名空间(Namespace Pattern)、模块模式(Module Pattern)、依赖分离定义(Detached Dependency Definitions)、沙盒(Sandbox)、依赖注入(Dependency Injection)、CommonJS、AMD、UMD、标签化模块(Labeled Modules)、YModules、ES 2015 Modules。在早期的 Web 开发中，所有的嵌入到网页内的 JavaScript 对象都会使用全局的 `window` 对象来存放未使用 `var` 定义的变量。大概在上世纪末，JavaScript 多用于解决简单的任务，这也就意味着我们只需编写少量的 JavaScript 代码；不过随着代码库的线性增长，我们首先会碰到的就是所谓命名冲突(Name Collisions)困境：
 
 ```// file greeting.js
 var helloInLang = {
@@ -138,7 +138,7 @@ APP.module3 = new module3({ a: 42 });
 
 # 依赖注入
 
-Martin Fowler 于 2004 年提出了依赖注入（[Dependency Injection](https://martinfowler.com/articles/injection.html)）的概念，其主要用于  Java 中的组件内通信；以 Spring 为代表的一系列支持依赖注入与控制反转的框架将这种设计模式发扬光大，并且成为了 Java 服务端开发的标准模式之一。依赖注入的核心思想在于某个模块不需要手动地初始化某个依赖对象，而只需要声明该依赖并由外部框架自动实例化该对象实现并且传递到模块内。而五年之后的 2009 年 [Misko Hevery](https://github.com/mhevery)  开始设计新的 JavaScript 框架，并且使用了依赖注入作为其组件间通信的核心机制。这个框架就是引领一时风骚，甚至于说是现代 Web 开发先驱之一的 Angular。Angular 允许我们定义模块，并且在显式地声明其依赖模块而由框架完成自动注入。其核心思想如下所示：
+Martin Fowler 于 2004 年提出了依赖注入([Dependency Injection](https://martinfowler.com/articles/injection.html))的概念，其主要用于  Java 中的组件内通信；以 Spring 为代表的一系列支持依赖注入与控制反转的框架将这种设计模式发扬光大，并且成为了 Java 服务端开发的标准模式之一。依赖注入的核心思想在于某个模块不需要手动地初始化某个依赖对象，而只需要声明该依赖并由外部框架自动实例化该对象实现并且传递到模块内。而五年之后的 2009 年 [Misko Hevery](https://github.com/mhevery)  开始设计新的 JavaScript 框架，并且使用了依赖注入作为其组件间通信的核心机制。这个框架就是引领一时风骚，甚至于说是现代 Web 开发先驱之一的 Angular。Angular 允许我们定义模块，并且在显式地声明其依赖模块而由框架完成自动注入。其核心思想如下所示：
 
 ```
 // file greeting.js
@@ -266,7 +266,7 @@ console.log(require('./obj'));
 
 # AMD
 
-就在 CommonJS 规范火热讨论的同时，很多开发者也关注于如何实现模块的异步加载。Web 应用的性能优化一直是前端工程实践中不可避免的问题，而模块的异步加载以及预加载等机制能有效地优化 Web 应用的加载速度。Mozilla 的另一位雇员 [James Burke](https://github.com/jrburke)  是[讨论组](https://groups.google.com/forum/#!msg/commonjs/nbpX739RQ5o/SdpVQDtx88AJ)的活跃成员，他在  Dojo 1.7 版本中引入了异步模块机制，并且在 2009 年开发了 require.js 框架。James 的核心思想在于不应该以同步方式加载模块，而应该充分利用浏览器的并发加载能力；James 按照其设计理念开发出的模块工具就是 AMD（Asynchronous Module Definition），其基本形式如下：
+就在 CommonJS 规范火热讨论的同时，很多开发者也关注于如何实现模块的异步加载。Web 应用的性能优化一直是前端工程实践中不可避免的问题，而模块的异步加载以及预加载等机制能有效地优化 Web 应用的加载速度。Mozilla 的另一位雇员 [James Burke](https://github.com/jrburke)  是[讨论组](https://groups.google.com/forum/#!msg/commonjs/nbpX739RQ5o/SdpVQDtx88AJ)的活跃成员，他在  Dojo 1.7 版本中引入了异步模块机制，并且在 2009 年开发了 require.js 框架。James 的核心思想在于不应该以同步方式加载模块，而应该充分利用浏览器的并发加载能力；James 按照其设计理念开发出的模块工具就是 AMD(Asynchronous Module Definition)，其基本形式如下：
 
 ``` javascript
 define(["amd-module", "../file"], function(amdModule, file) {
@@ -307,7 +307,7 @@ hello.js 作为整个应用的入口模块，我们使用 `define` 关键字声�
 
 # UMD
 
-AMD 与 CommonJS 虽然师出同源，但还是分道扬镳，关注于代码异步加载与最小化入口模块的开发者将目光投注于 AMD；而随着 Node.js 以及 Browserify 的流行，越来越多的开发者也接受了 CommonJS 规范。令人扼腕叹息的是，符合 AMD 规范的模块并不能直接运行于实践了 CommonJS 模块规范的环境中，符合 CommonJS 规范的模块也不能由 AMD 进行异步加载，整个 JavaScript 生态圈貌似分崩离析。2011 年中，UMD，也就是 Universal Module Definition 规范正是为了弥合这种不一致性应运而出，其允许在环境中同时使用 AMD 与 CommonJS 规范。[Q](https://github.com/kriskowal/q)  算是 UMD 的首个规范实现，其能同时运行于浏览器环境（以脚本标签形式嵌入）与服务端的 Node.js 或者 Narwhal（CommonJS 模块）环境中；稍后，James 也为 Q 添加了对于 AMD 的支持。我们将上述例子中的 greeting.js 改写为同时支持 CommonJS 与 AMD 规范的模块：
+AMD 与 CommonJS 虽然师出同源，但还是分道扬镳，关注于代码异步加载与最小化入口模块的开发者将目光投注于 AMD；而随着 Node.js 以及 Browserify 的流行，越来越多的开发者也接受了 CommonJS 规范。令人扼腕叹息的是，符合 AMD 规范的模块并不能直接运行于实践了 CommonJS 模块规范的环境中，符合 CommonJS 规范的模块也不能由 AMD 进行异步加载，整个 JavaScript 生态圈貌似分崩离析。2011 年中，UMD，也就是 Universal Module Definition 规范正是为了弥合这种不一致性应运而出，其允许在环境中同时使用 AMD 与 CommonJS 规范。[Q](https://github.com/kriskowal/q)  算是 UMD 的首个规范实现，其能同时运行于浏览器环境(以脚本标签形式嵌入)与服务端的 Node.js 或者 Narwhal(CommonJS 模块)环境中；稍后，James 也为 Q 添加了对于 AMD 的支持。我们将上述例子中的 greeting.js 改写为同时支持 CommonJS 与 AMD 规范的模块：
 
 ```
 (function(define) {
@@ -332,7 +332,7 @@ AMD 与 CommonJS 虽然师出同源，但还是分道扬镳，关注于代码异
 ));
 ```
 
-该模式的核心思想在于所谓的 IIFE（Immediately Invoked Function Expression），该函数会根据环境来判断需要的参数类别，譬如在 CommonJS 环境下上述代码会以如下方式执行：
+该模式的核心思想在于所谓的 IIFE(Immediately Invoked Function Expression)，该函数会根据环境来判断需要的参数类别，譬如在 CommonJS 环境下上述代码会以如下方式执行：
 
 ```
 function (factory) {
@@ -433,7 +433,7 @@ import * as bar, {baz as xyz} from "foo";
 import foo, * as bar, {baz as xyz} from "foo";
 ```
 
-ES2015 Modules 作为 JavaScript 官方标准，日渐成为了开发者的主流选择。虽然我们目前还不能直接保证在所有环境（特别是旧版本浏览器）中使用该规范，但是通过 Babel 等转化工具能帮我们自动处理向下兼容。此外 ES2015 Modules 还是有些许被诟病的地方，譬如导入语句只能作为模块顶层的语句出现，不能出现在 `function` 里面或是 `if` 里面：
+ES2015 Modules 作为 JavaScript 官方标准，日渐成为了开发者的主流选择。虽然我们目前还不能直接保证在所有环境(特别是旧版本浏览器)中使用该规范，但是通过 Babel 等转化工具能帮我们自动处理向下兼容。此外 ES2015 Modules 还是有些许被诟病的地方，譬如导入语句只能作为模块顶层的语句出现，不能出现在 `function` 里面或是 `if` 里面：
 
 ```
 if(Math.random()>0.5){
@@ -479,4 +479,4 @@ code1
 code2
 ```
 
-并且  `import` 的模块名只能是字符串常量，导入的值也是不可变对象；比如说你不能 `import { a } from './a'` 然后给 a 赋值个其他什么东西。这些设计虽然使得灵活性不如 CommonJS 的 require，但却保证了 ES6 Modules 的依赖关系是确定（Deterministic）的，和运行时的状态无关，从而也就保证了 ES6 Modules 是可以进行可靠的静态分析的。对于主要在服务端运行的 Node 来说，所有的代码都在本地，按需动态 require 即可，但对于要下发到客户端的 Web 代码而言，要做到高效的按需使用，不能等到代码执行了才知道模块的依赖，必须要从模块的静态分析入手。这是 ES6 Modules 在设计时的一个重要考量，也是为什么没有直接采用 CommonJS。此外我们还需要关注下的是 ES2015 Modules 在浏览器内的原生支持情况，尽管我们可以通过 Webpack 等打包工具将应用打包为单个包文件。
+并且  `import` 的模块名只能是字符串常量，导入的值也是不可变对象；比如说你不能 `import { a } from './a'` 然后给 a 赋值个其他什么东西。这些设计虽然使得灵活性不如 CommonJS 的 require，但却保证了 ES6 Modules 的依赖关系是确定(Deterministic)的，和运行时的状态无关，从而也就保证了 ES6 Modules 是可以进行可靠的静态分析的。对于主要在服务端运行的 Node 来说，所有的代码都在本地，按需动态 require 即可，但对于要下发到客户端的 Web 代码而言，要做到高效的按需使用，不能等到代码执行了才知道模块的依赖，必须要从模块的静态分析入手。这是 ES6 Modules 在设计时的一个重要考量，也是为什么没有直接采用 CommonJS。此外我们还需要关注下的是 ES2015 Modules 在浏览器内的原生支持情况，尽管我们可以通过 Webpack 等打包工具将应用打包为单个包文件。

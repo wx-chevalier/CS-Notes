@@ -4,9 +4,9 @@
 
 # 1. 事件循环机制详解与实践应用
 
-JavaScript 是典型的单线程单并发语言，即表示在同一时间片内其只能执行单个任务或者部分代码片。换言之，我们可以认为某个同域浏览器上下中 JavaScript 主线程拥有一个函数调用栈以及一个任务队列（参考 [whatwg 规范](https://html.spec.whatwg.org/multipage/webappapis.html#task-queue)）；主线程会依次执行代码，当遇到函数时，会先将函数入栈，函数运行完毕后再将该函数出栈，直到所有代码执行完毕。当函数调用栈为空时，运行时即会根据事件循环（Event Loop）机制来从任务队列中提取出待执行的回调并执行，执行的过程同样会进行函数帧的入栈出栈操作。每个线程有自己的事件循环，所以每个 Web Worker 有自己的，所以它才可以独立执行。然而，所有同属一个 origin 的窗体都共享一个事件循环，所以它们可以同步交流。
+JavaScript 是典型的单线程单并发语言，即表示在同一时间片内其只能执行单个任务或者部分代码片。换言之，我们可以认为某个同域浏览器上下中 JavaScript 主线程拥有一个函数调用栈以及一个任务队列(参考 [whatwg 规范](https://html.spec.whatwg.org/multipage/webappapis.html#task-queue))；主线程会依次执行代码，当遇到函数时，会先将函数入栈，函数运行完毕后再将该函数出栈，直到所有代码执行完毕。当函数调用栈为空时，运行时即会根据事件循环(Event Loop)机制来从任务队列中提取出待执行的回调并执行，执行的过程同样会进行函数帧的入栈出栈操作。每个线程有自己的事件循环，所以每个 Web Worker 有自己的，所以它才可以独立执行。然而，所有同属一个 origin 的窗体都共享一个事件循环，所以它们可以同步交流。
 
-Event Loop（事件循环）并不是 JavaScript 中独有的，其广泛应用于各个领域的异步编程实现中；所谓的 Event Loop 即是一系列回调函数的集合，在执行某个异步函数时，会将其回调压入队列中，JavaScript 引擎会在异步代码执行完毕后开始处理其关联的回调。
+Event Loop(事件循环)并不是 JavaScript 中独有的，其广泛应用于各个领域的异步编程实现中；所谓的 Event Loop 即是一系列回调函数的集合，在执行某个异步函数时，会将其回调压入队列中，JavaScript 引擎会在异步代码执行完毕后开始处理其关联的回调。
 
 ![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/2/event-loop.png)
 
@@ -30,15 +30,15 @@ while (queue.waitForMessage()) {
 
 # 2. 函数调用栈与任务队列
 
-在[变量作用域与提升](https://parg.co/bT4)一节中我们介绍过所谓执行上下文（Execution Context）的概念，在 JavaScript 代码执行过程中，我们可能会拥有一个全局上下文，多个函数上下文或者块上下文；每个函数调用都会创造新的上下文与局部作用域。而这些执行上下文堆叠就形成了所谓的执行上下文栈（Execution Context Stack），便如上文介绍的 JavaScript 是单线程事件循环机制，同时刻仅会执行单个事件，而其他事件都在所谓的执行栈中排队等待：
+在[变量作用域与提升](https://parg.co/bT4)一节中我们介绍过所谓执行上下文(Execution Context)的概念，在 JavaScript 代码执行过程中，我们可能会拥有一个全局上下文，多个函数上下文或者块上下文；每个函数调用都会创造新的上下文与局部作用域。而这些执行上下文堆叠就形成了所谓的执行上下文栈(Execution Context Stack)，便如上文介绍的 JavaScript 是单线程事件循环机制，同时刻仅会执行单个事件，而其他事件都在所谓的执行栈中排队等待：
 
 ![](http://p0.qhimg.com/t01e858c269438d695a.jpg)
 
-而从 JavaScript 内存模型的角度，我们可以将内存划分为调用栈（Call Stack）、堆（Heap）以及队列（Queue）等几个部分：
+而从 JavaScript 内存模型的角度，我们可以将内存划分为调用栈(Call Stack)、堆(Heap)以及队列(Queue)等几个部分：
 
 ![](https://github.com/wxyyxc1992/OSS/blob/master/2017/8/1/1-ZSFHnq9iMHIApVLcgwczPQ.png?raw=true)
 
-其中的调用栈会记录所有的函数调用信息，当我们调用某个函数时，会将其参数与局部变量等压入栈中；在执行完毕后，会弹出栈首的元素。而堆则存放了大量的非结构化数据，譬如程序分配的变量与对象。队列则包含了一系列待处理的信息与相关联的回调函数，每个 JavaScript 运行时都必须包含一个任务队列。当调用栈为空时，运行时会从队列中取出某个消息并且执行其关联的函数（也就是创建栈帧的过程）；运行时会递归调用函数并创建调用栈，直到函数调用栈全部清空再从任务队列中取出消息。换言之，譬如按钮点击或者 HTTP 请求响应都会作为消息存放在任务队列中；需要注意的是，仅当这些事件的回调函数存在时才会被放入任务队列，否则会被直接忽略。
+其中的调用栈会记录所有的函数调用信息，当我们调用某个函数时，会将其参数与局部变量等压入栈中；在执行完毕后，会弹出栈首的元素。而堆则存放了大量的非结构化数据，譬如程序分配的变量与对象。队列则包含了一系列待处理的信息与相关联的回调函数，每个 JavaScript 运行时都必须包含一个任务队列。当调用栈为空时，运行时会从队列中取出某个消息并且执行其关联的函数(也就是创建栈帧的过程)；运行时会递归调用函数并创建调用栈，直到函数调用栈全部清空再从任务队列中取出消息。换言之，譬如按钮点击或者 HTTP 请求响应都会作为消息存放在任务队列中；需要注意的是，仅当这些事件的回调函数存在时才会被放入任务队列，否则会被直接忽略。
 
 譬如对于如下的代码块：
 
@@ -60,11 +60,11 @@ function square(x) {
 fire();
 ```
 
-其对应的函数调用图（整理自[这里](https://github.com/ccforward/cc/issues/47)）为：
+其对应的函数调用图(整理自[这里](https://github.com/ccforward/cc/issues/47))为：
 
 ![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/2/11111111.jpg)
 
-这里还值得一提的是，Promise.then 是异步执行的，而创建 Promise 实例 （executor） 是同步执行的，譬如下述代码：
+这里还值得一提的是，Promise.then 是异步执行的，而创建 Promise 实例 (executor) 是同步执行的，譬如下述代码：
 
 ```javascript
 (function test() {
@@ -103,9 +103,9 @@ promise.then(onFulfilled, onRejected)
 Here “platform code” means engine, environment, and promise implementation code. In practice, this requirement ensures that onFulfilled and onRejected execute asynchronously, after the event loop turn in which then is called, and with a fresh stack. This can be implemented with either a “macro-task” mechanism such as setTimeout or setImmediate, or with a “micro-task” mechanism such as MutationObserver or process.nextTick. Since the promise implementation is considered platform code, it may itself contain a task-scheduling queue or “trampoline” in which the handlers are called.
 ```
 
-规范要求，onFulfilled 必须在执行上下文栈（Execution Context Stack） 只包含 平台代码（platform code） 后才能执行。平台代码指引擎，环境，Promise 实现代码等。实践上来说，这个要求保证了 onFulfilled 的异步执行（以全新的栈），在 then 被调用的这个事件循环之后。
+规范要求，onFulfilled 必须在执行上下文栈(Execution Context Stack) 只包含 平台代码(platform code) 后才能执行。平台代码指引擎，环境，Promise 实现代码等。实践上来说，这个要求保证了 onFulfilled 的异步执行(以全新的栈)，在 then 被调用的这个事件循环之后。
 
-# 3. MacroTask（Task） 与 MicroTask（Job）
+# 3. MacroTask(Task) 与 MicroTask(Job)
 
 在面试中我们常常会碰到如下的代码题，其主要就是考校 JavaScript 不同任务的执行先后顺序：
 
@@ -218,7 +218,7 @@ g. 结束 MicroTask 队列的执行。
 
 # 4. 浅析 Vue.js 中 nextTick 的实现
 
-在 Vue.js 中，其会异步执行 DOM 更新；当观察到数据变化时，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。如果同一个 watcher 被多次触发，只会一次推入到队列中。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作上非常重要。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际（已去重的）工作。Vue 在内部尝试对异步队列使用原生的 `Promise.then` 和 `MutationObserver`，如果执行环境不支持，会采用 `setTimeout(fn, 0)` 代替。Vue.js 选择使用 MicroTask 来进行数据更新，是为了保证能够在当前界面渲染的 Task 执行完毕之后即得到最新的界面，而不是历经两次渲染，从而提高效率。
+在 Vue.js 中，其会异步执行 DOM 更新；当观察到数据变化时，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。如果同一个 watcher 被多次触发，只会一次推入到队列中。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作上非常重要。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际(已去重的)工作。Vue 在内部尝试对异步队列使用原生的 `Promise.then` 和 `MutationObserver`，如果执行环境不支持，会采用 `setTimeout(fn, 0)` 代替。Vue.js 选择使用 MicroTask 来进行数据更新，是为了保证能够在当前界面渲染的 Task 执行完毕之后即得到最新的界面，而不是历经两次渲染，从而提高效率。
 
 而当我们希望在数据更新之后执行某些 DOM 操作，就需要使用 `nextTick` 函数来添加回调：
 

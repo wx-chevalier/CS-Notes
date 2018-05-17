@@ -59,7 +59,7 @@ TestListener 接口是个事件监听规约，可供 TestRunner 类使用。它�
 # Mockito
 > [Mockito系列博客](http://hotdog.iteye.com/?page=2)
 
-JUnit 是单元测试框架。Mockito 与 JUnit 不同，并不是单元测试框架（这方面 JUnit 已经足够好了），它是用于生成模拟对象或者直接点说，就是”假对象“的工具。两者定位不同，所以一般通常的做法就是联合 JUnit + Mockito 来进行测试。
+JUnit 是单元测试框架。Mockito 与 JUnit 不同，并不是单元测试框架(这方面 JUnit 已经足够好了)，它是用于生成模拟对象或者直接点说，就是”假对象“的工具。两者定位不同，所以一般通常的做法就是联合 JUnit + Mockito 来进行测试。
 ## Quick Start
 ```
 List mock = mock( List.class );
@@ -69,7 +69,7 @@ assertEquals( "预期返回1", 1, mock.get( 0 ) );// mock.get(0) 返回 1
 
 其中 mock 是模拟 List 的对象，拥有 List 的所有方法和属性。when(xxxx).thenReturn(yyyy); 是指定当执行了这个方法的时候，返回 thenReturn 的值，相当于是对模拟对象的配置过程，为某些条件给定一个预期的返回值。相信通过这个简单的例子你可以明白所谓 Mock 便是这么一回事。
 
-我们看到 List 为 Java.util.List 是接口，并不是实现类，但这不妨碍我们使用它作为我们的“打桩”对象，——当然你也可以使用实现类，传入 mock(obj) 方法中。这里提到的是"打桩（Stub，也有人称其为“存根”）"的概念，是一个形象的说法，就是把所需的测试数据塞进对象中，适用于基于状态的（state-based）测试，关注的是输入和输出。Mockito 中 when(…).thenReturn(…)  这样的语法来定义对象方法和参数（输入），然后在 thenReturn 中指定结果（输出）。此过程称为 Stub 打桩。一旦这个方法被 stub 了，就会一直返回这个 stub 的值。
+我们看到 List 为 Java.util.List 是接口，并不是实现类，但这不妨碍我们使用它作为我们的“打桩”对象，——当然你也可以使用实现类，传入 mock(obj) 方法中。这里提到的是"打桩(Stub，也有人称其为“存根”)"的概念，是一个形象的说法，就是把所需的测试数据塞进对象中，适用于基于状态的(state-based)测试，关注的是输入和输出。Mockito 中 when(…).thenReturn(…)  这样的语法来定义对象方法和参数(输入)，然后在 thenReturn 中指定结果(输出)。此过程称为 Stub 打桩。一旦这个方法被 stub 了，就会一直返回这个 stub 的值。
 
 打桩需要[注意以下几点](http://qiuguo0205.iteye.com/blog/1443344)：
 
@@ -210,7 +210,7 @@ verify(mapMock).put(anyInt(), eq("hello"));
 
 其他高级用法，详见[《学习 Mockito - Mock对象的行为验证》](http://hotdog.iteye.com/blog/908827)，主要特性如下，
 
-- 参数验证，详见[《利用 ArgumentCaptor（参数捕获器）捕获方法参数进行验证》](http://hotdog.iteye.com/blog/916364)
+- 参数验证，详见[《利用 ArgumentCaptor(参数捕获器)捕获方法参数进行验证》](http://hotdog.iteye.com/blog/916364)
 - 超时验证，通过 timeout，并制定毫秒数验证超时。注意，如果被调用多次，times 还是需要的。
 - 方法调用顺序 通过 InOrder 对象，验证方法的执行顺序，如上例子中，如果 mock 的 get(0) 和 get(1) 方法反过来则测试不通过。这里 mock2 其实没有被调用过。所以不需要些。
 - verifyNoMoreInteractions 查询是否存在被调用，但未被验证的方法，如果存在则抛出异常。这里因为验证了get(anyInt())，相当于所有的 get 方法被验证，所以通过。
@@ -296,7 +296,7 @@ verify(spy).add("two");
     }  
 ```
 ## 模拟Servlet
-[JUnit + Mockito 单元测试（三）](http://blog.csdn.net/zhangxin09/article/details/42487319)
+[JUnit + Mockito 单元测试(三)](http://blog.csdn.net/zhangxin09/article/details/42487319)
 
 | FEATURE                                              | JUNIT 4        | JUNIT 5        |
 | ---------------------------------------------------- | -------------- | -------------- |
