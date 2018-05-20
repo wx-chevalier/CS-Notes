@@ -220,7 +220,7 @@ verify(mapMock).put(anyInt(), eq("hello"));
 
 > 看mockito的api时，一直都不清楚veriry()这个方法的作用，因为如果我mock了某个方法，肯定是为了调用的啊。直到今天在回归接口测试用例的时候，发现有两个用例，用例2比用例1多了一个 mock 的步骤，不过最后的结果输出是一样的。由于代码做了修改，我重新 mock 后，其实用例2中对于的步骤是不会执行的，可测试还是通过了。仔细查看后，发现mock的方法没有被调用，所以用例2和用例1就变成一样的了。于是，就产生了这么个需求：单单通过结果来判断正确与否还是不够的，我还要判断是否按我指定的路径执行的用例。到这里，终于领略到了mockito的verify的强大威力，以下是示例代码：
 >
-> 若调用成功，则程序正常运行，反之则会报告： Wanted but not invoked:verify(mockedList).add("one"); 错误。
+> 若调用成功，则程序正常运行，反之则会报告: Wanted but not invoked:verify(mockedList).add("one"); 错误。
 
 感觉 verify 会用的比较少。
 ## Spy

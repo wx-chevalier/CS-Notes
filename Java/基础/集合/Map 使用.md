@@ -12,7 +12,7 @@ Java为数据结构中的映射定义了一个接口java.util.Map，此接口主
 通过上面的比较，我们知道了HashMap是Java的Map家族中一个普通成员，鉴于它可以满足大多数场景的使用条件，所以是使用频度最高的一个。下文我们主要结合源码，从存储结构、常用方法分析、扩容以及安全性等方面深入讲解HashMap的工作原理。
 # HashMap
 ## Sort:排序
-对TreeMap按照value值升序： 
+对TreeMap按照value值升序: 
 ```
 List<Map.Entry<String,String>> mappingList = null; 
   Map<String,String> map = new TreeMap<String,String>(); 

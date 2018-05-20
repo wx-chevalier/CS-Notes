@@ -174,7 +174,7 @@ function Point(x, y) {
 }
 ```
 
-当我们执行`new Point(x,y)`语句时，V8 会创建某个新的`Point`对象。创建的过程中，V8 首先会创建某个所谓`C0`的隐藏内部类，因为尚未为对象添加任何属性，此时隐藏类还是空的： ![](https://github.com/v8/v8/wiki/images/map_trans_a.png) 接下来调用首个赋值语句`this.x = x;`为当前`Point`对象创建了新的属性`x`，此时 V8 会基于`C0`创建另一个隐藏类`C1`来替换`C0`，然后在`C1`中存放对象属性`x`的内存位置信息： ![](https://github.com/v8/v8/wiki/images/map_trans_b.png)
+当我们执行`new Point(x,y)`语句时，V8 会创建某个新的`Point`对象。创建的过程中，V8 首先会创建某个所谓`C0`的隐藏内部类，因为尚未为对象添加任何属性，此时隐藏类还是空的: ![](https://github.com/v8/v8/wiki/images/map_trans_a.png) 接下来调用首个赋值语句`this.x = x;`为当前`Point`对象创建了新的属性`x`，此时 V8 会基于`C0`创建另一个隐藏类`C1`来替换`C0`，然后在`C1`中存放对象属性`x`的内存位置信息: ![](https://github.com/v8/v8/wiki/images/map_trans_b.png)
 
 这里从`C0`到`C1`的变化称为转换(Transitions )，当我们为同一个类型的对象添加新的属性时，并不是每次都会创建新的隐藏类，而是多个对象会共用某个符合转换条件的隐藏类。接下来继续执行`this.y = y` 这一条语句，会为`Point`对象创建新的属性。此时 V8 会进行以下步骤：
 
