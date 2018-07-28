@@ -24,9 +24,9 @@ while (queue.waitForMessage()) {
 
 在 Web 浏览器中，任何时刻都有可能会有事件被触发，而仅有那些设置了回调的事件会将其相关的任务压入到任务队列中。回调函数被调用时即会在函数调用栈中创建初始帧，而直到整个函数调用栈清空之前任何产生的任务都会被压入到任务队列中延后执行；顺序的同步函数调用则会创建新的栈帧。总结而言，浏览器中的事件循环机制阐述如下：
 
-* 浏览器内核会在其它线程中执行异步操作，当操作完成后，将操作结果以及事先定义的回调函数放入 JavaScript 主线程的任务队列中。
-* JavaScript 主线程会在执行栈清空后，读取任务队列，读取到任务队列中的函数后，将该函数入栈，一直运行直到执行栈清空，再次去读取任务队列，不断循环。
-* 当主线程阻塞时，任务队列仍然是能够被推入任务的。这也就是为什么当页面的 JavaScript 进程阻塞时，我们触发的点击等事件，会在进程恢复后依次执行。
+- 浏览器内核会在其它线程中执行异步操作，当操作完成后，将操作结果以及事先定义的回调函数放入 JavaScript 主线程的任务队列中。
+- JavaScript 主线程会在执行栈清空后，读取任务队列，读取到任务队列中的函数后，将该函数入栈，一直运行直到执行栈清空，再次去读取任务队列，不断循环。
+- 当主线程阻塞时，任务队列仍然是能够被推入任务的。这也就是为什么当页面的 JavaScript 进程阻塞时，我们触发的点击等事件，会在进程恢复后依次执行。
 
 # 2. 函数调用栈与任务队列
 
@@ -103,41 +103,36 @@ promise.then(onFulfilled, onRejected)
 Here “platform code” means engine, environment, and promise implementation code. In practice, this requirement ensures that onFulfilled and onRejected execute asynchronously, after the event loop turn in which then is called, and with a fresh stack. This can be implemented with either a “macro-task” mechanism such as setTimeout or setImmediate, or with a “micro-task” mechanism such as MutationObserver or process.nextTick. Since the promise implementation is considered platform code, it may itself contain a task-scheduling queue or “trampoline” in which the handlers are called.
 ```
 
-规范要求，onFulfilled 必须在执行上下文栈(Execution Context Stack) 只包含 平台代码(platform code) 后才能执行。平台代码指引擎，环境，Promise 实现代码等。实践上来说，这个要求保证了 onFulfilled 的异步执行(以全新的栈)，在 then 被调用的这个事件循环之后。
+规范要求，onFulfilled 必须在执行上下文栈(Execution Context Stack) 只包含平台代码(platform code) 后才能执行。平台代码指引擎，环境，Promise 实现代码等。实践上来说，这个要求保证了 onFulfilled 的异步执行(以全新的栈)，在 then 被调用的这个事件循环之后。
 
 # 3. MacroTask(Task) 与 MicroTask(Job)
 
 在面试中我们常常会碰到如下的代码题，其主要就是考校 JavaScript 不同任务的执行先后顺序：
 
-```
+```js
 // 测试代码
 console.log('main1');
 
-
 // 该函数仅在 Node.js 环境下可以使用
 process.nextTick(function() {
-    console.log('process.nextTick1');
+  console.log('process.nextTick1');
 });
-
 
 setTimeout(function() {
-    console.log('setTimeout');
-    process.nextTick(function() {
-        console.log('process.nextTick2');
-    });
+  console.log('setTimeout');
+  process.nextTick(function() {
+    console.log('process.nextTick2');
+  });
 }, 0);
 
-
 new Promise(function(resolve, reject) {
-    console.log('promise');
-    resolve();
+  console.log('promise');
+  resolve();
 }).then(function() {
-    console.log('promise then');
+  console.log('promise then');
 });
 
-
 console.log('main2');
-
 
 // 执行结果
 main1
@@ -155,35 +150,32 @@ process.nextTick2
 
 参考 [whatwg 规范](https://html.spec.whatwg.org/multipage/webappapis.html#task-queue) 中的描述：一个事件循环(Event Loop)会有一个或多个任务队列(Task Queue，又称 Task Source)，这里的 Task Queue 就是 MacroTask Queue，而 Event Loop 仅有一个 MicroTask Queue。每个 Task Queue 都保证自己按照回调入队的顺序依次执行，所以浏览器可以从内部到 JS/DOM，保证动作按序发生。而在 Task 的执行之间则会清空已有的 MicroTask 队列，在 MacroTask 或者 MicroTask 中产生的 MicroTask 同样会被压入到 MicroTask 队列中并执行。参考如下代码：
 
-```
+```js
 function foo() {
-  console.log("Start of queue");
-  bar();
-  setTimeout(function() {
-    console.log("Middle of queue");
-  }, 0);
-  Promise.resolve().then(function() {
-    console.log("Promise resolved");
-    Promise.resolve().then(function() {
-      console.log("Promise resolved again");
-    });
-  });
-  console.log("End of queue");
+  console.log('Start of queue');
+  bar();
+  setTimeout(function() {
+    console.log('Middle of queue');
+  }, 0);
+  Promise.resolve().then(function() {
+    console.log('Promise resolved');
+    Promise.resolve().then(function() {
+      console.log('Promise resolved again');
+    });
+  });
+  console.log('End of queue');
 }
-
 
 function bar() {
-  setTimeout(function() {
-    console.log("Start of next queue");
-  }, 0);
-  setTimeout(function() {
-    console.log("End of next queue");
-  }, 0);
+  setTimeout(function() {
+    console.log('Start of next queue');
+  }, 0);
+  setTimeout(function() {
+    console.log('End of next queue');
+  }, 0);
 }
 
-
 foo();
-
 
 // 输出
 Start of queue
@@ -242,126 +234,105 @@ Vue.nextTick(function() {
 
 在组件内使用 vm.$nextTick() 实例方法特别方便，因为它不需要全局 Vue ，并且回调函数中的 this 将自动绑定到当前的 Vue 实例上：
 
-```
+```js
 Vue.component('example', {
-  template: '<span>{{ message }}</span>',
-  data: function () {
-    return {
-      message: '没有更新'
-    }
-  },
-  methods: {
-    updateMessage: function () {
-      this.message = '更新完成'
-      console.log(this.$el.textContent) // => '没有更新'
-      this.$nextTick(function () {
-        console.log(this.$el.textContent) // => '更新完成'
-      })
-    }
-  }
-})
+  template: '<span>{{ message }}</span>',
+  data: function() {
+    return {
+      message: '没有更新'
+    };
+  },
+  methods: {
+    updateMessage: function() {
+      this.message = '更新完成';
+      console.log(this.$el.textContent); // => '没有更新'
+      this.$nextTick(function() {
+        console.log(this.$el.textContent); // => '更新完成'
+      });
+    }
+  }
+});
 ```
 
 src/core/util/env
 
-```
-/**
- * 使用 MicroTask 来异步执行批次任务
- */
+```js
+/** 使用 MicroTask 来异步执行批次任务 */
 export const nextTick = (function() {
-  // 需要执行的回调列表
-  const callbacks = [];
+  // 需要执行的回调列表
+  const callbacks = []; // 是否处于挂起状态
 
+  let pending = false; // 时间函数句柄
 
-  // 是否处于挂起状态
-  let pending = false;
+  let timerFunc; // 执行并且清空所有的回调列表
 
+  function nextTickHandler() {
+    pending = false;
+    const copies = callbacks.slice(0);
+    callbacks.length = 0;
+    for (let i = 0; i < copies.length; i++) {
+      copies[i]();
+    }
+  } /* istanbul ignore if */ // nextTick 的回调会被加入到 MicroTask 队列中，这里我们主要通过原生的 Promise 与 MutationObserver 实现
 
-  // 时间函数句柄
-  let timerFunc;
+  if (typeof Promise !== 'undefined' && isNative(Promise)) {
+    let p = Promise.resolve();
+    let logError = err => {
+      console.error(err);
+    };
+    timerFunc = () => {
+      p.then(nextTickHandler).catch(logError); // 在部分 iOS 系统下的 UIWebViews 中，Promise.then 可能并不会被清空，因此我们需要添加额外操作以触发
 
+      if (isIOS) setTimeout(noop);
+    };
+  } else if (
+    typeof MutationObserver !== 'undefined' &&
+    (isNative(MutationObserver) || // PhantomJS and iOS 7.x
+      MutationObserver.toString() === '[object MutationObserverConstructor]')
+  ) {
+    // 当 Promise 不可用时候使用 MutationObserver
+    // e.g. PhantomJS IE11, iOS7, Android 4.4
+    let counter = 1;
+    let observer = new MutationObserver(nextTickHandler);
+    let textNode = document.createTextNode(String(counter));
+    observer.observe(textNode, {
+      characterData: true
+    });
+    timerFunc = () => {
+      counter = (counter + 1) % 2;
+      textNode.data = String(counter);
+    };
+  } else {
+    // 如果都不存在，则回退使用 setTimeout
+    /* istanbul ignore next */
+    timerFunc = () => {
+      setTimeout(nextTickHandler, 0);
+    };
+  }
 
-  // 执行并且清空所有的回调列表
-  function nextTickHandler() {
-    pending = false;
-    const copies = callbacks.slice(0);
-    callbacks.length = 0;
-    for (let i = 0; i < copies.length; i++) {
-      copies[i]();
-    }
-  }
+  return function queueNextTick(cb?: Function, ctx?: Object) {
+    let _resolve;
+    callbacks.push(() => {
+      if (cb) {
+        try {
+          cb.call(ctx);
+        } catch (e) {
+          handleError(e, ctx, 'nextTick');
+        }
+      } else if (_resolve) {
+        _resolve(ctx);
+      }
+    });
+    if (!pending) {
+      pending = true;
+      timerFunc();
+    } // 如果没有传入回调，则表示以异步方式调用
 
-
-  // nextTick 的回调会被加入到 MicroTask 队列中，这里我们主要通过原生的 Promise 与 MutationObserver 实现
-  /* istanbul ignore if */
-  if (typeof Promise !== 'undefined' && isNative(Promise)) {
-    let p = Promise.resolve();
-    let logError = err => {
-      console.error(err);
-    };
-    timerFunc = () => {
-      p.then(nextTickHandler).catch(logError);
-
-
-      // 在部分 iOS 系统下的 UIWebViews 中，Promise.then 可能并不会被清空，因此我们需要添加额外操作以触发
-      if (isIOS) setTimeout(noop);
-    };
-  } else if (
-    typeof MutationObserver !== 'undefined' &&
-    (isNative(MutationObserver) ||
-      // PhantomJS and iOS 7.x
-      MutationObserver.toString() === '[object MutationObserverConstructor]')
-  ) {
-    // 当 Promise 不可用时候使用 MutationObserver
-    // e.g. PhantomJS IE11, iOS7, Android 4.4
-    let counter = 1;
-    let observer = new MutationObserver(nextTickHandler);
-    let textNode = document.createTextNode(String(counter));
-    observer.observe(textNode, {
-      characterData: true
-    });
-    timerFunc = () => {
-      counter = (counter + 1) % 2;
-      textNode.data = String(counter);
-    };
-  } else {
-    // 如果都不存在，则回退使用 setTimeout
-    /* istanbul ignore next */
-    timerFunc = () => {
-      setTimeout(nextTickHandler, 0);
-    };
-  }
-
-
-  return function queueNextTick(cb?: Function, ctx?: Object) {
-    let _resolve;
-    callbacks.push(() => {
-      if (cb) {
-        try {
-          cb.call(ctx);
-        } catch (e) {
-          handleError(e, ctx, 'nextTick');
-        }
-      } else if (_resolve) {
-        _resolve(ctx);
-      }
-    });
-    if (!pending) {
-      pending = true;
-      timerFunc();
-    }
-
-
-    // 如果没有传入回调，则表示以异步方式调用
-    if (!cb && typeof Promise !== 'undefined') {
-      return new Promise((resolve, reject) => {
-        _resolve = resolve;
-      });
-    }
-  };
+    if (!cb && typeof Promise !== 'undefined') {
+      return new Promise((resolve, reject) => {
+        _resolve = resolve;
+      });
+    }
+  };
 })();
 ```
-
-# 5. 延伸阅读
-
-* [深入浅出 Node.js 全栈架构 - Node.js 事件循环机制详解与实践](https://parg.co/b2s)

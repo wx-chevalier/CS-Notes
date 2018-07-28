@@ -1,3 +1,5 @@
+[![java](https://user-images.githubusercontent.com/5803001/43033009-f03a83a4-8cf4-11e8-9822-2059a0e3a5a8.jpg)](https://github.com/wxyyxc1992/ProgrammingLanguage-Series)
+
 # JIT
 
 Java 字节码是解释执行的，但是没有直接在 JVM 宿主执行原生代码快。为了提高性能，Oracle Hotspot 虚拟机会找到执行最频繁的字节码片段并把它们编译成原生机器码。编译出的原生机器码被存储在非堆内存的代码缓存中。通过这种方法，Hotspot 虚拟机将权衡下面两种时间消耗：将字节码编译成本地代码需要的额外时间和解释执行字节码消耗更多的时间。
