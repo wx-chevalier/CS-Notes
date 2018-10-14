@@ -31,9 +31,9 @@ return {
 
 Babel 能够将输入的 JavaScript 代码根据不同的配置将代码进行适当地转化，其主要步骤分为解析(Parse)、转化(Transform)与生成(Generate)：
 
-* 在解析步骤中，Babel 分别使用词法分析(Lexical Analysis)与语法分析(Syntactic Analysis)来将输入的代码转化为抽象语法树；其中词法分析步骤会将代码转化为令牌流，而语法分析步骤则是将令牌流转化为语言内置的 AST 表示。
-* 在转化步骤中，Babel 会遍历上一步生成的令牌流，根据配置对节点进行添加、更新与移除等操作；Babel 本身并没有进行转化操作，而是依赖于外置的插件进行实际的转化。
-* 最后的代码生成则是将上一步中经过转化的抽象语法树重新生成为代码，并且同时创建 SourceMap；代码生成相较于前两步会简单很多，其核心思想在于深度优先遍历抽象语法树，然后生成对应的代码字符串。
+- 在解析步骤中，Babel 分别使用词法分析(Lexical Analysis)与语法分析(Syntactic Analysis)来将输入的代码转化为抽象语法树；其中词法分析步骤会将代码转化为令牌流，而语法分析步骤则是将令牌流转化为语言内置的 AST 表示。
+- 在转化步骤中，Babel 会遍历上一步生成的令牌流，根据配置对节点进行添加、更新与移除等操作；Babel 本身并没有进行转化操作，而是依赖于外置的插件进行实际的转化。
+- 最后的代码生成则是将上一步中经过转化的抽象语法树重新生成为代码，并且同时创建 SourceMap；代码生成相较于前两步会简单很多，其核心思想在于深度优先遍历抽象语法树，然后生成对应的代码字符串。
 
 ## 抽象语法树
 
@@ -238,7 +238,7 @@ var out = babel.transform(src, {
 
 ### 遍历
 
-* 获取子节点路径我们可以通过 `path.node.{property}` 的方式来访问 AST 中节点属性：
+- 获取子节点路径我们可以通过 `path.node.{property}` 的方式来访问 AST 中节点属性：
 
 ```js
 // the BinaryExpression AST node has properties: `left`, `right`, `operator`
@@ -260,7 +260,7 @@ Program(path) {
 }
 ```
 
-* 判断某个节点是否为指定类型
+- 判断某个节点是否为指定类型
   babel 内置的 type 对象提供了许多可以直接用来判断节点类型的工具函数：
 
 ```
@@ -293,7 +293,7 @@ BinaryExpression(path) {
 }
 ```
 
-* 判断某个路径对应的节点是否为指定类型
+- 判断某个路径对应的节点是否为指定类型
 
 ```
 BinaryExpression(path) {
@@ -303,7 +303,7 @@ BinaryExpression(path) {
 }
 ```
 
-* 获取指定路径的父节点有时候我们需要从某个指定节点开始向上遍历获取某个父节点，此时我们可以通过传入检测的回调来判断：
+- 获取指定路径的父节点有时候我们需要从某个指定节点开始向上遍历获取某个父节点，此时我们可以通过传入检测的回调来判断：
 
 ```
 path.findParent((path) => path.isObjectExpression());
@@ -314,7 +314,7 @@ path.findParent((path) => path.isObjectExpression());
 path.getFunctionParent();
 ```
 
-* 获取兄弟路径如果某个路径存在于 Function 或者 Program 中的类似列表的结构中，那么其可能会包含兄弟路径：
+- 获取兄弟路径如果某个路径存在于 Function 或者 Program 中的类似列表的结构中，那么其可能会包含兄弟路径：
 
 ```
 // 源代码
@@ -341,7 +341,7 @@ export default function({ types: t }) {
 }
 ```
 
-* 停止遍历部分情况下插件需要停止遍历，我们此时只需要在插件中添加 return 表达式：
+- 停止遍历部分情况下插件需要停止遍历，我们此时只需要在插件中添加 return 表达式：
 
 ```
 BinaryExpression(path) {
@@ -365,7 +365,7 @@ outerPath.traverse({
 
 ### 操作
 
-* 替换节点
+- 替换节点
 
 ```
 // 插件定义
@@ -383,7 +383,7 @@ BinaryExpression(path) {
   }
 ```
 
-* 将某个节点替换为多个节点
+- 将某个节点替换为多个节点
 
 ```
 // 插件定义
@@ -406,7 +406,7 @@ ReturnStatement(path) {
   }
 ```
 
-* 将某个节点替换为源代码字符串
+- 将某个节点替换为源代码字符串
 
 ```
 // 插件定义
@@ -427,7 +427,7 @@ FunctionDeclaration(path) {
   }
 ```
 
-* 插入兄弟节点
+- 插入兄弟节点
 
 ```js
 // 插件定义
@@ -446,7 +446,7 @@ FunctionDeclaration(path) {
 + "A little high, little low.";
 ```
 
-* 移除某个节点
+- 移除某个节点
 
 ```js
 // 插件定义
@@ -461,7 +461,7 @@ FunctionDeclaration(path) {
 - }
 ```
 
-* 替换节点
+- 替换节点
 
 ```
 // 插件定义
@@ -480,7 +480,7 @@ BinaryExpression(path) {
   }
 ```
 
-* 移除某个父节点
+- 移除某个父节点
 
 ```
 // 插件定义
@@ -497,7 +497,7 @@ BinaryExpression(path) {
 
 ### 作用域
 
-* 判断某个局部变量是否被绑定：
+- 判断某个局部变量是否被绑定：
 
 ```
 FunctionDeclaration(path) {
@@ -514,7 +514,7 @@ FunctionDeclaration(path) {
 }
 ```
 
-* 创建 UID
+- 创建 UID
 
 ```
 FunctionDeclaration(path) {
@@ -525,7 +525,7 @@ FunctionDeclaration(path) {
 }
 ```
 
-* 将某个变量声明提取到副作用中
+- 将某个变量声明提取到副作用中
 
 ```
 // 插件定义

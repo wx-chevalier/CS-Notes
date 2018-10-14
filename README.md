@@ -6,19 +6,21 @@
 
 > -- Steve McConnell’s Code Complete
 
+**建议前往 [xCompass](https://wxyyxc1992.github.io/home/#/search) 交互式地检索、查找需要的文章/链接/书籍/课程，或者直接浏览本仓库的目录以了解更多内容。**
+
 本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记，主要分为以下文章/随笔：
 
-* [ProgrammingLanguage Theory Primer/编程语言理论指南](./Theory)
+- [ProgrammingLanguage Theory Primer/编程语言理论指南](./Theory)
 
-* [现代 JavaScript 开发基础与工程实践](./JavaScript): JavaScript 终于成为了一流(First Class)语言。
+- [现代 JavaScript 开发基础与工程实践](./JavaScript): JavaScript 终于成为了一流(First Class)语言。
 
-* [现代 Java 开发基础与工程实践](./Java): 面向对象，面向自己，鉴于内容较多，又细分为：[基础篇](./Java/Fundamentals)，[进阶篇](./Java/DevPractices)，[并发编程篇](./Java/ConcurrentProgramming)，[JVM 篇](./Java/JVM)。
+- [现代 Java 开发基础与工程实践](./Java): 面向对象，面向自己，鉴于内容较多，又细分为：[基础篇](./Java/Fundamentals)，[进阶篇](./Java/DevPractices)，[并发编程篇](./Java/ConcurrentProgramming)，[JVM 篇](./Java/JVM)。
 
-* [现代 Python 开发基础与工程实践](./Python): 人生苦短，请用 Python。
+- [现代 Python 开发基础与工程实践](./Python): 人生苦短，请用 Python。
 
-* [Go 开发基础与工程实践](./Rust): 简单易用，天然并发。
+- [Go 开发基础与工程实践](./Rust): 简单易用，天然并发。
 
-* [Rust 开发基础与工程实践](./Rust): 安全不易学。
+- [Rust 开发基础与工程实践](./Rust): 安全不易学。
 
 # 关于
 
