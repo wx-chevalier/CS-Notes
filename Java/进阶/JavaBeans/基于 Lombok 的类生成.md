@@ -1,61 +1,20 @@
-#基于 Lombok 的类生成
+# 基于 Lombok 的类生成
 
 # [Lombok](https://projectlombok.org/features/index.html)
 
-Lombok 主要依赖编译时代码生成技术，帮你自动生成基于模板的常用的 Java 代码，譬如最常见的 Getter 与 Setter 。之前动态的插入 Getter 与 Setter 主要有两种，一个是像 Intellij 与 Eclipse 这样在开发时动态插入，缺点是这样虽然不用你手动写，但是还是会让你的代码异常的冗长。另一种是通过类似于 Spring 这样基于注解的在运行时利用反射动态添加，不过这样的缺陷是会影响性能，并且有一定局限性。
+Lombok 主要依赖编译时代码生成技术，帮你自动生成基于模板的常用的 Java 代码，譬如最常见的 Getter 与 Setter。之前动态的插入 Getter 与 Setter 主要有两种，一个是像 Intellij 与 Eclipse 这样在开发时动态插入，缺点是这样虽然不用你手动写，但是还是会让你的代码异常的冗长。另一种是通过类似于 Spring 这样基于注解的在运行时利用反射动态添加，不过这样的缺陷是会影响性能，并且有一定局限性。
 
-## Quick Start
+# Data Model | 数据模型
 
-### Installation
-
-笔者目前用的开发环境是 Intellij+Gradle，这里只介绍下这种搭建方式，其他的基于 Eclipse 或者 Maven 的可以到官网主页查看。
-(1)在 Intellij 中添加 Plugin
-
-- Go to `File > Settings > Plugins`
-- Click on `Browse repositories...`
-- Search for `Lombok Plugin`
-- Click on `Install plugin`
-- Restart Android Studio
-
-(2)允许注解处理
-
-- Settings -> Compiler -> Annotation Processors
-
-(3)Gradle 中添加依赖
-
-```
-compile "org.projectlombok:lombok:1.12.6"
-```
-
-### 动态类型推导
-
-## Data Model:数据模型
-
-### Getter&Setter
+## Getter&Setter
 
 源代码：
 
 ```java
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 
 public class GetterSetterExample {
-	/**
-	 * Age of the person. Water is wet.
-	 *
-	 * @param age New value for this person's age. Sky is blue.
-	 * @return The current value of this person's age. Circles are round.
-	 */
 	@Getter @Setter private int age = 10;
 
-	/**
-	 * Name of the person.
-	 * -- SETTER --
-	 * Changes the name of this person.
-	 *
-	 * @param name The new value.
-	 */
 	@Setter(AccessLevel.PROTECTED) private String name;
 
 	@Override public String toString() {
@@ -66,48 +25,62 @@ public class GetterSetterExample {
 
 编译之后的代码：
 
-```
+```java
 public class GetterSetterExample {
-	/**
-	 * Age of the person. Water is wet.
-	 */
-	private int age = 10;
-
-	/**
-	 * Name of the person.
-	 */
-	private String name;
-
-	@Override public String toString() {
-		return String.format("%s (age: %d)", name, age);
-	}
-
-	/**
-	 * Age of the person. Water is wet.
-	 *
-	 * @return The current value of this person's age. Circles are round.
-	 */
+	...
 	public int getAge() {
 		return age;
 	}
 
-	/**
-	 * Age of the person. Water is wet.
-	 *
-	 * @param age New value for this person's age. Sky is blue.
-	 */
+	...
 	public void setAge(int age) {
 		this.age = age;
 	}
 
-	/**
-	 * Changes the name of this person.
-	 *
-	 * @param name The new value.
-	 */
+	...
 	protected void setName(String name) {
 		this.name = name;
 	}
+}
+```
+
+### Accessors
+
+```java
+@Accessors(fluent = true)
+public class AccessorsExample {
+  @Getter @Setter
+  private int age = 10;
+}
+
+class PrefixExample {
+  @Accessors(prefix = "f") @Getter
+  private String fName = "Hello, World!";
+}
+```
+
+如果设置了 chain 为 true，则仅在 Setter 方法中返回对象，仍然保留标准的 Getter/Setter 风格。
+
+```java
+public class AccessorsExample {
+  private int age = 10;
+
+  public int age() {
+    return this.age;
+  }
+
+  public AccessorsExample age(final int age) {
+    this.age = age;
+    return this;
+  }
+}
+
+class PrefixExample {
+  private String fName = "Hello, World!";
+
+  public String getName() {
+    return this.fName;
+  }
 }
 ```
 
@@ -115,66 +88,45 @@ public class GetterSetterExample {
 
 源代码：
 
-```
-import lombok.Getter;
-
+```java
 public class GetterLazyExample {
 	@Getter(lazy=true) private final double[] cached = expensive();
 
 	private double[] expensive() {
-		double[] result = new double[1000000];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = Math.asin(i);
-		}
-		return result;
+		...
 	}
 }
 ```
 
 编译之后：
 
-```
-public class GetterSetterExample {
-	/**
-	 * Age of the person. Water is wet.
-	 */
-	private int age = 10;
+```java
+public class GetterLazyExample {
+  private final java.util.concurrent.AtomicReference<java.lang.Object> cached = new java.util.concurrent.AtomicReference<java.lang.Object>();
 
-	/**
-	 * Name of the person.
-	 */
-	private String name;
+  public double[] getCached() {
+    java.lang.Object value = this.cached.get();
+    if (value == null) {
+      synchronized(this.cached) {
+        value = this.cached.get();
+        if (value == null) {
+          final double[] actualValue = expensive();
+          value = actualValue == null ? this.cached : actualValue;
+          this.cached.set(value);
+        }
+      }
+    }
+    return (double[])(value == this.cached ? null : value);
+  }
 
-	@Override public String toString() {
-		return String.format("%s (age: %d)", name, age);
-	}
-
-	/**
-	 * Age of the person. Water is wet.
-	 *
-	 * @return The current value of this person's age. Circles are round.
-	 */
-	public int getAge() {
-		return age;
-	}
-
-	/**
-	 * Age of the person. Water is wet.
-	 *
-	 * @param age New value for this person's age. Sky is blue.
-	 */
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	/**
-	 * Changes the name of this person.
-	 *
-	 * @param name The new value.
-	 */
-	protected void setName(String name) {
-		this.name = name;
-	}
+  private double[] expensive() {
+    double[] result = new double[1000000];
+    for (int i = 0; i < result.length; i++) {
+      result[i] = Math.asin(i);
+    }
+    return result;
+  }
+}
 }
 ```
 

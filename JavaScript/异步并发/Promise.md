@@ -217,75 +217,57 @@ connect
 combineReducer
 
 ```js
-polyfill redux connect()
-         redux combineReducer()
-
-function connect(mapStateToProps, mapDispatchToProps){
-
+function connect(mapStateToProps, mapDispatchToProps) {
   // 构造好的封装组件
-  class HOCComponent extends Component{
-
-
+  class HOCComponent extends Component {
     // 利用 Context 进行状态传递, Todo
-    getChildContext(){
+    getChildContext() {}
 
-    }
-
-    handleProps(){
-
+    handleProps() {
       let propsFromState;
 
-      if(typeof mapStateToProps === "function"){
-       // 计算映射之后的 Props 值
-       propsFromState = mapStateToProps(state);
-
-      }else{
-
+      if (typeof mapStateToProps === 'function') {
+        // 计算映射之后的 Props 值
+        propsFromState = mapStateToProps(state);
+      } else {
         propsFromState = mapStateToProps;
       }
 
-      return {...propsFromState, ...mapDispatchToProps}
-
+      return { ...propsFromState, ...mapDispatchToProps };
     }
 
-    render(){
-
+    render() {
       // 将新的 Props 映射入组件
-      return React.createElement(HOCComponent.WrappedComponent, this.handleProps(mapStateToProps, mapDispatchToProps))
-
+      return React.createElement(
+        HOCComponent.WrappedComponent,
+        this.handleProps(mapStateToProps, mapDispatchToProps)
+      );
     }
-
   }
 
   // 高阶函数
-  function wrap(WrappedComponent){
-
+  function wrap(WrappedComponent) {
     HOCComponent.WrappedComponent = WrappedComponent;
 
     // 返回创建好的高阶函数
     return HOCComponent;
-
   }
 
   // 返回需要封装的高阶函数
   return wrap;
-
 }
 
-
-function combineReducers(reducers){
-
+function combineReducers(reducers) {
   // 获取所有函数键
   const reducerKeys = Object.keys(reducers);
 
   // 返回封装之后的函数
-  return function finalReducer(state = {}, action){
-
+  return function finalReducer(state = {}, action) {
     // 最终的状态
     const nextState = {};
 
     // 依次对于 Reducer 进行处理
-    for(const key of reducerKeys){
+    for (const key of reducerKeys) {
       // 获取 reducer
       const reducer = reducers[key];
 
@@ -296,28 +278,194 @@ function combineReducers(reducers){
       const nextStateByKey = reducer(stateByKey, action);
 
       // Redux 需要避免状态空，进行异常检测
-      if(typeof nextStateByKey === "undefined"){
-        throw new Error("Invalid Reducer");
+      if (typeof nextStateByKey === 'undefined') {
+        throw new Error('Invalid Reducer');
       }
 
       // 将新的状态对象挂载
       nextState[key] = nextStateByKey;
-
     }
 
     return nextState;
-
-  }
-
+  };
 }
 
-
-
-function clientCacheMiddleware({ maxAge=3600 * 24 * 365 }){
-  return function(req, res, next){
-    res.setHeader("Cache-Control",`max-age=${maxAge}`);
+function clientCacheMiddleware({ maxAge = 3600 * 24 * 365 }) {
+  return function(req, res, next) {
+    res.setHeader('Cache-Control', `max-age=${maxAge}`);
 
     next();
   };
+}
+```
+
+## Promise 编排
+
+```js
+/*
+ * promiseSerial resolves Promises sequentially.
+ * @example
+ * const urls = ['/url1', '/url2', '/url3']
+ * const funcs = urls.map(url => () => $.ajax(url))
+ *
+ * promiseSerial(funcs)
+ *   .then(console.log)
+ *   .catch(console.error)
+ */
+const promiseSerial = funcs =>
+  funcs.reduce(
+    (promise, func) =>
+      promise.then(result => func().then(Array.prototype.concat.bind(result))),
+    Promise.resolve([])
+  );
+
+// some url's to resolve
+const urls = ['/url1', '/url2', '/url3'];
+
+// convert each url to a function that returns a promise
+const funcs = urls.map(url => () => $.ajax(url));
+
+// execute Promises in serial
+promiseSerial(funcs)
+  .then(console.log)
+  .catch(console.error);
+```
+
+### Promise.race: 返回第一个确定状态
+
+race 函数返回一个 Promise，这个 Promise 根据传入的 Promise 中的第一个确定状态 -- 不管是接受还是拒绝 -- 的状态而确定状态。
+
+```js
+var p1 = new Promise(function(resolve, reject) {
+  setTimeout(resolve, 500, '一');
+});
+var p2 = new Promise(function(resolve, reject) {
+  setTimeout(resolve, 100, '二');
+});
+
+Promise.race([p1, p2]).then(function(value) {
+  console.log(value); // "二"
+  // 两个都解决，但p2更快
+});
+
+var p3 = new Promise(function(resolve, reject) {
+  setTimeout(resolve, 100, '三');
+});
+var p4 = new Promise(function(resolve, reject) {
+  setTimeout(reject, 500, '四');
+});
+
+Promise.race([p3, p4]).then(
+  function(value) {
+    console.log(value); // "三"
+    // p3更快，所以被解决(resolve)了
+  },
+  function(reason) {
+    // 未被执行
+  }
+);
+
+var p5 = new Promise(function(resolve, reject) {
+  setTimeout(resolve, 500, '五');
+});
+var p6 = new Promise(function(resolve, reject) {
+  setTimeout(reject, 100, '六');
+});
+
+Promise.race([p5, p6]).then(
+  function(value) {
+    // 未被执行
+  },
+  function(reason) {
+    console.log(reason); // "六"
+    // p6更快，所以被拒绝(reject了)
+  }
+);
+```
+
+```js
+function executeAsyncTask() {
+  return functionA().then(valueA => {
+    return functionB(valueA).then(valueB => {
+      return functionC(valueA, valueB);
+    });
+  });
+}
+```
+
+```js
+const converge = (...promises) => (...args) => {
+  let [head, ...tail] = promises;
+  if (tail.length) {
+    return head(...args).then(value =>
+      converge(...tail)(...args.concat([value]))
+    );
+  } else {
+    return head(...args);
+  }
+};
+
+functionA(2).then(valueA => converge(functionB, functionC)(valueA));
+```
+
+```
+let promise = new Promise((resolve,reject)=>{
+	setTimeout(()=>{
+		console.log('2 in setTimeout');
+		resolve(2);
+	},0);
+	resolve(1);
+});
+
+
+promise.then((value)=>{
+	console.log(value);
+})
+
+
+// 1
+// 2 in setTimeout
+```
+
+```js
+const prom = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(5);
+  }, 1000);
+});
+
+prom.then(value => {
+  console.log(value);
+});
+
+setTimeout(() => {
+  prom.then(value => {
+    console.log(value);
+  });
+}, 5000);
+```
+
+## Promise.all: 并发执行
+
+async/await 默认情况下是顺序执行的，
+
+```js
+async function executeAsyncTask() {
+  const valueA = await functionA();
+  const valueB = await functionB(valueA);
+  return function3(valueA, valueB);
+}
+```
+
+```js
+async function executeParallelAsyncTasks() {
+  const [valueA, valueB, valueC] = await Promise.all([
+    functionA(),
+    functionB(),
+    functionC()
+  ]);
+  doSomethingWith(valueA);
+  doSomethingElseWith(valueB);
+  doAnotherThingWith(valueC);
 }
 ```
