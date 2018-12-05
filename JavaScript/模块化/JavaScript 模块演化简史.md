@@ -170,22 +170,19 @@ angular.module('app', ['greeter'])
 
 在 Node.js 横空出世之前，就已经有很多将运行于客户端浏览器中的 JavaScript 迁移运行到服务端的[框架](https://en.wikipedia.org/wiki/Comparison_of_server-side_JavaScript_solutions)；不过由于缺乏合适的规范，也没有提供统一的与操作系统及运行环境交互的接口，这些框架并未流行开来。2009  年时 Mozilla 的雇员 [Kevin Dangoor](https://github.com/dangoor)  发表了[博客](http://www.blueskyonmars.com/2009/01/29/what-server-side-javascript-needs/)讨论服务端  JavaScript 代码面临的困境，号召所有有志于规范服务端 JavaScript 接口的志同道合的开发者协同讨论，群策群力，最终形成了 ServerJS 规范；一年之后 ServerJS 重命名为 CommonJS。后来 CommonJS 内的模块规范成为了 Node.js 的标准实现规范，其基本语法为 `var commonjs = require("./commonjs");`，核心设计模式如下所示：
 
-```
+```js
 // file greeting.js
 var helloInLang = {
-    en: 'Hello world!',
-    es: '¡Hola mundo!',
-    ru: 'Привет мир!'
+  en: 'Hello world!',
+  es: '¡Hola mundo!',
+  ru: 'Привет мир!'
 };
 
-
-var sayHello = function (lang) {
-    return helloInLang[lang];
-}
-
+var sayHello = function(lang) {
+  return helloInLang[lang];
+};
 
 module.exports.sayHello = sayHello;
-
 
 // file hello.js
 var sayHello = require('./lib/greeting').sayHello;
@@ -196,73 +193,59 @@ console.log(phrase);
 
 该模块实现方案主要包含 `require` 与 `module` 这两个关键字，其允许某个模块对外暴露部分接口并且由其他模块导入使用。在 Node.js 中我们通过内建辅助函数来使用 CommonJS 的导入导出功能，而在其他 JavaScript 引擎中我们可以将其包裹为如下形式：
 
-```
-(function (exports, require, module, __filename, __dirname) {
-    // ...
-    // Your code injects here!
-    // ...
-
+```js
+(function(exports, require, module, __filename, __dirname) {
+  // ...
+  // Your code injects here!
+  // ...
 });
+```
+
+CommonJS 本质上导入值是对导出值的拷贝，在加载之后是以单例化运行，并且遵循值传递原则：
+
+```js
+//------ lib.js ------
+var counter = 3;
+function incCounter() {
+  counter++;
+}
+module.exports = {
+  counter: counter, // (A)
+  incCounter: incCounter
+};
+
+//------ main1.js ------
+var counter = require('./lib').counter; // (B)
+var incCounter = require('./lib').incCounter;
+
+// The imported value is a (disconnected) copy of a copy
+console.log(counter); // 3
+incCounter();
+console.log(counter); // 3
+
+// The imported value can be changed
+counter++;
+console.log(counter); // 4
 ```
 
 CommonJS 规范本身只是定义了不同环境下支持模块交互性的最小化原则，其具备极大的可扩展性。Node.js 中就对 `require` 函数添加了 `main` 属性，该属性在执行模块所属文件时指向 `module` 对象。Babel 在实现 ES2015 Modules 的转义时也扩展了 `require` 关键字：
 
+```js
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports.foo = foo;
+function foo() {}
+exports.default = 123;
+
+// 在将 ES6 模块编译为 CJS 模块后，可以使用默认导出；并且兼容 ES6 的默认导入
+module.exports = require('./dist/index.js').default;
+module.exports.default = module.exports;
 ```
-export default something;
-```
 
-Babel 将此类型的导出转化为了 CommonJS 模块，简单而言形式如下：
-
-```
-export.default = something;
-```
-
-Webpack 打包工具也使用了很多扩展，譬如 `require.ensure`、`require.cache`、`require.context` 等等。CommonJS 算是目前最流行的模块格式，我们不仅可以在 Node.js 中使用，还可以通过 [Browserify](http://browserify.org/)  与 [Webpack](https://webpack.js.org/)  这样的打包工具将代码打包到客户端运行。另外我们需要注意的是，Node.js 中的模块在加载之后是以单例化运行，并且遵循值传递原则：
-
-```
-// obj.js
-
-module.exports = {
-    num:1
-}
-
-
-// primitive.js
-module.exports = 1;
-
-
-// modifier.js
-
-var number = require('./primitive');
-var obj = require('./obj');
-
-number = 2;
-obj.num = 2;
-
-console.log(number);
-console.log(obj);
-
-
-// main.js
-
-console.log(require('./primitive'));
-console.log(require('./obj'));
-
-require('./modifier.js')
-
-console.log(require('./primitive'));
-console.log(require('./obj'));
-
-
-// 执行结果
-
-1
-{ num: 1 }
-2
-{ num: 2 }
-1
-{ num: 2 }
-```
+Webpack 打包工具也使用了很多扩展，譬如 `require.ensure`、`require.cache`、`require.context` 等等。CommonJS 算是目前最流行的模块格式，我们不仅可以在 Node.js 中使用，还可以通过 [Browserify](http://browserify.org/)  与 [Webpack](https://webpack.js.org/) 这样的打包工具将代码打包到客户端运行。
 
 # AMD
 
@@ -278,28 +261,26 @@ define(["amd-module", "../file"], function(amdModule, file) {
 
 而将我们上述使用的例子改写为 AMD 模式应当如下所示：
 
-```
+```js
 // file lib/greeting.js
 define(function() {
-    var helloInLang = {
-        en: 'Hello world!',
-        es: '¡Hola mundo!',
-        ru: 'Привет мир!'
-    };
+  var helloInLang = {
+    en: 'Hello world!',
+    es: '¡Hola mundo!',
+    ru: 'Привет мир!'
+  };
 
-
-    return {
-        sayHello: function (lang) {
-            return helloInLang[lang];
-        }
-    };
+  return {
+    sayHello: function(lang) {
+      return helloInLang[lang];
+    }
+  };
 });
-
 
 // file hello.js
 define(['./lib/greeting'], function(greeting) {
-    var phrase = greeting.sayHello('en');
-    document.write(phrase);
+  var phrase = greeting.sayHello('en');
+  document.write(phrase);
 });
 ```
 
@@ -349,9 +330,9 @@ JavaScript 模块规范领域群雄逐鹿，各领风骚，作为 ECMAScript 标
 ```js
 // file lib/greeting.js
 const helloInLang = {
-  en: "Hello world!",
-  es: "¡Hola mundo!",
-  ru: "Привет мир!"
+  en: 'Hello world!',
+  es: '¡Hola mundo!',
+  ru: 'Привет мир!'
 };
 
 export const greeting = {
@@ -361,8 +342,8 @@ export const greeting = {
 };
 
 // file hello.js
-import { greeting } from "./lib/greeting";
-const phrase = greeting.sayHello("en");
+import { greeting } from './lib/greeting';
+const phrase = greeting.sayHello('en');
 
 document.write(phrase);
 ```
