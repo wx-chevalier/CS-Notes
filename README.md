@@ -20,7 +20,7 @@
 
 - [现代 JavaScript 开发基础与工程实践](./JavaScript): JavaScript 终于成为了一流(First Class)语言。
 
-- [现代 Java 开发基础与工程实践](./Java): 面向对象，面向自己，鉴于内容较多，又细分为：[基础篇](./Java/Fundamentals)，[进阶篇](./Java/DevPractices)，[并发编程篇](./Java/ConcurrentProgramming)，[JVM 篇](./Java/JVM)。
+- [现代 Java 开发基础与工程实践](./Java): 面向对象，面向自己，鉴于内容较多，又细分为：[基础篇](./Java/Fundamentals)，[进阶篇](./Java/DevOps)，[并发编程篇](./Java/ConcurrentProgramming)，[JVM 篇](./Java/JVM)。
 
 - [现代 Python 开发基础与工程实践](./Python): 人生苦短，请用 Python。
 

@@ -35,13 +35,13 @@ new (require('vm').Script)('console.log(11)‘).runInThisContext();
 ```js
 function createNamedFunction(name, fn) {
   return new Function(
-    "f",
+    'f',
     `return function ${name}(){ return f.apply(this,arguments)}`
   )(fn);
 }
 
-let func = createNamedFunction("namedFunction", () => {
-  console.log("namedFunction");
+let func = createNamedFunction('namedFunction', () => {
+  console.log('namedFunction');
 });
 
 console.log(func);
@@ -55,15 +55,15 @@ func();
 
 **关于 执行上下文** 有五个要点是要记住的 :
 
-* 单线程。
+- 单线程。
 
-* 同步执行。
+- 同步执行。
 
-* 只有一个全局上下文。
+- 只有一个全局上下文。
 
-* 可有无数个函数上下文。
+- 可有无数个函数上下文。
 
-* 每个函数调用都会创建一个新的 `执行上下文`，哪怕是递归调用。
+- 每个函数调用都会创建一个新的 `执行上下文`，哪怕是递归调用。
 
 ## 执行上下文中的细节
 
@@ -135,7 +135,7 @@ executionContextObj = {
 
 ```js
 function foo(i) {
-  var a = "hello";
+  var a = 'hello';
 
   var b = function privateB() {};
 
@@ -255,24 +255,24 @@ console.log(window.a); // 37
 
 ```javascript
 function hello(thing) {
-  console.log("Hello " + thing);
+  console.log('Hello ' + thing);
 }
 
 // this:
-hello("world");
+hello('world');
 
 // 编译为
-hello.call(window, "world");
+hello.call(window, 'world');
 ```
 
 而如果是 strict 模式下：
 
 ```javascript
 // this:
-hello("world");
+hello('world');
 
 // 编译为
-hello.call(undefined, "world");
+hello.call(undefined, 'world');
 ```
 
 ### DOM Event handler(DOM 事件 )
@@ -302,7 +302,7 @@ for(var i=0  i<elements.length  i++){
 如果是行内的事件监听者，this 指针会被设置为其所在的 DOM 元素：
 
 ```javascript
-<button onclick="alert(this.tagName.toLowerCase());">Show this</button>;
+<button onclick="alert(this.tagName.toLowerCase());">Show this</button>
 ```
 
 ## Manual Setting: 手动指定 this
@@ -324,7 +324,7 @@ var o = {
     // Here we pass `o` into the async function,
     // expecting it back as `param`
     asyncFunction(o, function(param) {
-      console.log("param === this?", param === self);
+      console.log('param === this?', param === self);
     });
   }
 };
@@ -338,33 +338,33 @@ o.doSomething(); // param === this? true
 
 ```javascript
 function hello(thing) {
-  console.log(this + " says hello " + thing);
+  console.log(this + ' says hello ' + thing);
 }
 
-person = { name: "Brendan Eich" };
+person = { name: 'Brendan Eich' };
 person.hello = hello;
 
-person.hello("world"); // still desugars to person.hello.call(person, "world") [object Object] says hello world
+person.hello('world'); // still desugars to person.hello.call(person, "world") [object Object] says hello world
 
-hello("world"); // "[object DOMWindow]world"
+hello('world'); // "[object DOMWindow]world"
 ```
 
 这种效果等效于使用 apply/call 进行调用。
 
 ### call/apply: 运行时指定
 
-```
-var Cat = function (name) {
-    this.name = name;
-}
-var Dog = function (name) {
-    this.name = name;
-}
-Cat.prototype.sayHi = function () {
-    console.log(`${this.name} meows loudly!`);
+```js
+var Cat = function(name) {
+  this.name = name;
 };
-Dog.prototype.sayHi = function () {
-    console.log(`${this.name} barks excitedly!`);
+var Dog = function(name) {
+  this.name = name;
+};
+Cat.prototype.sayHi = function() {
+  console.log(`${this.name} meows loudly!`);
+};
+Dog.prototype.sayHi = function() {
+  console.log(`${this.name} barks excitedly!`);
 };
 var whiskers = new Cat('whiskers');
 var fluffybottom = new Dog('fluffy bottom');
@@ -373,7 +373,7 @@ fluffybottom.sayHi(); // => fluffy bottom barks excitedly!
 Cat.prototype.sayHi.call(fluffybottom); // => fluffy bottom meows loudly!
 whiskers.sayHi.call(fluffybottom); // => fluffy bottom meows loudly!
 Dog.prototype.sayHi.call(whiskers); // => whiskers barks excitedly!
-fluffybottom.sayHi.call(whiskers);  // => whiskers barks excitedly!
+fluffybottom.sayHi.call(whiskers); // => whiskers barks excitedly!
 ```
 
 ### bind: 绑定
@@ -461,7 +461,7 @@ myObj.render();
 
 可以将代码以如下方式重写：
 
-```javascript
+```js
 render: function () {
 
     this.getAsyncData(function () {
@@ -487,9 +487,9 @@ bind 方程的支持情况如下：
 
 ```javascript
 var person = {
-  name: "Brendan Eich",
+  name: 'Brendan Eich',
   hello: function(thing) {
-    console.log(this.name + " says hello " + thing);
+    console.log(this.name + ' says hello ' + thing);
   }
 };
 
@@ -497,7 +497,7 @@ var boundHello = function(thing) {
   return person.hello.call(person, thing);
 };
 
-boundHello("world");
+boundHello('world');
 ```
 
 不过，这种方式仍然存在着一定的问题，ES5 为 Function 对象引入了一个新的 bind 方法来解决这个问题。bind() 方法会创建一个新函数，当这个新函数被调用时，它的 this 值是传递给 bind() 的第一个参数 , 它的参数是 bind() 的其他参数和其原本的参数。
@@ -506,25 +506,25 @@ boundHello("world");
 fun.bind(thisArg[, arg1[, arg2[, ...]]])
 ```
 
-* thisArg 当绑定函数被调用时，该参数会作为原函数运行时的 this 指向。当使用 new 操作符调用绑定函数时，该参数无效。
-* arg1, arg2, ... 当绑定函数被调用时，这些参数加上绑定函数本身的参数会按照顺序作为原函数运行时的参数。
+- thisArg 当绑定函数被调用时，该参数会作为原函数运行时的 this 指向。当使用 new 操作符调用绑定函数时，该参数无效。
+- arg1, arg2, ... 当绑定函数被调用时，这些参数加上绑定函数本身的参数会按照顺序作为原函数运行时的参数。
 
 ```javascript
 var boundHello = person.hello.bind(person);
-boundHello("world"); // "Brendan Eich says hello world"
+boundHello('world'); // "Brendan Eich says hello world"
 ```
 
 这种方式在设置回调函数中的 this 指针的时候会起到很大的作用，特别是在 React 中，为了保证指针的稳定性，往往需要为内置方法设置 bind。
 
 ```javascript
 var person = {
-  name: "Alex Russell",
+  name: 'Alex Russell',
   hello: function() {
-    console.log(this.name + " says hello world");
+    console.log(this.name + ' says hello world');
   }
 };
 
-$("#some-div").click(person.hello.bind(person));
+$('#some-div').click(person.hello.bind(person));
 
 // when the div is clicked, "Alex Russell says hello world" is printed
 ```
@@ -545,7 +545,7 @@ var o = {
     asyncFunction(
       o,
       function(param) {
-        console.log("param === this?", param === this);
+        console.log('param === this?', param === this);
       }.bind(this)
     );
   }
@@ -558,11 +558,11 @@ o.doSomething(); // param === this? true
 
 ```javascript
 var o = {
-  v: "hello",
-  p: ["a1", "a2"],
+  v: 'hello',
+  p: ['a1', 'a2'],
   f: function f() {
     this.p.forEach(function(item) {
-      console.log(this.v + " " + item);
+      console.log(this.v + ' ' + item);
     });
   }
 };
@@ -592,7 +592,7 @@ var o = {
     // the scope of `doSomething` it is bound to this
     // lexical scope.
     asyncFunction(o, param => {
-      console.log("param === this?", param === this);
+      console.log('param === this?', param === this);
     });
   }
 };
