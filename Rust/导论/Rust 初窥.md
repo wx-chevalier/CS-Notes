@@ -2,6 +2,7 @@
 
 # Rust 初窥 : 设计理念、包管理与 WebAssembly 集成
 
+
 当我们需要编写接近实时高性能，稳健，并有足够开发效率的大程序时，譬如数据库、交易系统、大型桌面应用等，往往会首先选择 C 或者 C++。这种情况下我们往往有以下考量：
 
 * 不需要自动垃圾回收(GC )，避免因为垃圾回收导致的程序中断，以及可能引发的错误或者麻烦。
@@ -21,6 +22,21 @@
 * They built a convenient [package ecosystem](https://crates.io/), allowing the out-of-the-box capabilities of Rust to grow while the core language and standard library remained small.
 
 Rust 是为工业应用而生，并不拘泥于遵循某个范式( Paradigm )，笔者认为其最核心的特性为 Ownership 与 Lifetime；能够在没有 GC 与 Runtime 的情况下，防止近乎所有的段错误，并且保证线程安全(prevents nearly all segfaults, and guarantees thread safety )。Rust 为每个引用与指针设置了 Lifetime，对象则不允许在同一时间有两个和两个以上的可变引用，并且在编译阶段即进行了内存分配(栈或者堆)； Rust 还提供了 Closure 等函数式编程语言的特性、编译时多态(Compile-time Polymorphism )、衍生的错误处理机制、灵活的模块系统等。从应用层面来看，Mozilla 本身就是 Web 领域的执牛耳者，无论是使用 Rust 开发 Node.js 插件，还是 [Rust 默认支持 WebAssembly](https://parg.co/UPo)，都能很好地弥补目前笔者在进行 Web 前端 / Electron 客户端 / Node.js 计算模块的一些性能缺失。
+
+## 背景
+
+任何一门新技术的兴起，都是为了解决一个问题。自操作系统诞生以来，系统级主流编程语言，从汇编语言到C++，已经发展了近50 个年头，但依然存在两个难题：
+
+很难编写内存安全的代码。
+
+很难编写线程安全的代码。
+
+这两个难题存在的本质原因是C/C++属于类型不安全的语言，它们薄弱的内存管理机制导致了很多常见的漏洞。其实20 世纪80 年代也出现过非常优秀的语言，比如Ada 语言。Ada拥有诸多优秀的特性：可以在编译期进行类型检查、无GC 式确定性内存管理、内置安全并发模型、无数据竞争、系统级硬实时编程等。但它的性能和同时期的C/C++相比确实是有差距的。那个时代计算资源匮乏，大家追求的是性能。所以，大家都宁愿牺牲安全性来换取性能。这也是C/C++得以普及的原因。
+
+“Rust”这个名字包含了GH 对这门语言的预期。在自然界有一种叫作锈菌（Rust Fungi）的真菌，这种真菌寄生于植物中，引发病害，而且号称“本世纪最可怕的生态病害”之一。这种真菌的生命力非常顽强，其在生命周期内可以产生多达5 种孢子类型，这5 种生命形态还可以相互转化，如果用软件术语来描述这种特性，那就是“鲁棒性超强”。可以回想一下Rust的Logo形状，像不像一个细菌？Logo上面有5个圆圈，也和锈菌这5种生命形态相对应，暗示Rust语言的鲁棒性也超强。Rust也有铁锈的意思，暗合裸金属之意，代表其系统级编程语言属性，有直接操作底层硬件的能力。此外Rust在字形组合上也糅合了Trust和Robust，暗示了信任与鲁棒性。
+
+
+# 快速开始
 
 [Rust 官方的教程](https://parg.co/UPm)也是非常优秀的 Rust 学习资料，也可以在 [Rust  Learning & Practices Links](https://parg.co/UZ6)中查询更多的参考资料。下面我们开始在本地安装 Rust 开发环境，可以使用如下脚本，或者在 Windows 上下载 [rustup-init.exe](https://static.rust-lang.org/rustup/dist/i686-pc-windows-gnu/rustup-init.exe)；离线安装的话则可以下载[离线安装包](https://www.rust-lang.org/en-US/other-installers.html)。
 
