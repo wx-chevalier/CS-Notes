@@ -319,7 +319,7 @@ String jsonString = mapper.writeValueAsString(myResultObject);
 ```
 而如果我们要将JSON转化为Java中的List或者Map的话，可以采用如下方式：
 ```
-//将某个JSON转化为List
+//将某个JSON转化为 List
 String json = "[{\"name\":\"mkyong\"}, {\"name\":\"laplap\"}]";
 List<Staff> list = mapper.readValue(json, new TypeReference<List<Staff>>(){});
 //将某个JSON转化为Map

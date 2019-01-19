@@ -1,4 +1,4 @@
-> [Java 9 特性概述]()从属于笔者的[]()，主要是对于 Java 9 的特性与简要用法进行介绍。[Java 9 Released — 9 Biggest Features & Download Links Are Here](https://fossbytes.com/java-9-features-released-download-course/) 以及 [Java 9 Features with Examples](https://www.journaldev.com/13121/java-9-features-with-examples)
+> [Java 9 特性概述]()从属于笔者的[]()，主要是对于 Java 9 的特性与简要用法进行介绍。[Java 9 Released — 9 Biggest Features & DownloadListAre Here](https://fossbytes.com/java-9-features-released-download-course/) 以及 [Java 9 Features with Examples](https://www.journaldev.com/13121/java-9-features-with-examples)
 
 # Java 9 特性概述
 
