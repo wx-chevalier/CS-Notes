@@ -4,8 +4,7 @@
 
 # Java
 
-> [java_plugin](https://docs.gradle.org/current/userguide/java_plugin.html)
-> 使用 Java plugin，只需要在 build.gradle 中加入这句话：
+使用 Java plugin，只需要在 build.gradle 中加入这句话：
 
 ```
 apply plugin: 'java'
@@ -237,77 +236,3 @@ gradle (cleanIdea) idea
 ```
 
 最后再打开生成好的 IDEA 的项目。
-
-# Tasks
-
-对于大多数构建工具，对于子项目的配置，都是基于继承的方式。Gradle 除了提供继承的方式来设置子项目，还提供了另外一种集中的配置方式，方便我们统一管理子项目的信息。下面看一个例子，打开 A/build.gradle，输入如下部分：
-
-allprojects {
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
-}
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
-}
-subprojects {
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
-}
-subprojects {
-hello << {println "- I am the sub project of A"}
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
-}
-subprojects {
-hello << {println "- I am the sub project of A"}
-}
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
-}
-subprojects {
-hello << {println "- I am the sub project of A"}
-}
-project(':core').hello << {
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
-}
-subprojects {
-hello << {println "- I am the sub project of A"}
-}
-project(':core').hello << {
-println "- I'm the core component and provide service for other parts."
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
-}
-subprojects {
-hello << {println "- I am the sub project of A"}
-}
-project(':core').hello << {
-println "- I'm the core component and provide service for other parts."
-}
-
-对于上面所示的代码，已经很表意了：
-
-allprojects{xxx} 这段代码表示，对于所有的 project，Gradle 都将定义一个名称是 hello 的 Task { println "I'm \$task.[project.name](http://project.name/)"} 。
-
-subprojects{xxxx}的这段代码表示，对于所有的子 project，将在名称为 hello 的 Task 上追加 Action {println "- I am the sub project of A"}
-
-注意：关于 Task 和 Action 的关系，请看我之前写的本系列的第一部分。
-
-project(':core')的这段代码表示，对于名称为 core 的 project，将在名称为 hello 的 Task 上追加 Action { println "- I'm the core component and provide service for other parts." }
-
-## Task Runner
-
-之前我们已经了解了多项目的结构以及如何通过路径去访问子项目。现在让我们看看如何使用 Gradle 来执行多项目。
-在 Gradle 中，当在当前项目上执行 gradle <Task>时，gradle 会遍历当前项目以及其所有的子项目，依次执行所有的同名 Task，注意：子项目的遍历顺序并不是按照 setting.gradle 中的定义顺序，而是按照子项目的首字母排列顺序。
-基于刚才的例子，如果我们在根目录下，执行 gradle hello，那么所有子项目的“hello” Task 都会被执行。如果我们在 mobile 目录下执行 gradle hello,那么 mobile、android 以及 IOS 的“hello” Task 都会被执行。关于该例子的运行结果，这里就不贴出来了。大家如果有兴 趣的话可以试试。
