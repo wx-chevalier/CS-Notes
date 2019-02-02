@@ -26,12 +26,6 @@
 -XX:HeapDumpPath=$WEB_APP_HOME/.tomcat/logs/heapdump.hprof  --heapdump文件地址
 ```
 
-# JVM Options(JVM 参数 )
-
-> [关键业务系统的 JVM 启动参数推荐](http://calvin1978.blogcn.com/articles/jvmoption-2.html) [关键业务系统的 JVM 参数推荐 (2016 热冬版 )](http://calvin1978.blogcn.com/articles/jvmoption-2.html?f=tt)
-
-> [JVM 调试工具说明](http://blog.csdn.net/jiushuai/article/details/8455788) >[Java VisualVM ](http://ihuangweiwei.iteye.com/blog/1219302) >[JMX](http://docs.oracle.com/javase/tutorial/jmx/):Java Management Extensions (JMX)
-
 ## 内存溢出 OOM
 
 就是你要求分配的 java 虚拟机内存超出了系统能给你的，系统不能满足需求，于是产生溢出。
@@ -94,5 +88,3 @@ public void addBitmapToCache(String path) {
 是指你向系统申请分配内存进行使用 (new)，可是使用完了以后却不归还 (delete)，结果你申请到的那块内存你自己也不能再访问 , 该块已分配出来的内存也无法再使用，随着服务器内存的不断消耗，而无法使用的内存越来越多，系统也不能再次将它分配给需要的程序，产生泄露。一直下去，程序也逐渐无内存使用，就会溢出。
 
 # Todos
-
-[诊断 Java 代码中常见的数据库性能热点问题](http://www.infoq.com/cn/articles/Diagnosing-Common-Java-Database-Performance-Hotspots) [大神手把手教你 Java 性能优化 - 江南白衣(加强版)](http://mp.weixin.qq.com/s?__biz=MzI3MzEzMDI1OQ==&mid=2651815337&idx=1&sn=8e846e11e908735a5175c9eacb642329)
