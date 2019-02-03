@@ -12,7 +12,7 @@
 
 > -- Steve McConnell’s Code Complete
 
-## TOC | 目录
+# Nav | 导航
 
 本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记，主要分为以下文章/随笔：
 
@@ -28,15 +28,9 @@
 
 - [Rust 开发基础与工程实践](./Rust): 安全不易学。
 
-# 关于
+# 前言 | Preface
 
-## 规划
-
-## 致谢
-
-由于笔者平日忙于工作，几乎所有线上的文档都是我夫人帮忙整理，在此特别致谢；同时也感谢我家的布丁安静的趴在脚边，不再那么粪发涂墙。
-
-## 版权
+# 版权
 
 ![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)
 ![](https://parg.co/bDm)
