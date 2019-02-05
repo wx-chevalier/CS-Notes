@@ -2,31 +2,31 @@
 
 ![](https://blog-assets.risingstack.com/2016/11/ancient-garbage-collector-in-action.jpg)
 
-* **程序吞吐量**：回收算法会在多大程度上拖慢程序？有时候，这个是通过回收占用的 CPU 时间与其它 CPU 时间的百分比来描述的。
-* **GC 吞吐量**：在给定的 CPU 时间内，回收器可以回收多少垃圾？
+- **程序吞吐量**：回收算法会在多大程度上拖慢程序？有时候，这个是通过回收占用的 CPU 时间与其它 CPU 时间的百分比来描述的。
+- **GC 吞吐量**：在给定的 CPU 时间内，回收器可以回收多少垃圾？
     堆内存开销：回收器最少需要多少额外的内存开销？如果回收器在回收垃圾时需要分配临时的内存，对于程序的内存使用是否会有严重影响？
-* **停顿时间**：回收器会造成多长时间的停顿？
-* **停顿频率**：回收器造成的停顿频率是怎样的？
-* **停顿分布**：停顿有时候很短暂，有时候很长？还是选择长一点但保持一致的停顿时间？
-* **分配性能**：新内存的分配是快、慢还是无法预测？
-* **压缩**：当堆内存里还有小块碎片化的内存可用时，回收器是否仍然抛出内存不足(OOM)的错误？如果不是，那么你是否发现程序越来越慢，并最终死掉，尽管仍然还有足够的内存可用？
-* **并发**：回收器是如何利用多核机器的？
-* **伸缩**：当堆内存变大时，回收器该如何工作？
-* **调优**：回收器的默认使用或在进行调优时，它的配置有多复杂？
-* **预热时间**：回收算法是否会根据已发生的行为进行自我调节？如果是，需要多长时间？
-* **页释放**：回收算法会把未使用的内存释放回给操作系统吗？如果会，会在什么时候发生？
-* **可移植性**：回收器是否能够在提供了较弱内存一致性保证的 CPU 架构上运行？
-* **兼容性**：回收器可以跟哪些编程语言和编译器一起工作？它可以跟那些并非为 GC 设计的编程语言一起工作吗，比如 C++？它要求对编译器作出改动吗？如果是，那么是否意味着改变 GC 算法就需要对程序和依赖项进行重新编译？
+- **停顿时间**：回收器会造成多长时间的停顿？
+- **停顿频率**：回收器造成的停顿频率是怎样的？
+- **停顿分布**：停顿有时候很短暂，有时候很长？还是选择长一点但保持一致的停顿时间？
+- **分配性能**：新内存的分配是快、慢还是无法预测？
+- **压缩**：当堆内存里还有小块碎片化的内存可用时，回收器是否仍然抛出内存不足(OOM)的错误？如果不是，那么你是否发现程序越来越慢，并最终死掉，尽管仍然还有足够的内存可用？
+- **并发**：回收器是如何利用多核机器的？
+- **伸缩**：当堆内存变大时，回收器该如何工作？
+- **调优**：回收器的默认使用或在进行调优时，它的配置有多复杂？
+- **预热时间**：回收算法是否会根据已发生的行为进行自我调节？如果是，需要多长时间？
+- **页释放**：回收算法会把未使用的内存释放回给操作系统吗？如果会，会在什么时候发生？
+- **可移植性**：回收器是否能够在提供了较弱内存一致性保证的 CPU 架构上运行？
+- **兼容性**：回收器可以跟哪些编程语言和编译器一起工作？它可以跟那些并非为 GC 设计的编程语言一起工作吗，比如 C++？它要求对编译器作出改动吗？如果是，那么是否意味着改变 GC 算法就需要对程序和依赖项进行重新编译？
 
 ## Reference
 
-* [Memory management in various languages](http://www.memorymanagement.org/mmref/lang.html)
+- [Memory management in various languages](http://www.memorymanagement.org/mmref/lang.html)
 
-* [visualizing-garbage-collection-algorithms](https://spin.atomicobject.com/2014/09/03/visualizing-garbage-collection-algorithms/)
+- [visualizing-garbage-collection-algorithms](https://spin.atomicobject.com/2014/09/03/visualizing-garbage-collection-algorithms/)
 
-* [mark-and-sweep-garbage-collection-algorithm](http://www.geeksforgeeks.org/mark-and-sweep-garbage-collection-algorithm/)
+- [mark-and-sweep-garbage-collection-algorithm](http://www.geeksforgeeks.org/mark-and-sweep-garbage-collection-algorithm/)
 
-* [Modern Garbage Collection](https://medium.com/@octskyward/modern-garbage-collection-911ef4f8bd8e#.e8fq0wq0r)
+- [Modern Garbage Collection](https://medium.com/@octskyward/modern-garbage-collection-911ef4f8bd8e#.e8fq0wq0r)
 
 # Reference Counting Collector:引用计数
 
@@ -40,18 +40,18 @@
 
 这个现象的发现是很有意义的，我们可以基于这个现象改进 GC 算法的设计。新的分代回收器比旧的标记并清除回收器有很多改进：
 
-* GC 吞吐量：它们可以更快地回收更多的垃圾。
-* 分配内存的性能：分配新内存时不再需要从堆里搜索可用空间，因此内存分配变得很自由。
-* 程序的吞吐量：分配的内存空间几乎相互邻接，对缓存的利用有显著的改进。分代回收器要求程序在运行时要做一些额外的工作，不过这点开销完全可以被缓存的改进所带来的好处抵消掉。
-* 停顿时间：大多数时候(不是所有)停顿时间变得更短。
+- GC 吞吐量：它们可以更快地回收更多的垃圾。
+- 分配内存的性能：分配新内存时不再需要从堆里搜索可用空间，因此内存分配变得很自由。
+- 程序的吞吐量：分配的内存空间几乎相互邻接，对缓存的利用有显著的改进。分代回收器要求程序在运行时要做一些额外的工作，不过这点开销完全可以被缓存的改进所带来的好处抵消掉。
+- 停顿时间：大多数时候(不是所有)停顿时间变得更短。
 
 不过分代回收器也引入了一些缺点：
 
-* 兼容性：分代回收器需要在内存里移动对象，在某些情况下，当程序对指针进行写入时还需要做一些额外的工作。也就是说，GC 必须跟编译器紧紧地绑定在一起，这也就是为什么 C++里没有分代回收器。
-* 堆内存开销：分代回收器通过在内存空间里移动对象实现垃圾回收。这个要求有额外的空间用来拷贝对象，所以这些回收器会带来一些堆内存开销。另外，它们需要维护指针映射表，从而带来更大的开销。
-* 停顿时间分布：尽管大部分 GC 停顿时间都很短，不过有一些仍然要求在整个堆内进行彻底的标记并清除操作。
-* 调优：分代回收器引入了“年轻代”，或者叫“eden 空间”，程序性能对这块区域的大小非常敏感。
-* 预热时间：为了解决上述的调优问题，有一些回收器根据程序的运行情况来决定年轻代的大小，而如果是这样的话，那么 GC 的停顿时间就取决于程序的运行时间长短。在实际当中，只要不是作为基准，这个算不上什么大问题。
+- 兼容性：分代回收器需要在内存里移动对象，在某些情况下，当程序对指针进行写入时还需要做一些额外的工作。也就是说，GC 必须跟编译器紧紧地绑定在一起，这也就是为什么 C++里没有分代回收器。
+- 堆内存开销：分代回收器通过在内存空间里移动对象实现垃圾回收。这个要求有额外的空间用来拷贝对象，所以这些回收器会带来一些堆内存开销。另外，它们需要维护指针映射表，从而带来更大的开销。
+- 停顿时间分布：尽管大部分 GC 停顿时间都很短，不过有一些仍然要求在整个堆内进行彻底的标记并清除操作。
+- 调优：分代回收器引入了“年轻代”，或者叫“eden 空间”，程序性能对这块区域的大小非常敏感。
+- 预热时间：为了解决上述的调优问题，有一些回收器根据程序的运行情况来决定年轻代的大小，而如果是这样的话，那么 GC 的停顿时间就取决于程序的运行时间长短。在实际当中，只要不是作为基准，这个算不上什么大问题。
 
 因为分代算法的优点，现代垃圾回收器基本上都是基于分代算法。如果你能承受得起，就会想用它们，而一般来说你很可能会这样。分代回收器可以加入其它各种特性，一个现代回收器将会集并发、并行、压缩和分代于一身。
 
@@ -67,14 +67,14 @@
 
 >
 
-* [Garbage Collection in Java (3) - Concurrent Mark Sweep](http://insightfullogic.com/2013/May/07/garbage-collection-java-3/)
+- [Garbage Collection in Java (3) - Concurrent Mark Sweep](http://insightfullogic.com/2013/May/07/garbage-collection-java-3/)
 
 # Go:Tri-Color Incremental GC
 
 >
 
-* [golangs-real-time-gc-in-theory-and-practice](https://blog.pusher.com/golangs-real-time-gc-in-theory-and-practice/?utm_source=reddit&utm_campaign=blog&utm_medium=social&utm_content=go-sub)
+- [golangs-real-time-gc-in-theory-and-practice](https://blog.pusher.com/golangs-real-time-gc-in-theory-and-practice/?utm_source=reddit&utm_campaign=blog&utm_medium=social&utm_content=go-sub)
   >
-* [why-white-gray-black-in-gc](http://stackoverflow.com/questions/9285741/why-white-gray-black-in-gc)
+- [why-white-gray-black-in-gc](http://stackoverflow.com/questions/9285741/why-white-gray-black-in-gc)
 
 Go 的新回收器是一种并发的、三基色的、标记清除回收器，它的设计想法是由 Dijkstra 在 1978 年提出的。它有别于现今大多数“企业”级垃圾回收器，而且我们相信它跟现代硬件的属性和现代软件的低延迟需求非常匹配。
