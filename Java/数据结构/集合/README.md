@@ -1,6 +1,6 @@
 # Java 集合类型基础
 
-* [Java 性能调优指南之 Java 集合概览](http://www.tuicool.com/articles/6Jb2Qf)
+- [Java 性能调优指南之 Java 集合概览](http://www.tuicool.com/articles/6Jb2Qf)
 
 ![](http://pic002.cnblogs.com/images/2012/80896/2012053020261738.gif)
 ![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2016/8/1/F8C8A707-3953-4452-A090-25A41D9A4D60.png)
@@ -17,15 +17,15 @@
 
 # Comparator
 
-* [writing-comparators-the-java8-way](https://praveer09.github.io/technology/2016/06/21/writing-comparators-the-java8-way/)
-* [Java8：Lambda 表达式增强版 Comparator 和排序](http://www.importnew.com/15259.html)
+- [writing-comparators-the-java8-way](https://praveer09.github.io/technology/2016/06/21/writing-comparators-the-java8-way/)
+- [Java8：Lambda 表达式增强版 Comparator 和排序](http://www.importnew.com/15259.html)
 
 # Streams API(流接口)
 
-* [Java8 中的 Stream API 详解](http://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/)
+- [Java8 中的 Stream API 详解](http://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/)
   >
-* [side-effects-and-java-8-streams:Java 8 Stream 的部分副作用](https://www.voxxed.com/blog/2015/10/side-effects-and-java-8-streams/#comments)
-* [Follow-up: How fast are the Java 8 Streams:Java 8 流接口的性能评测](https://jaxenter.com/follow-up-how-fast-are-the-java-8-streams-122522.html)
+- [side-effects-and-java-8-streams:Java 8 Stream 的部分副作用](https://www.voxxed.com/blog/2015/10/side-effects-and-java-8-streams/#comments)
+- [Follow-up: How fast are the Java 8 Streams:Java 8 流接口的性能评测](https://jaxenter.com/follow-up-how-fast-are-the-java-8-streams-122522.html)
 
 java.util.Stream 表示了某一种元素的序列，在这些元素上可以进行各种操作。Stream 操作可以是中间操作，也可以是完结操作。完结操作会返回一个某种类型的值，而中间操作会返回流对象本身，并且你可以通过多次调用同一个流操作方法来将操作结果串起来(就像 StringBuffer 的 append 方法一样————译者注)。Stream 是在一个源的基础上创建出来的，例如 java.util.Collection 中的 list 或者 set(map 不能作为 Stream 的源)。Stream 操作往往可以通过顺序或者并行两种方式来执行。
 
@@ -47,15 +47,15 @@ int m = Arrays.stream(ints)
               .reduce(Integer.MIN_VALUE, Math::max);
 ```
 
-* Intermediate：
+- Intermediate：
 
 map (mapToInt, flatMap 等)、 filter、 distinct、 sorted、 peek、 limit、 skip、 parallel、 sequential、 unordered
 
-* Terminal：
+- Terminal：
 
 forEach、 forEachOrdered、 toArray、 reduce、 collect、 min、 max、 count、 anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 iterator
 
-* Short-circuiting：
+- Short-circuiting：
 
 anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 limit
 
@@ -216,7 +216,7 @@ java.util.stream.Collectors 类的主要作用就是辅助进行各类有用的 
 
 #### groupingBy/partitioningBy
 
-* 按照年龄归组
+- 按照年龄归组
 
 ```java
 Map<Integer, List<Person>> personGroups = Stream.generate(new PersonSupplier()).
@@ -241,7 +241,7 @@ Age 11 = 2
 ……
 ```
 
-* 按照未成年人和成年人归组
+- 按照未成年人和成年人归组
 
 ```java
 Map<Boolean, List<Person>> children = Stream.generate(new PersonSupplier()).
@@ -411,7 +411,7 @@ public class ArrayTest5
 
 ## Arrays
 
-#  List
+# List
 
 # Set
 

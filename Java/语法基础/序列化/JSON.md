@@ -2,9 +2,10 @@
 
 # Jackson
 
-- [jackson-databind文档](https://github.com/FasterXML/jackson-databind)
+- [jackson-databind 文档](https://github.com/FasterXML/jackson-databind)
 
-Jackson可以轻松的将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象。在项目中如果要引入Jackson，可以直接利用Maven或者Gradle引入：
+Jackson 可以轻松的将 Java 对象转换成 json 对象和 xml 文档，同样也可以将 json、xml 转换成 Java 对象。在项目中如果要引入 Jackson，可以直接利用 Maven 或者 Gradle 引入：
+
 ```
 <properties>
   ...
@@ -23,9 +24,13 @@ Jackson可以轻松的将Java对象转换成json对象和xml文档，同样也�
   ...
 </dependencies>
 ```
-注意，databind项目已经自动依赖了jackson-core与jackson-annotation，不需要额外重复引入。
+
+注意，databind 项目已经自动依赖了 jackson-core 与 jackson-annotation，不需要额外重复引入。
+
 ## Convert Java to JSON
-首先声明有一个简单的POJO:
+
+首先声明有一个简单的 POJO:
+
 ```
 // Note: can use getters/setters as well; here we just use public fields directly:
 public class MyValue {
@@ -34,10 +39,13 @@ public class MyValue {
   // NOTE: if using getters/setters, can keep fields `protected` or `private`
 }
 ```
-然后创建一个ObjectMapper实例用于进行转化：
+
+然后创建一个 ObjectMapper 实例用于进行转化：
+
 ```
 ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 ```
+
 ```
 MyValue value = mapper.readValue(new File("data.json"), MyValue.class);
 // or:
@@ -45,7 +53,9 @@ value = mapper.readValue(new URL("http://some.com/api/entry.json"), MyValue.clas
 // or:
 value = mapper.readValue("{\"name\":\"Bob\", \"age\":13}", MyValue.class);
 ```
-我们可以参考一个实例，将某个Staff的信息转化为JSON然后写入到文件中，首先来定义实体类：
+
+我们可以参考一个实例，将某个 Staff 的信息转化为 JSON 然后写入到文件中，首先来定义实体类：
+
 ```
 package com.mkyong.json;
 
@@ -62,7 +72,9 @@ public class Staff {
 
 	//getters and setters
 ```
-然后具体的将Java实体类转化为JSON的语句为：
+
+然后具体的将 Java 实体类转化为 JSON 的语句为：
+
 ```
 package com.mkyong.json;
 
@@ -130,7 +142,9 @@ public class Jackson2Example {
 
 }
 ```
+
 最终的输出为：
+
 ```
 //new json file is created in D:\\staff.json"
 
@@ -146,60 +160,79 @@ public class Jackson2Example {
 ```
 
 ### Properties:属性处理
+
 #### Rename:属性重命名
+
 ```
 public class Name {
   @JsonProperty("firstName")
   public String _first_name;
 }
 ```
-在将Name实体类转化为JSON的时候，就会变成：
+
+在将 Name 实体类转化为 JSON 的时候，就会变成：
+
 ```
 { "firstName" : "Bob" }
 ```
+
 #### Ignore:属性忽略
+
 ```
 public class Value {
   public int value;
   @JsonIgnore public int internalValue;
 }
 ```
-最终生成的JSON是如下格式：
+
+最终生成的 JSON 是如下格式：
+
 ```
 { "value" : 42 }
 ```
+
 也可以在类的头部统一声明:
+
 ```
 @JsonIgnoreProperties({ "extra", "uselessValue" })
 public class Value {
   public int value;
 }
 ```
-那么如下的JSON字符串也是可以被转化为该实体类的:
+
+那么如下的 JSON 字符串也是可以被转化为该实体类的:
+
 ```
 { "value" : 42, "extra" : "fluffy", "uselessValue" : -13 }
 ```
+
 对于意外地未知属性，也可以统一忽略：
+
 ```
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class PojoWithAny {
   public int value;
 }
 ```
+
 ### @JsonView:动态控制展示的成员变量
-首先定义一个简单的View控制类：
+
+首先定义一个简单的 View 控制类：
+
 ```
 package com.mkyong.json;
 
 public class Views {
 
 	public static class Normal{};
-	
+
 	public static class Manager extends Normal{};
 
 }
 ```
-在下面的代码实现中，如果是选择了Normal View，那么salary属性将会被隐藏，而在Manager View状态下，任何属性都会被展示。
+
+在下面的代码实现中，如果是选择了 Normal View，那么 salary 属性将会被隐藏，而在 Manager View 状态下，任何属性都会被展示。
+
 ```
 package com.mkyong.json;
 
@@ -224,7 +257,9 @@ public class Staff {
 	@JsonView(Views.Normal.class)
 	private List<String> skills;
 ```
-在进行Object转化为JSON的过程中，进行视图控制：
+
+在进行 Object 转化为 JSON 的过程中，进行视图控制：
+
 ```
 package com.mkyong.json;
 
@@ -298,7 +333,9 @@ public class Jackson2Example {
 
 }
 ```
+
 最终输出的结果为:
+
 ```
 Normal View
 {"name":"mkyong","age":33,"position":"Developer","skills":["java","python"]}
@@ -308,8 +345,11 @@ Manager View
 {"name":"mkyong","age":33,"position":"Developer","salary":7500,"skills":["java","python"]}
 Staff [name=mkyong, age=33, position=Developer, salary=7500, skills=[java, python]]
 ```
+
 ## Convert JSON to Java
-将JSON转化为Java的实体类同样需要用到ObjectMapper对象：
+
+将 JSON 转化为 Java 的实体类同样需要用到 ObjectMapper 对象：
+
 ```
 mapper.writeValue(new File("result.json"), myResultObject);
 // or:
@@ -317,7 +357,9 @@ byte[] jsonBytes = mapper.writeValueAsBytes(myResultObject);
 // or:
 String jsonString = mapper.writeValueAsString(myResultObject);
 ```
-而如果我们要将JSON转化为Java中的List或者Map的话，可以采用如下方式：
+
+而如果我们要将 JSON 转化为 Java 中的 List 或者 Map 的话，可以采用如下方式：
+
 ```
 //将某个JSON转化为 List
 String json = "[{\"name\":\"mkyong\"}, {\"name\":\"laplap\"}]";
@@ -326,7 +368,9 @@ List<Staff> list = mapper.readValue(json, new TypeReference<List<Staff>>(){});
 String json = "{\"name\":\"mkyong\", \"age\":33}";
 Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String,Object>>(){});
 ```
+
 还是来看一个实例，：
+
 ```
 package com.mkyong.json;
 
@@ -364,7 +408,7 @@ public class Jackson2Example {
 			//Pretty print
 			String prettyStaff1 = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(staff1);
 			System.out.println(prettyStaff1);
-			
+
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -376,7 +420,9 @@ public class Jackson2Example {
 
 }
 ```
+
 最终的输出为：
+
 ```
 Staff [name=mkyong, age=33, position=Developer, salary=7500, skills=[java, python]]
 
@@ -390,7 +436,9 @@ Staff [name=mkyong, age=0, position=null, salary=7500, skills=[java, python]]
   "skills" : [ "java", "python" ]
 }
 ```
-### Tree Model:抽象的JSON数据类型，类似于FastJSON中的JSONObject
+
+### Tree Model:抽象的 JSON 数据类型，类似于 FastJSON 中的 JSONObject
+
 ```
 // can be read as generic JsonNode, if it can be Object or Array; or,
 // if known to be Object, as ObjectNode, if array, ArrayNode etc:
@@ -410,8 +458,11 @@ String json = mapper.writeValueAsString(root);
 //   }
 // }
 ```
+
 ### Constructor:自定义构造器
-默认情况下，Jackson使用默认的构造器创建新的对象，不过你也可以使用`@JsonCreator`与`@JsonProperty`注解来自定义对象创建函数与值的绑定。
+
+默认情况下，Jackson 使用默认的构造器创建新的对象，不过你也可以使用`@JsonCreator`与`@JsonProperty`注解来自定义对象创建函数与值的绑定。
+
 ```
 public class CtorPOJO {
    private final int _x, _y;
@@ -423,6 +474,7 @@ public class CtorPOJO {
    }
 }
 ```
+
 ```
 public class DelegatingPOJO {
    private final int _x, _y;
@@ -437,11 +489,11 @@ public class DelegatingPOJO {
 
 # FastJson
 
-FastJson上由阿里的一位工程师开发并开源的。
+FastJson 上由阿里的一位工程师开发并开源的。
 
 ### Encode
 
-``` 
+```
 import com.alibaba.fastjson.JSON;
 
 Group group = new Group();
@@ -466,14 +518,14 @@ System.out.println(jsonString);
 
 ### Output
 
-``` 
+```
 {"id":0,"name":"admin","users":[{"id":2,"name":"guest"},{"id":3,"name":"root"}]}
 
 ```
 
 ### Decode
 
-``` 
+```
 String jsonString = ...;
 Group group = JSON.parseObject(jsonString, Group.class);
 
@@ -481,7 +533,7 @@ Group group = JSON.parseObject(jsonString, Group.class);
 
 - Group.java
 
-``` 
+```
 public class Group {
 
     private Long       id;
@@ -521,7 +573,7 @@ public class Group {
 
 - User.java
 
-``` 
+```
 public class User {
 
     private Long   id;

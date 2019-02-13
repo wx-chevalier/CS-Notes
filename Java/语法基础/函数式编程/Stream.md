@@ -1,6 +1,7 @@
 # Java Stream
 
 # Parallel Stream
+
 Looking at the stream’s parallel method, you may wonder where the threads used by the parallel stream come from, how many there are, and how you can customize the process. Parallel streams internally use the default `ForkJoinPool`, which by default has as many threads as you have processors, as returned by `Runtime.getRuntime().availableProcessors()`. But you can change the size of this pool using the system property `java.util.concurrent.ForkJoinPool.common.parallelism`.
 
 The infrastructure used behind the scenes by parallel streams to execute operations in parallel is the fork/join framework introduced in Java 7. It’s vital to have a good understanding of the parallel stream internals in order to use them correctly. The fork/join framework was designed to recursively split a parallelizable task into smaller tasks and then combine the results of each subtask to produce the overall result. It’s an implementation of the `ExecutorService` interface, which distributes those subtasks to worker threads in a thread pool, called `ForkJoinPool`.
@@ -12,3 +13,11 @@ The algorithm that splits a Stream into multiple parts is a recursive process. I
 The last abstract method declared by the Spliterator interface is characteristics, which returns an int encoding the set of characteristics of the Spliterator itself. The Spliterator clients can use these characteristics to better control and optimize its usage. They are: `ORDERED`, `DISTINCT`, `SORTED`, `SIZED`, `NONNULL`, `IMMUTABLE`, `CONCURRENT`, and `SUBSIZED`. Depending on the specific characteristics of a stream, it may in fact not run in parallel at all.
 
 The book that explains all this in detail is: [Java 8 in Action: Lambdas, streams, and functional-style programming (Raoul-Gabriel Urma, Mario Fusco, and Alan Mycroft)](http://rads.stackoverflow.com/amzn/click/1617291994), from Manning. See Chapter 7:**Parallel data processing and performance**.
+
+# 异常处理
+
+可以在 lambda 中做一个简单的 try-catch 并将异常包装成一个 RuntimeException:
+
+```java
+
+```
