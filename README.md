@@ -1,6 +1,6 @@
 # 编程语言语法基础与工程实践
 
-![default](https://i.postimg.cc/MHBjgpQR/image.png)
+![default](https://i.postimg.cc/y1QXgJ6f/image.png)
 
 **建议前往 [xCompass](https://wxyyxc1992.github.io/home/#/search)/[alfred-sg](https://github.com/wxyyxc1992/Soogle/tree/master/alfred-sg) 交互式地检索、查找需要的文章/链接/书籍/课程，或者直接浏览本仓库的目录以了解更多内容。**
 
