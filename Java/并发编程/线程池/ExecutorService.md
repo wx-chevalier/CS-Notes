@@ -1,5 +1,126 @@
 # Java 并发编程中线程池的使用
 
+并发 API 引入了 ExecutorService 作为一个在程序中直接使用 Thread 的高层次的替换方案。Executos 支持运行异步任务，通常管理一个线程池，这样一来我们就不需要手动去创建新的线程。在不断地处理任务的过程中，线程池内部线程将会得到复用，因此，在我们可以使用一个 executor service 来运行和我们想在我们整个程序中执行的一样多的并发任务。 下面是使用 executors 的第一个代码示例：
+
+```java
+ExecutorService executor = Executors.newSingleThreadExecutor();
+executor.submit(() -> {
+	String threadName = Thread.currentThread().getName();
+	System.out.println("Hello " + threadName);
+});
+// => Hello pool-1-thread-1
+```
+
+Executors 类提供了便利的工厂方法来创建不同类型的 executor services。在这个示例中我们使用了一个单线程线程池的 executor。 代码运行的结果类似于上一个示例，但是当运行代码时，你会注意到一个很大的差别：Java 进程从没有停止！Executors 必须显式的停止-否则它们将持续监听新的任务。 ExecutorService 提供了两个方法来达到这个目的——shutdwon()会等待正在执行的任务执行完而 shutdownNow()会终止所有正在执行的任务并立即关闭 execuotr。
+
+```java
+try {
+    System.out.println("attempt to shutdown executor");
+    executor.shutdown();
+    executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+catch (InterruptedException e) {
+    System.err.println("tasks interrupted");
+}
+finally {
+    if (!executor.isTerminated()) {
+        System.err.println("cancel non-finished tasks");
+    }
+    executor.shutdownNow();
+    System.out.println("shutdown finished");
+}
+```
+
+executor 通过等待指定的时间让当前执行的任务终止来“温柔的”关闭 executor。在等待最长 5 分钟的时间后，execuote 最终会通过中断所有的正在执行的任务关闭。
+
+### invokeAll | 调用所有的 Callable
+
+Executors 支持通过 invokeAll()一次批量提交多个 callable。这个方法结果一个 callable 的集合，然后返回一个 future 的列表。
+
+```java
+ExecutorService executor = Executors.newWorkStealingPool();
+
+List<Callable<String>> callables = Arrays.asList(
+        () -> "task1",
+        () -> "task2",
+        () -> "task3");
+
+executor.invokeAll(callables)
+    .stream()
+    .map(future -> {
+        try {
+            return future.get();
+        }
+        catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    })
+    .forEach(System.out::println);
+```
+
+在这个例子中，我们利用 Java8 中的函数流(stream)来处理 invokeAll()调用返回的所有 future。我们首先将每一个 future 映射到它的返回值，然后将每个值打印到控制台。如果你还不属性 stream，可以阅读我的[Java8 Stream 教程](http://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/)。
+
+### invokeAny
+
+批量提交 callable 的另一种方式就是 invokeAny()，它的工作方式与 invokeAll()稍有不同。在等待 future 对象的过程中，这个方法将会阻塞直到第一个 callable 中止然后返回这一个 callable 的结果。 为了测试这种行为，我们利用这个帮助方法来模拟不同执行时间的 callable。这个方法返回一个 callable，这个 callable 休眠指定 的时间直到返回给定的结果。
+
+```java
+//这个callable方法是用来构造不同的Callable对象
+Callable<String> callable(String result, long sleepSeconds) {
+    return () -> {
+        TimeUnit.SECONDS.sleep(sleepSeconds);
+        return result;
+    };
+}
+```
+
+我们利用这个方法创建一组 callable，这些 callable 拥有不同的执行时间，从 1 分钟到 3 分钟。通过 invokeAny()将这些 callable 提交给一个 executor，返回最快的 callable 的字符串结果-在这个例子中为任务 2：
+
+```java
+ExecutorService executor = Executors.newWorkStealingPool();
+
+List<Callable<String>> callables = Arrays.asList(
+callable("task1", 2),
+callable("task2", 1),
+callable("task3", 3));
+
+String result = executor.invokeAny(callables);
+System.out.println(result);
+
+// => task2
+```
+
+### Scheduled Executors
+
+为了持续的多次执行常见的任务，我们可以利用调度线程池 ScheduledExecutorService 支持任务调度，持续执行或者延迟一段时间后执行：
+
+```java
+ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+Runnable task = () -> System.out.println("Scheduling: " + System.nanoTime());
+// 设置延迟 3 秒执行
+ScheduledFuture<?> future = executor.schedule(task, 3, TimeUnit.SECONDS);
+
+TimeUnit.MILLISECONDS.sleep(1337);
+
+long remainingDelay = future.getDelay(TimeUnit.MILLISECONDS);
+System.out.printf("Remaining Delay: %sms", remainingDelay);
+```
+
+调度一个任务将会产生一个专门的 ScheduleFuture 类型，它除了提供了 Future 的所有方法之外，他还提供了 getDelay()方法来获得剩余的延迟。在延迟消逝后，任务将会并发执行。为了调度任务持续的执行，executors 提供了两个方法 s`cheduleAtFixedRate()` 和 `scheduleWithFixedDelay()`；第一个方法用来以固定频率来执行一个任务，比如，下面这个示例中，每分钟一次：
+
+```java
+ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+Runnable task = () -> System.out.println("Scheduling: " + System.nanoTime());
+
+int initialDelay = 0;
+int period = 1;
+executor.scheduleAtFixedRate(task, initialDelay, period, TimeUnit.SECONDS);
+```
+
+另外，这个方法还接收一个初始化延迟，用来指定这个任务首次被执行等待的时长。需要注意的是，`scheduleAtFixedRate()` 并不考虑任务的实际用时。所以，如果你指定了一个 period 为 1 分钟而任务需要执行 2 分钟，那么线程池为了性能会更快的执行。在这种情况下，你应该考虑使用 scheduleWithFixedDelay()。这个方法的工作方式与上我们上面描述的类似。不同之处在于等待时间 period 的应用是在一次任务的结束和下一个任务的开始之间。
+
 # 线程池
 
 # 自定义线程池
