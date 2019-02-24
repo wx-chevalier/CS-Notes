@@ -21,3 +21,7 @@ The book that explains all this in detail is: [Java 8 in Action: Lambdas, stream
 ```java
 
 ```
+
+# Todos
+
+- https://mp.weixin.qq.com/s/Acd2PKQK3fkXHcjJduNPNQ
