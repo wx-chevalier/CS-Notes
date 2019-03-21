@@ -1,6 +1,4 @@
-
-
-> * [编程语言漫谈](http://tech.youzan.com/programming-language/)
+> - [编程语言漫谈](http://tech.youzan.com/programming-language/)
 
 # 编程基础
 
@@ -14,8 +12,8 @@
 
 语言编程语言可以分成两类：
 
-* 命令式
-* 声明式
+- 命令式
+- 声明式
 
 事实上，凡是非命令式的编程都可归为[声明式编程](http://www.nowamagic.net/academy/tag/%E5%A3%B0%E6%98%8E%E5%BC%8F%E7%BC%96%E7%A8%8B)。因此，命令式、函数式和逻辑式是最核心的三种范式。为清楚起见，我们用一幅图来表示它们之间的关系。
 
@@ -38,12 +36,12 @@
 使用示例一个简单元编程的例子是使用 bash 脚本的产生式编程示例：
 
 ```shell
-    #!/bin/bash  
-    # metaprogram  
-    echo '#!/bin/bash' &gt;program  
+    #!/bin/bash
+    # metaprogram
+    echo '#!/bin/bash' &gt;program
     for ((I=1; I&lt;=992; I++)) do
-    echo "echo $I" &gt;&gt;program  
-    done  
+    echo "echo $I" &gt;&gt;program
+    done
     chmod +x program
 ```
 
@@ -81,13 +79,13 @@ Smalltalk 的设计者、面向对象编程之父 Alan Kay 曾经这样描述面
 
 ### Side Effects
 
-> * [Wiki-Side_effect](<https://en.wikipedia.org/wiki/Side_effect_(computer_science)>)
+> - [Wiki-Side_effect](<https://en.wikipedia.org/wiki/Side_effect_(computer_science)>)
 
 在计算机科学与技术中，一个函数或者一个表达式被称为有副作用，常常发生在如下几种情况：
 
-* 修改了部分状态，譬如某个函数修改了全局变量、静态变量、某些传入的参数、引发了一个异常
-* 返回了一个类似于 Observable 对象
-* 与外部产生了交互，譬如读写文件、发起网络请求或者调用其他包含副作用的方程
+- 修改了部分状态，譬如某个函数修改了全局变量、静态变量、某些传入的参数、引发了一个异常
+- 返回了一个类似于 Observable 对象
+- 与外部产生了交互，譬如读写文件、发起网络请求或者调用其他包含副作用的方程
 
 在一个具有副作用的函数中，一个程序的行为往往依赖于上下文与历史记录。
 
@@ -99,9 +97,9 @@ Smalltalk 的设计者、面向对象编程之父 Alan Kay 曾经这样描述面
 
 在数学和计算机科学中，高阶函数是至少满足下列一个条件的函数:
 
-* 接受一个或多个函数作为输入
+- 接受一个或多个函数作为输入
 
-* 输出一个函数
+- 输出一个函数
 
 在数学中它们也叫做算子(运算符)或泛函。微积分中的导数就是常见的例子，因为它映射一个函数到另一个函数。在无类型 lambda 演算，所有函数都是高阶的；在有类型 lambda 演算(大多数函数式编程语言都从中演化而来)中，高阶函数一般是那些函数型别包含多于一个箭头的函数。在函数式编程中，返回另一个函数的高阶函数被称为 Curry 化的函数。在很多函数式编程语言中能找到的 map 函数是高阶函数的一个例子。它接受一个函数 f 作为参数，并返回接受一个列表并应用 f 到它的每个元素的一个函数。
 
@@ -293,9 +291,9 @@ fab(3)
 
 响应式编程式一种面向数据流与变化传播的编程范式。通俗来说，响应式编程就是面向异步数据流的一种编程方式。响应式编程的原则可以看做是并发编程原则以及异步系统原则的一种组合。响应式编程可以看做高级编程范式面向于需要处理分布式状态以及编排异步数据流的一种自然扩展。一般来说，响应式编程的原则如下：
 
-* Responsive &amp; Fault-tolerant: 应用程序应当能够快速地响应用户，即使在高负载以及存在错误的情况下。
-* Resilient and Scalable: The application should be resilient, in order to stay responsive under various conditions. They also should react to changes in the input rate by increasing or decreasing the resources allocated to service these inputs. Today’s applications have more integration complexity, as they are composed of multiple applications.
-* Message Driven: A *message-driven*architecture is the foundation of scalable, resilient, and ultimately responsive systems.
+- Responsive &amp; Fault-tolerant: 应用程序应当能够快速地响应用户，即使在高负载以及存在错误的情况下。
+- Resilient and Scalable: The application should be resilient, in order to stay responsive under various conditions. They also should react to changes in the input rate by increasing or decreasing the resources allocated to service these inputs. Today’s applications have more integration complexity, as they are composed of multiple applications.
+- Message Driven: A *message-driven*architecture is the foundation of scalable, resilient, and ultimately responsive systems.
 
 响应式编程是一种面向异步数据流的编程模型。在实际的编程实现中，响应式编程往往有两种方式，一个是类似于 Scala 中提供的 Actor 模型，另一个就是基于扩展的函数式响应编程模型。
 
