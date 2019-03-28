@@ -4,7 +4,7 @@
 
 ![](http://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2016/04/1459949808babel.png)
 
-浏览器的兼容性问题一直是前端项目开发中的难点之一，往往客户端浏览器的升级无法与语法特性的迭代保持一致；因此我们需要使用大量的垫片(Polyfill)，以保证现代语法编写而成的 JavaScript 顺利运行在生产环境下的浏览器中，从而在可用性与代码的可维护性之间达成较好的平衡。而以 Babel 为代表的语法转化工具能够帮我们自动将 ES6 等现代 JavaScript 代码转化为可以运行在旧版本浏览器中的 ES5 或其他同等的实现；实际上，Babel 不仅仅是语法解析器，其更是拥有丰富插件的平台，稍加扩展即可被应用在前端监控埋点、错误日志收集等场景中。笔者也利用 Babel 以及 Babylon 为 [swagger-decorator](https://github.com/wxyyxc1992/swagger-decorator)  实现了 `flowToDecorator` 函数，其能够从 Flow 文件中自动提取出类型信息并为类属性添加合适的注解。
+浏览器的兼容性问题一直是前端项目开发中的难点之一，往往客户端浏览器的升级无法与语法特性的迭代保持一致；因此我们需要使用大量的垫片(Polyfill)，以保证现代语法编写而成的 JavaScript 顺利运行在生产环境下的浏览器中，从而在可用性与代码的可维护性之间达成较好的平衡。而以 Babel 为代表的语法转化工具能够帮我们自动将 ES6 等现代 JavaScript 代码转化为可以运行在旧版本浏览器中的 ES5 或其他同等的实现；实际上，Babel 不仅仅是语法解析器，其更是拥有丰富插件的平台，稍加扩展即可被应用在前端监控埋点、错误日志收集等场景中。笔者也利用 Babel 以及 Babylon 为 [swagger-decorator](https://github.com/wx-chevalier/swagger-decorator)  实现了 `flowToDecorator` 函数，其能够从 Flow 文件中自动提取出类型信息并为类属性添加合适的注解。
 
 # Babel
 

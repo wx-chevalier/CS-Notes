@@ -10,7 +10,7 @@
 
 JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO Guillermo Rauch 所言：JavaScript 虽然生于泥沼，但是在这么多年不断地迭代中，它也慢慢被开发者与市场所认可，最终化茧成蝶，被广泛地应用在从客户端到服务端，从应用开发、系统构建到数据分析的各个领域。JavaScript 最薄弱的一点在于其是解释性的无类型的语言，这一点让其在大型项目或者系统开发中充满了很多的性能瓶颈或者不稳定性；譬如在 JavaScript 中某个函数可以接受任意数目、任意类型的参数，而 Java 则会在编译时即检测参数类型是否符合预期。早期的 JavaScript 仅被用于为网页添加简单的用户交互，譬如按钮响应事件或者发送 Ajax 请求；不过随着 Webpack 等现代构建工具的发展，开发者可以更加工程化地进行高效的前端项目开发，并且整个网页的加载性能也大大提高，譬如 PWA 等现代 Web 技术能够使 Web 应用拥有与原生应用相近的用户体验。
 
-我喜爱这门语言，所以我希望能够以绵薄之力让更多的人无痛地使用它。本系列中提及的很多代码实现与工具库可以参阅笔者的 [coding-snippets/js](https://github.com/wxyyxc1992/coding-snippets) 以及 [js-swissgear](https://github.com/wxyyxc1992/coding-snippets/tree/master/js)。
+我喜爱这门语言，所以我希望能够以绵薄之力让更多的人无痛地使用它。本系列中提及的很多代码实现与工具库可以参阅笔者的 [coding-snippets/js](https://github.com/wx-chevalier/coding-snippets) 以及 [js-swissgear](https://github.com/wx-chevalier/coding-snippets/tree/master/js)。
 
 ## 参考
 
@@ -22,7 +22,7 @@ JavaScript 的设计与语法一直为人所诟病，不过正如 Zeit 的 CEO G
 
 笔者所有文章遵循 [知识共享 署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh)，欢迎转载，尊重版权。如果觉得本系列对你有所帮助，欢迎给我家布丁买点狗粮(支付宝扫码)~
 
-![](https://github.com/wxyyxc1992/OSS/blob/master/2017/8/1/Buding.jpg?raw=true)
+![](https://github.com/wx-chevalier/OSS/blob/master/2017/8/1/Buding.jpg?raw=true)
 
 # 目录
 

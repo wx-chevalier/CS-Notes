@@ -1,4 +1,4 @@
-> [2016: 编写高性能的 JavaScript](https://segmentfault.com/a/1190000007604645)翻译自 Felix Maier 的文章[Writing-Efficient-JavaScript](https://medium.com/@xilefmai/efficient-javascript-14a11651d563#.i6494k3bl)。本文从属于笔者的[Web 前端入门与最佳实践](https://github.com/wxyyxc1992/Web-Frontend-Introduction-And-Best-Practices)中[JavaScript 入门与最佳实践](https://github.com/wxyyxc1992/web-frontend-practice-handbook/blob/master/Syntax/JavaScript)系列文章。
+> [2016: 编写高性能的 JavaScript](https://segmentfault.com/a/1190000007604645)翻译自 Felix Maier 的文章[Writing-Efficient-JavaScript](https://medium.com/@xilefmai/efficient-javascript-14a11651d563#.i6494k3bl)。本文从属于笔者的[Web 前端入门与最佳实践](https://github.com/wx-chevalier/Web-Frontend-Introduction-And-Best-Practices)中[JavaScript 入门与最佳实践](https://github.com/wx-chevalier/web-frontend-practice-handbook/blob/master/Syntax/JavaScript)系列文章。
 
 ![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2016/11/3/4/canvas.png)
 

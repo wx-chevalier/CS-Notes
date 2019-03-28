@@ -593,7 +593,7 @@ Fork/Join 使用两个类来完成以上两件事情：
 让我们通过一个简单的需求来使用下 Fork／Join 框架，需求是：计算 1+2+3+4 的结果。
 使用 Fork／Join 框架首先要考虑到的是如何分割任务，如果我们希望每个子任务最多执行两个数的相加，那么我们设置分割的阈值是 2，由于是 4 个 数字相加，所以 Fork／Join 框架会把这个任务 fork 成两个子任务，子任务一负责计算 1+2，子任务二负责计算 3+4，然后再 join 两个子任务的 结果。
 因为是有结果的任务，所以必须继承 RecursiveTask，实现代码如下：
-完整代码查看[CountTask](https://github.com/wxyyxc1992/WXJavaToolkits/blob/master/src/main/java/wx/toolkits/sysproc/concurrence/forkjoin/CountTask.java)
+完整代码查看[CountTask](https://github.com/wx-chevalier/WXJavaToolkits/blob/master/src/main/java/wx/toolkits/sysproc/concurrence/forkjoin/CountTask.java)
 
 ```
             CountTask leftTask = new CountTask(start, middle);

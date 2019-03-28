@@ -1,4 +1,4 @@
-> [Clean JavaScript: 写出整洁的 JavaScript 代码](https://zhuanlan.zhihu.com/p/24761475)翻译自[clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)。本文从属于笔者的[Web 前端入门与工程实践](https://github.com/wxyyxc1992/Web-Frontend-Introduction-And-Engineering-Practices)。
+> [Clean JavaScript: 写出整洁的 JavaScript 代码](https://zhuanlan.zhihu.com/p/24761475)翻译自[clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)。本文从属于笔者的[Web 前端入门与工程实践](https://github.com/wx-chevalier/Web-Frontend-Introduction-And-Engineering-Practices)。
 
 ![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/1/1/wtfm.jpg)
 
@@ -2015,9 +2015,9 @@ getdata()
 
 > 延伸阅读
 >
->[知乎专栏：某熊的全栈之路](https://zhuanlan.zhihu.com/wxyyxc1992)
+>[知乎专栏：某熊的全栈之路](https://zhuanlan.zhihu.com/wx-chevalier)
 >[知乎专栏：前端当自强](https://zhuanlan.zhihu.com/c_67532981)
 >[知乎专栏：lotuc 的编程之路](https://zhuanlan.zhihu.com/lotuc)
->[2016- 我的技术之路 : 编程知识体系结构](https://zhuanlan.zhihu.com/p/24476917?refer=wxyyxc1992)
->[2016- 我的前端之路 : 工具化与工程化](https://zhuanlan.zhihu.com/p/24575395?refer=wxyyxc1992)
->[某熊周刊系列 : 一周推荐外文技术资料 (12.1)](https://zhuanlan.zhihu.com/p/24516669?refer=wxyyxc1992)
+>[2016- 我的技术之路 : 编程知识体系结构](https://zhuanlan.zhihu.com/p/24476917?refer=wx-chevalier)
+>[2016- 我的前端之路 : 工具化与工程化](https://zhuanlan.zhihu.com/p/24575395?refer=wx-chevalier)
+>[某熊周刊系列 : 一周推荐外文技术资料 (12.1)](https://zhuanlan.zhihu.com/p/24516669?refer=wx-chevalier)
