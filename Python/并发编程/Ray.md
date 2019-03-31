@@ -1,3 +1,5 @@
+# Ray
+
 Ray 占据了一个独特的中间地带。它并没有引入新的概念，而是采用了函数和类的概念，并将它们转换为分布式的任务和 actor。Ray 可以在不做出重大修改的情况下对串行应用程序进行并行化。
 
 # 并行任务
@@ -186,8 +188,3 @@ for _ in range(100):
 # New messages: ['Message 4 from actor 2.', 'Message 4 from actor 0.', 'Message 4 from actor 1.']
 # New messages: ['Message 5 from actor 2.', 'Message 5 from actor 0.', 'Message 5 from actor 1.']
 ```
-
-
-
-
-
