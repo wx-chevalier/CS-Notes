@@ -4,21 +4,13 @@
 
 **建议前往 [xCompass](https://wx-chevalier.github.io/home/#/search)/[alfred-sg](https://github.com/wx-chevalier/Soogle/tree/master/alfred-sg) 交互式地检索、查找需要的文章/链接/书籍/课程，或者直接浏览本仓库的目录以了解更多内容。**
 
-# 前言
-
-> Programmers who program “in” a language limit their thoughts to constructs that the language directly supports. If the language tools are primitive, the programmer’s thoughts will also be primitive.
-
-> Programmers who program “into” a language first decide what thoughts they want to express, and then they determine how to express those thoughts using the tools provided by their specific language.
-
-> -- Steve McConnell’s Code Complete
-
 # Nav | 导航
 
 本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记，主要分为以下文章/随笔：
 
 - [ProgrammingLanguage Theory Primer/编程语言理论指南](./Theory)
 
-- [现代 JavaScript 开发基础与工程实践](./JavaScript): JavaScript 终于成为了一流(First Class)语言。
+- [JavaScript 篇](./JavaScript): JavaScript 终于成为了一流(First Class)语言。
 
 - [现代 Java 开发基础与工程实践](./Java): 面向对象，面向自己，鉴于内容较多，又细分为：[基础篇](./Java/Fundamentals)，[进阶篇](./Java/DevOps)，[并发编程篇](./Java/ConcurrentProgramming)，[JVM 篇](./Java/JVM)。
 
@@ -29,6 +21,12 @@
 - [Rust 开发基础与工程实践](./Rust): 安全不易学。
 
 # 前言 | Preface
+
+> Programmers who program “in” a language limit their thoughts to constructs that the language directly supports. If the language tools are primitive, the programmer’s thoughts will also be primitive.
+
+> Programmers who program “into” a language first decide what thoughts they want to express, and then they determine how to express those thoughts using the tools provided by their specific language.
+
+> -- Steve McConnell’s Code Complete
 
 # 版权
 
