@@ -144,7 +144,7 @@ setTimeout
 process.nextTick2
 ```
 
-我们在前文中已经介绍过 JavaScript 的主线程在遇到异步调用时，这些异步调用会立刻返回某个值，从而让主线程不会在此处阻塞。而真正的异步操作会由浏览器执行，主线程则会在清空当前调用栈后，按照先入先出的顺序读取任务队列里面的任务。而 JavaScript 中的任务又分为 MacroTask 与 MicroTask 两种，在 ES2015 中 MacroTask 即指 Task，而 MicroTask 则是指代 Job。典型的 MacroTask 包含了 setTimeout, setInterval, setImmediate, requestAnimationFrame, I/O, UI rendering 等，MicroTask 包含了 process.nextTick, Promises, Object.observe, MutationObserver 等。 二者的关系可以图示如下：
+我们在前文中已经介绍过 JavaScript 的主线程在遇到异步调用时，这些异步调用会立刻返回某个值，从而让主线程不会在此处阻塞。而真正的异步操作会由浏览器执行，主线程则会在清空当前调用栈后，按照先入先出的顺序读取任务队列里面的任务。而 JavaScript 中的任务又分为 MacroTask 与 MicroTask 两种，在 ES2015 中 MacroTask 即指 Task，而 MicroTask 则是指代 Job。典型的 MacroTask 包含了 setTimeout, setInterval, setImmediate, requestAnimationFrame, IO, UI rendering 等，MicroTask 包含了 process.nextTick, Promises, Object.observe, MutationObserver 等。 二者的关系可以图示如下：
 
 ![](https://github.com/wx-chevalier/OSS/blob/master/2017/8/1/javascript-eventloop.png?raw=true)
 
@@ -232,7 +232,7 @@ Vue.nextTick(function() {
 });
 ```
 
-在组件内使用 vm.$nextTick() 实例方法特别方便，因为它不需要全局 Vue ，并且回调函数中的 this 将自动绑定到当前的 Vue 实例上：
+在组件内使用 vm.\$nextTick() 实例方法特别方便，因为它不需要全局 Vue ，并且回调函数中的 this 将自动绑定到当前的 Vue 实例上：
 
 ```js
 Vue.component('example', {
