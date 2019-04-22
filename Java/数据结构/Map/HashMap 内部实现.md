@@ -1,8 +1,4 @@
-- [Java8 系列之重新认识 HashMap](http://www.importnew.com/20386.html)
-
-# Java 8 Enhancement
-
-- [hashmap-changes-in-java-8/](https://examples.javacodegeeks.com/core-java/util/hashmap/hashmap-changes-in-java-8/)
+# Java HashMap
 
 ## Performance Benchmark
 
@@ -439,4 +435,8 @@ e.next = newTable[i] 导致 key(3).next 指向了 key(7)。注意：此时的 ke
 
 - [LinkedHashMap 原理解析](http://uule.iteye.com/blog/1522291)
 
-笔者在做途牛的笔试题时，遇见了某个问题就是说如何优化 HashMap 使其能够记录数据的插入顺序，那么最优的方法肯定就是根据 Java 自带的 LinkedHashMap。
+# 链接
+
+- [hashmap-changes-in-java-8/](https://examples.javacodegeeks.com/core-java/util/hashmap/hashmap-changes-in-java-8/)
+
+- [Java8 系列之重新认识 HashMap](http://www.importnew.com/20386.html)
