@@ -1,6 +1,6 @@
 # synchronized
 
-synchronized 也是经常用到的，它给人的印象一般是"重量级锁"。在 JDK1.6 后，对 synchronized 进行了一系列优化，引入了偏向锁和轻量级锁，对锁的存储结构和升级过程，有效减少获得锁和释放锁带来的性能消耗。
+synchronized 也是经常用到的，它给人的印象一般是重量级锁。在 JDK1.6 后，对 synchronized 进行了一系列优化，引入了偏向锁和轻量级锁，对锁的存储结构和升级过程，有效减少获得锁和释放锁带来的性能消耗。
 
 - 普通同步方法，锁是当前实例对象。`public synchronized void test(){...}`
 
