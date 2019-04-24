@@ -2,25 +2,77 @@
 
 synchronized 也是经常用到的，它给人的印象一般是重量级锁。在 JDK1.6 后，对 synchronized 进行了一系列优化，引入了偏向锁和轻量级锁，对锁的存储结构和升级过程，有效减少获得锁和释放锁带来的性能消耗。
 
-- 普通同步方法，锁是当前实例对象。`public synchronized void test(){...}`
+synchronized 关键字，同时解决了原子性、可见性、有序性问题:
 
-- 静态同步方法，锁是当前类的 Class 对象。`public static synchronized void test(...){}`
+- 可见性：按照 Java 内存模型（Java Memory Model ,JMM）的规范，对一个变量解锁之前，必须先把此变量同步回主存中，这样解锁后，后续线程就可以访问到被修改后的值。所以被 synchronized 锁住的对象，其值具有可见性。
+- 原子性：通过监视器锁，可以保证 synchronized 修饰的代码在同一时间，只能被一个线程访问，在锁未释放之前其它线程无法进入该方法或代码块，保证了操作的原子性。
+- 有序性：synchronized 关键字并不禁止指令重排，但是由于程序是以单线程的方式执行的，所以执行的结果是确定的，不会受指令重排的干扰，有序性不再是个问题。
 
-- 对于同步方法块，锁是 Synchronized 括号中里配置的对象。`synchronized(instance){...}`
+需要注意的是，当我们使用 synchronized 关键字，管理某个状态时，必须对访问这个对象的所有操作，都加上 synchronized 关键字， 否则仍然会有并发安全性问题。
 
-用 javap 反编译 class 文件，可以看到 synchronized 用的是 monitorenter 和 monitorexit 实现加锁。一个 monitorenter 必须要有 monitorexit 与之对应，所以同步方法会在异常处和方法返回处加入 monitorexit 指令。
+## 同步使用
 
-```s
-3: monitorenter  //注意此处，进入同步方法
-4: aload_0
-5: dup
-6: getfield      #2             // Field i:I
-9: iconst_1
-10: iadd
-11: putfield      #2            // Field i:I
-14: aload_1
-15: monitorexit   //注意此处，退出同步方法
+对于，普通同步方法，锁是当前实例对象。`public synchronized void test(){...}`
+
+对于静态同步方法，锁是当前类的 Class 对象。`public static synchronized void test(...){}`
+
+对于对于同步方法块，锁是 synchronized 括号中里配置的对象。`synchronized(instance){...}`
+
+## 底层实现
+
+```java
+public class SynchronizedDemo {
+     //同步方法
+    public synchronized void syncMethod(){
+        System.out.println("Hello World");
+    }
+
+    //同步代码块
+    public void syncBlock(){
+        synchronized (this){
+            System.out.println("Hello World");
+        }
+    }
+}
 ```
+
+以上的示例代码，编译后的字节码为:
+
+```java
+public synchronized void syncMethod();
+    descriptor: ()V
+    flags: ACC_PUBLIC, ACC_SYNCHRONIZED
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: ldc           #3                  // String Hello World
+         5: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+         8: return
+
+  public void syncBlock();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=3, args_size=1
+         0: ldc           #5                  // class com/hollis/SynchronizedTest
+         2: dup
+         3: astore_1
+         4: monitorenter
+         5: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         8: ldc           #3                  // String Hello World
+        10: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        13: aload_1
+        14: monitorexit
+        15: goto          23
+        18: astore_2
+        19: aload_1
+        20: monitorexit
+        21: aload_2
+        22: athrow
+        23: return
+```
+
+对于同步方法，JVM 使用 ACC_SYNCHRONIZED 标记符，对于同步代码块，JVM 采用 monitorenter、monitorexit 指令。这两种方式殊途同归，都是通过获取和对象关联的监视器锁(monitor), 来实现同步的。
 
 # 多等级锁
 
