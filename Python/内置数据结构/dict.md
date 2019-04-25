@@ -4,25 +4,25 @@
 
 ```py
 strings = ('puppy', 'kitten', 'puppy', 'puppy',
-           'weasel', 'puppy', 'kitten', 'puppy')
+ 'weasel', 'puppy', 'kitten', 'puppy')
 counts = {}
 
 for kw in strings:
-    counts[kw] += 1
+  counts[kw] += 1
 ```
 
 该例子统计 strings 中某个单词出现的次数，并在 counts 字典中作记录。单词每出现一次，在 counts 相对应的键所存的值数字加 1。但是事实上，运行这段代码会抛出 KeyError 异常，出现的时机是每个单词第一次统计的时候，因为 Python 的 dict 中不存在默认值的说法：
 
 ```py
 strings = ('puppy', 'kitten', 'puppy', 'puppy',
-           'weasel', 'puppy', 'kitten', 'puppy')
+ 'weasel', 'puppy', 'kitten', 'puppy')
 counts = {}
 
 for kw in strings:
-    if kw not in counts:
-        counts[kw] = 1
-    else:
-        counts[kw] += 1
+  if kw not in counts:
+  counts[kw] = 1
+  else:
+  counts[kw] += 1
 
 # counts:
 # {'puppy': 5, 'weasel': 1, 'kitten': 2}
@@ -34,11 +34,11 @@ for kw in strings:
 
 ```py
 strings = ('puppy', 'kitten', 'puppy', 'puppy',
-           'weasel', 'puppy', 'kitten', 'puppy')
+ 'weasel', 'puppy', 'kitten', 'puppy')
 counts = {}
 
 for kw in strings:
-    counts[kw] = counts.setdefault(kw, 0) + 1
+  counts[kw] = counts.setdefault(kw, 0) + 1
 ```
 
 ## defaultdict
@@ -85,7 +85,7 @@ defaultdict 类除了接受类型名称作为初始化函数的参数之外，�
 ```py
 >>> from collections import defaultdict
 >>> def zero():
-...     return 0
+... return 0
 ...
 >>> dd = defaultdict(zero)
 >>> dd
@@ -102,11 +102,11 @@ defaultdict(<function zero at 0xb7ed2684>, {'foo': 0})
 from collections import defaultdict
 
 strings = ('puppy', 'kitten', 'puppy', 'puppy',
-           'weasel', 'puppy', 'kitten', 'puppy')
-counts = defaultdict(lambda: 0)  # 使用lambda来定义简单的函数
+ 'weasel', 'puppy', 'kitten', 'puppy')
+counts = defaultdict(lambda: 0)# 使用lambda来定义简单的函数
 
 for s in strings:
-    counts[s] += 1
+  counts[s] += 1
 ```
 
 ## defaultdict 的内部实现
@@ -127,22 +127,22 @@ __missing__(key) # Called by __getitem__ for missing key; pseudo-code:
 
 ```py
 try:
-    from collections import defaultdict
+  from collections import defaultdict
 except ImportError:
-    class defaultdict(dict):
-      def __init__(self, default_factory=None, *a, **kw):
-          dict.__init__(self, *a, **kw)
-          self.default_factory = default_factory
+  class defaultdict(dict):
+  def __init__(self, default_factory=None, *a, **kw):
+  dict.__init__(self, *a, **kw)
+  self.default_factory = default_factory
 
 
-      def __getitem__(self, key):
-          try:
-              return dict.__getitem__(self, key)
-          except KeyError:
-              return self.__missing__(key)
+  def __getitem__(self, key):
+  try:
+  return dict.__getitem__(self, key)
+  except KeyError:
+  return self.__missing__(key)
 
 
-      def __missing__(self, key):
-          self[key] = value = self.default_factory()
-          return value
+  def __missing__(self, key):
+  self[key] = value = self.default_factory()
+  return value
 ```

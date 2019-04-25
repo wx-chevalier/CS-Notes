@@ -192,15 +192,15 @@ Middle of queue
 1.  从当前的 TaskQueue 中取出队列首部的 Task A，并且放入任务队列；
 2.  如果 Task A 为空，即任务队列为空，则直接转入执行 MicroTask 队列；
 3.  将 Currently Running Task 设置为取出的 Task A，并且执行该任务，即执行其回调函数；
-4.  将  Currently Running Task 设置为 Null，并且移除该 Task；
+4.  将 Currently Running Task 设置为 Null，并且移除该 Task；
 5.  执行 MicroTask 队列：
-        a. 从 MicroTask 队列中取出队列首部的任务 Task X；
+    a. 从 MicroTask 队列中取出队列首部的任务 Task X；
 
 b. 如果 Task X 为 Null，则结束执行 MicroTask 队列；
 
 c. 将 Current Running Task 设置为 Task X，
-    d. 执行该任务，如果产生新的 MicroTask，直接压入当前队列；
-    e. 将  Current Running Task 设置为 Null，并移出 Task X；
+  d. 执行该任务，如果产生新的 MicroTask，直接压入当前队列；
+  e. 将 Current Running Task 设置为 Null，并移出 Task X；
 
 f. 重新从 MicroTask 中选出最早的任务，跳转到 b；
 

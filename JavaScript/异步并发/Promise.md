@@ -36,7 +36,7 @@ Promise.all(promises).then(console.log);
 
 # 异步设计模式
 
-在日常的项目开发中我们经常会需要处理异步调用，本部分我们即讨论如何以回调、Promise 以及  async/await 来实现常见的异步模式。
+在日常的项目开发中我们经常会需要处理异步调用，本部分我们即讨论如何以回调、Promise 以及 async/await 来实现常见的异步模式。
 
 ## 失败重试
 

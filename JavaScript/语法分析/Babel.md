@@ -53,17 +53,17 @@ Babel 能够将输入的 JavaScript 代码根据不同的配置将代码进行�
 ```js
 {
   type: {
-    label: 'name',
-    keyword: undefined,
-    beforeExpr: false,
-    startsExpr: true,
-    rightAssociative: false,
-    isLoop: false,
-    isAssign: false,
-    prefix: false,
-    postfix: false,
-    binop: null,
-    updateContext: null
+  label: 'name',
+  keyword: undefined,
+  beforeExpr: false,
+  startsExpr: true,
+  rightAssociative: false,
+  isLoop: false,
+  isAssign: false,
+  prefix: false,
+  postfix: false,
+  binop: null,
+  updateContext: null
   },
   ...
 }
@@ -114,7 +114,7 @@ Babel 能够将输入的 JavaScript 代码根据不同的配置将代码进行�
 }
 ```
 
-我们可以使用 [AST Explorer](http://astexplorer.net/) 这个工具进行在线预览与编辑；在上述的 AST 表示中，顾名思义，ArrowFunctionExpression 就表示该表达式为箭头函数表达式。该函数拥有  foo 与 bar 这两个参数，参数所属的 Identifiers 类型是没有任何子节点的变量名类型；接下来我们发现加号运算符被表示为了  BinaryExpression 类型，并且其 `operator` 属性设置为 `+`，而左右两个参数分别挂载于 `left` 与 `right` 属性下。在接下来的转化步骤中，我们即是需要对这样的抽象语法树进行转换，该步骤主要由 Babel Preset 与 Plugin 控制；Babel 内部提供了 `babel-traverse` 这个库来辅助进行 AST 遍历，该库还提供了一系列内置的替换与操作接口。而经过转化之后的 AST 表示如下，在实际开发中我们也常常首先对比转化前后代码的 AST 表示的不同，以了解应该进行怎样的转化操作：
+我们可以使用 [AST Explorer](http://astexplorer.net/) 这个工具进行在线预览与编辑；在上述的 AST 表示中，顾名思义，ArrowFunctionExpression 就表示该表达式为箭头函数表达式。该函数拥有 foo 与 bar 这两个参数，参数所属的 Identifiers 类型是没有任何子节点的变量名类型；接下来我们发现加号运算符被表示为了 BinaryExpression 类型，并且其 `operator` 属性设置为 `+`，而左右两个参数分别挂载于 `left` 与 `right` 属性下。在接下来的转化步骤中，我们即是需要对这样的抽象语法树进行转换，该步骤主要由 Babel Preset 与 Plugin 控制；Babel 内部提供了 `babel-traverse` 这个库来辅助进行 AST 遍历，该库还提供了一系列内置的替换与操作接口。而经过转化之后的 AST 表示如下，在实际开发中我们也常常首先对比转化前后代码的 AST 表示的不同，以了解应该进行怎样的转化操作：
 
 ```json
 // AST shortened for clarity
@@ -188,7 +188,7 @@ const _func = function(_foo, _bar) {
 };
 ```
 
-在上一节中我们对比过转化前后两个函数语法树的差异，这里我们就开始定义转化插件。首先每个插件都是以 babel 对象为输入参数，返回某个包含 visitor 的对象的函数。最后我们需要调用 babel-core 提供的  transform 函数来注册插件，并且指定需要转化的源代码或者源代码文件：
+在上一节中我们对比过转化前后两个函数语法树的差异，这里我们就开始定义转化插件。首先每个插件都是以 babel 对象为输入参数，返回某个包含 visitor 的对象的函数。最后我们需要调用 babel-core 提供的 transform 函数来注册插件，并且指定需要转化的源代码或者源代码文件：
 
 ```js
 // plugin.js 文件，定义插件
@@ -266,7 +266,7 @@ Program(path) {
 ```
 BinaryExpression(path) {
   if (t.isIdentifier(path.node.left)) {
-    // ...
+  // ...
   }
 }
 ```
@@ -276,7 +276,7 @@ BinaryExpression(path) {
 ```js
 BinaryExpression(path) {
   if (t.isIdentifier(path.node.left, { name: "n" })) {
-    // ...
+  // ...
   }
 }
 
@@ -284,11 +284,11 @@ BinaryExpression(path) {
 // 等价于
 BinaryExpression(path) {
   if (
-    path.node.left != null &&
-    path.node.left.type === "Identifier" &&
-    path.node.left.name === "n"
+  path.node.left != null &&
+  path.node.left.type === "Identifier" &&
+  path.node.left.name === "n"
   ) {
-    // ...
+  // ...
   }
 }
 ```
@@ -298,7 +298,7 @@ BinaryExpression(path) {
 ```
 BinaryExpression(path) {
   if (path.get('left').isIdentifier({ name: "n" })) {
-    // ...
+  // ...
   }
 }
 ```
@@ -326,17 +326,17 @@ var c = 3; // pathC, path.key = 2
 // 插件定义
 export default function({ types: t }) {
   return {
-    visitor: {
-      VariableDeclaration(path) {
-        // if the current path is pathA
-        path.inList // true
-        path.listKey // "body"
-        path.key // 0
-        path.getSibling(0) // pathA
-        path.getSibling(path.key + 1) // pathB
-        path.container // [pathA, pathB, pathC]
-      }
-    }
+  visitor: {
+  VariableDeclaration(path) {
+  // if the current path is pathA
+  path.inList // true
+  path.listKey // "body"
+  path.key // 0
+  path.getSibling(0) // pathA
+  path.getSibling(path.key + 1) // pathB
+  path.container // [pathA, pathB, pathC]
+  }
+  }
   };
 }
 ```
@@ -354,11 +354,11 @@ BinaryExpression(path) {
 ```
 outerPath.traverse({
   Function(innerPath) {
-    innerPath.skip(); // if checking the children is irrelevant
+  innerPath.skip(); // if checking the children is irrelevant
   },
   ReferencedIdentifier(innerPath, state) {
-    state.iife = true;
-    innerPath.stop(); // if you want to save some state and then stop traversal, or deopt
+  state.iife = true;
+  innerPath.stop(); // if you want to save some state and then stop traversal, or deopt
   }
 });
 ```
@@ -371,15 +371,15 @@ outerPath.traverse({
 // 插件定义
 BinaryExpression(path) {
   path.replaceWith(
-    t.binaryExpression("**", path.node.left, t.numberLiteral(2))
+  t.binaryExpression("**", path.node.left, t.numberLiteral(2))
   );
 }
 
 
 // 代码结果
   function square(n) {
--   return n * n;
-+   return n ** 2;
+- return n * n;
++ return n ** 2;
   }
 ```
 
@@ -390,19 +390,19 @@ BinaryExpression(path) {
 
 ReturnStatement(path) {
   path.replaceWithMultiple([
-    t.expressionStatement(t.stringLiteral("Is this the real life?")),
-    t.expressionStatement(t.stringLiteral("Is this just fantasy?")),
-    t.expressionStatement(t.stringLiteral("(Enjoy singing the rest of the song in your head)")),
+  t.expressionStatement(t.stringLiteral("Is this the real life?")),
+  t.expressionStatement(t.stringLiteral("Is this just fantasy?")),
+  t.expressionStatement(t.stringLiteral("(Enjoy singing the rest of the song in your head)")),
   ]);
 }
 
 
 // 代码结果
   function square(n) {
--   return n * n;
-+   "Is this the real life?";
-+   "Is this just fantasy?";
-+   "(Enjoy singing the rest of the song in your head)";
+- return n * n;
++ "Is this the real life?";
++ "Is this just fantasy?";
++ "(Enjoy singing the rest of the song in your head)";
   }
 ```
 
@@ -413,7 +413,7 @@ ReturnStatement(path) {
 
 FunctionDeclaration(path) {
   path.replaceWithSourceString(`function add(a, b) {
-    return a + b;
+  return a + b;
   }`);
 }
 
@@ -421,9 +421,9 @@ FunctionDeclaration(path) {
 // 代码结果
 
 - function square(n) {
--   return n * n;
+- return n * n;
 + function add(a, b) {
-+   return a + b;
++ return a + b;
   }
 ```
 
@@ -441,7 +441,7 @@ FunctionDeclaration(path) {
 
 + "Because I'm easy come, easy go.";
   function square(n) {
-    return n * n;
+  return n * n;
   }
 + "A little high, little low.";
 ```
@@ -457,7 +457,7 @@ FunctionDeclaration(path) {
 
 // 代码结果
 - function square(n) {
--   return n * n;
+- return n * n;
 - }
 ```
 
@@ -467,7 +467,7 @@ FunctionDeclaration(path) {
 // 插件定义
 BinaryExpression(path) {
   path.parentPath.replaceWith(
-    t.expressionStatement(t.stringLiteral("Anyway the wind blows, doesn't really matter to me, to me."))
+  t.expressionStatement(t.stringLiteral("Anyway the wind blows, doesn't really matter to me, to me."))
   );
 }
 
@@ -475,8 +475,8 @@ BinaryExpression(path) {
 // 代码结果
 
   function square(n) {
--   return n * n;
-+   "Anyway the wind blows, doesn't really matter to me, to me.";
+- return n * n;
++ "Anyway the wind blows, doesn't really matter to me, to me.";
   }
 ```
 
@@ -491,7 +491,7 @@ BinaryExpression(path) {
 
 // 代码结果
   function square(n) {
--   return n * n;
+- return n * n;
   }
 ```
 
@@ -502,14 +502,14 @@ BinaryExpression(path) {
 ```
 FunctionDeclaration(path) {
   if (path.scope.hasBinding("n")) {
-    // ...
+  // ...
   }
 }
 
 
 FunctionDeclaration(path) {
   if (path.scope.hasOwnBinding("n")) {
-    // ...
+  // ...
   }
 }
 ```
@@ -539,7 +539,7 @@ FunctionDeclaration(path) {
 // 代码结果
 - function square(n) {
 + var _square = function square(n) {
-    return n * n;
+  return n * n;
 - }
 + };
 ```

@@ -135,7 +135,7 @@ APP.module3 = new module3({ a: 42 });
 
 # 依赖注入
 
-Martin Fowler 于 2004 年提出了依赖注入([Dependency Injection](https://martinfowler.com/articles/injection.html))的概念，其主要用于  Java 中的组件内通信；以 Spring 为代表的一系列支持依赖注入与控制反转的框架将这种设计模式发扬光大，并且成为了 Java 服务端开发的标准模式之一。依赖注入的核心思想在于某个模块不需要手动地初始化某个依赖对象，而只需要声明该依赖并由外部框架自动实例化该对象实现并且传递到模块内。而五年之后的 2009 年 [Misko Hevery](https://github.com/mhevery)  开始设计新的 JavaScript 框架，并且使用了依赖注入作为其组件间通信的核心机制。这个框架就是引领一时风骚，甚至于说是现代 Web 开发先驱之一的 Angular。Angular 允许我们定义模块，并且在显式地声明其依赖模块而由框架完成自动注入。其核心思想如下所示：
+Martin Fowler 于 2004 年提出了依赖注入([Dependency Injection](https://martinfowler.com/articles/injection.html))的概念，其主要用于 Java 中的组件内通信；以 Spring 为代表的一系列支持依赖注入与控制反转的框架将这种设计模式发扬光大，并且成为了 Java 服务端开发的标准模式之一。依赖注入的核心思想在于某个模块不需要手动地初始化某个依赖对象，而只需要声明该依赖并由外部框架自动实例化该对象实现并且传递到模块内。而五年之后的 2009 年 [Misko Hevery](https://github.com/mhevery)  开始设计新的 JavaScript 框架，并且使用了依赖注入作为其组件间通信的核心机制。这个框架就是引领一时风骚，甚至于说是现代 Web 开发先驱之一的 Angular。Angular 允许我们定义模块，并且在显式地声明其依赖模块而由框架完成自动注入。其核心思想如下所示：
 
 ```js
 // file greeting.js
@@ -165,7 +165,7 @@ angular.module('app', ['greeter']).controller('GreetingController', [
 
 # CommonJS
 
-在 Node.js 横空出世之前，就已经有很多将运行于客户端浏览器中的 JavaScript 迁移运行到服务端的[框架](https://en.wikipedia.org/wiki/Comparison_of_server-side_JavaScript_solutions)；不过由于缺乏合适的规范，也没有提供统一的与操作系统及运行环境交互的接口，这些框架并未流行开来。2009  年时 Mozilla 的雇员 [Kevin Dangoor](https://github.com/dangoor)  发表了[博客](http://www.blueskyonmars.com/2009/01/29/what-server-side-javascript-needs/)讨论服务端  JavaScript 代码面临的困境，号召所有有志于规范服务端 JavaScript 接口的志同道合的开发者协同讨论，群策群力，最终形成了 ServerJS 规范；一年之后 ServerJS 重命名为 CommonJS。后来 CommonJS 内的模块规范成为了 Node.js 的标准实现规范，其基本语法为 `var commonjs = require("./commonjs");`，核心设计模式如下所示：
+在 Node.js 横空出世之前，就已经有很多将运行于客户端浏览器中的 JavaScript 迁移运行到服务端的[框架](https://en.wikipedia.org/wiki/Comparison_of_server-side_JavaScript_solutions)；不过由于缺乏合适的规范，也没有提供统一的与操作系统及运行环境交互的接口，这些框架并未流行开来。2009  年时 Mozilla 的雇员 [Kevin Dangoor](https://github.com/dangoor)  发表了[博客](http://www.blueskyonmars.com/2009/01/29/what-server-side-javascript-needs/)讨论服务端 JavaScript 代码面临的困境，号召所有有志于规范服务端 JavaScript 接口的志同道合的开发者协同讨论，群策群力，最终形成了 ServerJS 规范；一年之后 ServerJS 重命名为 CommonJS。后来 CommonJS 内的模块规范成为了 Node.js 的标准实现规范，其基本语法为 `var commonjs = require("./commonjs");`，核心设计模式如下所示：
 
 ```js
 // file greeting.js
@@ -246,7 +246,7 @@ Webpack 打包工具也使用了很多扩展，譬如 `require.ensure`、`requir
 
 # AMD
 
-就在 CommonJS 规范火热讨论的同时，很多开发者也关注于如何实现模块的异步加载。Web 应用的性能优化一直是前端工程实践中不可避免的问题，而模块的异步加载以及预加载等机制能有效地优化 Web 应用的加载速度。Mozilla 的另一位雇员 [James Burke](https://github.com/jrburke)  是[讨论组](https://groups.google.com/forum/#!msg/commonjs/nbpX739RQ5o/SdpVQDtx88AJ)的活跃成员，他在  Dojo 1.7 版本中引入了异步模块机制，并且在 2009 年开发了 require.js 框架。James 的核心思想在于不应该以同步方式加载模块，而应该充分利用浏览器的并发加载能力；James 按照其设计理念开发出的模块工具就是 AMD(Asynchronous Module Definition)，其基本形式如下：
+就在 CommonJS 规范火热讨论的同时，很多开发者也关注于如何实现模块的异步加载。Web 应用的性能优化一直是前端工程实践中不可避免的问题，而模块的异步加载以及预加载等机制能有效地优化 Web 应用的加载速度。Mozilla 的另一位雇员 [James Burke](https://github.com/jrburke)  是[讨论组](https://groups.google.com/forum/#!msg/commonjs/nbpX739RQ5o/SdpVQDtx88AJ)的活跃成员，他在 Dojo 1.7 版本中引入了异步模块机制，并且在 2009 年开发了 require.js 框架。James 的核心思想在于不应该以同步方式加载模块，而应该充分利用浏览器的并发加载能力；James 按照其设计理念开发出的模块工具就是 AMD(Asynchronous Module Definition)，其基本形式如下：
 
 ``` javascript
 define(["amd-module", "../file"], function(amdModule, file) {
@@ -315,7 +315,7 @@ AMD 与 CommonJS 虽然师出同源，但还是分道扬镳，关注于代码异
 
 ```
 function (factory) {
-    module.exports = factory();
+  module.exports = factory();
 }
 ```
 
@@ -323,7 +323,7 @@ function (factory) {
 
 # ES2015 Modules
 
-JavaScript 模块规范领域群雄逐鹿，各领风骚，作为 ECMAScript 标准的起草者 TC39 委员会自然也不能置身事外。ES2015 Modules 规范始于 2010 年，主要由 [Dave Herman](https://github.com/dherman)  主导；随后的五年中 David 还参与了 asm.js，emscription，servo，等多个重大的开源项目，也使得  ES2015 Modules 的设计能够从多方面进行考虑与权衡。而最后的模块化规范定义于 2015 年正式发布，也就是被命名为 ES2015 Modules。我们上述的例子改写为 ES2015 Modules 规范如下所示：
+JavaScript 模块规范领域群雄逐鹿，各领风骚，作为 ECMAScript 标准的起草者 TC39 委员会自然也不能置身事外。ES2015 Modules 规范始于 2010 年，主要由 [Dave Herman](https://github.com/dherman)  主导；随后的五年中 David 还参与了 asm.js，emscription，servo，等多个重大的开源项目，也使得 ES2015 Modules 的设计能够从多方面进行考虑与权衡。而最后的模块化规范定义于 2015 年正式发布，也就是被命名为 ES2015 Modules。我们上述的例子改写为 ES2015 Modules 规范如下所示：
 
 ```js
 // file lib/greeting.js
@@ -458,4 +458,4 @@ code1
 code2
 ```
 
-并且  `import` 的模块名只能是字符串常量，导入的值也是不可变对象；比如说你不能 `import { a } from './a'` 然后给 a 赋值个其他什么东西。这些设计虽然使得灵活性不如 CommonJS 的 require，但却保证了 ES6 Modules 的依赖关系是确定(Deterministic)的，和运行时的状态无关，从而也就保证了 ES6 Modules 是可以进行可靠的静态分析的。对于主要在服务端运行的 Node 来说，所有的代码都在本地，按需动态 require 即可，但对于要下发到客户端的 Web 代码而言，要做到高效的按需使用，不能等到代码执行了才知道模块的依赖，必须要从模块的静态分析入手。这是 ES6 Modules 在设计时的一个重要考量，也是为什么没有直接采用 CommonJS。此外我们还需要关注下的是 ES2015 Modules 在浏览器内的原生支持情况，尽管我们可以通过 Webpack 等打包工具将应用打包为单个包文件。
+并且`import` 的模块名只能是字符串常量，导入的值也是不可变对象；比如说你不能 `import { a } from './a'` 然后给 a 赋值个其他什么东西。这些设计虽然使得灵活性不如 CommonJS 的 require，但却保证了 ES6 Modules 的依赖关系是确定(Deterministic)的，和运行时的状态无关，从而也就保证了 ES6 Modules 是可以进行可靠的静态分析的。对于主要在服务端运行的 Node 来说，所有的代码都在本地，按需动态 require 即可，但对于要下发到客户端的 Web 代码而言，要做到高效的按需使用，不能等到代码执行了才知道模块的依赖，必须要从模块的静态分析入手。这是 ES6 Modules 在设计时的一个重要考量，也是为什么没有直接采用 CommonJS。此外我们还需要关注下的是 ES2015 Modules 在浏览器内的原生支持情况，尽管我们可以通过 Webpack 等打包工具将应用打包为单个包文件。

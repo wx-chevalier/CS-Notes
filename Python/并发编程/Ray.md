@@ -115,25 +115,25 @@ result = ray.get(values[0])
 ```py
 @ray.remote
 class Counter(object):
-   def __init__(self):
-       self.x = 0
+ def __init__(self):
+ self.x = 0
 
-   def inc(self):
-       self.x += 1
+ def inc(self):
+ self.x += 1
 
-   def get_value(self):
-       return self.x
+ def get_value(self):
+ return self.x
 
 # Create an actor process.
 c = Counter.remote()
 
 # Check the actor's counter value.
-print(ray.get(c.get_value.remote()))  # 0
+print(ray.get(c.get_value.remote()))# 0
 
 # Increment the counter twice and check the value again.
 c.inc.remote()
 c.inc.remote()
-print(ray.get(c.get_value.remote()))  # 2
+print(ray.get(c.get_value.remote()))# 2
 ```
 
 上面的例子是 actor 最简单的用法。Counter.remote() 创建一个新的 actor 进程，它持有一个 Counter 对象副本。对 c.get_value.remote() 和 c.inc.remote() 的调用会在远程 actor 进程上执行任务并改变 actor 的状态。
@@ -147,25 +147,25 @@ import time
 
 @ray.remote
 class MessageActor(object):
-   def __init__(self):
-       self.messages = []
+ def __init__(self):
+ self.messages = []
 
-   def add_message(self, message):
-       self.messages.append(message)
+ def add_message(self, message):
+ self.messages.append(message)
 
-   def get_and_clear_messages(self):
-       messages = self.messages
-       self.messages = []
-       return messages
+ def get_and_clear_messages(self):
+ messages = self.messages
+ self.messages = []
+ return messages
 
 # Define a remote function which loops around and pushes
 # messages to the actor.
 @ray.remote
 def worker(message_actor, j):
-   for i in range(100):
-       time.sleep(1)
-       message_actor.add_message.remote(
-           "Message {} from actor {}.".format(i, j))
+ for i in range(100):
+ time.sleep(1)
+ message_actor.add_message.remote(
+ "Message {} from actor {}.".format(i, j))
 
 # Create a message actor.
 message_actor = MessageActor.remote()
@@ -175,9 +175,9 @@ message_actor = MessageActor.remote()
 
 # Periodically get the messages and print them.
 for _ in range(100):
-   new_messages = ray.get(message_actor.get_and_clear_messages.remote())
-   print("New messages:", new_messages)
-   time.sleep(1)
+ new_messages = ray.get(message_actor.get_and_clear_messages.remote())
+ print("New messages:", new_messages)
+ time.sleep(1)
 
 # This script prints something like the following:
 # New messages: []
