@@ -240,7 +240,7 @@ addtivity:用来描述是否向上级 logger 传递打印信息。默认是 true
 private static Logger logger = LoggerFactory.getLogger("dependency");
 ```
 
-如果我们希望打印出 Mybatis 的 SQL 语句，则在 logback-spring.xml 中添加如下配置：
+如果我们希望打印出 MyBatis 的 SQL 语句，则在 logback-spring.xml 中添加如下配置：
 
 ```xml
  <!-- 将sql语句输出到具体的日志文件中 -->

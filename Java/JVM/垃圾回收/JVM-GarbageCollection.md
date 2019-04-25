@@ -36,7 +36,7 @@
 
 强引用是使用最普遍的引用。如果一个对象具有强引用，那垃圾回收器绝不会回收它。当内存空间不足，Java 虚拟机宁愿抛出 OutOfMemoryError 错误，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足的问题。比如下面这段代码：
 
-``` java
+```java
 public class Main {
     public static void main(String[] args) {
         new Main().fun1();
@@ -51,7 +51,7 @@ public class Main {
 
 当运行至 `Object[] objArr = new Object[1000];` 这句时，如果内存不足，JVM 会抛出 OOM 错误也不会回收 object 指向的对象。不过要注意的是，当 fun1 运行完之后，object 和 objArr 都已经不存在了，所以它们指向的对象都会被 JVM 回收。如果想中断强引用和某个对象之间的关联，可以显示地将引用赋值为 null，这样一来的话，JVM 在合适的时间就会回收该对象。比如 Vector 类的 clear 方法中就是通过将引用赋值为 null 来实现清理工作的：
 
-``` java
+```java
 /**
      * Removes the element at the specified position in this Vector.
      * Shifts any subsequent elements to the left (subtracts one from their
@@ -98,7 +98,7 @@ public class Main {
 ## WeakReference:  弱引用
 弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程，因此不一定会很快发现那些只具有弱引用的对象。
 
-``` java
+```java
 import java.lang.ref.WeakReference;
 
 public class Main {
@@ -126,7 +126,7 @@ null
 
 “虚引用”顾名思义，就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收器回收。虚引用和前面的软引用、弱引用不同，它并不影响对象的生命周期。在 Java 中用 `java.lang.ref.PhantomReference` 类表示。如果一个对象与虚引用关联，则跟没有引用与之关联一样，在任何时候都可能被垃圾回收器回收。要注意的是，虚引用必须和引用队列关联使用，当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会把这个虚引用加入到与之   关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。
 
-``` java
+```java
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
 

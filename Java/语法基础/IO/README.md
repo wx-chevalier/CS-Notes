@@ -101,7 +101,7 @@ String[] classpathEntries = classpath.split(File.pathSeparator);
 
 ###  按行读取
 
-``` java
+```java
 public class ReadSelectedLine{
     // 读取文件指定行。
     static void readAppointedLineNumber(File sourceFile, int lineNumber)
@@ -198,7 +198,7 @@ try {
 
 ![](http://s3.51cto.com/wyfs02/M02/5B/94/wKiom1UL7ifA8Gq9AABmy7lI3Yo667.jpg)
 
-``` java
+```java
 try {
     File file = new File("test.txt"); //如果文件不存在，则自动创建
     BufferedSink sink = Okio.buffer(Okio.sink(file));
