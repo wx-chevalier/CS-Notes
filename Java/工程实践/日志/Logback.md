@@ -4,7 +4,7 @@ Logback 是一个日志框架，它与 Log4j 可以说是同出一源，都出�
 
 Logback 主要由 logback-core, logback-classic, logback-access 三个模块组成，logback-core 是其它模块的基础设施，提供了一些关键的通用机制。logback-classic 的地位和作用等同于 Log4J，它也被认为是 Log4J 的一个改进版，并且它实现了简单日志门面 SLF4J；而 logback-access 主要作为一个与 Servlet 容器交互的模块，比如说 tomcat 或者 jetty，提供一些与 HTTP 访问相关的功能。
 
-## 基础配置
+# 基础配置
 
 我们可以通过 logback-spring.xml 来配置 Logback，基础配置如下：
 
@@ -89,7 +89,7 @@ private static final Logger logger = LoggerFactory.getLogger(DemoTest.class);
 logger.info("info")
 ```
 
-## Appender
+# Appender
 
 appender 是一个日志打印的组件，这里组件里面定义了打印过滤的条件、打印输出方式、滚动策略、编码方式、打印格式等等。但是它仅仅是一个打印组件，如果我们不使用一个 logger 或者 root 的 appender-ref 指定某个具体的 appender 时，它就没有什么意义。上文定义的 root 本质上是根 logger,只不过 root 中不能有 name 和 additivity 属性，是有一个 level。
 
@@ -169,7 +169,7 @@ filter 其实是 appender 里面的子元素。它作为过滤器存在，执行
 
 - LevelFilter: 级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据 onMath(用于配置符合过滤条件的操作) 和 onMismatch(用于配置不符合过滤条件的操作)接收或拒绝日志。
 
-## Logger
+# Logger
 
 我们也可以通过自定义 Logger，来关联不同的包或者 Appender:
 
@@ -245,6 +245,6 @@ private static Logger logger = LoggerFactory.getLogger("dependency");
 ```xml
  <!-- 将sql语句输出到具体的日志文件中 -->
 <logger name="com.alipay.sofa.cloudplatform.common.dao" level="${logging.sql.level}" additivity="false">
-    <appender-ref ref="SQL-APPENDER"/>
+    <appender-ref ref="sqlAppender"/>
 </logger>
 ```
