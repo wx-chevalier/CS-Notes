@@ -4,24 +4,27 @@
 
 对于大多数构建工具，对于子项目的配置，都是基于继承的方式。Gradle 除了提供继承的方式来设置子项目，还提供了另外一种集中的配置方式，方便我们统一管理子项目的信息。下面看一个例子，打开 A/build.gradle，输入如下部分：
 
-```
+```groovy
 allprojects {
 
 allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
+    task hello << {task -> println "I'm \$task.project.name"
 }
 
 allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
+    task hello << {task -> println "I'm \$task.project.name" }
 }
+
+allprojects {
+    task hello << {task -> println "I'm \$task.project.name" }
+}
+
 subprojects {
-
-allprojects {
-task hello << {task -> println "I'm \$task.project.name" }
+    allprojects {
+        task hello << {task -> println "I'm \$task.project.name"
+    }
 }
+
 subprojects {
 hello << {println "- I am the sub project of A"}
 
