@@ -40,10 +40,10 @@
 
 设计思路是：用一个 HashMap 来保存图片的路径 和 相应图片对象关联的软引用之间的映射关系，在内存不足时，JVM 会自动回收这些缓存图片对象所占用的空间，从而有效地避免了 OOM 的问题。在 Android 开发中对于大量图片下载会经常用到。
 
-```
-.....
+```java
+// .....
 private Map<String, SoftReference<Bitmap>> imageCache = new HashMap<String, SoftReference<Bitmap>>();
-<br>....
+
 public void addBitmapToCache(String path) {
 
         // 强引用的Bitmap对象
