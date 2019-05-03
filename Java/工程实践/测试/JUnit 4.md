@@ -1,7 +1,5 @@
 # JUnit 4
 
-# JUnit 实战教程
-
 JUnit ——是一个开源的 Java 测试框架，主要用于编写白盒测试，回归测试。无论白盒测试还是回归测试，都是运行可重复的测试。所谓”回归测试“——就是，软件或环境的修复或更正后的“再测试”，自动测试工具对这类测试尤其有用；而所谓”单元测试“——就是，最小粒度的测试，以测试某个功能或代码块。一般由程序员来做，因为它需要知道内部程序设计和编码的细节。对于持续发展的产品，单元测试在后期的维护，回归有重要等方面有重要作用。
 
 ```java
@@ -12,13 +10,9 @@ public void testMultiply() {
 }
 ```
 
-![](http://p.blog.csdn.net/images/p_blog_csdn_net/andycpp/241426/o_JUnit6.jpg)
-
-![](http://p.blog.csdn.net/images/p_blog_csdn_net/andycpp/241426/o_JUnit8.jpg)
-
 # JUnit
 
-- @Test (expected = Exception.class) 表示预期会抛出 Exception.class 的异常
+- @Test(expected = Exception.class) 表示预期会抛出 Exception.class 的异常
 - @Ignore 含义是“某些方法尚未完成，暂不参与此次测试”。这样的话测试结果就会提示你有几个测试被忽略，而不是失败。一旦你完成了相应函数，只需要把@Ignore 注解删去，就可以进行正常的测试。
 - @Test(timeout=100) 表示预期方法执行不会超过 100 毫秒，控制死循环
 - @Before 表示该方法在每一个测试方法之前运行，可以使用该方法进行初始化之类的操作
@@ -26,24 +20,13 @@ public void testMultiply() {
 - @BeforeClass 表示该方法只执行一次，并且在所有方法之前执行。一般可以使用该方法进行数据库连接操作，注意该注解运用在静态方法。
 - @AfterClass 表示该方法只执行一次，并且在所有方法之后执行。一般可以使用该方法进行数据库连接关闭操作，注意该注解运用在静态方法。
 
-下面简单介绍一下上边用到的静态类 junit.framework.Assert。该类主要包含七个方法：
-
-- assertEquals() 方法，用来查看对象中存的值是否是期待的值，与字符串比较中使用的 equals() 方法类似；
-- assertFalse() 和 assertTrue() 方法，用来查看变量是是否为 false 或 true，如果 assertFalse() 查看的变量的值是 false 则测试成功，如果是 true 则失败，assertTrue() 与之相反。
-- assertSame() 和 assertNotSame() 方法，用来比较两个对象的引用是否相等和不相等，类似于通过“==”和“!=”比较两个对象；
-- assertNull() 和 assertNotNull() 方法，用来查看对象是否为空和不为空。
-
 # TestSuite
 
 如果你须有多个测试单元，可以合并成一个测试套件进行测试，况且在一个项目中，只写一个测试类是不可能的，我们会写出很多很多个测试类。可是这些测试类必须一个一个的执行，也是比较麻烦的事情。鉴于此， JUnit 为我们提供了打包测试的功能，将所有需要运行的测试类集中起来，一次性的运行完毕，大大的方便了我们的测试工作。并且可以按照指定的顺序执行所有的测试类。下面的代码示例创建了一个测试套件来执行两个测试单元。如果你要添加其他的测试单元可以使用语句 @Suite.SuiteClasses 进行注解。
 
 ```java
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-
-@RunWith( Suite.class )
-@SuiteClasses( { JUnit1Test.class, StringUtilTest.class } )
+@RunWith(Suite.class)
+@SuiteClasses({ JUnit1Test.class, StringUtilTest.class })
 public class JSuit {
 
 }
@@ -61,26 +44,10 @@ JUnit 中的 assert 方法全部放在 Assert 类中，总结一下 JUnit 类中
 
 - `fail([String message,])`: 失败，可以有消息，也可以没有消息。
 
-  3.assertEquals([String message,]Object expected,Object actual);
+- `assertEquals([String message,]Object expected,Object actual)`: 判断是否相等，可以指定输出错误信息。第一个参数是期望值，第二个参数是实际的值。这个方法对各个变量有多种实现。在 JDK1.5 中基本一样。但是需要主意的是 float 和 double 最后面多一个 delta 的值。
 
-      判断是否相等，可以指定输出错误信息。
+- `assertNotNull/Null([String message,]Object obj)`: 判读一个对象是否非空(非空)。
 
-      第一个参数是期望值，第二个参数是实际的值。
+- `assertSame/NotSame([String message,]Object expected,Object actual)`: 通过内存地址，判断两个对象是否指向同一个对象。
 
-      这个方法对各个变量有多种实现。在JDK1.5中基本一样。
-
-      但是需要主意的是float和double最后面多一个delta的值。
-
-  4.assertNotNull/Null([String message,]Object obj);
-
-      判读一个对象是否非空(非空)。
-
-  5.assertSame/NotSame([String message,]Object expected,Object actual);
-
-      判断两个对象是否指向同一个对象。看内存地址。
-
-  7.failNotSame/failNotEquals(String message, Object expected, Object actual)
-
-      当不指向同一个内存地址或者不相等的时候，输出错误信息。
-
-      注意信息是必须的，而且这个输出是格式化过的。
+- `failNotSame/failNotEquals(String message, Object expected, Object actual)`: 当不指向同一个内存地址或者不相等的时候，输出错误信息。注意信息是必须的，而且这个输出是格式化过的。

@@ -1,9 +1,9 @@
 # Mockito
 
-JUnit 是单元测试框架。Mockito 与 JUnit 不同，并不是单元测试框架(这方面 JUnit 已经足够好了)，它是用于生成模拟对象或者直接点说，就是”假对象“的工具。两者定位不同，所以一般通常的做法就是联合 JUnit + Mockito 来进行测试。
+Mockito 是用于生成模拟对象或者直接点说，就是”假对象“的工具。两者定位不同，所以一般通常的做法就是联合 JUnit 与 Mockito 来进行测试。
 
 ```java
-List mock = mock( List.class );
+List mock = mock(List.class);
 when( mock.get(0) ).thenReturn( 1 );
 assertEquals( "预期返回1", 1, mock.get( 0 ) );// mock.get(0) 返回 1
 ```
@@ -74,7 +74,7 @@ System.out.println(mockedList.get(999));// 此时打印是 element
 一个问题，thenReturn 是返回结果是我们写死的。如果要让被测试的方法不写死，返回实际结果并让我们可以获取到的——怎么做呢？有时我们需要自定义方法执行的返回结果，Answer 接口就是满足这样的需求而存在的。
 例如模拟常见的 request.getAttribute(key)，由于这本来是个接口，所以连内部实现都要自己写了。此次通过 Answer 接口获取参数内容。
 
-```
+```java
 final Map<String, Object> hash = new HashMap<String, Object>();
 Answer<String> aswser = new Answer<String>() {
     public String answer(InvocationOnMock invocation) {
@@ -188,7 +188,7 @@ verify(mapMock).put(anyInt(), eq("hello"));
 
 spy 的意思是你可以修改某个真实对象的某些方法的行为特征，而不改变他的基本行为特征，这种策略的使用跟 AOP 有点类似。下面举官方的例子来说明：
 
-```
+```java
 List list = new LinkedList();
 List spy = spy(list);
 
@@ -208,57 +208,55 @@ System.out.println(spy.size());
 //optionally, you can verify
 verify(spy).add("one");
 verify(spy).add("two");
-
-
 ```
 
 可以看到 spy 保留了 list 的大部分功能，只是将它的 size() 方法改写了。不过 spy 在使用的时候有很多地方需要注意，一不小心就会导致问题，所以不到万不得已还是不要用 spy。
 
-```
-    @Test
-    public void save() {
-        User user = new User();
-        user.setLoginName("admin");
-        // 第一次调用findUserByLoginName返回user 第二次调用返回null
-        when(mockUserDao.findUserByLoginName(anyString())).thenReturn(user).thenReturn(null);
-        try {
-            // 测试如果重名会抛出异常
-            userService.save(user);
-            // 如果没有抛出异常测试不通过
-            failBecauseExceptionWasNotThrown(RuntimeException.class);
-        } catch (ServiceException se) {
-        }
-        verify(mockUserDao).findUserByLoginName("admin");
-
-        // userService.save(user);
-        user.setPassword("123456");
-        String userId = userService.save(user);
-        // 断言返回结果
-        assertThat(userId).isNotEmpty().hasSize(32);
-        verify(mockUserDao, times(2)).findUserByLoginName(anyString());
-        verify(mockUserDao).save(any(User.class));
-    }
-
-    @Test
-    public void save2() {
-        User user = new User();
-        user.setLoginName("admin");
-        user.setPassword("123456");
+```java
+@Test
+public void save() {
+    User user = new User();
+    user.setLoginName("admin");
+    // 第一次调用findUserByLoginName返回user 第二次调用返回null
+    when(mockUserDao.findUserByLoginName(anyString())).thenReturn(user).thenReturn(null);
+    try {
+        // 测试如果重名会抛出异常
         userService.save(user);
-
-        // 通过ArgumentCaptor(参数捕获器) 对传入参数进行验证
-        ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
-        verify(mockUserDao).save(argument.capture());
-        assertThat("admin").isEqualTo(argument.getValue().getLoginName());
-
-        // stub 调用save方法时抛出异常
-        doThrow(new ServiceException("测试抛出异常")).when(mockUserDao).save(any(User.class));
-        try {
-            userService.save(user);
-            failBecauseExceptionWasNotThrown(RuntimeException.class);
-        } catch (ServiceException se) {
-        }
+        // 如果没有抛出异常测试不通过
+        failBecauseExceptionWasNotThrown(RuntimeException.class);
+    } catch (ServiceException se) {
     }
+    verify(mockUserDao).findUserByLoginName("admin");
+
+    // userService.save(user);
+    user.setPassword("123456");
+    String userId = userService.save(user);
+    // 断言返回结果
+    assertThat(userId).isNotEmpty().hasSize(32);
+    verify(mockUserDao, times(2)).findUserByLoginName(anyString());
+    verify(mockUserDao).save(any(User.class));
+}
+
+@Test
+public void save2() {
+    User user = new User();
+    user.setLoginName("admin");
+    user.setPassword("123456");
+    userService.save(user);
+
+    // 通过ArgumentCaptor(参数捕获器) 对传入参数进行验证
+    ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
+    verify(mockUserDao).save(argument.capture());
+    assertThat("admin").isEqualTo(argument.getValue().getLoginName());
+
+    // stub 调用save方法时抛出异常
+    doThrow(new ServiceException("测试抛出异常")).when(mockUserDao).save(any(User.class));
+    try {
+        userService.save(user);
+        failBecauseExceptionWasNotThrown(RuntimeException.class);
+    } catch (ServiceException se) {
+    }
+}
 ```
 
 ## 模拟 Servlet
