@@ -1,5 +1,7 @@
 # Java HashMap
 
+我们主要结合源码，从存储结构、常用方法分析、扩容以及安全性等方面深入讲解 HashMap 的工作原理。
+
 ## Performance Benchmark
 
 HashMap 中，如果 key 经过 hash 算法得出的数组索引位置全部不相同，即 Hash 算法非常好，那样的话，getKey 方法的时间复杂度就是 O(1)，如果 Hash 算法技术的结果碰撞非常多，假如 Hash 算极其差，所有的 Hash 算法结果得出的索引位置一样，那样所有的键值对都集中到一个桶 中，或者在一个链表中，或者在一个红黑树中，时间复杂度分别为 O(n)和 O(lgn)。 鉴于 JDK1.8 做了多方面的优化，总体性能优于 JDK1.7，下面我们从两个方面用例子证明这一点。
@@ -433,10 +435,12 @@ e.next = newTable[i] 导致 key(3).next 指向了 key(7)。注意：此时的 ke
 ![](http://tech.meituan.com/img/java-hashmap/jdk1.7%20hashMap%E6%AD%BB%E5%BE%AA%E7%8E%AF%E4%BE%8B%E5%9B%BE4.png)
 于是，当我们用线程一调用 map.get(11)时，悲剧就出现了——Infinite Loop。
 
-- [LinkedHashMap 原理解析](http://uule.iteye.com/blog/1522291)
-
 # 链接
 
 - [hashmap-changes-in-java-8/](https://examples.javacodegeeks.com/core-java/util/hashmap/hashmap-changes-in-java-8/)
 
 - [Java8 系列之重新认识 HashMap](http://www.importnew.com/20386.html)
+
+- [LinkedHashMap 原理解析](http://uule.iteye.com/blog/1522291)
+
+- [Java HashMap 原理解析](https://github.com/HelloListen/Secret/blob/master/content/post/2016/05/java-hashmap-hashcode-hash.md)
