@@ -4,6 +4,7 @@ errgroup 为我们提供了对于多个异步任务的编排特性，包括同�
 
 ```go
 package main
+
 import (
     "context"
     "fmt"
@@ -11,6 +12,7 @@ import (
     "os"
     "golang.org/x/sync/errgroup"
 )
+
 func readFiles(ctx context.Context, files []string) ([]string, error) {
     g, ctx := errgroup.WithContext(ctx)
     results := make([]string, len(files))
@@ -29,6 +31,7 @@ func readFiles(ctx context.Context, files []string) ([]string, error) {
     }
     return results, nil
 }
+
 func main() {
     var files = []string{
         "file1",
