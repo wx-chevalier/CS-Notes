@@ -1,5 +1,28 @@
 # Java Stream
 
+# 操作符
+
+Java Stream 中最核心的就是操作符，往往某个 Stream 由多个中间操作符（Intermediate Operations）以及最终操作符（Terminal Operation）构成。中间操作符会依次获取并且处理元素，所有的最终操作符都是懒操作的，仅在流启动之后才会工作。
+
+## 流变换
+
+peek 操作符往往被用于调试，或者在变换之中进行某些元素操作：
+
+```java
+// 用于打印中间状态
+Stream.of("one", "two", "three", "four")
+  .filter(e -> e.length() > 3)
+  .peek(e -> System.out.println("Filtered value: " + e))
+  .map(String::toUpperCase)
+  .peek(e -> System.out.println("Mapped value: " + e))
+  .collect(Collectors.toList());
+
+// 用于修改初始状态
+Stream<User> userStream = Stream.of(new User("Alice"), new User("Bob"), new User("Chuck"));
+userStream.peek(u -> u.setName(u.getName().toLowerCase()))
+.forEach(System.out::println);
+```
+
 # Parallel Stream
 
 Looking at the stream’s parallel method, you may wonder where the threads used by the parallel stream come from, how many there are, and how you can customize the process. Parallel streams internally use the default `ForkJoinPool`, which by default has as many threads as you have processors, as returned by `Runtime.getRuntime().availableProcessors()`. But you can change the size of this pool using the system property `java.util.concurrent.ForkJoinPool.common.parallelism`.
