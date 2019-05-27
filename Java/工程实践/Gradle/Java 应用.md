@@ -45,23 +45,24 @@ $ gradle build
 
 输出的每一行都表示一个可执行的任务，你可能注意到有一些任务标记为 UP_TO-DATE,这意味着这些任务被跳过了，gradle 能够自动检查哪些部分没有发生改变，就把这部分标记下来，省的重复执行。在大型的企业项目中可以节省不少时间。执行完 gradle build 之后项目结构应该是类似这样的：
 
-![](https://lippiouyang.gitbooks.io/gradle-in-action-cn/content/images/dag13.png)![](https://lippiouyang.gitbooks.io/gradle-in-action-cn/content/images/dag14.png)
+![](https://lippiouyang.gitbooks.io/gradle-in-action-cn/content/images/dag13.png)
 
-在项目的根目录你可以找到一个 build 目录，这里包含了所有的输出，包含 class 文件，测试报告，打包的 jar 文件，以及一些用来归档的临时文件。如果你之前使用过 maven,它的标准输出是 target，这两个结构应该很类似。jar 文件目录 build/libs 下可以直接运行，jar 文件的名称直接由项目名称得来的，这里是 todo-app。
+![](https://lippiouyang.gitbooks.io/gradle-in-action-cn/content/images/dag14.png)
+
+在项目的根目录你可以找到一个 build 目录，这里包含了所有的输出，包含 class 文件，测试报告，打包的 jar 文件，以及一些用来归档的临时文件。如果你之前使用过 maven，它的标准输出是 target，这两个结构应该很类似。jar 文件目录 build/libs 下可以直接运行，jar 文件的名称直接由项目名称得来的。
 
 ## 自定义属性
 
-Java 插件是一个非常固执的框架，对于项目很多的方面它都假定有默认值，比如项目布局，如果你看待世界的方法是不一样的，Gradle 给你提供了一个自定义约定的选项。想知道哪些东西是可以配置的？可以参考这个手册：http://www.gradle.org/docs/current/dsl/，之前提到过，运行命令行gradle properties 可以列出可配置的标准和插件属性以及他们的默认值。
+Java 插件是一个非常固执的框架，对于项目很多的方面它都假定有默认值，比如项目布局，如果你看待世界的方法是不一样的，Gradle 给你提供了一个自定义约定的选项。想知道哪些东西是可以配置的？可以参考这个手册：http://www.gradle.org/docs/current/dsl/，之前提到过，运行命令行 gradle properties 可以列出可配置的标准和插件属性以及他们的默认值。
 
-```
-//Identifies project’sversion through a number scheme
+```groovy
+// Identifies project’sversion through a number scheme
 version = 0.1
 
-//Sets Java version compilation compatibility to 1.6
+// Sets Java version compilation compatibility to 1.6
 sourceCompatibility = 1.6
 
-//Adds Main-Class header to JAR file’s manifest
-
+// Adds Main-Class header to JAR file’s manifest
 jar {
     manifest {
         attributes 'Main-Class': 'com.manning.gia.todo.ToDoApp'
@@ -71,51 +72,26 @@ jar {
 
 打包成 JAR 之后，你会发现 JAR 文件的名称变成了 todo-app-0.1.jar，这个 jar 包含了 main-class 首部，你就可以通过命令 java -jar build/libs/todo-app-0.1.jar 运行了。
 
-## 项目布局
+## 代码目录
 
 ```groovy
 // Replaces conventional source code directory with list of different directories
-
 sourceSets {
     main {
         java {
             srcDirs = ['src']
         }
     }
-// Replaces conventional test source code directory with list of different directories
-
+    // Replaces conventional test source code directory with list of different directories
     test {
         java {
             srcDirs = ['test']
-            }
-        }
-}
-
-// Changes project output property to directory out
-
-buildDir = 'out'
-```
-
-# publish | 发布
-
-## Maven Central
-
-Gradle 构建的项目，发布到仓库中，也非常容易：
-
-```groovy
-apply plugin: 'maven'
-
-uploadArchives {
-    repositories {
-        ivy {
-            credentials {
-                username "username"
-                password "pw"
-            }
-            url "http://repo.mycompany.com"
         }
     }
 }
+
+// Changes project output property to directory out
+buildDir = 'out'
 ```
 
 # 多项目结构
@@ -199,13 +175,35 @@ include 'android', 'ios'
 A
     --settings.gradle
     --core
-    --build.gradle
+      --build.gradle
     --web
-    --build.gradle
+      --build.gradle
     --mobile
-    --settings.gradle
+      --settings.gradle
     --ios
-    --build.gradle
+      --build.gradle
     --android
-    --build.gradle
+      --build.gradle
+```
+
+# Publish | 项目发布
+
+## Maven Central
+
+Gradle 构建的项目，发布到仓库中，也非常容易：
+
+```groovy
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        ivy {
+            credentials {
+                username "username"
+                password "pw"
+            }
+            url "http://repo.mycompany.com"
+        }
+    }
+}
 ```
