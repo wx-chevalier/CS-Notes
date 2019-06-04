@@ -1,6 +1,6 @@
 ![封面](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/1/1-roedigbmFjRYkZobdZWuKg.jpeg)
 
-# [现代 JavaScript 开发：语法基础与工程实践](https://parg.co/bxN)
+# [现代 JavaScript 开发：语法基础与工程实践](https://url.wx-coder.cn/lrKga)
 
 `Copyright © 王下邀月熊`
 

@@ -1,4 +1,4 @@
-[![返回目录](https://parg.co/USw)](https://parg.co/bxN)
+[![返回目录](https://i.postimg.cc/KvQbty96/image.png)](https://url.wx-coder.cn/lrKga)
 
 > [基于 Flow 的静态类型检测：努力实现无痛地类型校验]()
 

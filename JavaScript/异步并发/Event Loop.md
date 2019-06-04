@@ -1,4 +1,4 @@
-[![返回目录](https://parg.co/USw)](https://parg.co/bxN)
+[![返回目录](https://i.postimg.cc/KvQbty96/image.png)](https://url.wx-coder.cn/lrKga)
 
 # JavaScript Event Loop 与并发编程浅述
 
