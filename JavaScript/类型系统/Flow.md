@@ -8,14 +8,13 @@
 
 Flow 是针对 JavaScript 代码的静态类型检查工具，它能够提升项目的鲁棒性与代码的健壮性，并且使得代码以更高性能、可扩展地运行。Flow 通过为代码添加静态类型注解以进行类型推导与检查，基础的用法如下：
 
-```
+```js
 // @flow
 function square(n: number): number {
-  return n * n;
+  return n * n;
 }
 
-
-square("2"); // Error!
+square('2'); // Error!
 ```
 
 实际上 Flow 可以通过自动类型推断来帮我们推导出变量类型，因此我们只需要为代码添加最小的类型声明，Flow 即会为我们推导出完整的依赖图：

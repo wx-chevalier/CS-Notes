@@ -13,9 +13,9 @@ executor.submit(() -> {
 
 # 创建线程池
 
-Java通过Executors提供四种线程池，分别为：
+Java 通过 Executors 提供四种线程池，分别为：
 
-- newCachedThreadPool创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
+- newCachedThreadPool 创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
 
 - newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
 
@@ -75,7 +75,6 @@ executor.scheduleAtFixedRate(task, initialDelay, period, TimeUnit.SECONDS);
 ```
 
 另外，这个方法还接收一个初始化延迟，用来指定这个任务首次被执行等待的时长。需要注意的是，`scheduleAtFixedRate()` 并不考虑任务的实际用时。所以，如果你指定了一个 period 为 1 分钟而任务需要执行 2 分钟，那么线程池为了性能会更快的执行。在这种情况下，你应该考虑使用 scheduleWithFixedDelay()。这个方法的工作方式与上我们上面描述的类似。不同之处在于等待时间 period 的应用是在一次任务的结束和下一个任务的开始之间。
-
 
 # 任务提交
 
@@ -572,4 +571,3 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
 ## Concurrence Test
 
 - [concurrency-torture-testing-your-code-within-the-java-memory-model](http://zeroturnaround.com/rebellabs/concurrency-torture-testing-your-code-within-the-java-memory-model/)
-
