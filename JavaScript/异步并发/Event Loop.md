@@ -232,7 +232,7 @@ Vue.nextTick(function() {
 });
 ```
 
-在组件内使用 vm.\$nextTick() 实例方法特别方便，因为它不需要全局 Vue ，并且回调函数中的 this 将自动绑定到当前的 Vue 实例上：
+在组件内使用 `vm.$nextTick()` 实例方法特别方便，因为它不需要全局 Vue，并且回调函数中的 this 将自动绑定到当前的 Vue 实例上：
 
 ```js
 Vue.component('example', {
