@@ -1,24 +1,16 @@
 # 编程语言语法基础与工程实践
 
-![default](https://i.postimg.cc/y1QXgJ6f/image.png)
-
-**建议前往 [xCompass](https://wx-chevalier.github.io/home/#/search)/[alfred-sg](https://github.com/wx-chevalier/Soogle/tree/master/alfred-sg) 交互式地检索、查找需要的文章/链接/书籍/课程，或者直接浏览本仓库的目录以了解更多内容。**
+参考[某熊的技术之路指北 ☯](https://github.com/wx-chevalier/Developer-Zero-To-Mastery)中对于知识结构的划分，本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记。
 
 # Nav | 导航
 
-本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记，主要分为以下文章/随笔：
+接下来，您可以选择感兴趣的篇章进行阅读：
 
-- [ProgrammingLanguage Theory Primer/编程语言理论指南](./Theory)
+| [ProgrammingLanguage Theory Primer/编程语言理论指南](./编程语言理论) | [JavaScript 篇](./JavaScript) | [Java 篇](./Java) | [Python 篇](./Python) | [Go 篇](./Go) | [Rust 篇](./Rust) |
+| -------------------------------------------------------------------- | ----------------------------- | ----------------- | --------------------- | ------------- | ----------------- |
 
-- [JavaScript 篇](./JavaScript): JavaScript 终于成为了一流(First Class)语言。
 
-- [现代 Java 开发基础与工程实践](./Java): 面向对象，面向自己，鉴于内容较多，又细分为：[基础篇](./Java/Fundamentals)，[进阶篇](./Java/DevOps)，[并发编程篇](./Java/ConcurrentProgramming)，[JVM 篇](./Java/JVM)。
-
-- [现代 Python 开发基础与工程实践](./Python): 人生苦短，请用 Python。
-
-- [Go 开发基础与工程实践](./Rust): 简单易用，天然并发。
-
-- [Rust 开发基础与工程实践](./Rust): 安全不易学。
+您还可以前往 [xCompass](https://wx-chevalier.github.io/home/#/search)/[alfred-sg](https://github.com/wx-chevalier/Soogle/tree/master/alfred-sg) 交互式地检索、查找需要的文章/链接/书籍/课程，或者直接浏览本仓库的目录以了解更多内容。
 
 # 前言 | Preface
 
@@ -35,4 +27,4 @@
 
 笔者所有文章遵循 [知识共享 署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh)，欢迎转载，尊重版权。如果觉得本系列对你有所帮助，欢迎给我家布丁买点狗粮(支付宝扫码)~
 
-![](https://github.com/wx-chevalier/OSS/blob/master/2017/8/1/Buding.jpg?raw=true)
+![default](https://i.postimg.cc/y1QXgJ6f/image.png)
