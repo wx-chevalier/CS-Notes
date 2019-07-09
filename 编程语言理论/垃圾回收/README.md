@@ -18,16 +18,6 @@
 - **可移植性**：回收器是否能够在提供了较弱内存一致性保证的 CPU 架构上运行？
 - **兼容性**：回收器可以跟哪些编程语言和编译器一起工作？它可以跟那些并非为 GC 设计的编程语言一起工作吗，比如 C++？它要求对编译器作出改动吗？如果是，那么是否意味着改变 GC 算法就需要对程序和依赖项进行重新编译？
 
-## Reference
-
-- [Memory management in various languages](http://www.memorymanagement.org/mmref/lang.html)
-
-- [visualizing-garbage-collection-algorithms](https://spin.atomicobject.com/2014/09/03/visualizing-garbage-collection-algorithms/)
-
-- [mark-and-sweep-garbage-collection-algorithm](http://www.geeksforgeeks.org/mark-and-sweep-garbage-collection-algorithm/)
-
-- [Modern Garbage Collection](https://medium.com/@octskyward/modern-garbage-collection-911ef4f8bd8e#.e8fq0wq0r)
-
 # Reference Counting Collector:引用计数
 
 # Mark Sweep:标记清除
