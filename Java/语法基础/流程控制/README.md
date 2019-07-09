@@ -28,8 +28,6 @@ i = i + 1;
 i = oldValue;
 ```
 
-# 条件选择
-
 # 循环
 
 ## while
