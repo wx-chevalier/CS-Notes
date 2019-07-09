@@ -4,7 +4,7 @@
 
 # 链接
 
-- http://rockhong.github.io/downloads/Java_GC.png
 - https://mp.weixin.qq.com/s/tfyHwbsNCTjvMGTrfQ0qwQ
 - https://toutiao.io/k/vdlyqj
 - https://mp.weixin.qq.com/s/l42_A6odHwht_UyEbILDzQ?from=groupmessage&isappinstalled=0
+- https://mp.weixin.qq.com/s/m02f-omq5TovMxy1gzETuA
