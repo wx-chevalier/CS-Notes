@@ -1,6 +1,6 @@
 # Summary 
 
-## CPP 
+## [CPP](../CPP/README.md) 
 
 - [导论](../CPP/导论/README.md) 
   - [编译与运行](../CPP/导论/编译与运行.md) 
@@ -15,7 +15,7 @@
   - [变量与表达式](../CPP/语法基础/变量与表达式.md) 
 - [面试准备](../CPP/面试准备/README.md) 
 
-## Go 
+## [Go](../Go/README.md) 
 
 - [Web 开发](../Go/Web 开发/README.md) 
   - [请求处理](../Go/Web 开发/请求处理.md) 
@@ -62,16 +62,18 @@
   - [对象构建](../Go/结构体与接口/对象构建.md) 
   - [接口](../Go/结构体与接口/接口.md) 
   - [结构体](../Go/结构体与接口/结构体.md) 
-- [编码模式](../Go/编码模式/README.md) 
-  - [样式规范](../Go/编码模式/样式规范.md) 
+- [编码规约](../Go/编码规约/README.md) 
+  - [样式规范](../Go/编码规约/样式规范.md) 
 - [集合类型](../Go/集合类型/README.md) 
   - [序列类型](../Go/集合类型/序列类型.md) 
   - [映射类型](../Go/集合类型/映射类型.md) 
 - [面试准备](../Go/面试准备/README.md) 
 
-## Java 
+## [Java](../Java/README.md) 
 
 - [JVM](../Java/JVM/README.md) 
+  - [JDK](../Java/JVM/JDK/README.md) 
+    - [HotSpot](../Java/JVM/JDK/HotSpot.md) 
   - [内存分析](../Java/JVM/内存分析/README.md) 
     - [MAT](../Java/JVM/内存分析/MAT.md) 
     - [内存泄漏](../Java/JVM/内存分析/内存泄漏.md) 
@@ -79,24 +81,32 @@
   - [内存分配](../Java/JVM/内存分配/README.md) 
     - [内存分配](../Java/JVM/内存分配/内存分配.md) 
     - [对象结构](../Java/JVM/内存分配/对象结构.md) 
+    - [数据类型](../Java/JVM/内存分配/数据类型.md) 
     - [逃逸分析](../Java/JVM/内存分配/逃逸分析.md) 
-  - [内存架构](../Java/JVM/内存架构/README.md) 
-    - [内存结构](../Java/JVM/内存架构/内存结构.md) 
-    - [基于栈的架构](../Java/JVM/内存架构/基于栈的架构.md) 
+  - [内存结构](../Java/JVM/内存结构/README.md) 
+    - [Metaspace](../Java/JVM/内存结构/Metaspace.md) 
+    - [堆](../Java/JVM/内存结构/堆.md) 
+    - [栈](../Java/JVM/内存结构/栈.md) 
   - [垃圾回收](../Java/JVM/垃圾回收/README.md) 
     - [CMS](../Java/JVM/垃圾回收/CMS.md) 
     - [G1](../Java/JVM/垃圾回收/G1.md) 
     - [JVM-GarbageCollection](../Java/JVM/垃圾回收/JVM-GarbageCollection.md) 
-    - [基础](../Java/JVM/垃圾回收/基础.md) 
+    - [引用类型](../Java/JVM/垃圾回收/引用类型.md) 
   - [程序执行](../Java/JVM/程序执行/README.md) 
     - [AOP](../Java/JVM/程序执行/AOP.md) 
+    - [JVM 线程](../Java/JVM/程序执行/JVM 线程.md) 
     - [埋点与插桩](../Java/JVM/程序执行/埋点与插桩.md) 
   - [程序编译](../Java/JVM/程序编译/README.md) 
     - [JIT](../Java/JVM/程序编译/JIT.md) 
+    - [分层编译](../Java/JVM/程序编译/分层编译.md) 
+    - [字节码](../Java/JVM/程序编译/字节码.md) 
   - [类](../Java/JVM/类/README.md) 
     - [类加载器](../Java/JVM/类/类加载器.md) 
     - [类加载流程](../Java/JVM/类/类加载流程.md) 
-    - [类文件分析](../Java/JVM/类/类文件分析.md) 
+    - [类文件结构](../Java/JVM/类/类文件结构.md) 
+  - [线上调优](../Java/JVM/线上调优/README.md) 
+    - [参数配置](../Java/JVM/线上调优/参数配置.md) 
+    - [工作模式](../Java/JVM/线上调优/工作模式.md) 
 - [Scala](../Java/Scala/README.md) 
   - [导论](../Java/Scala/导论.md) 
 - [工程实践](../Java/工程实践/README.md) 
@@ -137,7 +147,12 @@
   - [缓存](../Java/工程实践/缓存/README.md) 
     - [应用缓存](../Java/工程实践/缓存/应用缓存.md) 
   - [编码规约](../Java/工程实践/编码规约/README.md) 
+    - [代码规约](../Java/工程实践/编码规约/代码规约.md) 
+    - [安全规约](../Java/工程实践/编码规约/安全规约.md) 
+    - [异常与日志规约](../Java/工程实践/编码规约/异常与日志规约.md) 
     - [性能优化](../Java/工程实践/编码规约/性能优化.md) 
+    - [性能规约](../Java/工程实践/编码规约/性能规约.md) 
+    - [测试规约](../Java/工程实践/编码规约/测试规约.md) 
   - [网络通信](../Java/工程实践/网络通信/README.md) 
     - [Socket](../Java/工程实践/网络通信/Socket.md) 
     - [网络请求](../Java/工程实践/网络通信/网络请求.md) 
@@ -240,9 +255,9 @@
     - [文件系统](../Java/语法基础/文件存储/文件系统.md) 
   - [模块化](../Java/语法基础/模块化/README.md) 
   - [流程控制](../Java/语法基础/流程控制/README.md) 
-    - [流程控制](../Java/语法基础/流程控制/流程控制.md) 
+    - [循环](../Java/语法基础/流程控制/循环.md) 
+    - [条件选择](../Java/语法基础/流程控制/条件选择.md) 
     - [运算符](../Java/语法基础/流程控制/运算符.md) 
-    - [选择](../Java/语法基础/流程控制/选择.md) 
   - [类](../Java/语法基础/类/README.md) 
     - [抽象类与接口](../Java/语法基础/类/抽象类与接口.md) 
     - [注解](../Java/语法基础/类/注解.md) 
@@ -250,7 +265,7 @@
     - [类继承](../Java/语法基础/类/类继承.md) 
   - [终端交互](../Java/语法基础/终端交互/README.md) 
 
-## JavaScript 
+## [JavaScript](../JavaScript/README.md) 
 
 - [Babel](../JavaScript/Babel/README.md) 
   - [语法分析](../JavaScript/Babel/语法分析.md) 
@@ -333,7 +348,7 @@
   - [异步笔试题](../JavaScript/面试准备/异步笔试题.md) 
   - [算法笔试题](../JavaScript/面试准备/算法笔试题.md) 
 
-## Python 
+## [Python](../Python/README.md) 
 
 - [内置数据结构](../Python/内置数据结构/README.md) 
   - [dict](../Python/内置数据结构/dict.md) 
@@ -361,17 +376,18 @@
 - [类与对象](../Python/类与对象/README.md) 
   - [对象](../Python/类与对象/对象.md) 
   - [类的定义](../Python/类与对象/类的定义.md) 
+- [编码规约](../Python/编码规约/README.md) 
 - [静态类型](../Python/静态类型/README.md) 
   - [typing](../Python/静态类型/typing.md) 
 - [面试准备](../Python/面试准备/README.md) 
 
-## Rust 
+## [Rust](../Rust/README.md) 
 
 - [导论](../Rust/导论/README.md) 
   - [Rust 初窥](../Rust/导论/Rust 初窥.md) 
-- [面试准备](../Rust/面试准备/README.md) 
+- [编码规约](../Rust/编码规约/README.md) 
 
-## Swift 
+## [Swift](../Swift/README.md) 
 
 - [函数](../Swift/函数.md) 
 - [初窥与语法速览](../Swift/初窥与语法速览.md) 
@@ -382,14 +398,20 @@
 - [调试与测试](../Swift/调试与测试.md) 
 - [面试准备](../Swift/面试准备/README.md) 
 
-## 编程语言理论 
+## [编程语言理论](../编程语言理论/README.md) 
 
 - [内存管理](../编程语言理论/内存管理/README.md) 
 - [垃圾回收](../编程语言理论/垃圾回收/README.md) 
+  - [引用计数](../编程语言理论/垃圾回收/引用计数.md) 
+  - [标记清除](../编程语言理论/垃圾回收/标记清除.md) 
 - [导论](../编程语言理论/导论/README.md) 
   - [编译原理概述](../编程语言理论/导论/编译原理概述.md) 
 - [类型](../编程语言理论/类型/README.md) 
   - [类型安全](../编程语言理论/类型/类型安全.md) 
+- [类型编码](../编程语言理论/类型编码/README.md) 
+  - [字符编码](../编程语言理论/类型编码/字符编码.md) 
+  - [数值类型](../编程语言理论/类型编码/数值类型.md) 
+  - [文本类型](../编程语言理论/类型编码/文本类型.md) 
 - [编程范式](../编程语言理论/编程范式/README.md) 
   - [事件驱动编程](../编程语言理论/编程范式/事件驱动编程/README.md) 
   - [元编程](../编程语言理论/编程范式/元编程/README.md) 
