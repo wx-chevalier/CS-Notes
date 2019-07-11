@@ -1,4 +1,3 @@
-> [Clean JavaScript: 写出整洁的 JavaScript 代码](https://zhuanlan.zhihu.com/p/24761475)翻译自[clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)。本文从属于笔者的[Web 前端入门与工程实践](https://github.com/wx-chevalier/Web-Frontend-Introduction-And-Engineering-Practices)。
 
 ![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/1/1/wtfm.jpg)
 
@@ -850,10 +849,10 @@ inventoryTracker("apples", req, "www.inventory-awesome.io");
 
 在 JavaScript 的对象属性读写中，建议使用 getter 或者 setter，而不是直接读取或者赋值。不过 JavaScript 并没有类似于 public 或者 private 这样的关键字，因此很难通过接口方式进行强限制。不过鉴于以下优势我们还是强烈建议使用 getter 或者 setter: 1. 如果你打算不仅仅是直接获取原始值，使用 getter 能够避免去修改每个取值的地方。 2. 使用`set`能够方便地添加校验。
 
-3. 封装内部表述。
-4. 便于添加日志与错误处理。
-5. 通过继承能够复写默认功能。
-6. 支持属性懒加载。
+1. 封装内部表述。
+2. 便于添加日志与错误处理。
+3. 通过继承能够复写默认功能。
+4. 支持属性懒加载。
 
 **Bad:**
 

@@ -86,7 +86,9 @@ function shallowEqual(objA, objB) {
 
 > 本文从属于笔者的[JavaScript 入门与最佳实践]()系列文章。Object 是 JavaScript 中常用的数据结构之一，其兼具了集合与对象的特性。在整个 JavaScript 基础的类与对象的知识点中，我们会考虑[JavaScript Object 集合与对象特性详解]()、[JavaScript Class 详解]()、[JavaScript 中 this 指针详解]()以及[JavaScript 面向对象编程]()这几个部分。
 
-# ObjectObject 在 JavaScript 中可谓一个神奇的东西，除了 Function，其他的元素在 typeof 关键字之后都会被解释成 object。在 JavaScript 中，Object 是面向对象概念中的对象与字典类型中的混合。因此笔者将其独开一章进行阐述。
+# Object
+
+Object 在 JavaScript 中可谓一个神奇的东西，除了 Function，其他的元素在 typeof 关键字之后都会被解释成 object。在 JavaScript 中，Object 是面向对象概念中的对象与字典类型中的混合。因此笔者将其独开一章进行阐述。
 
 `typeof Object === "function"typeof {} === "object"`## Object 中的 Key 类别 JavaScript 中 Object 是一个混合了类似于 Dictionary 与 Class 的用法，基本上来说也是一种键值类型。其中键的类型主要包含四种：- Identifier: 包含任何[有效地](https://mathiasbynens.be/notes/javascript-identifiers-es6)标识符，包括了 ES 的保留关键字。- 字符串 :single (`'`) or double (`"`) quotes. `'foo'`, `"bar"`,`'qu\'ux'`, `""` (the empty string), and `'Ich \u2665 B\xFCcher'` are all valid string literals.- 数字 :decimal literal (e.g. `0`, `123`, `123.`, `.123`, `1.23`, `1e23`, `1E-23`, `1e+23`, `12`, but not `01`, `+123` or `-123`) or a hex integer literal (`0[xX][0-9a-fA-F]+` in regex, e.g. `0xFFFF`, `0X123`,`0xaBcD`).
 
