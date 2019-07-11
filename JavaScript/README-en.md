@@ -1,1 +1,0 @@
-# Modern JavaScript Development Foundation
