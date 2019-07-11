@@ -248,7 +248,7 @@ Webpack 打包工具也使用了很多扩展，譬如 `require.ensure`、`requir
 
 就在 CommonJS 规范火热讨论的同时，很多开发者也关注于如何实现模块的异步加载。Web 应用的性能优化一直是前端工程实践中不可避免的问题，而模块的异步加载以及预加载等机制能有效地优化 Web 应用的加载速度。Mozilla 的另一位雇员 [James Burke](https://github.com/jrburke)  是[讨论组](https://groups.google.com/forum/#!msg/commonjs/nbpX739RQ5o/SdpVQDtx88AJ)的活跃成员，他在 Dojo 1.7 版本中引入了异步模块机制，并且在 2009 年开发了 require.js 框架。James 的核心思想在于不应该以同步方式加载模块，而应该充分利用浏览器的并发加载能力；James 按照其设计理念开发出的模块工具就是 AMD(Asynchronous Module Definition)，其基本形式如下：
 
-```javascript
+```js
 define(['amd-module', '../file'], function(amdModule, file) {
   require(['big-module/big/file'], function(big) {
     var stuff = require('../my/stuff');

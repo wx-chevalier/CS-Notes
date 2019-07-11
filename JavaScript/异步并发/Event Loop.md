@@ -71,7 +71,7 @@ fire();
 
 这里还值得一提的是，Promise.then 是异步执行的，而创建 Promise 实例 (executor) 是同步执行的，譬如下述代码：
 
-```javascript
+```js
 (function test() {
   setTimeout(function() {
     console.log(4);

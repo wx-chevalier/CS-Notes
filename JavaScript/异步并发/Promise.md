@@ -133,7 +133,7 @@ async function reduceArray() {
 // [ Promise { <pending> }, Promise { <pending> }, Promise { <pending> }, Promise { <pending> } ]
 ```
 
-```javascript
+```js
 filterArray().then(v => {
   console.log(v);
 });

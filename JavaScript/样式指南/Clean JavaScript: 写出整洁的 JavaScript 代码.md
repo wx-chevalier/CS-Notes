@@ -14,13 +14,13 @@
 
 **Bad:**
 
-```javascript
+```js
 var yyyymmdstr = moment().format("YYYY/MM/DD");
 ```
 
 **Good**:
 
-```javascript
+```js
 var yearMonthDay = moment().format("YYYY/MM/DD");
 ```
 
@@ -28,7 +28,7 @@ var yearMonthDay = moment().format("YYYY/MM/DD");
 
 **Bad:**
 
-```javascript
+```js
 getUserInfo();
 getClientData();
 getCustomerRecord();
@@ -36,7 +36,7 @@ getCustomerRecord();
 
 **Good**:
 
-```javascript
+```js
 getUser();
 ```
 
@@ -46,7 +46,7 @@ getUser();
 
 **Bad:**
 
-```javascript
+```js
 //525600到底啥意思？
 for (var i = 0; i < 525600; i++) {
   runCronJob();
@@ -55,7 +55,7 @@ for (var i = 0; i < 525600; i++) {
 
 **Good**:
 
-```javascript
+```js
 // 声明为全局变量
 var MINUTES_IN_A_YEAR = 525600;
 for (var i = 0; i < MINUTES_IN_A_YEAR; i++) {
@@ -67,7 +67,7 @@ for (var i = 0; i < MINUTES_IN_A_YEAR; i++) {
 
 **Bad:**
 
-```javascript
+```js
 let cityStateRegex = /^(.+)[,\\s]+(.+?)\s*(\d{5})?$/;
 saveCityState(
   cityStateRegex.match(cityStateRegex)[1],
@@ -77,7 +77,7 @@ saveCityState(
 
 **Good**:
 
-```javascript
+```js
 let cityStateRegex = /^(.+)[,\\s]+(.+?)\s*(\d{5})?$/;
 let match = cityStateRegex.match(cityStateRegex);
 let city = match[1];
@@ -91,7 +91,7 @@ saveCityState(city, state);
 
 **Bad:**
 
-```javascript
+```js
 var locations = ['Austin', 'New York', 'San Francisco'];
 locations.forEach((l) => {
   doStuff();
@@ -106,7 +106,7 @@ locations.forEach((l) => {
 
 **Good**:
 
-```javascript
+```js
 var locations = ['Austin', 'New York', 'San Francisco'];
 locations.forEach((location) => {
   doStuff();
@@ -124,7 +124,7 @@ locations.forEach((location) => {
 
 **Bad:**
 
-```javascript
+```js
 var Car = {
   carMake: "Honda",
   carModel: "Accord",
@@ -138,7 +138,7 @@ function paintCar(car) {
 
 **Good**:
 
-```javascript
+```js
 var Car = {
   make: "Honda",
   model: "Accord",
@@ -154,7 +154,7 @@ function paintCar(car) {
 
 **Bad:**
 
-```javascript
+```js
 function createMicrobrewery(name) {
   var breweryName;
   if (name) {
@@ -167,7 +167,7 @@ function createMicrobrewery(name) {
 
 **Good**:
 
-```javascript
+```js
 function createMicrobrewery(name) {
   var breweryName = name || "Hipster Brew Co.";
 }
@@ -181,7 +181,7 @@ function createMicrobrewery(name) {
 
 **Bad:**
 
-```javascript
+```js
 function createMenu(title, body, buttonText, cancellable) {
   ...
 }
@@ -189,7 +189,7 @@ function createMenu(title, body, buttonText, cancellable) {
 
 **Good**:
 
-```javascript
+```js
 var menuConfig = {
   title: 'Foo',
   body: 'Bar',
@@ -208,7 +208,7 @@ function createMenu(menuConfig) {
 
 **Bad:**
 
-```javascript
+```js
 function emailClients(clients) {
   clients.forEach(client => {
     let clientRecord = database.lookup(client);
@@ -221,7 +221,7 @@ function emailClients(clients) {
 
 **Good**:
 
-```javascript
+```js
 function emailClients(clients) {
   clients.forEach(client => {
     emailClientIfNeeded(client);
@@ -244,7 +244,7 @@ function isClientActive(client) {
 
 **Bad:**
 
-```javascript
+```js
 function dateAdd(date, month) {
   // ...
 }
@@ -257,7 +257,7 @@ dateAdd(date, 1);
 
 **Good**:
 
-```javascript
+```js
 function dateAddMonth(date, month) {
   // ...
 }
@@ -272,7 +272,7 @@ dateAddMonth(date, 1);
 
 **Bad:**
 
-```javascript
+```js
 function parseBetterJSAlternative(code) {
   let REGEXES = [
     // ...
@@ -299,7 +299,7 @@ function parseBetterJSAlternative(code) {
 
 **Good**:
 
-```javascript
+```js
 function tokenize(code) {
   let REGEXES = [
     // ...
@@ -340,7 +340,7 @@ function parseBetterJSAlternative(code) {
 
 **Bad:**
 
-```javascript
+```js
 function showDeveloperList(developers) {
   developers.forEach(developers => {
     var expectedSalary = developer.calculateExpectedSalary();
@@ -374,7 +374,7 @@ function showManagerList(managers) {
 
 **Good**:
 
-```javascript
+```js
 function showList(employees) {
   employees.forEach(employee => {
     var expectedSalary = employee.calculateExpectedSalary();
@@ -402,7 +402,7 @@ function showList(employees) {
 
 **Bad:**
 
-```javascript
+```js
 function writeForumComment(subject, body) {
   subject = subject || "No Subject";
   body = body || "No text";
@@ -411,7 +411,7 @@ function writeForumComment(subject, body) {
 
 **Good**:
 
-```javascript
+```js
 function writeForumComment(subject = 'No subject', body = 'No text') {
   ...
 }
@@ -421,7 +421,7 @@ function writeForumComment(subject = 'No subject', body = 'No text') {
 
 **Bad:**
 
-```javascript
+```js
 var menuConfig = {
   title: null,
   body: "Bar",
@@ -442,7 +442,7 @@ createMenu(menuConfig);
 
 **Good**:
 
-```javascript
+```js
 var menuConfig = {
   title: "Order",
   // User did not include 'body' key
@@ -474,7 +474,7 @@ createMenu(menuConfig);
 
 **Bad:**
 
-```javascript
+```js
 function createFile(name, temp) {
   if (temp) {
     fs.create("./temp/" + name);
@@ -486,7 +486,7 @@ function createFile(name, temp) {
 
 **Good**:
 
-```javascript
+```js
 function createTempFile(name) {
   fs.create("./temp/" + name);
 }
@@ -502,7 +502,7 @@ function createFile(name) {
 
 **Bad:**
 
-```javascript
+```js
 // 定义全局变量
 // 如果我们有其他的函数引用了该变量，那么我们就无法预测该变量类型
 var name = "Ryan McDermott";
@@ -518,7 +518,7 @@ console.log(name); // ['Ryan', 'McDermott'];
 
 **Good**:
 
-```javascript
+```js
 function splitIntoFirstAndLastName(name) {
   return name.split(" ");
 }
@@ -536,7 +536,7 @@ JavaScript 中有个不太好的实践就是修改某个全局函数，将其指
 
 **Bad:**
 
-```javascript
+```js
 Array.prototype.diff = function(comparisonArray) {
   var values = [];
   var hash = {};
@@ -557,7 +557,7 @@ Array.prototype.diff = function(comparisonArray) {
 
 **Good:**
 
-```javascript
+```js
 class SuperArray extends Array {
   constructor(...args) {
     super(...args);
@@ -588,7 +588,7 @@ JavaScript 并不像 Haskell 这样纯粹的函数式编程语言，不过其对
 
 **Bad:**
 
-```javascript
+```js
 const programmerOutput = [
   {
     name: "Uncle Bobby",
@@ -617,7 +617,7 @@ for (var i = 0; i < programmerOutput.length; i++) {
 
 **Good**:
 
-```javascript
+```js
 const programmerOutput = [
   {
     name: "Uncle Bobby",
@@ -646,7 +646,7 @@ var totalOutput = programmerOutput
 
 **Bad:**
 
-```javascript
+```js
 if (fsm.state === "fetching" && isEmpty(listNode)) {
   /// ...
 }
@@ -654,7 +654,7 @@ if (fsm.state === "fetching" && isEmpty(listNode)) {
 
 **Good**:
 
-```javascript
+```js
 function shouldShowSpinner(fsm, listNode) {
   return fsm.state === "fetching" && isEmpty(listNode);
 }
@@ -668,7 +668,7 @@ if (shouldShowSpinner(fsmInstance, listNodeInstance)) {
 
 **Bad:**
 
-```javascript
+```js
 function isDOMNodeNotPresent(node) {
   // ...
 }
@@ -680,7 +680,7 @@ if (!isDOMNodeNotPresent(node)) {
 
 **Good**:
 
-```javascript
+```js
 function isDOMNodePresent(node) {
   // ...
 }
@@ -696,7 +696,7 @@ if (isDOMNodePresent(node)) {
 
 **Bad:**
 
-```javascript
+```js
 class Airplane {
   //...
   getCruisingAltitude() {
@@ -714,7 +714,7 @@ class Airplane {
 
 **Good**:
 
-```javascript
+```js
 class Airplane {
   //...
 }
@@ -747,7 +747,7 @@ class Cesna extends Airplane {
 
 **Bad:**
 
-```javascript
+```js
 function travelToTexas(vehicle) {
   if (vehicle instanceof Bicycle) {
     vehicle.peddle(this.currentLocation, new Location("texas"));
@@ -759,7 +759,7 @@ function travelToTexas(vehicle) {
 
 **Good**:
 
-```javascript
+```js
 function travelToTexas(vehicle) {
   vehicle.move(this.currentLocation, new Location("texas"));
 }
@@ -771,7 +771,7 @@ function travelToTexas(vehicle) {
 
 **Bad:**
 
-```javascript
+```js
 function combine(val1, val2) {
   if (
     (typeof val1 == "number" && typeof val2 == "number") ||
@@ -786,7 +786,7 @@ function combine(val1, val2) {
 
 **Good**:
 
-```javascript
+```js
 function combine(val1, val2) {
   return val1 + val2;
 }
@@ -798,7 +798,7 @@ function combine(val1, val2) {
 
 **Bad:**
 
-```javascript
+```js
 // On old browsers, each iteration would be costly because `len` would be
 // recomputed. In modern browsers, this is optimized.
 for (var i = 0, len = list.length; i < len; i++) {
@@ -808,7 +808,7 @@ for (var i = 0, len = list.length; i < len; i++) {
 
 **Good**:
 
-```javascript
+```js
 for (var i = 0; i < list.length; i++) {
   // ...
 }
@@ -820,7 +820,7 @@ for (var i = 0; i < list.length; i++) {
 
 **Bad:**
 
-```javascript
+```js
 function oldRequestModule(url) {
   // ...
 }
@@ -835,7 +835,7 @@ inventoryTracker("apples", req, "www.inventory-awesome.io");
 
 **Good**:
 
-```javascript
+```js
 function newRequestModule(url) {
   // ...
 }
@@ -857,7 +857,7 @@ inventoryTracker("apples", req, "www.inventory-awesome.io");
 
 **Bad:**
 
-```javascript
+```js
 class BankAccount {
   constructor() {
     this.balance = 1000;
@@ -872,7 +872,7 @@ bankAccount.balance = bankAccount.balance - 100;
 
 **Good**:
 
-```javascript
+```js
 class BankAccount {
   constructor() {
     this.balance = 1000;
@@ -898,7 +898,7 @@ bankAccount.withdraw(100);
 
 **Bad:**
 
-```javascript
+```js
 var Employee = function(name) {
   this.name = name;
 };
@@ -915,7 +915,7 @@ console.log("Employee name: " + employee.getName()); // Employee name: undefined
 
 **Good**:
 
-```javascript
+```js
 var Employee = (function() {
   function Employee(name) {
     this.getName = function() {
@@ -940,7 +940,7 @@ console.log("Employee name: " + employee.getName()); // Employee name: John Doe
 
 **Bad:**
 
-```javascript
+```js
 class UserSettings {
   constructor(user) {
     this.user = user;
@@ -960,7 +960,7 @@ class UserSettings {
 
 **Good**:
 
-```javascript
+```js
 class UserAuth {
   constructor(user) {
     this.user = user;
@@ -991,7 +991,7 @@ class UserSettings {
 
 **Bad:**
 
-```javascript
+```js
 class AjaxRequester {
   constructor() {
     // What if we wanted another HTTP Method, like DELETE? We would have to
@@ -1007,7 +1007,7 @@ class AjaxRequester {
 
 **Good**:
 
-```javascript
+```js
 class AjaxRequester {
   constructor() {
     this.HTTP_METHODS = ["POST", "PUT", "GET"];
@@ -1029,7 +1029,7 @@ class AjaxRequester {
 
 **Bad:**
 
-```javascript
+```js
 class Rectangle {
   constructor() {
     this.width = 0;
@@ -1088,7 +1088,7 @@ renderLargeRectangles(rectangles);
 
 **Good**:
 
-```javascript
+```js
 class Shape {
   constructor() {}
 
@@ -1161,7 +1161,7 @@ JavaScript 本身并不包含对于接口语法的支持，因此也无法像其
 
 **Bad:**
 
-```javascript
+```js
 class DOMTraverser {
   constructor(settings) {
     this.settings = settings;
@@ -1187,7 +1187,7 @@ let $ = new DOMTraverser({
 
 **Good**:
 
-```javascript
+```js
 class DOMTraverser {
   constructor(settings) {
     this.settings = settings;
@@ -1232,7 +1232,7 @@ As stated previously, JavaScript doesn't have interfaces so the abstractions tha
 
 **Bad:**
 
-```javascript
+```js
 class InventoryTracker {
   constructor(items) {
     this.items = items;
@@ -1265,7 +1265,7 @@ inventoryTracker.requestItems();
 
 **Good**:
 
-```javascript
+```js
 class InventoryTracker {
   constructor(items, requester) {
     this.items = items;
@@ -1314,7 +1314,7 @@ inventoryTracker.requestItems();
 
 **Bad:**
 
-```javascript
+```js
 var Animal = function(age) {
   if (!(this instanceof Animal)) {
     throw new Error("Instantiate Animal with `new`");
@@ -1354,7 +1354,7 @@ Human.prototype.speak = function() {};
 
 **Good:**
 
-```javascript
+```js
 class Animal {
   constructor(age) {
     this.age = age;
@@ -1388,7 +1388,7 @@ Against the advice of Clean Code, this is one place where we will have to differ
 
 **Bad:**
 
-```javascript
+```js
 class Car {
   constructor() {
     this.make = "Honda";
@@ -1422,7 +1422,7 @@ car.save();
 
 **Good**:
 
-```javascript
+```js
 class Car {
   constructor() {
     this.make = "Honda";
@@ -1472,7 +1472,7 @@ You might be wondering then, "when should I use inheritance?" It depends on your
 
 **Bad:**
 
-```javascript
+```js
 class Employee {
   constructor(name, email) {
     this.name = name;
@@ -1496,7 +1496,7 @@ class EmployeeTaxData extends Employee {
 
 **Good**:
 
-```javascript
+```js
 class Employee {
   constructor(name, email) {
     this.name = name;
@@ -1527,7 +1527,7 @@ class EmployeeTaxData {
 
 **Bad:**
 
-```javascript
+```js
 const assert = require("assert");
 
 describe("MakeMomentJSGreatAgain", function() {
@@ -1551,7 +1551,7 @@ describe("MakeMomentJSGreatAgain", function() {
 
 **Good**:
 
-```javascript
+```js
 const assert = require("assert");
 
 describe("MakeMomentJSGreatAgain", function() {
@@ -1583,7 +1583,7 @@ describe("MakeMomentJSGreatAgain", function() {
 
 **Bad:**
 
-```javascript
+```js
 require("request").get(
   "https://en.wikipedia.org/wiki/Robert_Cecil_Martin",
   function(err, response) {
@@ -1604,7 +1604,7 @@ require("request").get(
 
 **Good**:
 
-```javascript
+```js
 require("request-promise")
   .get("https://en.wikipedia.org/wiki/Robert_Cecil_Martin")
   .then(function(response) {
@@ -1624,7 +1624,7 @@ Promises 本身已经是对于回调的不错的替代，而 ES7 中的 async �
 
 **Bad:**
 
-```javascript
+```js
 require("request-promise")
   .get("https://en.wikipedia.org/wiki/Robert_Cecil_Martin")
   .then(function(response) {
@@ -1640,7 +1640,7 @@ require("request-promise")
 
 **Good**:
 
-```javascript
+```js
 async function getCleanCodeArticle() {
   try {
     var request = await require("request-promise");
@@ -1667,7 +1667,7 @@ JavaScript 本身是无类型的，因此变量名大写也能传递很多有用
 
 **Bad:**
 
-```javascript
+```js
 var DAYS_IN_WEEK = 7;
 var daysInMonth = 30;
 
@@ -1683,7 +1683,7 @@ class Alpaca {}
 
 **Good**:
 
-```javascript
+```js
 var DAYS_IN_WEEK = 7;
 var DAYS_IN_MONTH = 30;
 
@@ -1703,7 +1703,7 @@ class Alpaca {}
 
 **Bad:**
 
-```javascript
+```js
 class PerformanceReview {
   constructor(employee) {
     this.employee = employee;
@@ -1743,7 +1743,7 @@ review.perfReview();
 
 **Good**:
 
-```javascript
+```js
 class PerformanceReview {
   constructor(employee) {
     this.employee = employee;
@@ -1789,7 +1789,7 @@ review.perfReview();
 
 **Bad:**
 
-```javascript
+```js
 function hashIt(data) {
   // The hash
   var hash = 0;
@@ -1811,7 +1811,7 @@ function hashIt(data) {
 
 **Good**:
 
-```javascript
+```js
 function hashIt(data) {
   var hash = 0;
   var length = data.length;
@@ -1830,7 +1830,7 @@ function hashIt(data) {
 
 **Bad:**
 
-```javascript
+```js
 doStuff();
 // doOtherStuff();
 // doSomeMoreStuff();
@@ -1839,7 +1839,7 @@ doStuff();
 
 **Good**:
 
-```javascript
+```js
 doStuff();
 ```
 
@@ -1849,7 +1849,7 @@ doStuff();
 
 **Bad:**
 
-```javascript
+```js
 /**
  * 2016-12-20: Removed monads, didn't understand them (RM)
  * 2016-10-01: Improved using special monads (JP)
@@ -1863,7 +1863,7 @@ function combine(a, b) {
 
 **Good**:
 
-```javascript
+```js
 function combine(a, b) {
   return a + b;
 }
@@ -1875,7 +1875,7 @@ function combine(a, b) {
 
 **Bad:**
 
-```javascript
+```js
 ////////////////////////////////////////////////////////////////////////////////
 // Scope Model Instantiation
 ////////////////////////////////////////////////////////////////////////////////
@@ -1894,7 +1894,7 @@ let actions = function() {
 
 **Good**:
 
-```javascript
+```js
 let $scope.model = {
   menu: 'foo',
   nav: 'bar'
@@ -1909,7 +1909,7 @@ let actions = function() {
 
 **Bad:**
 
-```javascript
+```js
 /*
 The MIT License (MIT)
 
@@ -1941,7 +1941,7 @@ function calculateBill() {
 
 **Good**:
 
-```javascript
+```js
 function calculateBill() {
   // ...
 }

@@ -136,7 +136,7 @@ console.log(result2);
 // output: 3```注意，用`keys`方法来获取对象尺寸的时候，不会把从原型链上继承来的属性计算在内，譬如：```a = {a:1}
 b = Object.create(a)Object.keys(b).length === 0```### 空判断在JS中要判断一个Object是否为空，需要排除掉从原型链中继承来的属性。``` // Speed up calls to hasOwnProperty var hasOwnProperty = Object.prototype.hasOwnProperty; function isEmpty(obj) {// null and undefined are "empty"if (obj == null) return true;// Assume if it has a length property with a non-zero value// that that property is correct.if (obj.length > 0)return false;if (obj.length === 0)return true;// Otherwise, does it have any properties of its own? // Note that this doesn't handle// toString and valueOf enumeration bugs in IE < 9for (var key in obj) {if (hasOwnProperty.call(obj, key)) return false;}return true; }`````` isEmpty(""), // true isEmpty([]), // true isEmpty({}), // true isEmpty({length: 0, custom_property: []}), // true isEmpty("Hello"), // false isEmpty([1,2,3]), // false isEmpty({test: 1}), // false isEmpty({length: 3, custom_property: [1,2,3]}) // false```如果只需要兼容ECMAScript5的浏览器的话，那可以调用`Object.getOwnPropertyNames`方法来判断是否有自定义属性：``` if (Object.getOwnPropertyNames(obj).length > 0) return false;```## Reference> - [javascript-properties](https://mathiasbynens.be/notes/javascript-properties)- [阮一峰-面向对象编程-封装](http://javascript.ruanyifeng.com/oop/encapsulation.html#toc4)- [Javascript Interview Questions: Javascript is a prototypal language. What do I mean by this?](https://medium.com/@will_gottchalk/javascript-interview-questions-javascript-is-a-prototypal-language-what-do-i-mean-by-this-76937a9aa42a#.5vgvf9g4z)
 
-# Creation(对象创建)## 普通语法```javascript
+# Creation(对象创建)## 普通语法```js
 var o = {a: 1};
 
 // o这个对象继承了Object.prototype上面的所有属性
@@ -163,7 +163,7 @@ function f(){
 
 
 
-```javascript
+```js
 function Graph() {
   this.vertexes = [];
   this.edges = [];
@@ -184,7 +184,7 @@ var g = new Graph();
 
 ECMAScript 5 中引入了一个新方法：[Object.create](https://developer.mozilla.org/zh-cn/JavaScript/Reference/Global_Objects/Object/create)。可以调用这个方法来创建一个新对象。新对象的原型就是调用 `create` 方法时传入的第一个参数：
 
-`````javascript
+`````js
 var a = {a: 1};
 // a ---> Object.prototype ---> null
 
@@ -267,7 +267,7 @@ delete o.p //false
 
 ## 创建增删
 
-```javascript
+```js
 var map = new Map();
 map.set('foo', 'bar');
 console.log(map.get('foo')); //logs "bar"
@@ -291,7 +291,7 @@ console.log(animalSounds.size); //logs 0
 
 ## 索引遍历
 
-```javascript
+```js
 usersMap = new Map();
 usersMap.set(1, 'sally');
 usersMap.set(2, 'bob');
@@ -313,7 +313,7 @@ for (data of usersMap) {
 
 Map 的键的类型可以是 object、NaN 等等。
 
-```javascript
+```js
 var obj, map;
 map = new Map();
 obj = { foo: 'bar' };

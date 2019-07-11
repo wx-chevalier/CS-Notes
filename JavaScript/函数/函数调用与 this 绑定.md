@@ -239,7 +239,7 @@ Function.prototype.bind = function() {
 
 在任何函数之外的全局环境中，不管在不在 strict 模式中，this 指针往往指向一个全局变量。
 
-```javascript
+```js
 console.log(this.document === document); // true
 
 // In web browsers, the window object is also the global object:
@@ -253,7 +253,7 @@ console.log(window.a); // 37
 
 在某个函数中，this 的值取决于该函数的调用者。无论是用`hello("world”)`还是 call 这种方式，都取决于传入该函数的对象。不过，在 ES5 的严格或者不严格模式下，同样的调用方式会有不同的结果。
 
-```javascript
+```js
 function hello(thing) {
   console.log('Hello ' + thing);
 }
@@ -267,7 +267,7 @@ hello.call(window, 'world');
 
 而如果是 strict 模式下：
 
-```javascript
+```js
 // this:
 hello('world');
 
@@ -279,7 +279,7 @@ hello.call(undefined, 'world');
 
 当某个函数作为事件监听器时，它的 this 值往往被设置为它的调用者。
 
-```javascript
+```js
 // When called as a listener, turns the related element blue
 function bluify(e){
   // Always true
@@ -301,7 +301,7 @@ for(var i=0  i<elements.length  i++){
 
 如果是行内的事件监听者，this 指针会被设置为其所在的 DOM 元素：
 
-```javascript
+```js
 <button onclick="alert(this.tagName.toLowerCase());">Show this</button>
 ```
 
@@ -309,7 +309,7 @@ for(var i=0  i<elements.length  i++){
 
 ### Closures( 闭包 )
 
-```javascript
+```js
 var asyncFunction = (param, callback) => {
   window.setTimeout(() => {
     callback(param);
@@ -336,7 +336,7 @@ o.doSomething(); // param === this? true
 
 如果将某个方法设置为 Object 的一个属性，并且作为对象方法进行调用时，那么方法中的 this 指针会默认指向该 Object。
 
-```javascript
+```js
 function hello(thing) {
   console.log(this + ' says hello ' + thing);
 }
@@ -412,7 +412,7 @@ fluffybottom.sayHi.call(whiskers); // => whiskers barks excitedly!
 
 其作用可以用下面一个例子进行说明：
 
-```javascript
+```js
 this.x = 9;
 var module = {
   x: 81,
@@ -433,7 +433,7 @@ boundGetX(); // 81
 
 bind 方法在 React 中应用的比较广泛，因为 React 声明方程时往往要绑定到 this 指针上。然而在异步编程中，this 指针极有可能指向错误，譬如：
 
-```javascript
+```js
 var myObj = {
   specialFunction: function() {},
 
@@ -485,7 +485,7 @@ bind 方程的支持情况如下：
 | Opera             | 11.60           |
 | Safari            | 5.1.4           |
 
-```javascript
+```js
 var person = {
   name: 'Brendan Eich',
   hello: function(thing) {
@@ -509,14 +509,14 @@ fun.bind(thisArg[, arg1[, arg2[, ...]]])
 - thisArg 当绑定函数被调用时，该参数会作为原函数运行时的 this 指向。当使用 new 操作符调用绑定函数时，该参数无效。
 - arg1, arg2, ... 当绑定函数被调用时，这些参数加上绑定函数本身的参数会按照顺序作为原函数运行时的参数。
 
-```javascript
+```js
 var boundHello = person.hello.bind(person);
 boundHello('world'); // "Brendan Eich says hello world"
 ```
 
 这种方式在设置回调函数中的 this 指针的时候会起到很大的作用，特别是在 React 中，为了保证指针的稳定性，往往需要为内置方法设置 bind。
 
-```javascript
+```js
 var person = {
   name: 'Alex Russell',
   hello: function() {
@@ -529,7 +529,7 @@ $('#some-div').click(person.hello.bind(person));
 // when the div is clicked, "Alex Russell says hello world" is printed
 ```
 
-```javascript
+```js
 var asyncFunction = (param, callback) => {
   window.setTimeout(() => {
     callback(param);
@@ -556,7 +556,7 @@ o.doSomething(); // param === this? true
 
 还有一个类似的实例是 array.forEach，在这样一个回调函数中，回调函数的 this 指针是由调用者决定的，完整的 forEach 声明如下：**array.forEach(callback[, thisArg])**，这个传入的 thisArg 即是回调的调用者。
 
-```javascript
+```js
 var o = {
   v: 'hello',
   p: ['a1', 'a2'],
@@ -576,7 +576,7 @@ o.f();
 
 在 ECMAScript 中使用 Arrow Function 时候，会在创建该 Function 的时候即在创建时就被绑定到了闭合的作用域内，不会收到 new、bind 、 call 以及 apply 这些方法的影响。
 
-```javascript
+```js
 var asyncFunction = (param, callback) => {
   window.setTimeout(() => {
     callback(param);

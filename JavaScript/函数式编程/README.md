@@ -250,7 +250,7 @@ var config = $.extend(true, {}, defaultConfig, initConfig); // 如果对象是�
 
 而
 
-```javascript
+```js
 var stateV1 = Immutable.fromJS({
   users: [{ name: 'Foo' }, { name: 'Bar' }]
 });
