@@ -4,30 +4,17 @@
 
 ### Java8
 
-> * [Java 8 简明教程](http://www.importnew.com/10360.html)
+> - [Java 8 简明教程](http://www.importnew.com/10360.html)
 
 ## Reference
 
 ### Blogs & News
 
-* [java-weekly](http://www.thoughts-on-java.org/java-weekly/)
-* [Java, JVM and beyond](http://blog.sanaulla.info/)
-* [ImportNew](http://www.importnew.com/)
-* [javacodegeeks](http://www.javacodegeeks.com/category/java/core-java/)
-* [Oracle-Java Magazine](http://www.oracle.com/technetwork/java/javamagazine/index.html)
-
-### Practices & Resources
-
-* [Java 工程师成神之路~](http://www.hollischuang.com/archives/489?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
-* [Java 资源大全中文版](https://github.com/jobbole/awesome-java-cn)
-
-# Quick Start
-
-## IDE
-
-### IntelliJ-IDEA
-
-> * [IntelliJ IDEA](https://github.com/judasn/IntelliJ-IDEA-Tutorial/)
+- [java-weekly](http://www.thoughts-on-java.org/java-weekly/)
+- [Java, JVM and beyond](http://blog.sanaulla.info/)
+- [ImportNew](http://www.importnew.com/)
+- [javacodegeeks](http://www.javacodegeeks.com/category/java/core-java/)
+- [Oracle-Java Magazine](http://www.oracle.com/technetwork/java/javamagazine/index.html)
 
 # DS(数据类型与结构)
 
@@ -51,9 +38,9 @@ optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"
 
 ## DateTime：时间与日期
 
-> * [Java 8 时间与日期处理](http://www.liaoxuefeng.com/article/00141939241051502ada88137694b62bfe844cd79e12c32000)
-> * [Java8 时间/日期](http://www.importnew.com/14140.html)
-> * [20 个关于 Java8 时间与日期的例子](http://javarevisited.blogspot.com/2015/03/20-examples-of-date-and-time-api-from-Java8.html)
+> - [Java 8 时间与日期处理](http://www.liaoxuefeng.com/article/00141939241051502ada88137694b62bfe844cd79e12c32000)
+> - [Java8 时间/日期](http://www.importnew.com/14140.html)
+> - [20 个关于 Java8 时间与日期的例子](http://javarevisited.blogspot.com/2015/03/20-examples-of-date-and-time-api-from-Java8.html)
 
 在 Java8 之前，最常见的就是 Date(包括一系列的 Format)以及 Calendar。Java 8 新增了 LocalDate 和 LocalTime 接口，为什么要搞一套全新的处理日期和时间的 API？因为旧的 java.util.Date 实在是太难用了。java.util.Date 月份从 0 开始，一月是 0，十二月是 11，变态吧！java.time.LocalDate 月份和星期都改成了 enum，就不可能再用错了。
 
@@ -141,9 +128,9 @@ System.out.println(leetTime);   // 13:37
 
 时间也是按照 ISO 格式识别，但可以识别以下 3 种格式：
 
-* 12:00
-* 12:01:02
-* 12:01:02.345
+- 12:00
+- 12:01:02
+- 12:01:02.345
 
 ### LocalDate
 
@@ -247,13 +234,13 @@ Date output = Date.from(zdt.toInstant());
 
 # DS-Collection：集合
 
-##  List
+## List
 
 ### Array
 
 Java 中也内置了许多对于 Array 类型的操作，不过大多是放置在了`Arrays`这个包中。
 
-* 创建增删
+- 创建增删
 
 **方式 1\*\***(推荐，更能表明数组类型)\*\*
 
@@ -487,7 +474,7 @@ Java 是一个完全的面向对象的语言，这也是它为人诟病的一点
 
 ## Lambda
 
-> * [Java8 lambda 表达式 10 个示例](http://www.importnew.com/16436.html)
+> - [Java8 lambda 表达式 10 个示例](http://www.importnew.com/16436.html)
 
 Lambda 表达式本身是构造了一个继承自某个函数式接口的子类，所以可以用父类指针指向它：
 
@@ -571,9 +558,9 @@ public class Application{
 
 #### 闭合作用域的变量访问
 
-* 本地变量(Local Variable)可以访问但是不可以修改。
-* 类成员变量与静态变量可以被读写。
-* 函数式接口的默认方法不可以在 Lambda 表达式中被访问。
+- 本地变量(Local Variable)可以访问但是不可以修改。
+- 类成员变量与静态变量可以被读写。
+- 函数式接口的默认方法不可以在 Lambda 表达式中被访问。
 
 通常，我们希望能够在 lambda 表达式的闭合方法或类中访问其他的变量，例如：
 
@@ -600,9 +587,9 @@ public class T1 {
 
 为了理解这一点，我们需要对 lambda 表达式有更深入的理解。一个 lambda 表达式包括三个部分：
 
-* 一段代码
-* 参数
-* 自由变量的值，这里的“自由”指的是那些不是参数并且没有在代码中定义的变量。
+- 一段代码
+- 参数
+- 自由变量的值，这里的“自由”指的是那些不是参数并且没有在代码中定义的变量。
 
 在我们的示例中，lambda 表达式有两个自由变量，text 和 count。数据结构表示 lambda 表达式必须存储这两个变量的值，即“Hello”和 20。我们可以说，这些值已经被 lambda 表达式捕获了(这是一个技术实现的细节。例如，你可以将一个 lambda 表达式转换为一个只含一个方法的对象，这样自由变量的值就会被复制到该对象的实例变量中)。
 
@@ -646,10 +633,10 @@ for(Path p: files)
 
 ## Streams
 
-> * [Java8 中的 Stream API 详解](http://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/)
+> - [Java8 中的 Stream API 详解](http://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/)
 >
-> - [side-effects-and-java-8-streams:Java 8 Stream 的部分副作用](https://www.voxxed.com/blog/2015/10/side-effects-and-java-8-streams/#comments)
-> - [Follow-up: How fast are the Java 8 Streams:Java 8 流接口的性能评测](https://jaxenter.com/follow-up-how-fast-are-the-java-8-streams-122522.html)
+> * [side-effects-and-java-8-streams:Java 8 Stream 的部分副作用](https://www.voxxed.com/blog/2015/10/side-effects-and-java-8-streams/#comments)
+> * [Follow-up: How fast are the Java 8 Streams:Java 8 流接口的性能评测](https://jaxenter.com/follow-up-how-fast-are-the-java-8-streams-122522.html)
 
 java.util.Stream 表示了某一种元素的序列，在这些元素上可以进行各种操作。Stream 操作可以是中间操作，也可以是完结操作。完结操作会返回一个某种类型的值，而中间操作会返回流对象本身，并且你可以通过多次调用同一个流操作方法来将操作结果串起来(就像 StringBuffer 的 append 方法一样————译者注)。Stream 是在一个源的基础上创建出来的，例如 java.util.Collection 中的 list 或者 set(map 不能作为 Stream 的源)。Stream 操作往往可以通过顺序或者并行两种方式来执行。
 
@@ -671,15 +658,15 @@ int m = Arrays.stream(ints)
               .reduce(Integer.MIN_VALUE, Math::max);
 ```
 
-* Intermediate：
+- Intermediate：
 
 map (mapToInt, flatMap 等)、 filter、 distinct、 sorted、 peek、 limit、 skip、 parallel、 sequential、 unordered
 
-* Terminal：
+- Terminal：
 
 forEach、 forEachOrdered、 toArray、 reduce、 collect、 min、 max、 count、 anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 iterator
 
-* Short-circuiting：
+- Short-circuiting：
 
 anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 limit
 
@@ -840,7 +827,7 @@ java.util.stream.Collectors 类的主要作用就是辅助进行各类有用的 
 
 ##### groupingBy/partitioningBy
 
-* 按照年龄归组
+- 按照年龄归组
 
 ```java
 Map<Integer, List<Person>> personGroups = Stream.generate(new PersonSupplier()).
@@ -865,7 +852,7 @@ Age 11 = 2
 ……
 ```
 
-* ##### 按照未成年人和成年人归组
+- ##### 按照未成年人和成年人归组
 
 ```java
 Map<Boolean, List<Person>> children = Stream.generate(new PersonSupplier()).
@@ -898,19 +885,19 @@ System.out.println("Adult number: " + children.get(false).size());
 常说的反射，即是能够根据类名加载对应的类。在Java中，反射往往是利用ClassLoader进行，而一般来说Class装载的三个阶段为：
 ```
 
-* 载入 (Load)
+- 载入 (Load)
 
 ```
 从Class文件或别的什么地方载入一段二进制流字节流，把它解释成永久代里的运行时数据结构，生成一个Class对象。
 ```
 
-* 链接 (Resolve)
+- 链接 (Resolve)
 
 ```
 将之前载入的数据结构里的符号引用表，解析成直接引用。中间如果遇到引用的类还没被加载，就会触发该类的加载。可能JDK会很懒惰的在运行某个函数实际使用到该引用时才发生链接，也可能在类加载时就解析全部引用。
 ```
 
-* 初始化 (Initniazle)
+- 初始化 (Initniazle)
 
 ```
 初始化静态变量，并执行静态初始化语句。
@@ -1461,8 +1448,8 @@ public class FruitRun {
 
 ## News
 
-> * [ImportNews:专注 Java&Android](http://www.importnew.com/)​
+> - [ImportNews:专注 Java&Android](http://www.importnew.com/)​
 
 ## Interview
 
-* [Java 高级开发工程师面试考点](http://www.sanesee.com/article/java-engineer-interview-of-content-tree)
+- [Java 高级开发工程师面试考点](http://www.sanesee.com/article/java-engineer-interview-of-content-tree)

@@ -1,9 +1,82 @@
 # Java 开发基础与工程实践
 
-Web architectures are an important asset for various large-scale web applications. Being able to handle huge numbers of users concurrently is essential, thus scalability is one of the most important features of these architectures. Multi-core processors, highly distributed backend architectures and new web technologies force us to reconsider approaches for concurrent programming in order to implement web applications and fulfil scalability demands.
+任何一种编程语言如果要获得用户和开发者的认可，一定是要解决一些应用开发和运维的痛点的。Java 当初诞生的时候，正是上世纪 90 年代末互联网兴起的时代，在企业应用开发中存在几个问题，一是以 IBM，SUN 和 HP 的 UNIX 服务器和大型机为主的异构环境，C/C++和其它语言编写的应用跨平台支持和移植比较困难，二是基于 CGI 和其它技术的网络应用从开发效率和功能性角度来看都不够理想，三是 C/C++在当时是主流编程语言，门槛高、易出错、对经验要求很高，而 Java 简单易学、安全可靠，并且一次编写到处运行，再加上 applet、servlet 和 JSP 技术，解决了这些痛点，满足了当时互联网程序设计和运维的要求，伴随着互联网的发展一下子就脱颖而出并长期占据主流地位。
+
+Java 能够长盛不衰得益于在标准的统一和开放基础上不断的与时俱进。Java 除了是一种编程语言，也同时是一个运行时，为了能够在最广泛的平台和环境中运行，在诞生伊始就联合各个厂商和组织形成语言和虚拟机统一标准，并通过 TCK 对标准的具体实现进行认证，保障了来自于任何一个厂商的 JDK 的兼容性，使得 Java 没有出现如 UNIX 系统那样的问题。开放性是 Java 生命常青的另一个基石，Java 的演进一直由各个厂商和用户组成的社区来协调和驱动，遵从 JCP 的流程来讨论决定重大特性和问题，这一点保障了 Java 生态的发展壮大和活跃。社区和生态的活跃反过来又促进了 Java 的发展，Java 的一些特性和类库就是直接继承自社区的项目，比如 JDK 5 引入的 JSR 166 until.concurrent，JDK 8 引入的新 Java date 和 time API 等等。正在开发中的很多重要项目，比如 Amber、Valhalla、Loom 等等，也都是社区呼声很高的，并且在迭代中积极吸纳社区的意见和反馈。
+
+# 版本
+
+2018 年 3 月 21 日，Oracle 官方宣布 Java 10 正式发布。这是 Java 大版本周期变化后的第一个正式发布版本。需要注意的是 Java 9 和 Java 10 都不是 LTS 版本。和过去的 Java 大版本升级不同，这两个只有半年左右的开发和维护期。而未来的 Java 11，也就是 18.9 LTS，才是 Java 8 之后第一个 LTS 版本。
+
+```sh
+/jdk-10/bin$ ./java -version
+
+openjdk version "10" 2018-03-20
+
+OpenJDK Runtime Environment 18.3 (build 10+46)
+
+OpenJDK 64-Bit Server VM 18.3 (build 10+46, mixed mode)
+```
+
+这种发布模式已经得到了广泛应用，一个成功的例子就是 Ubuntu Linux 操作系统，在偶数年 4 月的发行版本为 LTS，会有很长时间的支持。如 2014 年 4 月份发布的 14.04 LTS，Canonical 公司和社区支持到 2019 年。类似的，Node.js，Linux kernel，Firefox 也采用类似的发布方式。
+
+从 JDK 10 开始，Java 改为每 6 个月发布一个 feature release，这是 Java 适应云时代技术快速发展的另一个重要举措。过去一个主版本的发布需要 3 年甚至更久，使得很多社区期待但又不用很长时间就可以实现的特性，也不得不等待更久。6 个月一个版本，使得短平快的特性能够及时发布来满足开发者需求，同时对于大的复杂的特性又能够分解成小的可以发布的单元，及时获得社区的使用和反馈。在 6 个月一个版本的基础上，针对需要更加稳定的运行环境的企业客户，我们又提供 LTS 版本。这个新的 release 模式，使得 Java 能够同时满足两种不同类别用户的需求，更加有利于 Java 向前推进。
+
+# 架构
 
 ![](http://static.oschina.net/uploads/space/2015/0917/192918_c6O7_1434710.png)
 
-# 链接
+# 关键字
 
-- https://www.baeldung.com/java-collections
+| 类别                 | 关键字                         | 说明                 |
+| -------------------- | ------------------------------ | -------------------- |
+| 访问控制             | private                        | 私有的               |
+| protected            | 受保护的                       |                      |
+| public               | 公共的                         |                      |
+| 类、方法和变量修饰符 | abstract                       | 声明抽象             |
+| class                | 类                             |                      |
+| extends              | 扩充,继承                      |                      |
+| final                | 最终值,不可改变的              |                      |
+| implements           | 实现（接口）                   |                      |
+| interface            | 接口                           |                      |
+| native               | 本地，原生方法（非 Java 实现） |                      |
+| new                  | 新,创建                        |                      |
+| static               | 静态                           |                      |
+| strictfp             | 严格,精准                      |                      |
+| synchronized         | 线程,同步                      |                      |
+| transient            | 短暂                           |                      |
+| volatile             | 易失                           |                      |
+| 程序控制语句         | break                          | 跳出循环             |
+| case                 | 定义一个值以供 switch 选择     |                      |
+| continue             | 继续                           |                      |
+| default              | 默认                           |                      |
+| do                   | 运行                           |                      |
+| else                 | 否则                           |                      |
+| for                  | 循环                           |                      |
+| if                   | 如果                           |                      |
+| instanceof           | 实例                           |                      |
+| return               | 返回                           |                      |
+| switch               | 根据值选择执行                 |                      |
+| while                | 循环                           |                      |
+| 错误处理             | assert                         | 断言表达式是否为真   |
+| catch                | 捕捉异常                       |                      |
+| finally              | 有没有异常都执行               |                      |
+| throw                | 抛出一个异常对象               |                      |
+| throws               | 声明一个异常可能被抛出         |                      |
+| try                  | 捕获异常                       |                      |
+| 包相关               | import                         | 引入                 |
+| package              | 包                             |                      |
+| 基本类型             | boolean                        | 布尔型               |
+| byte                 | 字节型                         |                      |
+| char                 | 字符型                         |                      |
+| double               | 双精度浮点                     |                      |
+| float                | 单精度浮点                     |                      |
+| int                  | 整型                           |                      |
+| long                 | 长整型                         |                      |
+| short                | 短整型                         |                      |
+| 变量引用             | super                          | 父类,超类            |
+| this                 | 本类                           |                      |
+| void                 | 无返回值                       |                      |
+| 保留关键字           | goto                           | 是关键字，但不能使用 |
+| const                | 是关键字，但不能使用           |                      |
+| null                 | 空                             |                      |
