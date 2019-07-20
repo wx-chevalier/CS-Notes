@@ -2,29 +2,7 @@
 
 # Basic Concepts
 
-标准的 Java IO API ，你操作的对象是字节流(byte stream)或者字符流(character stream)，而 NIO，你操作的对象是 channels 和 buffers。数据总是从一个 channel 读到一个 buffer 上，或者从一个 buffer 写到 channel 上。Non-blocking 是非阻塞的意思。Java NIO 让你可以做非阻塞的 IO 操作。比如一个线程里，可以从一个 channel 读取数据到一个 buffer 上，在 channel 读取数据到 buffer 的时候，线程可以做其他的事情。当数据读取到 buffer 上后，线程可以继续处理它。
-Java NIO 有三个核心组件(core components)：
-
-- Channels
-- Buffers
-- Selectors
-
 ## Channels
-
-Channel 是一个通道，可以通过它读取和写入数据，它就像自来水管一样，网络数据通过 Channel 读取和写入。通道与流的不同之处在于通道是双向的，流只是在一个方向上移动(InputStream 或 OutputStream 的子类)，而且通道可以用于读、写或者同时用于读写。
-
-- 一个 Channel 可以读和写，而一个流一般只能读或者写
-- Channel 可以异步(asynchronously)的读和写
-- Channel 总是需要一个 Buffer，不管是读到 Buffer 还是从 Buffer 写到 Channel
-
-因为 Channel 是全双工的，所以它可以比流更好地映射底层操作系统的 API。在 UNIX 网络编程模型中，底层操作系统的通道都是全双工的，同时支持读写操作。NIO 中包含了几个常见的 Channel ，这几个 channles 包含了咱们开发中使用率较高的 文件 IO，UDP+TCP 网络 IO。
-
-- FileChannel 读取数据或者写入数据到文件中
-- DatagramChannel 读写数据通过 UDP 协议
-- SocketChannel 读写数据通过 TCP 协议
-- ServerSocketChannel 提供 TCP 连接的监听，每个进入的连接都会创建一个 SocketChannel。
-
-![](http://hi.csdn.net/attachment/201107/17/0_1310888420STkI.gif)
 
 ### 从 Channel 中读取数据
 
@@ -151,10 +129,10 @@ public class Program {
 
 ## Selectors
 
-> 有这么一种检查员，她工作在养鸡场，每天的工作就是不停的查看特定的鸡舍，如果有鸡生蛋了，或者需要喂食，或者有鸡生病了，就把相应信息记录下来，这样一来，鸡舍负责人想知道鸡舍的情况，只需要到检查员那里查询即可，当然，鸡舍负责人得事先告知检查员去查询哪些鸡舍。
-
 多路复用器 Selector 是 Java NIO 编程的基础。Selector 会不断地轮询注册在其上的 Channel，如果某个 Channel 上面有新的 TCP 连接接入、读和写事件，这个 Channel 就处于就绪状态，会被 Selector 轮询出来，然后通过 SelectionKey 可以获取就绪 Channel 的集合，进行后续的 IO 操作。
-Java 的 NIO 为 reactor 模式提供了实现的基础机制，它的 Selector 当发现某个 channel 有数据时，会通过 SelectorKey 来告知我们，在此我们实现事件和 handler 的绑定。 1.Reactor 负责响应 IO 事件，一旦发生，广播发送给相应的 Handler 去处理,这类似于 AWT 的 thread 2.Handler 是负责非堵塞行为，类似于 AWT ActionListeners；同时负责将 handlers 与 event 事件绑定，类似于 AWT addActionListener
+
+Java 的 NIO 为 reactor 模式提供了实现的基础机制，它的 Selector 当发现某个 channel 有数据时，会通过 SelectorKey 来告知我们，在此我们实现事件和 handler 的绑定。 1.Reactor 负责响应 IO 事件，一旦发生，广播发送给相应的 Handler 去处理,这类似于 AWT 的 thread 2.Handler 是负责非堵塞行为，类似于 AWT ActionListeners；同时负责将 handlers 与 event 事件绑定，类似于 AWT addActionListener。
+
 ![](https://lukangping.gitbooks.io/java-nio/content/resources/nio.png)
 
 # Built-in Channels
@@ -177,5 +155,3 @@ while (bytesRead != -1) {
 }
 aFile.close();
 ```
-
-# Implementation
