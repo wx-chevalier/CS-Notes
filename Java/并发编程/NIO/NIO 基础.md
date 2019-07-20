@@ -1,7 +1,5 @@
 # Java NonBlocking IO
 
-Java NIO，被称为新 IO(New IO)，是 Java 1.4 引入的，用来替代 IO API 的，它的基础是操作系统提供的 IO 多路复用技术。。在 JDK1.4 推出 Java NIO 之前，基于 Java 的所有 Socket 通信都采用了同步阻塞模式(BIO)，这种一请求一应答的通信模型简化了上层的应用开发，但是在性能和可靠性方面却存在着巨大的瓶颈。因此，在很长的一段时间里，大型的应用服务器都采用 C 或者 C++，因为它们可以直接使用操作系统提供的异步 IO 能力。 一般来说 BIO 提供的都是面向流的 IO 系统，系统一次一个字节地处理数据，一个输入流产生一个字节的数据，一个输出流消费一个字节的数据，面向流的 IO 速度非常慢，而 NIO 是一个面向块的 IO 系统，系统以块的方式处理处理，每一个操作在一步中产生或者消费一个数据库，按块处理要比按字节处理数据快的多。
-
 # Basic Concepts
 
 标准的 Java IO API ，你操作的对象是字节流(byte stream)或者字符流(character stream)，而 NIO，你操作的对象是 channels 和 buffers。数据总是从一个 channel 读到一个 buffer 上，或者从一个 buffer 写到 channel 上。Non-blocking 是非阻塞的意思。Java NIO 让你可以做非阻塞的 IO 操作。比如一个线程里，可以从一个 channel 读取数据到一个 buffer 上，在 channel 读取数据到 buffer 的时候，线程可以做其他的事情。当数据读取到 buffer 上后，线程可以继续处理它。
