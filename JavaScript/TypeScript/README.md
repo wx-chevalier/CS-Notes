@@ -88,3 +88,7 @@ echo "console.log('Hello, world!')" | ts-node
 # 编译配置
 
 在 tsconfig.json 中，我们可以自定义很多的编译配置项，本节我们即讨论某些典型场景下的配置案例。
+
+# 链接
+
+- https://mp.weixin.qq.com/s/yK0ll0MygWrChYNrthTwxw
