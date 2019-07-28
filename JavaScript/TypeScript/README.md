@@ -6,9 +6,21 @@ TypeScript 是由 MicroSoft 出品的 JavaScript 超集，它在兼容 JavaScrip
 
 ![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/3/1-brsHVxCkP9_Fi3yxPZ5fYA.png)
 
+目前， Angular 已经使用 TypeScript 重构了代码，另一大前端框架 Vue 的新版本也将使用 TypeScript 进行重构。在可预见的未来，TypeScript 将成为前端开发者必须掌握的开发语言之一。
+
+- 类型检查。TypeScript 会在编译代码时进行严格的静态类型检查，这意味着你可以在编码阶段发现可能存在的隐患，而不必把它们带到线上。
+
+- 语言扩展。TypeScript 会包括来自 ES 6 和未来提案中的特性，比如异步操作和装饰器；也会从其他语言借鉴某些特性，比如接口和抽象类。
+
+- 工具属性。TypeScript 能够编译成标准的 JavaScript，可以在任何浏览器、操作系统上运行，无需任何运行时的额外开销。从这个角度上讲，TypeScript 更像是一个工具，而不是一门独立的语言。
+
+- TypeScript 还可以帮助团队重塑“类型思维”，接口提供方将被迫去思考 API 的边界，他们将从代码的编写者蜕变为代码的设计者。
+
+![mindmap](https://i.postimg.cc/15NwgxZW/Type-Script.png)
+
 # 环境配置
 
-可以参考 [fe-boilerplates]() 或者 [Backend-Boilerplates]()，如果想了解 TypeScript 在前后端开发中的应用。我们们可以通过 npm 安装 TypeScript 的依赖包：
+可以参考 [fe-boilerplates](https://github.com/wx-chevalier/fe-boilerplates) 或者 [Backend-Boilerplates](https://github.com/wx-chevalier/Backend-Boilerplates)，如果想了解 TypeScript 在前后端开发中的应用。我们们可以通过 npm 安装 TypeScript 的依赖包：
 
 ```sh
 # 全局安装
