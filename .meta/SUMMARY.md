@@ -295,6 +295,7 @@
   - [ES9 特性](../JavaScript/ECMAScript/ES9 特性.md) 
 - [TypeScript](../JavaScript/TypeScript/README.md) 
   - [类型使用](../JavaScript/TypeScript/类型使用/README.md) 
+    - [Decorator](../JavaScript/TypeScript/类型使用/Decorator.md) 
     - [函数](../JavaScript/TypeScript/类型使用/函数.md) 
     - [基础类型](../JavaScript/TypeScript/类型使用/基础类型.md) 
     - [类与接口](../JavaScript/TypeScript/类型使用/类与接口.md) 
