@@ -57,5 +57,13 @@ export class Entity {
   }
 
   // ...
+
+  private static wait(ms) {
+    let start = Date.now();
+    let now = start;
+    while (now - start < ms) {
+      now = Date.now();
+    }
+  }
 }
 ```
