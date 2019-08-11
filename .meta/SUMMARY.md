@@ -325,6 +325,7 @@
   - [函数调用与 this 绑定](../JavaScript/函数/函数调用与 this 绑定.md) 
   - [迭代器与生成器](../JavaScript/函数/迭代器与生成器.md) 
   - [闭包](../JavaScript/函数/闭包.md) 
+  - [限流](../JavaScript/函数/限流.md) 
 - [函数式编程](../JavaScript/函数式编程/README.md) 
   - [不可变对象](../JavaScript/函数式编程/不可变对象.md) 
   - [函数组合](../JavaScript/函数式编程/函数组合.md) 
