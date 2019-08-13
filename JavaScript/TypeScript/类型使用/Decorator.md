@@ -106,6 +106,7 @@ function foo(target) {
     }
   };
 }
+
 @foo
 class P {
   constructor() {}
@@ -160,6 +161,8 @@ p.test('Hello Jony');
 
 所谓注解的定义就是：为相应的类附加元数据支持。所谓元数据可以简单的解释，就是修饰数据的数据，比如一个人有 name，age 等数据属性，那么 name 和 age 这些字段就是为了修饰数据的数据，可以简单的称为元数据。通过注解添加元数据，然后在装饰器中获取这些元数据，完成对类、类的方法等等的修改，可以在装饰器中添加元数据的支持，比如可以可以在装饰器工厂函数以及装饰器函数中添加元数据支持等。
 
+## 注解使用
+
 Reflect Metadata 是 ES7 的一个提案，它主要用来在声明的时候添加和读取元数据。Reflect Metadata 的 API 可以用于类或者类的属性上，如：
 
 ```ts
@@ -172,9 +175,66 @@ function metadata(
 };
 ```
 
-## 注解使用
+Reflect.metadata 当作 Decorator 使用，当修饰类时，在类上添加元数据，当修饰类属性时，在类原型的属性上添加元数据，如：
+
+```ts
+@Reflect.metadata('inClass', 'A')
+class Test {
+  @Reflect.metadata('inMethod', 'B')
+  public hello(): string {
+    return 'hello world';
+  }
+}
+
+console.log(Reflect.getMetadata('inClass', Test)); // 'A'
+console.log(Reflect.getMetadata('inMethod', new Test(), 'hello')); // 'B'
+```
+
+譬如在 vue-property-decorator 6.1 及其以下版本中，通过使用 Reflect.getMetadata API，Prop Decorator 能获取属性类型传至 Vue，简要代码如下：
+
+```ts
+function Prop(): PropertyDecorator {
+  return (target, key: string) => {
+    const type = Reflect.getMetadata('design:type', target, key);
+    console.log(`${key} type: ${type.name}`);
+    // other...
+  };
+}
+
+class SomeClass {
+  @Prop()
+  public Aprop!: string;
+}
+```
 
 ## 自定义 metadataKey
+
+除能获取类型信息外，常用于自定义 metadataKey，并在合适的时机获取它的值，示例如下：
+
+```ts
+function classDecorator(): ClassDecorator {
+  return target => {
+    // 在类上定义元数据，key 为 `classMetaData`，value 为 `a`
+    Reflect.defineMetadata('classMetaData', 'a', target);
+  };
+}
+
+function methodDecorator(): MethodDecorator {
+  return (target, key, descriptor) => {
+    // 在类的原型属性 'someMethod' 上定义元数据，key 为 `methodMetaData`，value 为 `b`
+    Reflect.defineMetadata('methodMetaData', 'b', target, key);
+  };
+}
+
+@classDecorator()
+class SomeClass {
+  @methodDecorator()
+  someMethod() {}
+}
+
+Reflect.getMetadata('classMetaData', SomeClass); // 'a'
+Reflect.getMetadata('methodMetaData', new SomeClass(), 'someMethod'); // 'b'
+```
 
 ## 案例：Format
 
@@ -215,3 +275,31 @@ console.log(g.sayHello());
 在上述中，我们在 name 属性的装饰器工厂函数，执行`@Format("Hello, %s")`，返回一个装饰器函数，且该装饰器函数修饰了 Greeter 类的 name 属性，将“name”属性的值写入为"Hello, %s"。然后再 sayHello 方法中，通过 getFormat(this,"name") 取到 formatString 为“Hello,%s”.
 
 ## 案例：Angular 2 DI
+
+```ts
+type Constructor<T = any> = new (...args: any[]) => T;
+
+const Injectable = (): ClassDecorator => target => {};
+
+class OtherService {
+  a = 1;
+}
+
+@Injectable()
+class TestService {
+  constructor(public readonly otherService: OtherService) {}
+
+  testMethod() {
+    console.log(this.otherService.a);
+  }
+}
+
+const Factory = <T>(target: Constructor<T>): T => {
+  // 获取所有注入的服务
+  const providers = Reflect.getMetadata('design:paramtypes', target); // [OtherService]
+  const args = providers.map((provider: Constructor) => new provider());
+  return new target(...args);
+};
+
+Factory(TestService).testMethod(); // 1
+```
