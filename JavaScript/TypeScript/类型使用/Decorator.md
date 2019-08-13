@@ -160,6 +160,24 @@ p.test('Hello Jony');
 
 所谓注解的定义就是：为相应的类附加元数据支持。所谓元数据可以简单的解释，就是修饰数据的数据，比如一个人有 name，age 等数据属性，那么 name 和 age 这些字段就是为了修饰数据的数据，可以简单的称为元数据。通过注解添加元数据，然后在装饰器中获取这些元数据，完成对类、类的方法等等的修改，可以在装饰器中添加元数据的支持，比如可以可以在装饰器工厂函数以及装饰器函数中添加元数据支持等。
 
+Reflect Metadata 是 ES7 的一个提案，它主要用来在声明的时候添加和读取元数据。Reflect Metadata 的 API 可以用于类或者类的属性上，如：
+
+```ts
+function metadata(
+  metadataKey: any,
+  metadataValue: any
+): {
+  (target: Function): void;
+  (target: Object, propertyKey: string | symbol): void;
+};
+```
+
+## 注解使用
+
+## 自定义 metadataKey
+
+## 案例：Format
+
 可以通过 reflect-metadata 包来实现对于元数据的操作。首先我们来看 reflect-metadata 的使用，首先定义使用元数据的函数：
 
 ```ts
@@ -174,7 +192,7 @@ function getFormat(target: any, propertyKey: string) {
 }
 ```
 
-这里的 format 可以作为装饰器函数的工厂函数，因为 format 函数返回的是一个装饰器函数，上述的方法定义了元数据 Sysmbol("format"),用 Sysmbol 的原因是为了防止元数据中的字段重复，而 format 定义了取元数据中相应字段的功能。接着我们来在类中使用相应的元数据：
+这里的 format 可以作为装饰器函数的工厂函数，因为 format 函数返回的是一个装饰器函数，上述的方法定义了元数据 `Sysmbol("format")`,用 Sysmbol 的原因是为了防止元数据中的字段重复，而 format 定义了取元数据中相应字段的功能。接着我们来在类中使用相应的元数据：
 
 ```ts
 class Greeter {
@@ -195,3 +213,5 @@ console.log(g.sayHello());
 ```
 
 在上述中，我们在 name 属性的装饰器工厂函数，执行`@Format("Hello, %s")`，返回一个装饰器函数，且该装饰器函数修饰了 Greeter 类的 name 属性，将“name”属性的值写入为"Hello, %s"。然后再 sayHello 方法中，通过 getFormat(this,"name") 取到 formatString 为“Hello,%s”.
+
+## 案例：Angular 2 DI
