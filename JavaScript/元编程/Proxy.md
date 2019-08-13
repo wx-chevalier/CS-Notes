@@ -26,30 +26,7 @@ const proxy = new Proxy(
 // proxy.whatever => null
 ```
 
-# Reflect
-
-```js
-const target = {
-  get foo() {
-    return this.bar;
-  },
-  bar: 3
-};
-
-const handler = {
-  get(target, propertyKey, receiver) {
-    if (propertyKey === 'bar') return 2;
-
-    console.log(Reflect.get(target, propertyKey, receiver)); // this in foo getter references Proxy instance; logs 2
-    console.log(target[propertyKey]); // this in foo getter references "target" - logs 3
-  }
-};
-
-const obj = new Proxy(target, handler);
-console.log(obj.bar); // 2
-```
-
-# Proxy 典型应用
+# Proxy 案例
 
 ## 数据存储
 
