@@ -15,7 +15,6 @@
 - [语法基础](../CPP/语法基础/README.md) 
   - [函数](../CPP/语法基础/函数.md) 
   - [变量与表达式](../CPP/语法基础/变量与表达式.md) 
-- [面试准备](../CPP/面试准备/README.md) 
 
 ## [Go](../Go/README.md) 
 
@@ -369,9 +368,6 @@
   - [Object 与 Map](../JavaScript/集合类型/Object 与 Map.md) 
   - [序列化](../JavaScript/集合类型/序列化.md) 
   - [数组与集合](../JavaScript/集合类型/数组与集合.md) 
-- [面试准备](../JavaScript/面试准备/README.md) 
-  - [异步笔试题](../JavaScript/面试准备/异步笔试题.md) 
-  - [算法笔试题](../JavaScript/面试准备/算法笔试题.md) 
 
 ## [Python](../Python/README.md) 
 
@@ -426,7 +422,6 @@
 - [泛型](../Swift/泛型.md) 
 - [类与对象](../Swift/类与对象.md) 
 - [调试与测试](../Swift/调试与测试.md) 
-- [面试准备](../Swift/面试准备/README.md) 
 
 ## [编程语言理论](../编程语言理论/README.md) 
 
