@@ -27,61 +27,69 @@ pthread_mutex_t mutex;
 
 const char filename[] = "hello";
 
-void* thread(void *id){
+void *thread(void *id)
+{
 
-        int num = *(int *)id;
-        // 加锁
+    int num = *(int *)id;
+    // 加锁
 
-        if (pthread_mutex_lock(&mutex) != 0){
-                fprintf(stdout, "lock error!\n");
-        }
-        // 写文件的操作
-        FILE *fp = fopen(filename, "a+");
-        int start = *((int *)id);
-        int end = start + 1;
-        setbuf(fp, NULL);// 设置缓冲区的大小
-        fprintf(stdout, "%d\n", start);
-        for (int i = (start * 10); i < (end * 10); i ++){
-                fprintf(fp, "%d\t", i);
-        }
-        fprintf(fp, "\n");
-        fclose(fp);
+    if (pthread_mutex_lock(&mutex) != 0)
+    {
+        fprintf(stdout, "lock error!\n");
+    }
+    // 写文件的操作
+    FILE *fp = fopen(filename, "a+");
+    int start = *((int *)id);
+    int end = start + 1;
+    setbuf(fp, NULL); // 设置缓冲区的大小
+    fprintf(stdout, "%d\n", start);
+    for (int i = (start * 10); i < (end * 10); i++)
+    {
+        fprintf(fp, "%d\t", i);
+    }
+    fprintf(fp, "\n");
+    fclose(fp);
 
-        // 解锁
-        pthread_mutex_unlock(&mutex);
+    // 解锁
+    pthread_mutex_unlock(&mutex);
 
-        return NULL;
+    return NULL;
 }
 
-int main(){
-        int num_thread = 5;
-        pthread_t *pt = (pthread_t *)malloc(sizeof(pthread_t) * num_thread);
-        int * id = (int *)malloc(sizeof(int) * num_thread);
+int main()
+{
+    int num_thread = 5;
+    pthread_t *pt = (pthread_t *)malloc(sizeof(pthread_t) * num_thread);
+    int *id = (int *)malloc(sizeof(int) * num_thread);
 
-        // 初始化互斥锁
-        if (pthread_mutex_init(&mutex, NULL) != 0){
-                // 互斥锁初始化失败
-                free(pt);
-                free(id);
-                return 1;
-        }
-
-        for (int i = 0; i < num_thread; i++){
-                id[i] = i;
-                if (pthread_create(&pt[i], NULL, thread, &id[i]) != 0){
-                        printf("thread create failed!\n");
-                        return 1;
-                }
-        }
-        for (int i = 0; i < num_thread; i++){
-                pthread_join(pt[i], NULL);
-        }
-        pthread_mutex_destroy(&mutex);
-
-        // 释放资源
+    // 初始化互斥锁
+    if (pthread_mutex_init(&mutex, NULL) != 0)
+    {
+        // 互斥锁初始化失败
         free(pt);
         free(id);
-        return 0;
+        return 1;
+    }
+
+    for (int i = 0; i < num_thread; i++)
+    {
+        id[i] = i;
+        if (pthread_create(&pt[i], NULL, thread, &id[i]) != 0)
+        {
+            printf("thread create failed!\n");
+            return 1;
+        }
+    }
+    for (int i = 0; i < num_thread; i++)
+    {
+        pthread_join(pt[i], NULL);
+    }
+    pthread_mutex_destroy(&mutex);
+
+    // 释放资源
+    free(pt);
+    free(id);
+    return 0;
 }
 ```
 
@@ -89,7 +97,7 @@ int main(){
 
 ## 普通锁（PTHREAD_MUTEX_NORMAL）
 
-互斥锁默认类型。当一个线程对一个普通锁加锁以后，其余请求该锁的线程将形成一个等待队列，并在该锁解锁后按照优先级获得它，这种锁类型保证了资源分配的公平性。一个线程如果对一个已经加锁的普通锁再次加锁，将引发死锁；
+互斥锁默认类型。当一个线程对一个普通锁加锁以后，其余请求该锁的线程将形成一个等待队列，并在该锁解锁后按照优先级获得它，这种锁类型保证了资源分配的公平性。一个线程如果对一个已经加锁的普通锁再次加锁，将引发死锁。
 
 对一个已经被其他线程加锁的普通锁解锁，或者对一个已经解锁的普通锁再次解锁，将导致不可预期的后果。
 
@@ -99,14 +107,12 @@ int main(){
 
 ## 嵌套锁（PTHREAD_MUTEX_RECURSIVE）
 
-该锁允许一个线程在释放锁之前多次对它加锁而不发生死锁；其他线程要获得这个锁，则当前锁的拥有者必须执行多次解锁操作；
+该锁允许一个线程在释放锁之前多次对它加锁而不发生死锁；其他线程要获得这个锁，则当前锁的拥有者必须执行多次解锁操作。
 
 对一个已经被其他线程加锁的嵌套锁解锁，或者对一个已经解锁的嵌套锁再次解锁，则解锁操作返回 EPERM
 
-## 默认锁（PTHREAD*MUTEX*   DEFAULT）
+## 默认锁（PTHREAD_MUTEX_DEFAULT）
 
-一个线程如果对一个已经加锁的默认锁再次加锁，或者虽一个已经被其他线程加锁的默认锁解锁，或者对一个解锁的默认锁解锁，将导致不可预期的后果；
+一个线程如果对一个已经加锁的默认锁再次加锁，或者虽一个已经被其他线程加锁的默认锁解锁，或者对一个解锁的默认锁解锁，将导致不可预期的后果。
+
 这种锁实现的时候可能被映射成上述三种锁之一；
-————————————————
-版权声明：本文为 CSDN 博主「枫叶千言」的原创文章，遵循 CC 4.0 by-sa 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/qq_29422251/article/details/75269061
