@@ -99,7 +99,7 @@ Thread 199c: wait succeeded (13:10:57)
 
 最后附上 `FormatTimeNow` 函数的实现：
 
-```
+```cpp
 std::string FormatTimeNow(const char* format) {
   auto now = std::chrono::system_clock::now();
   std::time_t now_c = std::chrono::system_clock::to_time_t(now);
