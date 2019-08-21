@@ -144,6 +144,7 @@
     - [Java 应用](../Java/工程实践/Gradle/Java 应用.md) 
     - [Task](../Java/工程实践/Gradle/Task.md) 
     - [依赖管理](../Java/工程实践/Gradle/依赖管理.md) 
+    - [多项目结构](../Java/工程实践/Gradle/多项目结构.md) 
     - [构建脚本](../Java/工程实践/Gradle/构建脚本.md) 
   - [Groovy](../Java/工程实践/Groovy/README.md) 
   - [JDBC](../Java/工程实践/JDBC/README.md) 
