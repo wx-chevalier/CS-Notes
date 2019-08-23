@@ -19,3 +19,4 @@ Go 源于 Rob Pike 在 2007 年 9 月 25 号，星期二，下午 3：12 回复�
 # 链接
 
 - https://www.kancloud.cn/mutouzhang/go/598654
+- https://mp.weixin.qq.com/s/wE_z7MxDJjIVDN16578tDw Go 语言十年而立，Go2 蓄势待发
