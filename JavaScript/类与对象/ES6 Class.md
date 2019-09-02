@@ -1,158 +1,3 @@
-[![返回目录](https://i.postimg.cc/KvQbty96/image.png)](https://url.wx-coder.cn/lrKga)
-
-# JavaScript Object Oriented Programming
-
-面向对象编程思想核心是在软件工程领域解决代码重用与组织的问题，面向对象编程包含类、对、属性与方法这些关键组成。而类具有以下特征 :
-
-# Encapsulation: 封装性
-
-# Inheritence: 继承
-
-## ES5 Class Inheritence
-
-### 原型链继承
-
-```js
-function Person(name, age) {
-  this.name = name;
-  this.age = age;
-}
-Person.prototype.say = function() {
-  console.log('hello, my name is ' + this.name);
-};
-function Man() {}
-Man.prototype = new Person('pursue');
-var man1 = new Man();
-man1.say(); //hello, my name is pursue
-var man2 = new Man();
-console.log(man1.say === man2.say); //true
-console.log(man1.name === man2.name); //true
-```
-
-这种继承方式很直接，为了获取 Person 的所有属性方法 ( 实例上的和原型上的 )，直接将父类的实例 new Person('pursue') 赋给了子类的原型，其实子类的实例 man1,man2 本身是一个完全空的对象，所有的属性和方法都得去原型链上去找，因而找到的属性方法都是同一个。所以直接利用原型链继承是不现实的。
-
-### 利用构造函数继承
-
-```
-function Person (name, age) {
-    this.name = name;
-    this.age = age;
-}
-Person.prototype.say = function(){
-    console.log('hello, my name is ' + this.name);
-};
-function Man(name, age) {
-    Person.apply(this, arguments);
-}
-//Man.prototype = new Person('pursue');
-var man1 = new Man('joe');
-var man2 = new Man('david');
-console.log(man1.name === man2.name);//false
-man1.say(); //say is not a function
-```
-
-这里子类的在构造函数里利用了 apply 去调用父类的构造函数，从而达到继承父类属性的效果，比直接利用原型链要好的多，至少每个实例都有自己那一份资源，但是这种办法只能继承父类的实例属性，因而找不到 say 方法，为了继承父类所有的属性和方法，则就要修改原型链，从而引入了组合继承方式。
-
-### 组合继承
-
-```
-function Person (name, age) {
-    this.name = name;
-    this.age = age;
-}
-Person.prototype.say = function(){
-    console.log('hello, my name is ' + this.name);
-};
-function Man(name, age) {
-    Person.apply(this, arguments);
-}
-Man.prototype = new Person();
-var man1 = new Man('joe');
-var man2 = new Man('david');
-console.log(man1.name === man2.name);//false
-console.log(man1.say === man2.say);//true
-man1.say(); //hello, my name is joe
-```
-
-需要注意的是 man1 和 man2 的实例属性其实是覆盖了原型属性，但是并没要覆盖掉原型上的 say 方法(因为它们没有)，所以这里 man1.say === man2.say 依然返回 true，因而需要十分小心没有覆盖掉的原型属性，因为它是所有实例共有的。
-
-### 寄生组合继承
-
-```
-function Person(name, age) {
-  this.name = name;
-  this.age = age;
-}
-Person.prototype.say = function () {
-  console.log('hello, my name is ' + this.name);
-};
-function Man(name, age) {
-  Person.apply(this, arguments);
-}
-Man.prototype = Object.create(Person.prototype);//a.
-Man.prototype.constructor = Man;//b.
-var man1 = new Man('pursue');
-var man2 = new Man('joe');
-console.log(man1.say == man2.say); //true
-console.log(man1.name == man2.name); //false
-```
-
-其实寄生组合继承和上面的组合继承区别仅在于构造子类原型对象的方式上(a. 和 b.)，这里用到了 Object.creat(obj) 方法，该方法会对传入的 obj 对象进行浅拷贝，类似于：
-
-```
-function create(obj){
-    function T(){};
-    T.prototype = obj;
-    return new T();
-}
-```
-
-因此，a. 会将子类的原型对象与父类的原型对象进行很好的连接，而并不像一般的组合继承那样直接对子类的原型进行复制(如 Man.prototype = new Person();), 这样只是很暴力的在对属性进行覆盖。而寄生组合继承方式则对实例属性和原型属性分别进行了继承，在实现上更加合理。注意 : 代码 b. 并不会改变 instanceof 的结果，但是对于需要用到 construcor 的场景，这么做更加严谨。
-
-```
-function A(a){
-  this.varA = a;
-}
-
-// 以上函数 A 的定义中，既然 A.prototype.varA 总是会被 this.varA 遮蔽，
-// 那么将 varA 加入到原型(prototype)中的目的是什么？
-A.prototype = {
-  varA : null,  // 既然它没有任何作用，干嘛不将 varA 从原型(prototype)去掉？
-      // 也许作为一种在隐藏类中优化分配空间的考虑？
-      // https://developers.google.com/speed/articles/optimizing-javascript#Initializing instance variables
-      // 将会验证如果 varA 在每个实例不被特别初始化会是什么情况。
-  doSomething : function(){
-    // ...
-  }
-}
-
-function B(a, b){
-  A.call(this, a);
-  this.varB = b;
-}
-B.prototype = Object.create(A.prototype, {
-  varB : {
-    value: null,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  doSomething : {
-    value: function(){ // override
-      A.prototype.doSomething.apply(this, arguments); // call super
-      // ...
-    },
-    enumerable: true,
-    configurable: true,
-    writable: true
-  }
-});
-B.prototype.constructor = B;
-
-var b = new B();
-b.doSomething();
-```
-
 # ES6
 
 ## Babel
@@ -174,35 +19,35 @@ class Child extends Parent {
 ```js
 'use strict';
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+const _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+const _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+const _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
 
-var _possibleConstructorReturn3 = _interopRequireDefault(
+const _possibleConstructorReturn3 = _interopRequireDefault(
   _possibleConstructorReturn2
 );
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+const _inherits2 = require('babel-runtime/helpers/inherits');
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+const _inherits3 = _interopRequireDefault(_inherits2);
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+const _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+const _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-var Parent = function Parent() {
+const Parent = function Parent() {
   (0, _classCallCheck3.default)(this, Parent);
 
   this.a = 1;
 };
 
-var Child = (function(_Parent) {
+const Child = (function(_Parent) {
   (0, _inherits3.default)(Child, _Parent);
 
   function Child() {
@@ -256,10 +101,10 @@ class A {
   }
 }
 
-var B = A;
+const B = A;
 A = null;
 
-var a = new B();
+const a = new B();
 a.say();
 
 let C = function() {};
@@ -268,10 +113,10 @@ C.prototype.say = function() {
   console.log(C);
 };
 
-var D = C;
+const D = C;
 C = null;
 
-var c = new D();
+const c = new D();
 c.say();
 
 // [Function: A]
@@ -299,7 +144,7 @@ class Obj {
 
 Obj.myMethod(1); // static 1
 
-var instance = new Obj();
+const instance = new Obj();
 
 instance.myMethod(2); // instance 2
 ```
@@ -384,7 +229,7 @@ class Cache{
 
 ```
 // 匿名类表达式
-var Polygon = class {
+const Polygon = class {
   constructor(height, width) {
     this.height = height;
     this.width = width;
@@ -392,7 +237,7 @@ var Polygon = class {
 };
 
 // 命名类表达式
-var Polygon = class Polygon {
+const Polygon = class Polygon {
   constructor(height, width) {
     this.height = height;
     this.width = width;
@@ -433,7 +278,7 @@ class SkinnedMesh extends THREE.Mesh {
 类声明和函数声明不同的一点是，函数声明存在[变量提升](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting)现象，而类声明不会。也就是说，你必须先声明类，然后才能使用它，否则代码会抛出 [`ReferenceError`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError) 异常，像下面这样：
 
 ```
-var p = new Polygon(); // ReferenceError
+const p = new Polygon(); // ReferenceError
 class Polygon {}
 ```
 
@@ -477,7 +322,7 @@ console.log(square.area);
 #### 将 JSON 对象映射到 Object
 
 ```
-constructor(data) {Object.assign(this, data);}var data = JSON.parse(req.responseText);new User(data);
+constructor(data) {Object.assign(this, data);}const data = JSON.parse(req.responseText);new User(data);
 ```
 
 ### 静态方法
@@ -549,7 +394,7 @@ console.log(new Square().area); // => 100
 
 ## 使用 super 关键字引用父类
 
-```
+```js
 class Cat {
   constructor(name) {
     this.name = name;

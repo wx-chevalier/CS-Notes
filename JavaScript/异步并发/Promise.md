@@ -13,7 +13,7 @@ try {
   console.log('error');
 }
 
-var promises = [
+const promises = [
   new Promise(function(resolve) {
     setTimeout(function() {
       resolve(1);
@@ -336,10 +336,10 @@ promiseSerial(funcs)
 race 函数返回一个 Promise，这个 Promise 根据传入的 Promise 中的第一个确定状态 -- 不管是接受还是拒绝 -- 的状态而确定状态。
 
 ```js
-var p1 = new Promise(function(resolve, reject) {
+const p1 = new Promise(function(resolve, reject) {
   setTimeout(resolve, 500, '一');
 });
-var p2 = new Promise(function(resolve, reject) {
+const p2 = new Promise(function(resolve, reject) {
   setTimeout(resolve, 100, '二');
 });
 
@@ -348,10 +348,10 @@ Promise.race([p1, p2]).then(function(value) {
   // 两个都解决，但p2更快
 });
 
-var p3 = new Promise(function(resolve, reject) {
+const p3 = new Promise(function(resolve, reject) {
   setTimeout(resolve, 100, '三');
 });
-var p4 = new Promise(function(resolve, reject) {
+const p4 = new Promise(function(resolve, reject) {
   setTimeout(reject, 500, '四');
 });
 
@@ -365,10 +365,10 @@ Promise.race([p3, p4]).then(
   }
 );
 
-var p5 = new Promise(function(resolve, reject) {
+const p5 = new Promise(function(resolve, reject) {
   setTimeout(resolve, 500, '五');
 });
-var p6 = new Promise(function(resolve, reject) {
+const p6 = new Promise(function(resolve, reject) {
   setTimeout(reject, 100, '六');
 });
 

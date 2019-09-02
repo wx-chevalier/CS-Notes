@@ -64,7 +64,7 @@ blob:https://whatwg.org/d0360e2f-caee-469f-9a2f-87d5b0456f6f
 不过笔者觉得有个不错的特性在于浏览器中支持 CORS 协议，跨域加载其他域中的脚本。在浏览器中加载进来的模块与直接加载的脚本的作用域也是不一致的，并且不需要 `use strict` 声明其也默认处于严格模式下：
 
 ```
-var x = 1;
+const x = 1;
 
 
 alert(x === window.x);//false

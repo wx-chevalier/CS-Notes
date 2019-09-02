@@ -55,13 +55,13 @@ Handler Table (size = 16)
 
 ```js
 function add (a, b) { return a+b}
-var c = add (1 + 2);
+const c = add (1 + 2);
 
 // 编译为
 function add (int a, int b) { return a + b;} // a, b 被确定为 int 类型
 
 // 有的开发者会做
-var d = add ("hello", "world");
+const d = add ("hello", "world");
 ```
 
 这种情况下，JIT 编译器只能推倒重来。JIT 带来的性能提升，有时候还没有这个重编的开销大， [Optimization killers · petkaantonov/bluebird Wiki · GitHub](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers)。事实上，大部分时间 JIT 都不会生成优化代码，有字节码的，直接字节码，没有字节码的，粗粗编译下就结了，因为 JIT 自己也需要时间，除非是一个函数被使用过很多遍，否则不会被编译成机器码，因为编译花的时间可能比直接跑字节码还多。

@@ -60,7 +60,7 @@ reflect-metadata 内置了三种 Key，在代码运行时可以利用内置的 K
 
 ```ts
 function logType(target: any, key: string) {
-  var t = Reflect.getMetadata('design:type', target, key);
+  const t = Reflect.getMetadata('design:type', target, key);
   console.log(`${key} type: ${t.name}`);
 }
 
@@ -93,8 +93,8 @@ class SomeClass {
 
 ```ts
 function logParamTypes(target: any, key: string) {
-  var types = Reflect.getMetadata('design:paramtypes', target, key);
-  var s = types.map(a => a.name).join();
+  const types = Reflect.getMetadata('design:paramtypes', target, key);
+  const s = types.map(a => a.name).join();
   console.log(`${key} param types: ${s}`);
 }
 

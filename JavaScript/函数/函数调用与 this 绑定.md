@@ -135,9 +135,9 @@ executionContextObj = {
 
 ```js
 function foo(i) {
-  var a = 'hello';
+  const a = 'hello';
 
-  var b = function privateB() {};
+  const b = function privateB() {};
 
   function c() {}
 }
@@ -214,7 +214,7 @@ fooExecutionContext = {
 ```
 Function.prototype.bind = function() {
 
-  var fn = this,
+  const fn = this,
 
     args = Array.prototype.slice.call(arguments),
 
@@ -290,11 +290,11 @@ function bluify(e){
 }
 
 // Get a list of every element in the document
-var elements = document.getElementsByTagName('*');
+const elements = document.getElementsByTagName('*');
 
 // Add bluify as a click listener so when the
 // element is clicked on, it turns blue
-for(var i=0  i<elements.length  i++){
+for(const i=0  i<elements.length  i++){
   elements[i].addEventListener('click', bluify, false);
 }
 ```
@@ -310,7 +310,7 @@ for(var i=0  i<elements.length  i++){
 ### Closures( 闭包 )
 
 ```js
-var asyncFunction = (param, callback) => {
+const asyncFunction = (param, callback) => {
   window.setTimeout(() => {
     callback(param);
   }, 1);
@@ -318,9 +318,9 @@ var asyncFunction = (param, callback) => {
 
 // Define a reference to `this` outside of the callback,
 // but within the callback's lexical scope
-var o = {
+const o = {
   doSomething: function() {
-    var self = this;
+    const self = this;
     // Here we pass `o` into the async function,
     // expecting it back as `param`
     asyncFunction(o, function(param) {
@@ -354,10 +354,10 @@ hello('world'); // "[object DOMWindow]world"
 ### call/apply: 运行时指定
 
 ```js
-var Cat = function(name) {
+const Cat = function(name) {
   this.name = name;
 };
-var Dog = function(name) {
+const Dog = function(name) {
   this.name = name;
 };
 Cat.prototype.sayHi = function() {
@@ -366,8 +366,8 @@ Cat.prototype.sayHi = function() {
 Dog.prototype.sayHi = function() {
   console.log(`${this.name} barks excitedly!`);
 };
-var whiskers = new Cat('whiskers');
-var fluffybottom = new Dog('fluffy bottom');
+const whiskers = new Cat('whiskers');
+const fluffybottom = new Dog('fluffy bottom');
 whiskers.sayHi(); // => whiskers meows loudly!
 fluffybottom.sayHi(); // => fluffy bottom barks excitedly!
 Cat.prototype.sayHi.call(fluffybottom); // => fluffy bottom meows loudly!
@@ -414,7 +414,7 @@ fluffybottom.sayHi.call(whiskers); // => whiskers barks excitedly!
 
 ```js
 this.x = 9;
-var module = {
+const module = {
   x: 81,
   getX: function() {
     return this.x;
@@ -423,18 +423,18 @@ var module = {
 
 module.getX(); // 81
 
-var getX = module.getX;
+const getX = module.getX;
 getX(); // 9, because in this case, "this" refers to the global object
 
 // Create a new function with 'this' bound to module
-var boundGetX = getX.bind(module);
+const boundGetX = getX.bind(module);
 boundGetX(); // 81
 ```
 
 bind 方法在 React 中应用的比较广泛，因为 React 声明方程时往往要绑定到 this 指针上。然而在异步编程中，this 指针极有可能指向错误，譬如：
 
 ```js
-var myObj = {
+const myObj = {
   specialFunction: function() {},
 
   anotherSpecialFunction: function() {},
@@ -444,7 +444,7 @@ var myObj = {
   },
 
   render: function() {
-    var that = this;
+    const that = this;
     this.getAsyncData(function() {
       that.specialFunction();
       that.anotherSpecialFunction();
@@ -486,14 +486,14 @@ bind 方程的支持情况如下：
 | Safari            | 5.1.4           |
 
 ```js
-var person = {
+const person = {
   name: 'Brendan Eich',
   hello: function(thing) {
     console.log(this.name + ' says hello ' + thing);
   }
 };
 
-var boundHello = function(thing) {
+const boundHello = function(thing) {
   return person.hello.call(person, thing);
 };
 
@@ -510,14 +510,14 @@ fun.bind(thisArg[, arg1[, arg2[, ...]]])
 - arg1, arg2, ... 当绑定函数被调用时，这些参数加上绑定函数本身的参数会按照顺序作为原函数运行时的参数。
 
 ```js
-var boundHello = person.hello.bind(person);
+const boundHello = person.hello.bind(person);
 boundHello('world'); // "Brendan Eich says hello world"
 ```
 
 这种方式在设置回调函数中的 this 指针的时候会起到很大的作用，特别是在 React 中，为了保证指针的稳定性，往往需要为内置方法设置 bind。
 
 ```js
-var person = {
+const person = {
   name: 'Alex Russell',
   hello: function() {
     console.log(this.name + ' says hello world');
@@ -530,7 +530,7 @@ $('#some-div').click(person.hello.bind(person));
 ```
 
 ```js
-var asyncFunction = (param, callback) => {
+const asyncFunction = (param, callback) => {
   window.setTimeout(() => {
     callback(param);
   }, 1);
@@ -538,7 +538,7 @@ var asyncFunction = (param, callback) => {
 
 // Here we control the context of the callback using
 // `bind` ensuring `this` is correct
-var o = {
+const o = {
   doSomething: function() {
     // Here we pass `o` into the async function,
     // expecting it back as `param`
@@ -557,7 +557,7 @@ o.doSomething(); // param === this? true
 还有一个类似的实例是 array.forEach，在这样一个回调函数中，回调函数的 this 指针是由调用者决定的，完整的 forEach 声明如下：**array.forEach(callback[, thisArg])**，这个传入的 thisArg 即是回调的调用者。
 
 ```js
-var o = {
+const o = {
   v: 'hello',
   p: ['a1', 'a2'],
   f: function f() {
@@ -577,13 +577,13 @@ o.f();
 在 ECMAScript 中使用 Arrow Function 时候，会在创建该 Function 的时候即在创建时就被绑定到了闭合的作用域内，不会收到 new、bind 、 call 以及 apply 这些方法的影响。
 
 ```js
-var asyncFunction = (param, callback) => {
+const asyncFunction = (param, callback) => {
   window.setTimeout(() => {
     callback(param);
   }, 1);
 };
 
-var o = {
+const o = {
   doSomething: function() {
     // Here we pass `o` into the async function,
     // expecting it back as `param`.

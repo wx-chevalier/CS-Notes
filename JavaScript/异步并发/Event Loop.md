@@ -78,7 +78,7 @@ fire();
   }, 0);
   new Promise(function executor(resolve) {
     console.log(1);
-    for (var i = 0; i < 10000; i++) {
+    for (const i = 0; i < 10000; i++) {
       i == 9999 && resolve();
     }
     console.log(2);

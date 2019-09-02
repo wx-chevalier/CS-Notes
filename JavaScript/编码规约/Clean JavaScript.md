@@ -14,13 +14,13 @@
 **Bad:**
 
 ```js
-var yyyymmdstr = moment().format("YYYY/MM/DD");
+const yyyymmdstr = moment().format("YYYY/MM/DD");
 ```
 
 **Good**:
 
 ```js
-var yearMonthDay = moment().format("YYYY/MM/DD");
+const yearMonthDay = moment().format("YYYY/MM/DD");
 ```
 
 ## 对相同类型的变量使用相同的关键字
@@ -47,7 +47,7 @@ getUser();
 
 ```js
 //525600到底啥意思？
-for (var i = 0; i < 525600; i++) {
+for (const i = 0; i < 525600; i++) {
   runCronJob();
 }
 ```
@@ -56,8 +56,8 @@ for (var i = 0; i < 525600; i++) {
 
 ```js
 // 声明为全局变量
-var MINUTES_IN_A_YEAR = 525600;
-for (var i = 0; i < MINUTES_IN_A_YEAR; i++) {
+const MINUTES_IN_A_YEAR = 525600;
+for (const i = 0; i < MINUTES_IN_A_YEAR; i++) {
   runCronJob();
 }
 ```
@@ -91,7 +91,7 @@ saveCityState(city, state);
 **Bad:**
 
 ```js
-var locations = ['Austin', 'New York', 'San Francisco'];
+const locations = ['Austin', 'New York', 'San Francisco'];
 locations.forEach((l) => {
   doStuff();
   doSomeOtherStuff();
@@ -106,7 +106,7 @@ locations.forEach((l) => {
 **Good**:
 
 ```js
-var locations = ['Austin', 'New York', 'San Francisco'];
+const locations = ['Austin', 'New York', 'San Francisco'];
 locations.forEach((location) => {
   doStuff();
   doSomeOtherStuff();
@@ -124,7 +124,7 @@ locations.forEach((location) => {
 **Bad:**
 
 ```js
-var Car = {
+const Car = {
   carMake: "Honda",
   carModel: "Accord",
   carColor: "Blue"
@@ -138,7 +138,7 @@ function paintCar(car) {
 **Good**:
 
 ```js
-var Car = {
+const Car = {
   make: "Honda",
   model: "Accord",
   color: "Blue"
@@ -155,7 +155,7 @@ function paintCar(car) {
 
 ```js
 function createMicrobrewery(name) {
-  var breweryName;
+  const breweryName;
   if (name) {
     breweryName = name;
   } else {
@@ -168,7 +168,7 @@ function createMicrobrewery(name) {
 
 ```js
 function createMicrobrewery(name) {
-  var breweryName = name || "Hipster Brew Co.";
+  const breweryName = name || "Hipster Brew Co.";
 }
 ```
 
@@ -189,7 +189,7 @@ function createMenu(title, body, buttonText, cancellable) {
 **Good**:
 
 ```js
-var menuConfig = {
+const menuConfig = {
   title: 'Foo',
   body: 'Bar',
   buttonText: 'Baz',
@@ -342,10 +342,10 @@ function parseBetterJSAlternative(code) {
 ```js
 function showDeveloperList(developers) {
   developers.forEach(developers => {
-    var expectedSalary = developer.calculateExpectedSalary();
-    var experience = developer.getExperience();
-    var githubLink = developer.getGithubLink();
-    var data = {
+    const expectedSalary = developer.calculateExpectedSalary();
+    const experience = developer.getExperience();
+    const githubLink = developer.getGithubLink();
+    const data = {
       expectedSalary: expectedSalary,
       experience: experience,
       githubLink: githubLink
@@ -357,10 +357,10 @@ function showDeveloperList(developers) {
 
 function showManagerList(managers) {
   managers.forEach(manager => {
-    var expectedSalary = manager.calculateExpectedSalary();
-    var experience = manager.getExperience();
-    var portfolio = manager.getMBAProjects();
-    var data = {
+    const expectedSalary = manager.calculateExpectedSalary();
+    const experience = manager.getExperience();
+    const portfolio = manager.getMBAProjects();
+    const data = {
       expectedSalary: expectedSalary,
       experience: experience,
       portfolio: portfolio
@@ -376,9 +376,9 @@ function showManagerList(managers) {
 ```js
 function showList(employees) {
   employees.forEach(employee => {
-    var expectedSalary = employee.calculateExpectedSalary();
-    var experience = employee.getExperience();
-    var portfolio;
+    const expectedSalary = employee.calculateExpectedSalary();
+    const experience = employee.getExperience();
+    const portfolio;
 
     if (employee.type === "manager") {
       portfolio = employee.getMBAProjects();
@@ -386,7 +386,7 @@ function showList(employees) {
       portfolio = employee.getGithubLink();
     }
 
-    var data = {
+    const data = {
       expectedSalary: expectedSalary,
       experience: experience,
       portfolio: portfolio
@@ -421,7 +421,7 @@ function writeForumComment(subject = 'No subject', body = 'No text') {
 **Bad:**
 
 ```js
-var menuConfig = {
+const menuConfig = {
   title: null,
   body: "Bar",
   buttonText: null,
@@ -442,7 +442,7 @@ createMenu(menuConfig);
 **Good**:
 
 ```js
-var menuConfig = {
+const menuConfig = {
   title: "Order",
   // User did not include 'body' key
   buttonText: "Send",
@@ -504,7 +504,7 @@ function createFile(name) {
 ```js
 // 定义全局变量
 // 如果我们有其他的函数引用了该变量，那么我们就无法预测该变量类型
-var name = "Ryan McDermott";
+const name = "Ryan McDermott";
 
 function splitIntoFirstAndLastName() {
   name = name.split(" ");
@@ -522,8 +522,8 @@ function splitIntoFirstAndLastName(name) {
   return name.split(" ");
 }
 
-var name = "Ryan McDermott";
-var newName = splitIntoFirstAndLastName(name);
+const name = "Ryan McDermott";
+const newName = splitIntoFirstAndLastName(name);
 
 console.log(name); // 'Ryan McDermott';
 console.log(newName); // ['Ryan', 'McDermott'];
@@ -537,14 +537,14 @@ JavaScript 中有个不太好的实践就是修改某个全局函数，将其指
 
 ```js
 Array.prototype.diff = function(comparisonArray) {
-  var values = [];
-  var hash = {};
+  const values = [];
+  const hash = {};
 
-  for (var i of comparisonArray) {
+  for (const i of comparisonArray) {
     hash[i] = true;
   }
 
-  for (var i of this) {
+  for (const i of this) {
     if (!hash[i]) {
       values.push(i);
     }
@@ -563,14 +563,14 @@ class SuperArray extends Array {
   }
 
   diff(comparisonArray) {
-    var values = [];
-    var hash = {};
+    const values = [];
+    const hash = {};
 
-    for (var i of comparisonArray) {
+    for (const i of comparisonArray) {
       hash[i] = true;
     }
 
-    for (var i of this) {
+    for (const i of this) {
       if (!hash[i]) {
         values.push(i);
       }
@@ -607,9 +607,9 @@ const programmerOutput = [
   }
 ];
 
-var totalOutput = 0;
+const totalOutput = 0;
 
-for (var i = 0; i < programmerOutput.length; i++) {
+for (const i = 0; i < programmerOutput.length; i++) {
   totalOutput += programmerOutput[i].linesOfCode;
 }
 ```
@@ -636,7 +636,7 @@ const programmerOutput = [
   }
 ];
 
-var totalOutput = programmerOutput
+const totalOutput = programmerOutput
   .map(programmer => programmer.linesOfCode)
   .reduce((acc, linesOfCode) => acc + linesOfCode, 0);
 ```
@@ -800,7 +800,7 @@ function combine(val1, val2) {
 ```js
 // On old browsers, each iteration would be costly because `len` would be
 // recomputed. In modern browsers, this is optimized.
-for (var i = 0, len = list.length; i < len; i++) {
+for (const i = 0, len = list.length; i < len; i++) {
   // ...
 }
 ```
@@ -808,7 +808,7 @@ for (var i = 0, len = list.length; i < len; i++) {
 **Good**:
 
 ```js
-for (var i = 0; i < list.length; i++) {
+for (const i = 0; i < list.length; i++) {
   // ...
 }
 ```
@@ -828,7 +828,7 @@ function newRequestModule(url) {
   // ...
 }
 
-var req = newRequestModule;
+const req = newRequestModule;
 inventoryTracker("apples", req, "www.inventory-awesome.io");
 ```
 
@@ -839,7 +839,7 @@ function newRequestModule(url) {
   // ...
 }
 
-var req = newRequestModule;
+const req = newRequestModule;
 inventoryTracker("apples", req, "www.inventory-awesome.io");
 ```
 
@@ -898,7 +898,7 @@ bankAccount.withdraw(100);
 **Bad:**
 
 ```js
-var Employee = function(name) {
+const Employee = function(name) {
   this.name = name;
 };
 
@@ -906,7 +906,7 @@ Employee.prototype.getName = function() {
   return this.name;
 };
 
-var employee = new Employee("John Doe");
+const employee = new Employee("John Doe");
 console.log("Employee name: " + employee.getName()); // Employee name: John Doe
 delete employee.name;
 console.log("Employee name: " + employee.getName()); // Employee name: undefined
@@ -915,7 +915,7 @@ console.log("Employee name: " + employee.getName()); // Employee name: undefined
 **Good**:
 
 ```js
-var Employee = (function() {
+const Employee = (function() {
   function Employee(name) {
     this.getName = function() {
       return name;
@@ -925,7 +925,7 @@ var Employee = (function() {
   return Employee;
 })();
 
-var employee = new Employee("John Doe");
+const employee = new Employee("John Doe");
 console.log("Employee name: " + employee.getName()); // Employee name: John Doe
 delete employee.name;
 console.log("Employee name: " + employee.getName()); // Employee name: John Doe
@@ -1314,7 +1314,7 @@ inventoryTracker.requestItems();
 **Bad:**
 
 ```js
-var Animal = function(age) {
+const Animal = function(age) {
   if (!(this instanceof Animal)) {
     throw new Error("Instantiate Animal with `new`");
   }
@@ -1324,7 +1324,7 @@ var Animal = function(age) {
 
 Animal.prototype.move = function() {};
 
-var Mammal = function(age, furColor) {
+const Mammal = function(age, furColor) {
   if (!(this instanceof Mammal)) {
     throw new Error("Instantiate Mammal with `new`");
   }
@@ -1337,7 +1337,7 @@ Mammal.prototype = Object.create(Animal.prototype);
 Mammal.prototype.constructor = Mammal;
 Mammal.prototype.liveBirth = function() {};
 
-var Human = function(age, furColor, languageSpoken) {
+const Human = function(age, furColor, languageSpoken) {
   if (!(this instanceof Human)) {
     throw new Error("Instantiate Human with `new`");
   }
@@ -1642,11 +1642,11 @@ require("request-promise")
 ```js
 async function getCleanCodeArticle() {
   try {
-    var request = await require("request-promise");
-    var response = await request.get(
+    const request = await require("request-promise");
+    const response = await request.get(
       "https://en.wikipedia.org/wiki/Robert_Cecil_Martin"
     );
-    var fileHandle = await require("fs-promise");
+    const fileHandle = await require("fs-promise");
 
     await fileHandle.writeFile("article.html", response);
     console.log("File written");
@@ -1667,11 +1667,11 @@ JavaScript 本身是无类型的，因此变量名大写也能传递很多有用
 **Bad:**
 
 ```js
-var DAYS_IN_WEEK = 7;
-var daysInMonth = 30;
+const DAYS_IN_WEEK = 7;
+const daysInMonth = 30;
 
-var songs = ["Back In Black", "Stairway to Heaven", "Hey Jude"];
-var Artists = ["ACDC", "Led Zeppelin", "The Beatles"];
+const songs = ["Back In Black", "Stairway to Heaven", "Hey Jude"];
+const Artists = ["ACDC", "Led Zeppelin", "The Beatles"];
 
 function eraseDatabase() {}
 function restore_database() {}
@@ -1683,11 +1683,11 @@ class Alpaca {}
 **Good**:
 
 ```js
-var DAYS_IN_WEEK = 7;
-var DAYS_IN_MONTH = 30;
+const DAYS_IN_WEEK = 7;
+const DAYS_IN_MONTH = 30;
 
-var songs = ["Back In Black", "Stairway to Heaven", "Hey Jude"];
-var artists = ["ACDC", "Led Zeppelin", "The Beatles"];
+const songs = ["Back In Black", "Stairway to Heaven", "Hey Jude"];
+const artists = ["ACDC", "Led Zeppelin", "The Beatles"];
 
 function eraseDatabase() {}
 function restoreDatabase() {}
@@ -1791,15 +1791,15 @@ review.perfReview();
 ```js
 function hashIt(data) {
   // The hash
-  var hash = 0;
+  const hash = 0;
 
   // Length of string
-  var length = data.length;
+  const length = data.length;
 
   // Loop through every character in data
-  for (var i = 0; i < length; i++) {
+  for (const i = 0; i < length; i++) {
     // Get character code.
-    var char = data.charCodeAt(i);
+    const char = data.charCodeAt(i);
     // Make the hash
     hash = (hash << 5) - hash + char;
     // Convert to 32-bit integer
@@ -1812,11 +1812,11 @@ function hashIt(data) {
 
 ```js
 function hashIt(data) {
-  var hash = 0;
-  var length = data.length;
+  const hash = 0;
+  const length = data.length;
 
-  for (var i = 0; i < length; i++) {
-    var char = data.charCodeAt(i);
+  for (const i = 0; i < length; i++) {
+    const char = data.charCodeAt(i);
     hash = (hash << 5) - hash + char;
 
     // Convert to 32-bit integer

@@ -11,14 +11,14 @@
 ```js
 function inStack() {
   let number = 1e5;
-  var a;
+  const a;
 
   while (number--) {
     a = 1;
   }
 }
 
-var obj = {};
+const obj = {};
 function inHeap() {
   let number = 1e5;
 
