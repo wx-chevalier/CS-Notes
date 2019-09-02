@@ -65,13 +65,11 @@ println "- I'm the core component and provide service for other parts."
 
 对于上面所示的代码，已经很表意了：
 
-allprojects{xxx} 这段代码表示，对于所有的 project，Gradle 都将定义一个名称是 hello 的 Task { println "I'm \$task.[project.name](http://project.name/)"} 。
+- `allprojects{xxx}` 这段代码表示，对于所有的 project，Gradle 都将定义一个名称是 hello 的 Task `{ println "I'm \$task.[project.name](http://project.name/)"}` 。
 
-subprojects{xxxx}的这段代码表示，对于所有的子 project，将在名称为 hello 的 Task 上追加 Action {println "- I am the sub project of A"}
+- `subprojects{xxxx}` 的这段代码表示，对于所有的子 project，将在名称为 hello 的 Task 上追加 Action `{println "- I am the sub project of A"}`
 
-注意：关于 Task 和 Action 的关系，请看我之前写的本系列的第一部分。
-
-project(':core')的这段代码表示，对于名称为 core 的 project，将在名称为 hello 的 Task 上追加 Action { println "- I'm the core component and provide service for other parts." }
+- `project(':core')` 的这段代码表示，对于名称为 core 的 project，将在名称为 hello 的 Task 上追加 Action `{ println "- I'm the core component and provide service for other parts." }`
 
 ## Task Runner
 
@@ -81,7 +79,9 @@ project(':core')的这段代码表示，对于名称为 core 的 project，将�
 
 Gradle 的 Project 从本质上说只是含有多个 Task 的容器，一个 Task 与 Ant 的 Target 相似，表示一个逻辑上的执行单元。
 让我们来看看 Gradle API 中任务的表示：org.gradle.api.Task 接口。
+
 ![](https://lippiouyang.gitbooks.io/gradle-in-action-cn/content/images/dag25.png)
+
 我们可以通过很多种方式定义 Task，所有的 Task 都存放在 Project 的 TaskContainer 中。让我们来看一个最简单的 Task，创建一个 build.gradle 文件，内容如下：
 
 ```groovy

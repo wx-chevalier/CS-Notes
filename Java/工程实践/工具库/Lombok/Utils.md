@@ -1,291 +1,8 @@
-# 基于 Lombok 的类生成
-
-# [Lombok](https://projectlombok.org/features/index.html)
-
-Lombok 主要依赖编译时代码生成技术，帮你自动生成基于模板的常用的 Java 代码，譬如最常见的 Getter 与 Setter。之前动态的插入 Getter 与 Setter 主要有两种，一个是像 Intellij 与 Eclipse 这样在开发时动态插入，缺点是这样虽然不用你手动写，但是还是会让你的代码异常的冗长。另一种是通过类似于 Spring 这样基于注解的在运行时利用反射动态添加，不过这样的缺陷是会影响性能，并且有一定局限性。
-
-# Data Model | 数据模型
-
-## Getter&Setter
-
-源代码：
-
-```java
-
-public class GetterSetterExample {
-	@Getter @Setter private int age = 10;
-
-	@Setter(AccessLevel.PROTECTED) private String name;
-
-	@Override public String toString() {
-		return String.format("%s (age: %d)", name, age);
-	}
-}
-```
-
-编译之后的代码：
-
-```java
-public class GetterSetterExample {
-	...
-	public int getAge() {
-		return age;
-	}
-
-	...
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	...
-	protected void setName(String name) {
-		this.name = name;
-	}
-}
-```
-
-### Accessors
-
-```java
-@Accessors(fluent = true)
-public class AccessorsExample {
-  @Getter @Setter
-  private int age = 10;
-}
-
-class PrefixExample {
-  @Accessors(prefix = "f") @Getter
-  private String fName = "Hello, World!";
-}
-```
-
-如果设置了 chain 为 true，则仅在 Setter 方法中返回对象，仍然保留标准的 Getter/Setter 风格。
-
-```java
-public class AccessorsExample {
-  private int age = 10;
-
-  public int age() {
-    return this.age;
-  }
-
-  public AccessorsExample age(final int age) {
-    this.age = age;
-    return this;
-  }
-}
-
-class PrefixExample {
-  private String fName = "Hello, World!";
-
-  public String getName() {
-    return this.fName;
-  }
-}
-```
-
-### Lazy Getter
-
-源代码：
-
-```java
-public class GetterLazyExample {
-	@Getter(lazy=true) private final double[] cached = expensive();
-
-	private double[] expensive() {
-		...
-	}
-}
-```
-
-编译之后：
-
-```java
-public class GetterLazyExample {
-  private final java.util.concurrent.AtomicReference<java.lang.Object> cached = new java.util.concurrent.AtomicReference<java.lang.Object>();
-
-  public double[] getCached() {
-    java.lang.Object value = this.cached.get();
-    if (value == null) {
-      synchronized(this.cached) {
-        value = this.cached.get();
-        if (value == null) {
-          final double[] actualValue = expensive();
-          value = actualValue == null ? this.cached : actualValue;
-          this.cached.set(value);
-        }
-      }
-    }
-    return (double[])(value == this.cached ? null : value);
-  }
-
-  private double[] expensive() {
-    double[] result = new double[1000000];
-    for (int i = 0; i < result.length; i++) {
-      result[i] = Math.asin(i);
-    }
-    return result;
-  }
-}
-}
-```
-
-### Data
-
-源代码:
-
-```
-import lombok.AccessLevel;
-import lombok.Setter;
-import lombok.Data;
-import lombok.ToString;
-
-@Data public class DataExample {
-	private final String name;
-	@Setter(AccessLevel.PACKAGE) private int age;
-	private double score;
-	private String[] tags;
-
-	@ToString(includeFieldNames=true)
-	@Data(staticConstructor="of")
-	public static class Exercise<T> {
-		private final String name;
-		private final T value;
-	}
-}
-```
-
-编译后：
-
-```
-import java.util.Arrays;
-
-public class DataExample {
-	private final String name;
-	private int age;
-	private double score;
-	private String[] tags;
-
-	public DataExample(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	void setAge(int age) {
-		this.age = age;
-	}
-
-	public int getAge() {
-		return this.age;
-	}
-
-	public void setScore(double score) {
-		this.score = score;
-	}
-
-	public double getScore() {
-		return this.score;
-	}
-
-	public String[] getTags() {
-		return this.tags;
-	}
-
-	public void setTags(String[] tags) {
-		this.tags = tags;
-	}
-
-	@Override public String toString() {
-		return "DataExample(" + this.getName() + ", " + this.getAge() + ", " + this.getScore() + ", " + Arrays.deepToString(this.getTags()) + ")";
-	}
-
-	protected boolean canEqual(Object other) {
-		return other instanceof DataExample;
-	}
-
-	@Override public boolean equals(Object o) {
-		if (o == this) return true;
-		if (!(o instanceof DataExample)) return false;
-		DataExample other = (DataExample) o;
-		if (!other.canEqual((Object)this)) return false;
-		if (this.getName() == null ? other.getName() != null : !this.getName().equals(other.getName())) return false;
-		if (this.getAge() != other.getAge()) return false;
-		if (Double.compare(this.getScore(), other.getScore()) != 0) return false;
-		if (!Arrays.deepEquals(this.getTags(), other.getTags())) return false;
-		return true;
-	}
-
-	@Override public int hashCode() {
-		final int PRIME = 59;
-		int result = 1;
-		final long temp1 = Double.doubleToLongBits(this.getScore());
-		result = (result*PRIME) + (this.getName() == null ? 43 : this.getName().hashCode());
-		result = (result*PRIME) + this.getAge();
-		result = (result*PRIME) + (int)(temp1 ^ (temp1 >>> 32));
-		result = (result*PRIME) + Arrays.deepHashCode(this.getTags());
-		return result;
-	}
-
-	public static class Exercise<T> {
-		private final String name;
-		private final T value;
-
-		private Exercise(String name, T value) {
-			this.name = name;
-			this.value = value;
-		}
-
-		public static <T> Exercise<T> of(String name, T value) {
-			return new Exercise<T>(name, value);
-		}
-
-		public String getName() {
-			return this.name;
-		}
-
-		public T getValue() {
-			return this.value;
-		}
-
-		@Override public String toString() {
-			return "Exercise(name=" + this.getName() + ", value=" + this.getValue() + ")";
-		}
-
-		protected boolean canEqual(Object other) {
-			return other instanceof Exercise;
-		}
-
-		@Override public boolean equals(Object o) {
-			if (o == this) return true;
-			if (!(o instanceof Exercise)) return false;
-			Exercise<?> other = (Exercise<?>) o;
-			if (!other.canEqual((Object)this)) return false;
-			if (this.getName() == null ? other.getValue() != null : !this.getName().equals(other.getName())) return false;
-			if (this.getValue() == null ? other.getValue() != null : !this.getValue().equals(other.getValue())) return false;
-			return true;
-		}
-
-		@Override public int hashCode() {
-			final int PRIME = 59;
-			int result = 1;
-			result = (result*PRIME) + (this.getName() == null ? 43 : this.getName().hashCode());
-			result = (result*PRIME) + (this.getValue() == null ? 43 : this.getValue().hashCode());
-			return result;
-		}
-	}
-}
-```
-
-## Object
-
 ### Constructor
 
 源代码
 
-```
+```java
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -306,7 +23,7 @@ public class ConstructorExample<T> {
 
 编译之后：
 
-```
+```java
 public class ConstructorExample<T> {
 	private int x, y;
 	@NonNull private T description;
@@ -341,9 +58,7 @@ public class ConstructorExample<T> {
 
 源代码：
 
-```
-package wx.toolkits.basic.class_object.utils.lombok.object;
-
+```java
 import lombok.experimental.Builder;
 
 import java.util.Set;
@@ -365,7 +80,7 @@ public class BuilderExample {
 
 编译之后的源代码：
 
-```
+```java
 import java.util.Set;
 
 public class BuilderExample {
@@ -444,7 +159,7 @@ public class BuilderExample {
 
 #### 设置建造者模式的必要参数
 
-```
+```java
 import lombok.Builder;
 import lombok.ToString;
 
@@ -461,19 +176,13 @@ public class Person {
 }
 ```
 
-用法如下：
-
-```
-
-```
-
 ## Exception:异常处理
 
 ### NonNull
 
 源代码：
 
-```
+```java
 import lombok.NonNull;
 
 public class NonNullExample extends Something {
@@ -488,7 +197,7 @@ public class NonNullExample extends Something {
 
 编译之后：
 
-```
+```java
 import lombok.NonNull;
 
 public class NonNullExample extends Something {
@@ -508,7 +217,7 @@ public class NonNullExample extends Something {
 
 源代码：
 
-```
+```java
 import lombok.SneakyThrows;
 
 public class SneakyThrowsExample implements Runnable {
@@ -526,7 +235,7 @@ public class SneakyThrowsExample implements Runnable {
 
 编译之后：
 
-```
+```java
 import lombok.Lombok;
 
 public class SneakyThrowsExample implements Runnable {
@@ -554,7 +263,7 @@ public class SneakyThrowsExample implements Runnable {
 
 源代码：
 
-```
+```java
 import lombok.Synchronized;
 
 public class SynchronizedExample {
@@ -579,7 +288,7 @@ public class SynchronizedExample {
 
 编译之后：
 
-```
+```java
 public class SynchronizedExample {
 	private static final Object $LOCK = new Object[0];
 	private final Object $lock = new Object[0];
@@ -611,7 +320,7 @@ public class SynchronizedExample {
 
 源代码：
 
-```
+```java
 import lombok.Cleanup;
 import java.io.*;
 
@@ -681,7 +390,7 @@ Creates private static final org.slf4j.ext.XLogger log = org.slf4j.ext.XLoggerFa
 
 使用了 Lombok 之后的代码如下：
 
-```
+```java
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
