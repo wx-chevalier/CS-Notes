@@ -1,14 +1,5 @@
 # Summary 
 
-## [.github](../.github/README.md) 
-
-- [Introduction](../.github/README.md) 
-
-- [ISSUE_TEMPLATE](../.github/ISSUE_TEMPLATE/README.md) 
-  - [bug_report](../.github/ISSUE_TEMPLATE/bug_report.md) 
-  - [custom](../.github/ISSUE_TEMPLATE/custom.md) 
-  - [feature_request](../.github/ISSUE_TEMPLATE/feature_request.md) 
-
 ## [CPP](../CPP/README.md) 
 
 - [Introduction](../CPP/README.md) 
