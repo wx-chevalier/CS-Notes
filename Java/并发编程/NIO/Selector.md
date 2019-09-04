@@ -1,6 +1,6 @@
 # Selector
 
-多路复用器的核心就是通过 Selector 来轮询其上的 Channel，当发现某个或者多个 Channel 处于就绪状态后，从阻塞状态返回就绪的 Channel 的选择键集合，进行 I/O 操作。
+多路复用器的核心就是通过 Selector 来轮询其上的 Channel，当发现某个或者多个 Channel 处于就绪状态后，从阻塞状态返回就绪的 Channel 的选择键集合，进行 IO 操作。
 
 Java 的 NIO 为 Reactor 模式提供了实现的基础机制，它的 Selector 当发现某个 Channel 有数据时，会通过 SelectorKey 来告知我们，在此我们实现事件和 Handler 的绑定。
 
