@@ -2,18 +2,14 @@
 
 ## Babel
 
-```
+```js
 class Parent {
-
   constructor() {
     this.a = 1;
   }
-
 }
 
-class Child extends Parent {
-
-}
+class Child extends Parent {}
 ```
 
 ```js
