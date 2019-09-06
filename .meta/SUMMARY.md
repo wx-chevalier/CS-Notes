@@ -432,6 +432,7 @@
 
 - [Introduction](../Rust/README.md) 
 
+- [GUI](../Rust/GUI/README.md) 
 - [导论](../Rust/导论/README.md) 
   - [Rust 初窥](../Rust/导论/Rust 初窥.md) 
 - [编码规约](../Rust/编码规约/README.md) 
