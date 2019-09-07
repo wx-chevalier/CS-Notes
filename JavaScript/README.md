@@ -1,6 +1,6 @@
 ![封面](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/1/1-roedigbmFjRYkZobdZWuKg.jpeg)
 
-# [现代 JavaScript 开发：语法基础与工程实践](https://url.wx-coder.cn/lrKga)
+# 现代 JavaScript 开发：语法基础与工程实践
 
 历经二十载风云变幻，JavaScript 也终于成为了一流的语言，在前端开发、服务端开发、嵌入式开发乃至于机器学习与数据挖掘、操作系统开发等各个领域都有不俗的表现。而在这不断的变化之后，也有很多语法或者模式成了明日黄花；本系列文章即是希望为读者总结与呈现出最新的应该掌握的 JavaScript 语法基础与实践基础。
 

@@ -1,4 +1,4 @@
-[![返回目录](https://i.postimg.cc/KvQbty96/image.png)](https://url.wx-coder.cn/lrKga)
+[![返回目录](https://i.postimg.cc/KvQbty96/image.png)](https://ngte-pl.gitbook.io/i/javascript)
 
 # Promise/A 内部原理与常见接口实现
 
