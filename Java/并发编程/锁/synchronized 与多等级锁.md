@@ -105,3 +105,7 @@ Java 6，7 默认开启偏向锁，可以通过 JVM 的参数 `-XX:-UsebiasedLoc
 当膨胀到重量级锁时，不会再通过自选获得锁(自旋时线程处于活动状态，会消耗 CPU)，而是将线程阻塞，获得锁的线程执行完后会释放重量级锁，此时唤醒因为锁阻塞的线程，进行新一轮的竞争。
 
 ## 重量级锁
+
+# 链接
+
+- https://blog.csdn.net/significantfrank/article/details/80399179 Synchronized 和 Lock 该如何选择
