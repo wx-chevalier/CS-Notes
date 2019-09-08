@@ -5,3 +5,7 @@ Because if it were an instance level field, then it would actually be "Per Threa
 Usually it's holding something like objects that are scoped to a User Conversation, Web Request, etc. You don't want them also sub-scoped to the instance of the class.
 One web request => one Persistence session.
 Not one web request => one persistence session per object.
+
+# 链接
+
+- https://mp.weixin.qq.com/s/6RlOtw78ALEN7UVUX8FoDg
