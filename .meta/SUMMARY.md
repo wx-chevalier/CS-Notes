@@ -150,6 +150,7 @@
     - [依赖管理](../Java/工程实践/Gradle/依赖管理.md) 
     - [多项目结构](../Java/工程实践/Gradle/多项目结构.md) 
     - [构建脚本](../Java/工程实践/Gradle/构建脚本.md) 
+    - [配置与命令](../Java/工程实践/Gradle/配置与命令.md) 
   - [Groovy](../Java/工程实践/Groovy/README.md) 
   - [HTTP](../Java/工程实践/HTTP/README.md) 
   - [JavaFX](../Java/工程实践/JavaFX/README.md) 
