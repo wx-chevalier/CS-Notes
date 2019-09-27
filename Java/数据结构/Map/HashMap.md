@@ -1,77 +1,87 @@
 # Java HashMap
 
-我们主要结合源码，从存储结构、常用方法分析、扩容以及安全性等方面深入讲解 HashMap 的工作原理。
+HashMap 由数组和链表组成的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的。如果定位到的数组位置不含链表，那么查找、添加等操作很快，仅需一次寻址即可，其时间复杂度为 O(1)；如果定位到的数组包含链表，对于添加操作，其时间复杂度为 O(n)——首先遍历链表，存在即覆盖，不存在则新增；对于查找操作来讲，仍需要遍历链表，然后通过 key 对象的 equals 方法逐一对比查找。从性能上考虑，HashMap 中的链表出现越少，即哈希冲突越少，性能也就越好。所以，在日常编码中，可以使用 HashMap 存取键值映射关系。
 
-Java 8 开始 HashMap 的实现是综合利用了数组、链表与红黑树。
+# 应用示例
 
-下面这段代码是 java.util.HashMap 的中 put 方法的具体实现：
+## 数组转化为树
 
 ```java
-public V put(K key, V value) {
-    if (key == null)
-        return putForNullKey(value);
+/** 菜单DO类 */
+@Setter
+@Getter
+@ToString
+public static class MenuDO {
+    /** 菜单标识 */
+    private Long id;
+    /** 菜单父标识 */
+    private Long parentId;
+    /** 菜单名称 */
+    private String name;
+    /** 菜单链接 */
+    private String url;
+}
 
-    // 计算 key 的 hashCode 值
-    int hash = hash(key.hashCode());
-    // 提取出该值在 HashTable 中的下标
-    int i = indexFor(hash, table.length);
+/** 菜单VO类 */
+@Setter
+@Getter
+@ToString
+public static class MenuVO {
+    /** 菜单标识 */
+    private Long id;
+    /** 菜单名称 */
+    private String name;
+    /** 菜单链接 */
+    private String url;
+    /** 子菜单列表 */
+    private List<MenuVO> childList;
+}
 
-    // 这里是使用了链表方式来存储元素，依次提取出元素
-    for (Entry<K,V> e = table[i]; e != null; e = e.next) {
-        Object k;
+/** 构建菜单树函数 */
+public static List<MenuVO> buildMenuTree(List<MenuDO> menuList) {
+    // 检查列表为空
+    if (CollectionUtils.isEmpty(menuList)) {
+        return Collections.emptyList();
+    }
 
-        // 如果存在相似的则进行替换
-        if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
-            V oldValue = e.value;
-            e.value = value;
-            e.recordAccess(this);
-            return oldValue;
+    // 依次处理菜单
+    int menuSize = menuList.size();
+    List<MenuVO> rootList = new ArrayList<>(menuSize);
+    Map<Long, MenuVO> menuMap = new HashMap<>(menuSize);
+    for (MenuDO menuDO : menuList) {
+        // 赋值菜单对象
+        Long menuId = menuDO.getId();
+        MenuVO menu = menuMap.get(menuId);
+        if (Objects.isNull(menu)) {
+            menu = new MenuVO();
+            menu.setChildList(new ArrayList<>());
+            menuMap.put(menuId, menu);
+        }
+        menu.setId(menuDO.getId());
+        menu.setName(menuDO.getName());
+        menu.setUrl(menuDO.getUrl());
+
+        // 根据父标识处理
+        Long parentId = menuDO.getParentId();
+        if (Objects.nonNull(parentId)) {
+            // 构建父菜单对象
+            MenuVO parentMenu = menuMap.get(parentId);
+            if (Objects.isNull(parentMenu)) {
+                parentMenu = new MenuVO();
+                parentMenu.setId(parentId);
+                parentMenu.setChildList(new ArrayList<>());
+                menuMap.put(parentId, parentMenu);
+            }
+
+            // 添加子菜单对象
+            parentMenu.getChildList().add(menu);
+        } else {
+            // 添加根菜单对象
+            rootList.add(menu);
         }
     }
 
-    // 否则添加新的入口
-    modCount++;
-    addEntry(hash, key, value, i);
-    return null;
+    // 返回根菜单列表
+    return rootList;
 }
 ```
-
-# get
-
-下面是 HashMap 的 get 方法的具体实现：
-
-```
-public V get(Object key) {
-        if (key == null)
-            return getForNullKey();
-        int hash = hash(key.hashCode());
-        for (Entry<K,V> e = table[indexFor(hash, table.length)];
-             e != null;
-             e = e.next) {
-            Object k;
-            if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
-                return e.value;
-        }
-        return null;
-    }
-```
-
-所以在 hashmap 进行 get 操作时，因为得到的 hashcdoe 值不同(注意，上述代码也许在某些情况下会得到相同的 hashcode 值，不过 这种概率比较小，因为虽然两个对象的存储地址不同也有可能得到相同的 hashcode 值)，所以导致在 get 方法中 for 循环不会执行，直接返回 null。
-
-# 链接
-
-- [hashmap-changes-in-java-8/](https://examples.javacodegeeks.com/core-java/util/hashmap/hashmap-changes-in-java-8/)
-
-- [Java8 系列之重新认识 HashMap](http://www.importnew.com/20386.html)
-
-- [LinkedHashMap 原理解析](http://uule.iteye.com/blog/1522291)
-
-- [Java HashMap 原理解析](https://github.com/HelloListen/Secret/blob/master/content/post/2016/05/java-hashmap-hashcode-hash.md)
-
-- https://www.cnblogs.com/xawei/p/6747660.html
-
-- https://www.cnblogs.com/shileibrave/p/9836731.html
-
-- http://www.importnew.com/28263.html
-
-- https://mp.weixin.qq.com/s/XMQ27dyGokAegjOnba7FJA
