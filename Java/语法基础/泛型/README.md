@@ -16,10 +16,7 @@
 泛型类就是把泛型定义在类上，用户使用该类的时候，才把类型明确下来。这样的话，用户明确了什么类型，该类就代表着什么类型。用户在使用的时候就不用担心强转的问题，运行时转换异常的问题了。
 
 ```java
-/*
-    1:把泛型定义在类上
-    2:类型变量定义在类上,方法中也可以使用
- */
+/* 把泛型定义在类上，类型变量定义在类上,方法中也可以使用 */
 public class ObjectTool<T> {
     private T obj;
 
@@ -33,7 +30,7 @@ public class ObjectTool<T> {
 }
 
 public static void main(String[] args) {
-    //创建对象并指定元素类型
+    // 创建对象并指定元素类型
     ObjectTool<String> tool = new ObjectTool<>();
 
     tool.setObj(new String("钟福成"));
@@ -70,6 +67,32 @@ public static void main(String[] args) {
     tool.show("hello");
     tool.show(12);
     tool.show(12.5);
+}
+```
+
+定义泛型的浅拷贝函数：
+
+```java
+/** 浅拷贝函数 */
+public static <T> T shallowCopy(Object source, Class<T> clazz) throws BeansException {
+    // 判断源对象
+    if (Objects.isNull(source)) {
+        return null;
+    }
+
+    // 新建目标对象
+    T target;
+    try {
+        target = clazz.newInstance();
+    } catch (Exception e) {
+        throw new BeansException("新建类实例异常", e);
+    }
+
+    // 拷贝对象属性
+    BeanUtils.copyProperties(source, target);
+
+    // 返回目标对象
+    return target;
 }
 ```
 
@@ -129,76 +152,6 @@ public static void main(String[] args) {
 ```
 
 值得注意的是，类上声明的泛型只对非静态成员有效，并且实现类的要是重写父类的方法，返回值的类型是要和父类一样的。
-
-# 类型通配符
-
-类型通配符常用于对动态不定类型的处理，譬如方法接收一个集合参数，遍历集合并把集合元素打印出来：
-
-```java
-public void test(List<Object> list){
-    for(int i=0;i<list.size();i++){
-        System.out.println(list.get(i));
-    }
-}
-```
-
-值得注意的是，该 test()方法只能遍历装载着 Object 的集合，泛型中的`<Object>` 并不是像以前那样有继承关系的，也就是说 `List<Object>` 和 `List<String>` 是毫无关系的。Java 泛型提供了类型通配符 ?：
-
-```java
-public void test(List<?> list){
-    for(int i=0;i<list.size();i++){
-        System.out.println(list.get(i));
-    }
-}
-```
-
-? 号通配符表示可以匹配任意类型，任意的 Java 类都可以匹配。当我们使用?号通配符的时候：就只能调对象与类型无关的方法，不能调用对象与类型有关的方法。记住，只能调用与对象无关的方法，不能调用对象与类型有关的方法。因为直到外界使用才知道具体的类型是什么。也就是说，在上面的 List 集合，我是不能使用 add()方法的。因为 add()方法是把对象丢进集合中，而现在我是不知道对象的类型是什么。
-
-## 设定通配符上限
-
-譬如 List 集合装载的元素只能是 Number 的子类或自身：
-
-```java
-public static void main(String[] args) {
-    //List集合装载的是Integer，可以调用该方法
-    List<Integer> integer = new ArrayList<>();
-    test(integer);
-
-    //List集合装载的是String，在编译时期就报错了
-    List<String> strings = new ArrayList<>();
-    test(strings);
-}
-
-public static void test(List<? extends Number> list) {
-}
-```
-
-## 设定通配符下限
-
-```java
-//传递进来的只能是Type或Type的父类
-<? super Type>
-
-public TreeSet(Comparator<? super E> comparator) {
-    this(new TreeMap<>(comparator));
-}
-```
-
-当我们想要创建一个 `TreeSet<String>` 类型的变量的时候，并传入一个可以比较 String 大小的 Comparator。那么这个 Comparator 的选择就有很多了，它可以是`Comparator<String>`，还可以是类型参数是 String 的父类，比如说`Comparator<Objcet>`。无论是设定通配符上限还是下限，都是不能操作与对象有关的方法，只要涉及到了通配符，它的类型都是不确定的。
-
-## 通配符和泛型方法
-
-大多时候，我们都可以使用泛型方法来代替通配符的：
-
-```java
-//使用通配符
-public static void test(List<?> list) {}
-
-//使用泛型方法
-public <T> void  test2(List<T> t) {}
-```
-
-如果参数之间的类型有依赖关系，或者返回值是与参数之间有依赖关系的。那么就使用泛型方法。如果没有依赖关系的，就使用通配符，通配符会灵活一些。
 
 # 泛型擦除
 
