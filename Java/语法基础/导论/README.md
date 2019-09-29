@@ -8,7 +8,7 @@
 
 ## Reference
 
-### Blogs & News
+### Blog & News
 
 - [java-weekly](http://www.thoughts-on-java.org/java-weekly/)
 - [Java, JVM and beyond](http://blog.sanaulla.info/)
