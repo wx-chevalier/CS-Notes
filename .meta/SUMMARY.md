@@ -66,6 +66,7 @@
 - [数据库](../Go/数据库/README.md) 
   - [ElasticSearch](../Go/数据库/ElasticSearch.md) 
   - [MySQL](../Go/数据库/MySQL.md) 
+  - [数据库连接池](../Go/数据库/数据库连接池.md) 
 - [数据结构](../Go/数据结构/README.md) 
   - [基础类型](../Go/数据结构/基础类型.md) 
   - [字符串](../Go/数据结构/字符串.md) 
