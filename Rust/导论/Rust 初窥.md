@@ -1,4 +1,4 @@
-> []() 从属于笔者的 [Rust in Action]() 系列文章，介绍了 Rust 的背景、安装与包管理、基础语法、构建简单的 Web 服务器以及如何编译为 WebAssembly。
+- []() 从属于笔者的 [Rust in Action]() 系列文章，介绍了 Rust 的背景、安装与包管理、基础语法、构建简单的 Web 服务器以及如何编译为 WebAssembly。
 
 # Rust 初窥 : 设计理念、包管理与 WebAssembly 集成
 
