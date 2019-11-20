@@ -65,10 +65,28 @@ replace (
 
 需要注意的是，该文件中声明的依赖，并不会在模块的源代码中使用 import 自动导入，还是需要我们人工添加 import 语句来导入的。模块可以包含其他模块，在这种情况下，它们的内容将从父模块中排除。除了 go.mod 文件外，跟目录下还可以存在一个名为 go.sum 的文件，用于保存所有的依赖项的哈希摘要校验之，用于验证缓存的依赖项是否满足模块要求。
 
+## 目录结构
+
+一般来说，我们在 go.mod 中指定的名称是项目名，每个 package 中的名称需要和目录名保持一致。
+
+```go
+// go.mod
+module myprojectname
+// or
+module github.com/myname/myproject
+```
+
+然后用如下方式导入其他模块：
+
+```go
+import myprojectname/stuff
+import github.com/myname/myproject/stuff
+```
+
 # 外部依赖
 
 模块依赖项会被下载并存储到 `GOPATH/src/mod` 目录中，直接后果就是废除了模块的组织名称。假设我们正在开发的项目依赖于 github.com/me/lib 且版本号 1.0.0 的模块，对于这种情况，我们会发现在 GOPATH/src/mod 中文件结构如下：
 
-![](https://www.twle.cn/static/i/golang/20180803_golang_3.png)
+![Go Modules 缓存路径](https://s1.ax1x.com/2019/11/19/M2IIhD.png)
 
 Go 的模块版本号必须以 v 开头，在发布版本时可以通过 Tag 方式来指定不同的版本。我们可以使用 `go list -m all` 来查看全部的依赖，使用 `go mod tidy` 来移除未被使用的依赖，使用 `go mod vendor` 可以生成独立的 vendor 目录。

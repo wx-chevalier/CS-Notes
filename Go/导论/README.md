@@ -32,31 +32,3 @@ func main() {
 每一个可独立运行的 协程序，必定包含一个 package main，在这个 main 包中必定包含一个入口函数 main，而这个函数既没有参数，也没有返回值。为了打印 Hello, world...，我们调用了一个函数 Printf，这个函数来自于 fmt 包，所以我们在第三行中导入了系统级别的 fmt 包：import "fmt"。包的概念和 Python 中的 package 类似，它们都有一些特别的好处：模块化(能够把你的程序分成多个模块)和可重用性(每个模块都能被其它应用程序反复使用)。
 
 最后大家可以看到我们输出的内容里面包含了很多非 ASCII 码字符。实际上，Go 是天生支持 UTF-8 的，任何字符都可以直接输出，你甚至可以用 UTF-8 中的任何字符作为标识符。
-
-# 目录结构
-
-通过上面建立的我本地的 mygo 的目录结构如下所示
-
-```sh
-xml
-bin/
-  mathapp
-pkg/
-  平台名/ 如：darwin_amd64、linux_amd64
- mymath.a
- github.com/
-  astaxie/
- beedb.a
-src/
-  mathapp
-  main.go
-  mymath/
-  sqrt.go
-  github.com/
- astaxie/
-  beedb/
-  beedb.go
-  util.go
-```
-
-从上面的结构我们可以很清晰的看到，bin 目录下面存的是编译之后可执行的文件，pkg 下面存放的是应用包，src 下面保存的是应用源代码
