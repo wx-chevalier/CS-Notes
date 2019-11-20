@@ -77,7 +77,6 @@
 - [文件系统](../Go/文件系统/README.md) 
 - [模块机制](../Go/模块机制/README.md) 
   - [Go Modules](../Go/模块机制/Go Modules.md) 
-  - [依赖管理](../Go/模块机制/依赖管理.md) 
   - [包](../Go/模块机制/包.md) 
 - [流程控制](../Go/流程控制/README.md) 
   - [循环](../Go/流程控制/循环.md) 
