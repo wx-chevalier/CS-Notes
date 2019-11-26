@@ -112,8 +112,13 @@
 
 - [Introduction](../Python/README.md) 
 
+- [QuickStart](../Python/QuickStart/README.md) 
+  - [HelloWorld](../Python/QuickStart/HelloWorld.md) 
+  - [开发环境](../Python/QuickStart/开发环境.md) 
+  - [终端应用](../Python/QuickStart/终端应用.md) 
 - [内置数据结构](../Python/内置数据结构/README.md) 
   - [dict](../Python/内置数据结构/dict.md) 
+  - [字符串](../Python/内置数据结构/字符串.md) 
   - [序列化](../Python/内置数据结构/序列化.md) 
   - [序列类型](../Python/内置数据结构/序列类型.md) 
 - [变量操作](../Python/变量操作/README.md) 
@@ -122,9 +127,6 @@
 - [存储](../Python/存储/README.md) 
   - [文件系统](../Python/存储/文件系统.md) 
   - [文件读写](../Python/存储/文件读写.md) 
-- [导论](../Python/导论/README.md) 
-  - [快速开始](../Python/导论/快速开始.md) 
-  - [终端应用](../Python/导论/终端应用.md) 
 - [并发编程](../Python/并发编程/README.md) 
   - [Ray](../Python/并发编程/Ray.md) 
   - [锁](../Python/并发编程/锁.md) 
@@ -141,6 +143,7 @@
   - [对象](../Python/类与对象/对象.md) 
   - [类的定义](../Python/类与对象/类的定义.md) 
 - [编码规约](../Python/编码规约/README.md) 
+- [背景特性](../Python/背景特性/README.md) 
 - [静态类型](../Python/静态类型/README.md) 
   - [typing](../Python/静态类型/typing.md) 
 
