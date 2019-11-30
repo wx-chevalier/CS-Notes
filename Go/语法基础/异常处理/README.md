@@ -1,95 +1,26 @@
 # Go 中的异常处理
 
-Go 语言中并不存在 try-catch 等异常处理的关键字，对于那些可能返回异常的函数，只需要在函数返回值中添加额外的 Error 类型的返回值：
+错误处理是每个编程语言都要考虑的一个重要话题。在 Go 语言的错误处理中，错误是软件包 API 和应用程序用户界面的一个重要组成部分。在程序中总有一部分函数总是要求必须能够成功的运行。比如 strconv.Itoa 将整数转换为字符串，从数组或切片中读写元素，从 map 读取已经存在的元素等。这类操作在运行时几乎不会失败，除非程序中有 BUG，或遇到灾难性的、不可预料的情况，比如运行时的内存溢出。如果真的遇到真正异常情况，我们只要简单终止程序就可以了。
+
+排除异常的情况，如果程序运行失败仅被认为是几个预期的结果之一。对于那些将运行失败看作是预期结果的函数，它们会返回一个额外的返回值，通常是最后一个来传递错误信息。如果导致失败的原因只有一个，额外的返回值可以是一个布尔值，通常被命名为 ok。比如，当从一个 map 查询一个结果时，可以通过额外的布尔值判断是否成功：
 
 ```go
-type error interface {
-    Error() string
+if v, ok := m["key"]; ok {
+	return v
 }
 ```
 
-错误信息不要以大写字母开头或是以句点结尾。因为他们通常会在一个上下文中被打印出来。某个可能返回异常的函数调用方式如下：
+但是导致失败的原因通常不止一种，很多时候用户希望了解更多的错误信息。如果只是用简单的布尔类型的状态值将不能满足这个要求。在 C 语言中，默认采用一个整数类型的 errno 来表达错误，这样就可以根据需要定义多种错误类型。在 Go 语言中，syscall.Errno 就是对应 C 语言中 errno 类型的错误。在 syscall 包中的接口，如果有返回错误的话，底层也是 syscall.Errno 错误类型。
 
-```go
-import (
-    "fmt"
-    "errors"
-)
+比如我们通过`syscall`包的接口来修改文件的模式时，如果遇到错误我们可以通过将`err`强制断言为`syscall.Errno`错误类型来处理：
 
-func main() {
-    result, err:= Divide(2,0)
-
-    if err != nil {
-            fmt.Println(err)
-    }else {
-            fmt.Println(result)
-    }
-}
-
-func Divide(value1 int,value2 int)(int, error) {
-    if(value2 == 0){
-        return 0, errors.New("value2 mustn't be zero")
-    }
-    return value1/value2  , nil
+```
+err := syscall.Chmod(":invalid path:", 0666)
+if err != nil {
+	log.Fatal(err.(syscall.Errno))
 }
 ```
 
-# 典型错误
-
-```go
-// PathError 记录一个错误以及产生该错误的路径和操作。
-type PathError struct {
-	Op string    // "open"、"unlink" 等等。
-	Path string  // 相关联的文件。
-	Err error    // 由系统调用返回。
-}
-
-func (e *PathError) Error() string {
-	return e.Op + " " + e.Path + ": " + e.Err.Error()
-}
-```
-
-PathError 的 Error 会生成如下错误信息：
-
-```go
-open /etc/passwx: no such file or directory
-```
-
-这种错误包含了出错的文件名、操作和触发的操作系统错误，即便在产生该错误的调用 和输出的错误信息相距甚远时，它也会非常有用，这比苍白的“不存在该文件或目录”更具说明性。
-
-错误字符串应尽可能地指明它们的来源，例如产生该错误的包名前缀。例如在 image 包中，由于未知格式导致解码错误的字符串为“image: unknown format”。
-
-若调用者关心错误的完整细节，可使用类型选择或者类型断言来查看特定错误，并抽取其细节。对于 PathErrors，它应该还包含检查内部的 Err 字段以进行可能的错误恢复。
-
-```go
-for try := 0; try < 2; try++ {
-	file, err = os.Create(filename)
-	if err == nil {
-		return
-	}
-	if e, ok := err.(*os.PathError); ok && e.Err == syscall.ENOSPC {
-		deleteTempFiles()  // 恢复一些空间。
-		continue
-	}
-	return
-}
-```
-
-这里的第二条 if 是另一种类型断言。若它失败， ok 将为 false，而 e 则为 nil. 若它成功，ok 将为 true，这意味着该错误属于 \*os.PathError 类型，而 e 能够检测关于该错误的更多信息。
-
-预先定义好的错误，例如 os 包中预先定义好一系列错误，并且设置为导出变量，使用放可以通过导出变量来判读到底发生了何种类型的错误。
-
-```go
-// Portable analogs of some common system call errors.
-var (
-	ErrInvalid    = errors.New("invalid argument") // methods on File will return this error when the receiver is nil
-	ErrPermission = errors.New("permission denied")
-	ErrExist      = errors.New("file already exists")
-	ErrNotExist   = errors.New("file does not exist")
-	ErrClosed     = errors.New("file already closed")
-	ErrNoDeadline = poll.ErrNoDeadline
-)
-```
+我们还可以进一步地通过类型查询或类型断言来获取底层真实的错误类型，这样就可以获取更详细的错误信息。不过一般情况下我们并不关心错误在底层的表达方式，我们只需要知道它是一个错误就可以了。当返回的错误值不是 `nil` 时，我们可以通过调用 `error` 接口类型的 `Error` 方法来获得字符串类型的错误信息。
 
 # 链接
-

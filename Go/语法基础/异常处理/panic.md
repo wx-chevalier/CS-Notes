@@ -49,7 +49,8 @@ func main(){
         if r := recover();r != nil{
             fmt.Println(r)
         }
-    }()
+	}()
+
     panic([]int{12312})
 }
 ```
@@ -58,7 +59,7 @@ func main(){
 
 调用 recover 将停止回溯过程，并返回传入 panic 的实参。由于在回溯时只有被推迟函数中的代码在运行，因此 recover 只能在被推迟的函数中才有效。
 
-recover 的一个应用就是在服务器中终止失败的 协程而无需杀死其它正在执行的 协程。
+recover 的一个应用就是在服务器中终止失败的协程而无需杀死其它正在执行的协程。
 
 ```go
 func server(workChan <-chan *Work) {
