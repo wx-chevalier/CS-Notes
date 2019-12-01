@@ -38,3 +38,105 @@ func main() {
 ```
 
 当有多个管道均可操作时，select 会随机选择一个管道。基于该特性我们可以用 select 实现一个生成随机数序列的程序：
+
+```go
+func main() {
+	ch := make(chan int)
+	go func() {
+		for {
+			select {
+			case ch <- 0:
+			case ch <- 1:
+			}
+		}
+	}()
+
+	for v := range ch {
+		fmt.Println(v)
+	}
+}
+```
+
+我们通过 select 和 default 分支可以很容易实现一个 Goroutine 的退出控制:
+
+```go
+func worker(cannel chan bool) {
+	for {
+		select {
+		default:
+			fmt.Println("hello")
+			// 正常工作
+		case <-cannel:
+			// 退出
+		}
+	}
+}
+
+func main() {
+	cannel := make(chan bool)
+	go worker(cannel)
+
+	time.Sleep(time.Second)
+	cannel <- true
+}
+```
+
+但是管道的发送操作和接收操作是一一对应的，如果要停止多个 Goroutine 那么可能需要创建同样数量的管道，这个代价太大了。其实我们可以通过 close 关闭一个管道来实现广播的效果，所有从关闭管道接收的操作均会收到一个零值和一个可选的失败标志。
+
+```go
+func worker(cannel chan bool) {
+	for {
+		select {
+		default:
+			fmt.Println("hello")
+			// 正常工作
+		case <-cannel:
+			// 退出
+		}
+	}
+}
+
+func main() {
+	cancel := make(chan bool)
+
+	for i := 0; i < 10; i++ {
+		go worker(cancel)
+	}
+
+	time.Sleep(time.Second)
+	close(cancel)
+}
+```
+
+我们通过 close 来关闭 cancel 管道向多个 Goroutine 广播退出的指令。不过这个程序依然不够稳健：当每个 Goroutine 收到退出指令退出时一般会进行一定的清理工作，但是退出的清理工作并不能保证被完成，因为 main 线程并没有等待各个工作 Goroutine 退出工作完成的机制。我们可以结合 sync.WaitGroup 来改进:
+
+```go
+func worker(wg *sync.WaitGroup, cannel chan bool) {
+	defer wg.Done()
+
+	for {
+		select {
+		default:
+			fmt.Println("hello")
+		case <-cannel:
+			return
+		}
+	}
+}
+
+func main() {
+	cancel := make(chan bool)
+
+	var wg sync.WaitGroup
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go worker(&wg, cancel)
+	}
+
+	time.Sleep(time.Second)
+	close(cancel)
+	wg.Wait()
+}
+```
+
+现在每个工作者并发体的创建、运行、暂停和退出都是在 main 函数的安全控制之下了。
