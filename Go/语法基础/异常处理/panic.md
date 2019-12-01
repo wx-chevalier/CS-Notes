@@ -59,6 +59,8 @@ func main(){
 
 调用 recover 将停止回溯过程，并返回传入 panic 的实参。由于在回溯时只有被推迟函数中的代码在运行，因此 recover 只能在被推迟的函数中才有效。
 
+## 局部容错
+
 recover 的一个应用就是在服务器中终止失败的协程而无需杀死其它正在执行的协程。
 
 ```go
@@ -78,9 +80,150 @@ func safelyDo(work *Work) {
 }
 ```
 
-在此例中，若 do(work) 触发了 Panic，其结果就会被记录， 而该 协程会被干净利落地结束，不会干扰到其它 协程。我们无需在推迟的闭包中做任何事情， recover 会处理好这一切。
+在此例中，若 do(work) 触发了 Panic，其结果就会被记录， 而该协程会被干净利落地结束，不会干扰到其它协程。我们无需在推迟的闭包中做任何事情， recover 会处理好这一切。由于直接从被推迟函数中调用 recover 时不会返回 nil， 因此被推迟的代码能够调用本身使用了 panic 和 recover 的库函数而不会失败。例如在 safelyDo 中，被推迟的函数可能在调用 recover 前先调用记录函数，而该记录函数应当不受 Panic 状态的代码的影响。
 
-由于直接从被推迟函数中调用 recover 时不会返回 nil， 因此被推迟的代码能够调用本身使用了 panic 和 recover 的库函数而不会失败。例如在 safelyDo 中，被推迟的函数可能在调用 recover 前先调用记录函数，而该记录函数应当不受 Panic 状态的代码的影响。
+## 避免在非 defer 语句中调用 recover
+
+在非`defer`语句中执行`recover`调用是初学者常犯的错误:
+
+```
+func main() {
+	if r := recover(); r != nil {
+		log.Fatal(r)
+	}
+
+	panic(123)
+
+	if r := recover(); r != nil {
+		log.Fatal(r)
+	}
+}
+```
+
+上面程序中两个`recover`调用都不能捕获任何异常。在第一个`recover`调用执行时，函数必然是在正常的非异常执行流程中，这时候`recover`调用将返回`nil`。发生异常时，第二个`recover`调用将没有机会被执行到，因为`panic`调用会导致函数马上执行已经注册`defer`的函数后返回。
+
+其实`recover`函数调用有着更严格的要求：我们必须在`defer`函数中直接调用`recover`。如果`defer`中调用的是`recover`函数的包装函数的话，异常的捕获工作将失败！比如，有时候我们可能希望包装自己的`MyRecover`函数，在内部增加必要的日志信息然后再调用`recover`，这是错误的做法：
+
+```go
+func main() {
+	defer func() {
+		// 无法捕获异常
+		if r := MyRecover(); r != nil {
+			fmt.Println(r)
+		}
+	}()
+	panic(1)
+}
+
+func MyRecover() interface{} {
+	log.Println("trace...")
+	return recover()
+}
+```
+
+同样，如果是在嵌套的`defer`函数中调用`recover`也将导致无法捕获异常：
+
+```go
+func main() {
+	defer func() {
+		defer func() {
+			// 无法捕获异常
+			if r := recover(); r != nil {
+				fmt.Println(r)
+			}
+		}()
+	}()
+	panic(1)
+}
+```
+
+2 层嵌套的`defer`函数中直接调用`recover`和 1 层`defer`函数中调用包装的`MyRecover`函数一样，都是经过了 2 个函数帧才到达真正的`recover`函数，这个时候 Goroutine 的对应上一级栈帧中已经没有异常信息。
+
+如果我们直接在`defer`语句中调用`MyRecover`函数又可以正常工作了：
+
+```go
+func MyRecover() interface{} {
+	return recover()
+}
+
+func main() {
+	// 可以正常捕获异常
+	defer MyRecover()
+	panic(1)
+}
+```
+
+但是，如果`defer`语句直接调用`recover`函数，依然不能正常捕获异常：
+
+```go
+func main() {
+	// 无法捕获异常
+	defer recover()
+	panic(1)
+}
+```
+
+必须要和有异常的栈帧只隔一个栈帧，`recover`函数才能正常捕获异常。换言之，`recover`函数捕获的是祖父一级调用函数栈帧的异常（刚好可以跨越一层`defer`函数）！
+
+当然，为了避免`recover`调用者不能识别捕获到的异常, 应该避免用`nil`为参数抛出异常:
+
+```go
+func main() {
+	defer func() {
+		if r := recover(); r != nil { ... }
+		// 虽然总是返回nil, 但是可以恢复异常状态
+	}()
+
+	// 警告: 用`nil`为参数抛出异常
+	panic(nil)
+}
+```
+
+当希望将捕获到的异常转为错误时，如果希望忠实返回原始的信息，需要针对不同的类型分别处理：
+
+```go
+func foo() (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			switch x := r.(type) {
+			case string:
+				err = errors.New(x)
+			case error:
+				err = x
+			default:
+				err = fmt.Errorf("Unknown panic: %v", r)
+			}
+		}
+	}()
+
+	panic("TODO")
+}
+```
+
+基于这个代码模板，我们甚至可以模拟出不同类型的异常。通过为定义不同类型的保护接口，我们就可以区分异常的类型了：
+
+```go
+func main {
+	defer func() {
+		if r := recover(); r != nil {
+			switch x := r.(type) {
+			case runtime.Error:
+				// 这是运行时错误类型异常
+			case error:
+				// 普通错误类型异常
+			default:
+				// 其他类型异常
+			}
+		}
+	}()
+
+	// ...
+}
+```
+
+不过这样做和 Go 语言简单直接的编程哲学背道而驰了。
+
+## 适当的异常处理
 
 通过恰当地使用恢复模式，do 函数（及其调用的任何代码）可通过调用 panic 来避免更坏的结果。我们可以利用这种思想来简化复杂软件中的错误处理。让我们看看 regexp 包的理想化版本，它会以局部的错误类型调用 panic 来报告解析错误。以下是一个 error 类型的 Error 方法和一个 Compile 函数的定义：
 
@@ -110,7 +253,7 @@ func Compile(str string) (regexp *Regexp, err error) {
 }
 ```
 
-若 doParse 触发了 Panic，恢复块会将返回值设为 nil —被推迟的函数能够修改已命名的返回值。在 err 的赋值过程中， 我们将通过断言它是否拥有局部类型 Error 来检查它。若它没有， 类型断言将会失败，此时会产生运行时错误，并继续栈的回溯，仿佛一切从未中断过一样。该检查意味着若发生了一些像索引越界之类的意外，那么即便我们使用了 panic 和 recover 来处理解析错误，代码仍然会失败。
+若 doParse 触发了 Panic，恢复块会将返回值设为 nil，被推迟的函数能够修改已命名的返回值。在 err 的赋值过程中，我们将通过断言它是否拥有局部类型 Error 来检查它。若它没有，类型断言将会失败，此时会产生运行时错误，并继续栈的回溯，仿佛一切从未中断过一样。该检查意味着若发生了一些像索引越界之类的意外，那么即便我们使用了 panic 和 recover 来处理解析错误，代码仍然会失败。
 
 通过适当的错误处理，error 方法（由于它是个绑定到具体类型的方法， 因此即便它与内建的 error 类型名字相同也没有关系） 能让报告解析错误变得更容易，而无需手动处理回溯的解析栈：
 

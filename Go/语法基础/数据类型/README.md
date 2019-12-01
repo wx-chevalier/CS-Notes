@@ -9,6 +9,15 @@ simpleCase := [][]interface{}{
 }
 ```
 
+# 类型别名
+
+```go
+type (
+	subscriber chan interface{}         // 订阅者为一个管道
+	topicFunc  func(v interface{}) bool // 主题为一个过滤器
+)
+```
+
 # 类型断言
 
 类型断言接受一个接口值，并从中提取指定的明确类型的值。
