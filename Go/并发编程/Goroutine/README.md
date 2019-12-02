@@ -18,3 +18,37 @@ func hello() {
 ```
 
 执行 `go f()` 语句创建 Goroutine 和 hello 函数是在同一个 Goroutine 中执行, 根据语句的书写顺序可以确定 Goroutine 的创建发生在 hello 函数返回之前, 但是新创建 Goroutine 对应的 f() 的执行事件和 hello 函数返回的事件则是不可排序的，也就是并发的。调用 hello 可能会在将来的某一时刻打印 "hello, world"，也很可能是在 hello 函数执行完成后才打印。
+
+# 定义与使用
+
+简单来说，gotoutine 是一个并发的函数（记住：不一定是并行）和其他代码一起运行。你可以简单的通过将 go 关键字放在函数前面来启动它：
+
+```go
+func main() {
+	go sayHello()
+	// continue doing other things
+}
+
+func sayHello() {
+	fmt.Println("hello")
+}
+```
+
+对于匿名函数，同样也能这么干，从下面这个例子你可以看得很明白。在下面的例子中，我们不是从一个函数建立一个 goroutine，而是从一个匿名函数创建一个 goroutine：
+
+```go
+go func() {
+    fmt.Println("hello")
+}()// 1
+// continue doing other things
+```
+
+注意这里的 ()，我们必须立刻调用匿名函数来使 go 关键字有效。或者，你可以将函数分配给一个变量，并像这样调用它：
+
+```go
+sayHello := func() {
+	fmt.Println("hello")
+}
+go sayHello()
+// continue doing other things
+```
