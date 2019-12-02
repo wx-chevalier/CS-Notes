@@ -148,3 +148,76 @@ func main() {
 ```
 
 # Reader 结构体
+
+`Reader` 类型从一个字符串读取数据，实现了`io.Reader`, `io.Seeker`等接口。
+
+- `func NewReader(s string) *Reader` // 通过字符串 `s` 创建一个 `Reader`
+- `func (r *Reader) Len() int` // 返回 `r` 还没有读取部分的长度
+- `func (r *Reader) Read(b []byte) (n int, err error)` // 读取部分数据到 `b` 中，读取的长度取决于 `b` 的容量
+- `func (r *Reader) ReadByte() (b byte, err error)` // 从 `r` 中读取一字节数据
+
+```go
+// go 标准库 strings.Reader
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    s := "hello world"
+    // 创建 Reader
+    r := strings.NewReader(s)
+
+    fmt.Println(r) // &{hello world 0 -1}
+    fmt.Println(r.Size()) // 11 获取字符串长度
+    fmt.Println(r.Len()) // 11 获取未读取长度
+
+    // 读取前6个字符
+    for r.Len() > 5 {
+        b, err := r.ReadByte() // 读取1 byte
+        fmt.Println(string(b), err, r.Len(), r.Size())
+        // h <nil> 10 11
+        // e <nil> 9 11
+        // l <nil> 8 11
+        // l <nil> 7 11
+        // o <nil> 6 11
+        //   <nil> 5 11
+    }
+
+    // 读取还未被读取字符串中5字符的数据
+    b_s := make([]byte, 5)
+    n, err := r.Read(b_s)
+    fmt.Println(string(b_s), n ,err) // world 5 <nil>
+    fmt.Println(r.Size()) // 11
+    fmt.Println(r.Len()) // 0
+}
+```
+
+# Replacer 结构体
+
+`Replacer` 类型实现字符串替换的操作
+
+- `func NewReplacer(oldnew ...string) *Replacer` // 使用提供的多组 old、new 字符串对创建一个\*Replacer
+- `func (r *Replacer) Replace(s string) string` // 返回`s` 所有替换完后的拷贝
+- `func (r *Replacer) WriteString(w io.Writer, s string) (n int, err error)` // 向 w 中写入 s 替换完后的拷贝
+
+```go
+// go 标准库 strings.Replacer
+package main
+
+import (
+    "fmt"
+    "strings"
+    "os"
+)
+
+func main() {
+    s := "<p>Go Language</p>"
+    r := strings.NewReplacer("<", "&lt;", ">", "&gt;")
+    fmt.Println(r.Replace(s))
+
+    r.WriteString(os.Stdout, s)
+}
+```
