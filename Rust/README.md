@@ -14,4 +14,8 @@ Safety at Scale
 
 ![](https://i.postimg.cc/y1QXgJ6f/image.png?raw=true)
 
-## 目录
+# About
+
+## 链接
+
+- https://mp.weixin.qq.com/s/XYAc3wMfF50vYNnv_GzFjw
