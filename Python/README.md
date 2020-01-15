@@ -17,5 +17,3 @@ Copyright © 2017 王下邀月熊
 # 狗粮
 
 如果觉得本系列对你有所帮助，欢迎给我家布丁买点狗粮 ~
-
-![](https://i.postimg.cc/y1QXgJ6f/image.png?raw=true)
