@@ -21,7 +21,7 @@
 
 * They built a convenient [package ecosystem](https://crates.io/), allowing the out-of-the-box capabilities of Rust to grow while the core language and standard library remained small.
 
-Rust 是为工业应用而生，并不拘泥于遵循某个范式( Paradigm )，笔者认为其最核心的特性为 Ownership 与 Lifetime；能够在没有 GC 与 Runtime 的情况下，防止近乎所有的段错误，并且保证线程安全(prevents nearly all segfaults, and guarantees thread safety )。Rust 为每个引用与指针设置了 Lifetime，对象则不允许在同一时间有两个和两个以上的可变引用，并且在编译阶段即进行了内存分配(栈或者堆)； Rust 还提供了 Closure 等函数式编程语言的特性、编译时多态(Compile-time Polymorphism )、衍生的错误处理机制、灵活的模块系统等。从应用层面来看，Mozilla 本身就是 Web 领域的执牛耳者，无论是使用 Rust 开发 Node.js 插件，还是 [Rust 默认支持 WebAssembly](https://parg.co/UPo)，都能很好地弥补目前笔者在进行 Web 前端 / Electron 客户端 / Node.js 计算模块的一些性能缺失。
+Rust 是为工业应用而生，并不拘泥于遵循某个范式( Paradigm )，笔者认为其最核心的特性为 Ownership 与 Lifetime；能够在没有 GC 与 Runtime 的情况下，防止近乎所有的段错误，并且保证线程安全(prevents nearly all segfaults, and guarantees thread safety )。Rust 为每个引用与指针设置了 Lifetime，对象则不允许在同一时间有两个和两个以上的可变引用，并且在编译阶段即进行了内存分配(栈或者堆)；Rust 还提供了 Closure 等函数式编程语言的特性、编译时多态(Compile-time Polymorphism )、衍生的错误处理机制、灵活的模块系统等。从应用层面来看，Mozilla 本身就是 Web 领域的执牛耳者，无论是使用 Rust 开发 Node.js 插件，还是 [Rust 默认支持 WebAssembly](https://parg.co/UPo)，都能很好地弥补目前笔者在进行 Web 前端 / Electron 客户端 / Node.js 计算模块的一些性能缺失。
 
 ## 背景
 
