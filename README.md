@@ -7,7 +7,7 @@
 
 参考[某熊的技术之路指北 ☯](https://github.com/wx-chevalier/Developer-Zero-To-Mastery)中对于知识结构的划分，本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记。
 
-# 前言 | Preface
+# Introduction | 前言
 
 > Programmers who program “in” a language limit their thoughts to constructs that the language directly supports. If the language tools are primitive, the programmer’s thoughts will also be primitive.
 >
