@@ -6,4 +6,4 @@ POSIX 委员会定义了一系列基本功能和数据结构，希望能够被�
 
 Pthreads 指定 API 来处理线程要求的大部分行为. 这些行为包括创建和终止线程、等待线程完成、以及管理线程之间的交互. 后面的目录中存在各种锁定机制，能够阻止两个线程同时尝试修改相同的数据值，这些锁定机制包括互斥锁、条件变量.
 
-在 Linux 环境下，可以在 Shell 中通过 man 查询到 Pthreads 的部分函数命令，如： `man pthread_create`
+在 Linux 环境下，可以在 Shell 中通过 man 查询到 Pthreads 的部分函数命令，如：`man pthread_create`
