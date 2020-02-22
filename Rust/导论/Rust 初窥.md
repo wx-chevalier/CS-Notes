@@ -42,7 +42,7 @@ Rust 是为工业应用而生，并不拘泥于遵循某个范式( Paradigm )，
 $ curl https://sh.rustup.rs -sSf | sh -s -- --help
 ```
 
-在 Rust 开发环境中，所有工具都安装到 %USERPROFILE%\.cargo\bin 目录， 并且您能够在这里找到 Rust 工具链，包括 rustc、cargo 及 rustup。rustup 往往用于版本与工具链管理，rustc 用于编译与运行，cargo 则是负责包管理以及项目的全生命周期管理。Rust 中的 Hello World 如下所示：
+在 Rust 开发环境中，所有工具都安装到 %USERPROFILE%\.cargo\bin 目录，并且您能够在这里找到 Rust 工具链，包括 rustc、cargo 及 rustup。rustup 往往用于版本与工具链管理，rustc 用于编译与运行，cargo 则是负责包管理以及项目的全生命周期管理。Rust 中的 Hello World 如下所示：
 
 ```rs
 fn main() {
