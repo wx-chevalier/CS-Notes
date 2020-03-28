@@ -29,6 +29,7 @@
       - [变量操作](/CPP/语法基础/变量操作/README.md)
         - [右值引用](/CPP/语法基础/变量操作/右值引用.md)
       - [快速开始](/CPP/语法基础/快速开始/README.md)
+        - [Make](/CPP/语法基础/快速开始/Make.md)
         - [clang](/CPP/语法基础/快速开始/clang.md)
         - [gcc](/CPP/语法基础/快速开始/gcc.md)
       - 数据结构
