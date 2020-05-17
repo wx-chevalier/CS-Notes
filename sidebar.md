@@ -60,6 +60,7 @@
       
     - 快速开始
       - [Hello World](/Python/快速开始/Hello%20World.md)
+      - [setuptools](/Python/快速开始/setuptools.md)
       - [命令行应用](/Python/快速开始/命令行应用.md)
     - [性能优化](/Python/性能优化/README.md)
       - [JIT](/Python/性能优化/JIT.md)
