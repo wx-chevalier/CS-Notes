@@ -86,12 +86,19 @@
     - 工程实践
       - [编码规约](/Rust/工程实践/编码规约/README.md)
         
+    - 数据结构
+      - [基本类型](/Rust/数据结构/基本类型/README.md)
+        - [char](/Rust/数据结构/基本类型/char.md)
+        - [整数](/Rust/数据结构/基本类型/整数.md)
+        - [类型推断](/Rust/数据结构/基本类型/类型推断.md)
+      - [集合类型](/Rust/数据结构/集合类型/README.md)
+        - [Vector](/Rust/数据结构/集合类型/Vector.md)
     - [语法基础](/Rust/语法基础/README.md)
       - [快速开始](/Rust/语法基础/快速开始/README.md)
         - [Cargo](/Rust/语法基础/快速开始/Cargo.md)
         - [快速开始](/Rust/语法基础/快速开始/快速开始.md)
       - [表达式与控制流](/Rust/语法基础/表达式与控制流/README.md)
-        
+        - [变量绑定](/Rust/语法基础/表达式与控制流/变量绑定.md)
   - Swift
     - [函数](/Swift/函数.md)
     - [初窥与语法速览](/Swift/初窥与语法速览.md)
