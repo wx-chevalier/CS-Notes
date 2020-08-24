@@ -83,10 +83,15 @@
   - [Rust](/Rust/README.md)
     - [GUI](/Rust/GUI/README.md)
       
-    - 导论
-      - [Rust 初窥](/Rust/导论/Rust%20初窥.md)
-    - [编码规约](/Rust/编码规约/README.md)
-      
+    - 工程实践
+      - [编码规约](/Rust/工程实践/编码规约/README.md)
+        
+    - [语法基础](/Rust/语法基础/README.md)
+      - [快速开始](/Rust/语法基础/快速开始/README.md)
+        - [Cargo](/Rust/语法基础/快速开始/Cargo.md)
+        - [快速开始](/Rust/语法基础/快速开始/快速开始.md)
+      - [表达式与控制流](/Rust/语法基础/表达式与控制流/README.md)
+        
   - Swift
     - [函数](/Swift/函数.md)
     - [初窥与语法速览](/Swift/初窥与语法速览.md)
