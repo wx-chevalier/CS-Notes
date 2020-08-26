@@ -1,10 +1,10 @@
-# Structs
+# 结构体
 
 使用结构，您可以创建自己的类型。使用关键字 struct 创建结构。结构的名称应为 UpperCamelCase（每个单词的大写字母，不能有空格）。
 
 # 结构体分类
 
-有三种类型的结构。一个是单元结构（unit struct）。单位的意思是“什么都没有”。
+有三种类型的结构。一个是单元结构（Unit Struct）。单位的意思是“什么都没有”。
 
 ```rs
 struct FileDirectory;
@@ -56,49 +56,3 @@ fn main() { }
 ```
 
 但您不需要它。但是最好始终使用逗号，因为有时您会更改变量的顺序。
-
-# 结构体初始化
-
-让我们创建一个 Country 结构来举一个例子。国家结构具有字段 population，capital 和 leader_name：
-
-```rs
-struct Country {
-    population: u32,
-    capital: String,
-    leader_name: String
-}
-
-fn main() {
-    let population = 500_000;
-    let capital = String::from("Elist");
-    let leader_name = String::from("Batu Khasikov");
-
-    let kalmykia = Country {
-        population: population,
-        capital: capital,
-        leader_name: leader_name,
-    };
-}
-```
-
-您是否注意到我们写过两次相同的东西？实际上，您不需要这样做。如果字段名和变量名相同，则不必写两次。
-
-```rs
-struct Country {
-    population: u32,
-    capital: String,
-    leader_name: String
-}
-
-fn main() {
-    let population = 500_000;
-    let capital = String::from("Elist");
-    let leader_name = String::from("Batu Khasikov");
-
-    let kalmykia = Country {
-        population,
-        capital,
-        leader_name,
-    };
-}
-```
