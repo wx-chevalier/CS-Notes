@@ -1,6 +1,8 @@
 # Loops
 
-使用循环，您可以告诉 Rust 继续执行某些操作，直到您希望它停止为止。使用循环，可以启动不会停止的循环，除非您告诉它何时中断。
+# loop
+
+使用循环，您可以告诉 Rust 继续执行某些操作，直到您希望它停止为止。使用 loop，可以启动不会停止的循环，除非您告诉它何时中断。
 
 ```rs
 fn main() { // This program will never stop
@@ -53,6 +55,21 @@ fn main() {
                 }
             }
         }
+    }
+}
+```
+
+# while
+
+while 循环是在某些情况仍然成立时继续进行的循环。在每个循环中，Rust 都会检查它是否仍然为真。如果为假，Rust 将停止循环。
+
+```rs
+fn main() {
+    let mut counter = 0;
+
+    while counter < 5 {
+        counter +=1;
+        println!("The counter is now: {}", counter);
     }
 }
 ```
