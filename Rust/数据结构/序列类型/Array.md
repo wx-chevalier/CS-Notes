@@ -11,6 +11,10 @@
 fn main() {
     let array1 = ["One", "Two"];
     let array2 = ["One", "Two", "Five"];
+
+    let a = [8, 9, 10];
+    let b: [u8;3] = [8, 6, 5];
+    print!("{}", a[0]);
 }
 ```
 
@@ -65,7 +69,9 @@ fn main() {
 }
 ```
 
-您可以获取数组的一部分（一片）。首先，您需要一个＆，因为编译器不知道大小。然后，您可以使用..显示范围。
+# 数组切片
+
+Slice 从直观上讲，是对一个 Array 的切片，通过 Slice，你能获取到一个 Array 的部分或者全部的访问权限。和 Array 不同，Slice 是可以动态的，但是呢，其范围是不能超过 Array 的大小，这点和 Golang 是不一样的。一个 Slice 的表达式可以为如下: &[T] 或者 &mut [T]。
 
 ```rs
 fn main() {

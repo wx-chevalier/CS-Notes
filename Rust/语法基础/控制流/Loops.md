@@ -59,6 +59,23 @@ fn main() {
 }
 ```
 
+## loop 返回值
+
+您还可以使用 break 返回值。您可以在 break 后立即写该值，并使用 `;`。这是一个带有循环和中断的示例，为 my_number 提供值。
+
+```rs
+fn main() {
+    let mut counter = 5;
+    let my_number = loop {
+        counter +=1;
+        if counter % 53 == 3 {
+            break counter;
+        }
+    };
+    println!("{}", my_number);
+}
+```
+
 # while
 
 while 循环是在某些情况仍然成立时继续进行的循环。在每个循环中，Rust 都会检查它是否仍然为真。如果为假，Rust 将停止循环。

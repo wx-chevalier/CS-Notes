@@ -1,6 +1,22 @@
 # match
 
-`if`，`else` 和 `else if` 太多可能难以阅读。您可以改用 match。但是您必须匹配所有可能的结果。例如，这将不起作用：
+`if`，`else` 和 `else if` 太多可能难以阅读。您可以改用 match。
+
+```rs
+let day = 5;
+
+match day {
+  0 | 6 => println!("weekend"),
+  1 ... 5 => println!("weekday"),
+  _ => println!("invalid"),
+}
+```
+
+其中|用于匹配多个值，...匹配一个范围 (包含最后一个值)，并且 `_` 在这里是必须的， 因为 match 强制进行穷尽性检查 (exhaustiveness checking)，必须覆盖所有的可能值。
+
+## 其他匹配
+
+但是您必须匹配所有可能的结果。例如，这将不起作用：
 
 ```rs
 fn main() {
@@ -35,6 +51,51 @@ fn main() {
 }
 ```
 
+## 变量绑定
+
+您也可以在需要时使用 @ 来使用匹配表达式的值。在此示例中，我们在函数中匹配了 i32 输入。如果是 4 或 13，我们想在 println 中使用该数字。否则，我们不需要使用它。
+
+```rs
+fn match_number(input: i32) {
+    match input {
+    number @ 4 => println!("{} is an unlucky number in China (sounds close to 死)!", number),
+    number @ 13 => println!("{} is unlucky in North America, lucky in Italy! In bocca al lupo!", number),
+    _ => println!("Looks like a normal number"),
+    }
+}
+
+fn main() {
+    match_number(50);
+    match_number(13);
+    match_number(4);
+}
+
+let x = 1;
+
+match x {
+    e @ 1 ... 5 => println!("got a range element {}", e),
+    _ => println!("anything"),
+}
+```
+
+使用 ref 关键字来得到一个引用：
+
+```rs
+let x = 5;
+let mut y = 5;
+
+match x {
+    // the `r` inside the match has the type `&i32`
+    ref r => println!("Got a reference to {}", r),
+}
+
+match y {
+    // the `mr` inside the match has the type `&i32` and is mutable
+    ref mut mr => println!("Got a mutable reference to {}", mr),
+}
+
+```
+
 # 元组匹配
 
 您看到分号结尾了吗？这是因为，匹配结束后，我们实际上告诉编译器： `let second_number = 10;`。您也可以匹配更复杂的东西。您使用一个元组来做到这一点。
@@ -50,6 +111,18 @@ fn main() {
         ("cloudy", "warm") => println!("It's dark but not bad"),
         _ => println!("Not sure what the weather is."),
     }
+}
+```
+
+match 表达式也可以用于解构元组：
+
+```rs
+let pair = (0, -2);
+
+match pair {
+    (0, y) => println!("x is `0` and `y` is `{:?}`", y),
+    (x, 0) => println!("`x` is `{:?}` and y is `0`", x),
+    _ => println!("It doesn't matter what they are"),
 }
 ```
 
@@ -69,7 +142,7 @@ fn main() {
 
 ```
 
-您可以在比赛中任意多次使用 `_`。在这种颜色匹配中，我们有三个，但一次只能检查一个。
+您可以在匹配中任意多次使用 `_`。在这种颜色匹配中，我们有三个，但一次只能检查一个。
 
 ```rs
 fn match_colours(rbg: (i32, i32, i32)) {
@@ -97,23 +170,34 @@ Each colour has at least 10
 Not much green
 ```
 
-这也显示了 match 语句的工作方式，因为在第一个示例中，它仅打印了不多的蓝色。但是首先也没有太多绿色。 match 语句在找到匹配项时总是停止，并且不检查其余部分。这是一个很好的代码示例，可以很好地编译，但不是您想要的代码。您可以制作一个很大的 match 语句来修复它，但使用 for 循环可能更好。我们将很快讨论循环。
+这也显示了 match 语句的工作方式，因为在第一个示例中，它仅打印了不多的蓝色。但是首先也没有太多绿色。match 语句在找到匹配项时总是停止，并且不检查其余部分。这是一个很好的代码示例，可以很好地编译，但不是您想要的代码
 
-您也可以在需要时使用 @ 来使用匹配表达式的值。在此示例中，我们在函数中匹配了 i32 输入。如果是 4 或 13，我们想在 println 中使用该数字！声明。否则，我们不需要使用它。
+match 的这种解构同样适用于结构体或者枚举。如果有必要，还可以使用 .. 来忽略域或者数据：
 
 ```rs
-fn match_number(input: i32) {
-    match input {
-    number @ 4 => println!("{} is an unlucky number in China (sounds close to 死)!", number),
-    number @ 13 => println!("{} is unlucky in North America, lucky in Italy! In bocca al lupo!", number),
-    _ => println!("Looks like a normal number"),
-    }
+struct Point {
+    x: i32,
+    y: i32,
 }
 
-fn main() {
-    match_number(50);
-    match_number(13);
-    match_number(4);
+let origin = Point { x: 0, y: 0 };
+
+match origin {
+    Point { x, .. } => println!("x is {}", x),
+}
+
+enum OptionalInt {
+    Value(i32),
+    Missing,
+}
+
+let x = OptionalInt::Value(5);
+
+match x {
+    // 这里是 match 的 if guard 表达式，我们将在以后的章节进行详细介绍
+    OptionalInt::Value(i) if i > 5 => println!("Got an int bigger than five!"),
+    OptionalInt::Value(..) => println!("Got an int!"),
+    OptionalInt::Missing => println!("No such luck."),
 }
 ```
 
