@@ -1,6 +1,6 @@
 # Option
 
-我们现在了解枚举和泛型，因此我们可以了解选项和结果。Rust 使用这两个枚举类型来使代码更安全。当您拥有一个可能存在或不存在的值时，请使用 Option。当值存在时为 `Some(value)`，当值不存在时仅为 None，这是一个错误代码示例，可以使用 Option 进行改进。
+**Option** 是 Rust 的系统类型，用来表示值不存在的可能，这在编程中是一个好的实践，它强制**Rust**检测和处理值不存在的情况。Rust 使用这两个枚举类型来使代码更安全。当您拥有一个可能存在或不存在的值时，请使用 Option。当值存在时为 `Some(value)`，当值不存在时仅为 None，这是一个错误代码示例，可以使用 Option 进行改进。
 
 ```rs
     // ⚠️
@@ -37,12 +37,39 @@ fn main() {
 None, Some(5)
 ```
 
+一个完整的例子如下：
+
+```rust
+fn find(haystack: &str, needle: char) -> Option<usize> {
+    for (offset, c) in haystack.char_indices() {
+        if c == needle {
+            return Some(offset);
+        }
+    }
+    None
+}
+```
+
+`find`在字符串`haystack`中查找`needle`字符，事实上结果会出现两种可能，有（`Some(usize)`)或无（`None`）。
+
+```rust
+fn main() {
+    let file_name = "foobar.rs";
+    match find(file_name, '.') {
+        None => println!("No file extension found."),
+        Some(i) => println!("File extension: {}", &file_name[i+1..]),
+    }
+}
+```
+
+**Rust** 使用模式匹配来处理返回值，调用者必须处理结果为`None`的情况。这往往是一个好的编程习惯，可以减少潜在的 bug。**Option** 包含一些方法来简化模式匹配，毕竟过多的`match`会使代码变得臃肿，这也是滋生 bug 的原因之一。
+
 # unwrap
 
 我们可以使用 `.unwrap()` 获取选项中的值，但使用 `.unwrap()` 时要小心。就像打开礼物一样：也许里面好东西，或者里面有一条愤怒的蛇。如果您确定的话，只想 `.unwrap()` 即可。如果解开的值是 None，则程序将崩溃。
 
 ```rs
-    // ⚠️
+// ⚠️
 fn take_fifth(value: Vec<i32>) -> Option<i32> {
     if value.len() < 4 {
         None
@@ -61,7 +88,26 @@ fn main() {
 }
 ```
 
-不过我们并不需要 unwrap，可以使用 match 来进行值匹配：
+unwrap 的源码如下：
+
+```rust
+impl<T> Option<T> {
+    fn unwrap(self) -> T {
+        match self {
+            Option::Some(val) => val,
+            Option::None =>
+              panic!("called `Option::unwrap()` on a `None` value"),
+        }
+    }
+}
+```
+
+`unwrap`当遇到`None`值时会 panic，如前面所说这不是一个好的工程实践。不过有些时候却非常有用：
+
+- **在例子和简单快速的编码中** 有的时候你只是需要一个小例子或者一个简单的小程序，输入输出已经确定，你根本没必要花太多时间考虑错误处理，使用`unwrap`变得非常合适。
+- **当程序遇到了致命的 bug，panic 是最优选择**
+
+很多时候我们并不需要 unwrap，可以使用 match 来进行值匹配：
 
 ```rs
 fn take_fifth(value: Vec<i32>) -> Option<i32> {
