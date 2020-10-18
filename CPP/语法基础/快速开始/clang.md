@@ -31,7 +31,7 @@ $ clang -### main.m -o main
 
 - 完成这些步骤后就可以开始 IR(intermediate representation)中间代码的生成了，CodeGen 会负责将语法树自顶向下遍历逐步翻译成 LLVM IR，IR 是编译过程的前端的输出后端的输入。`clang -S -fobjc-arc -emit-llvm main.m -o main.ll`
 
-- 这里 LLVM 会去做些优化工作，在 Xcode 的编译设置里也可以设置优化级别-01，-03，-0s，还可以写些自己的 Pass，官方有比较完整的 Pass 教程： Writing an LLVM Pass — LLVM 5 documentation 。`clang -O3 -S -fobjc-arc -emit-llvm main.m -o main.ll`
+- 这里 LLVM 会去做些优化工作，在 Xcode 的编译设置里也可以设置优化级别-01，-03，-0s，还可以写些自己的 Pass，官方有比较完整的 Pass 教程：Writing an LLVM Pass — LLVM 5 documentation 。`clang -O3 -S -fobjc-arc -emit-llvm main.m -o main.ll`
 
 - Pass 是 LLVM 优化工作的一个节点，一个节点做些事，一起加起来就构成了 LLVM 完整的优化和转化。如果开启了 bitcode 苹果会做进一步的优化，有新的后端架构还是可以用这份优化过的 bitcode 去生成。`clang -emit-llvm -c main.m -o main.bc`
 
