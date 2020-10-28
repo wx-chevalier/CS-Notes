@@ -249,7 +249,7 @@ test:
 v1 = $(v2)
 ```
 
-上面代码中，变量 v1 的值是另一个变量 v2。这时会产生一个问题，v1 的值到底在定义时扩展（静态扩展），还是在运行时扩展（动态扩展）？如果 v2 的值是动态的，这两种扩展方式的结果可能会差异很大。为了解决类似问题，Makefile 一共提供了四个赋值运算符 （=、:=、？=、+=），它们的区别请看 [StackOverflow](http://stackoverflow.com/questions/448910/makefile-variable-assignment)。
+上面代码中，变量 v1 的值是另一个变量 v2。这时会产生一个问题，v1 的值到底在定义时扩展（静态扩展），还是在运行时扩展（动态扩展）？如果 v2 的值是动态的，这两种扩展方式的结果可能会差异很大。为了解决类似问题，Makefile 一共提供了四个赋值运算符（=、:=、？=、+=），它们的区别请看 [StackOverflow](http://stackoverflow.com/questions/448910/makefile-variable-assignment)。
 
 ```s
 # 在执行时扩展，允许递归扩展。
