@@ -1,13 +1,36 @@
-![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)
-![](https://parg.co/bDm)
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![license: CC BY-NC-SA 4.0](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey.svg)][license-url]
+
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/wx-chevalier/ProgrammingLanguage-Series">
+    <img src="header.svg" alt="Logo" style="width: 100vw;height: 400px" />
+  </a>
+
+  <p align="center">
+    <a href="https://ng-tech.icu/ProgrammingLanguage-Series"><strong>在线阅读 >> </strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/wx-chevalier/Awesome-CheatSheets">速览手册</a>
+    ·
+    <a href="https://github.com/wx-chevalier">代码实践</a>
+    ·
+    <a href="https://github.com/wx-chevalier/Awesome-Lists">参考资料</a>
+
+  </p>
+</p>
+
+<!-- ABOUT THE PROJECT -->
+
+# Introduction | 前言
 
 ![](https://i.postimg.cc/632XHpJV/adding-programming-language-enterprise-blog-hero-1200x630.jpg)
 
-# 编程语言语法基础与工程实践
-
 参考[某熊的技术之路指北 ☯](https://github.com/wx-chevalier/Developer-Zero-To-Mastery)中对于知识结构的划分，本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记。
-
-# Introduction | 前言
 
 > Programmers who program “in” a language limit their thoughts to constructs that the language directly supports. If the language tools are primitive, the programmer’s thoughts will also be primitive.
 >
@@ -21,6 +44,8 @@
 
 纵观计算机发展历史，软件研发效率提升就是弥合现实世界和计算机二进制世界的鸿沟。从二进制编码到汇编，到 C 语言，到面向对象的 C++、Java。编程语言随着硬件的发展变得越来越接近人类语言，语法也越来越简练；本质上不同语言最终都是被翻译成计算机自己认识的机器程序来执行。从古老的 Fortran 到现在的 Java 或者 PHP，还有其他庞大的计算机语言家族，把这些语言抽象出共性来，那么基础的语言规则都是相同的。
 
+![编程语言发展史](https://imgtu.com/i/gQx1Mj)
+
 在这样一个优秀编程语言百花齐放的时代，掌握多门编程语言无疑是一件必须要做的事情。学习一门语言的基本语法并无意义，但是这是你真正了解这门语言魅力的基石。语言无论其语法之间具备多大的差异性，从 Java、C 这样严谨的语言到 Ruby ,Python, JavaScript 这样想怎么写就怎么写的脚本语言，在学习一门语言时需要知道的基本知识却是大同小异。编程语言的两大要素分别是数据类型（字符，字符串，整形，浮点型，集合等）与操作类型（顺序，判断，选择，循环，分支等）。在下面的知识脑图中，我们会了解编程语言学习中通用的知识点。
 
 ![mindmap](https://i.postimg.cc/K4Xpyxzq/Programming-Language.png)
@@ -32,3 +57,17 @@
 笔者所有文章遵循 [知识共享 署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh)，欢迎转载，尊重版权。您还可以前往 [NGTE Books](https://ng-tech.icu/books/) 主页浏览包含知识体系、编程语言、软件工程、模式与架构、Web 与大前端、服务端开发实践与工程架构、分布式基础架构、人工智能与深度学习、产品运营与创业等多类目的书籍列表：
 
 [![NGTE Books](https://s2.ax1x.com/2020/01/18/19uXtI.png)](https://ng-tech.icu/books/)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
+[contributors-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
+[forks-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/network/members
+[stars-shield]: https://img.shields.io/github/stars/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
+[stars-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/stargazers
+[issues-shield]: https://img.shields.io/github/issues/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
+[issues-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/issues
+[license-shield]: https://img.shields.io/github/license/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
+[license-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/blob/master/LICENSE.txt
