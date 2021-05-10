@@ -19,7 +19,9 @@
     ·
     <a href="https://github.com/wx-chevalier">代码实践</a>
     ·
-    <a href="https://github.com/wx-chevalier/Awesome-Lists">参考资料</a>
+       <a href="https://github.com/wx-chevalier/Awesome-Lists">参考资料</a>
+    ·
+    <a href="./README.en.md">English Version</a>
 
   </p>
 </p>
