@@ -280,7 +280,7 @@ Make 命令还提供一些自动变量，它们的值与当前规则有关。主
 
 **（1）\$@**
 
-$@指代当前目标，就是Make命令当前构建的那个目标。比如，`make foo`的 $@ 就指代 foo。
+$@指代当前目标，就是 Make 命令当前构建的那个目标。比如，`make foo`的 $@ 就指代 foo。
 
 ```
 a.txt b.txt:
@@ -467,10 +467,10 @@ min: $(OUTPUT:.js=.min.js)
 cleanall : cleanobj cleandiff
         rm program
 
-cleanobj :
+cleanobj
         rm *.o
 
-cleandiff :
+cleandiff
         rm *.diff
 ```
 
@@ -491,7 +491,7 @@ command.o : command.c defs.h command.h
 display.o : display.c defs.h
     cc -c display.c
 
-clean :
+clean
      rm edit main.o kbd.o command.o display.o
 
 .PHONY: edit clean
