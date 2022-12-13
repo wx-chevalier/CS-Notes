@@ -29,8 +29,9 @@
       - [1.4.3 快速开始](/CPP/语法基础/快速开始/README.md)
         - [1.4.3.1 编译与运行](/CPP/语法基础/快速开始/编译与运行/README.md)
           - 1.4.3.1.1 CMake
-            - [1.4.3.1.1.1 CMakeLists.txt](/CPP/语法基础/快速开始/编译与运行/CMake/CMakeLists.txt.md)
-            - [1.4.3.1.1.2 Make](/CPP/语法基础/快速开始/编译与运行/CMake/Make.md)
+            - [1.4.3.1.1.1 CMake 简单示例](/CPP/语法基础/快速开始/编译与运行/CMake/CMake%20简单示例.md)
+            - [1.4.3.1.1.2 CMakeLists.txt](/CPP/语法基础/快速开始/编译与运行/CMake/CMakeLists.txt.md)
+            - [1.4.3.1.1.3 Make](/CPP/语法基础/快速开始/编译与运行/CMake/Make.md)
           - [1.4.3.1.2 clang](/CPP/语法基础/快速开始/编译与运行/clang.md)
           - [1.4.3.1.3 gcc](/CPP/语法基础/快速开始/编译与运行/gcc.md)
           - [1.4.3.1.4 程序编译基础概念](/CPP/语法基础/快速开始/编译与运行/程序编译基础概念.md)
