@@ -44,10 +44,12 @@
           - [1.4.7.1.1 CMake 简单示例](/CPP/语法基础/编译与运行/CMake/CMake%20简单示例.md)
           - [1.4.7.1.2 CMakeLists.txt](/CPP/语法基础/编译与运行/CMake/CMakeLists.txt.md)
           - [1.4.7.1.3 Make](/CPP/语法基础/编译与运行/CMake/Make.md)
-        - [1.4.7.2 clang](/CPP/语法基础/编译与运行/clang/README.md)
+        - [1.4.7.2 LLVM](/CPP/语法基础/编译与运行/LLVM/README.md)
           
-        - [1.4.7.3 gcc](/CPP/语法基础/编译与运行/gcc.md)
-        - [1.4.7.4 程序编译基础概念](/CPP/语法基础/编译与运行/程序编译基础概念.md)
+        - [1.4.7.3 clang](/CPP/语法基础/编译与运行/clang/README.md)
+          - [1.4.7.3.1 常用指令](/CPP/语法基础/编译与运行/clang/常用指令.md)
+        - [1.4.7.4 gcc](/CPP/语法基础/编译与运行/gcc.md)
+        - [1.4.7.5 程序编译基础概念](/CPP/语法基础/编译与运行/程序编译基础概念.md)
   - [2 Go](/Go/README.md)
     
   - [3 INTRODUCTION](/INTRODUCTION.md)
