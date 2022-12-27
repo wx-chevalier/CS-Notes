@@ -23,7 +23,7 @@ $ clang -rewrite-objc main.m
 $ clang -### main.m -o main
 ```
 
-# 代码执行步骤
+## 代码执行步骤
 
 - 预处理完成后就会进行词法分析，这里会把代码切成一个个 Token，比如大小括号，等于号还有字符串等。`clang -fmodules -fsyntax-only -Xclang -dump-tokens main.m`。
 
