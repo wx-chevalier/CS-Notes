@@ -1,11 +1,3 @@
----
-title: Effective C++——习惯C++
-date: 2020-01-08 20:57:13
-tags: [C/C++, Effective C++]
-categories: 编程语言
-comments: true
----
-
 原书的第一部分，主要是对 C++语言的介绍以及优化`#define`的方法等比较基础的知识点。
 
 <!-- more -->
