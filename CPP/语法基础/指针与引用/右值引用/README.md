@@ -28,3 +28,9 @@ std::vector<int> v = foo();
 需要拿到一个将亡值，就需要用到右值引用的申明：T &&，其中 T 是类型。右值引用的声明让这个临时值的生命周期得以延长、只要变量还活着，那么将亡值将继续存活。
 
 C++11 提供了 std::move 这个方法将左值参数无条件的转换为右值，有了它我们就能够方便的获得一个右值临时对象，例如：
+
+# Links
+
+- https://blog.csdn.net/michaeluo/article/details/124298507 C++11 精要学习：右值引用与完美转发
+- https://zhuanlan.zhihu.com/p/560643911 C++ 右值引用和移动语义
+- https://www.jianshu.com/p/d19fc8447eaa/
