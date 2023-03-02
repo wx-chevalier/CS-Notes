@@ -16,7 +16,7 @@ LLVM 是基于静态单一分配的表示形式，可提供类型安全性、底
 
 其中，LLVM 提供了完整编译系统的中间层，并将中间语言（Intermediate Repressentation, IR）从编译器取出并进行最优化，最优化后的 IR 接着被转换及链接到目标平台的汇编语言。我们知道，传统的编译器主要结构为：
 
-![传统编译器架构](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20221227170240.png)
+![传统编译器架构](https://assets.ng-tech.icu/item/20221227170240.png)
 
 - Frontend：前端，词法分析、语法分析、语义分析、生成中间代码
 - Optimizer：优化器，进行中间代码优化
@@ -24,6 +24,6 @@ LLVM 是基于静态单一分配的表示形式，可提供类型安全性、底
 
 LLVM 主要结构为：
 
-![LLVM 结构](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20221227170355.png)
+![LLVM 结构](https://assets.ng-tech.icu/item/20221227170355.png)
 
 也就是说，对于 LLVM 来说，不同的前后端使用统一的中间代码 LLVM IR。如果需要支持一种新的编程语言/硬件设备，那么只需要实现一个新的前端/后端就可以了，而优化截断是一个通用的阶段，针对统一的 LLVM IR，都不需要对于优化阶段修改。对比 GCC，其前端和后端基本耦合在一起，所以 GCC 支持一门新的语言或者目标平台会变得很困难。

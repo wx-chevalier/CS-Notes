@@ -4,7 +4,7 @@ clang 是一个以 LLVM 为后端的编译前端。编译前端主要负责 pars
 
 我们在 vscode 上用的代码自动补全工具 clangd（或 vim 的 YouCompleteMe）就是用 clang 来实现的。
 
-![LLVM](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20221227165326.png)
+![LLVM](https://assets.ng-tech.icu/item/20221227165326.png)
 
 一般什么时候会用到 Clang：
 
