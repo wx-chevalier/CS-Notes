@@ -28,7 +28,7 @@ set( CMAKE_CXX_FLAGS “-std=c++11 -march=native -O3”)
 
 //调试手段message打印信息，类似于echo/printf，主要用于查cmake文件的语法错误
 set(use_test ${SOURCES_DIRECTORY}/user_accounts.cpp)
-message("use_test ： ${use_test}")
+message("use_test： ${use_test}")
 
 //在CMakeLists.txt中指定安装位置, 在编译终端指定安装位置:cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 set(CMAKE_INSTALL_PREFIX < install_path >)
