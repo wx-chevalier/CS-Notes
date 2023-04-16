@@ -1,3 +1,29 @@
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![license: CC BY-NC-SA 4.0](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey.svg)][license-url]
+
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/wx-chevalier/Java-Series">
+    <img src="https://assets.ng-tech.icu/item/header.svg" alt="Logo" style="width: 100vw;height: 400px" />
+  </a>
+
+  <p align="center">
+    <a href="https://ng-tech.icu/books/Java-Series"><strong>在线阅读 >> </strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/wx-chevalier/cpp-examples">代码案例（cpp-examples）</a>
+    ·
+    <a href="https://github.com/wx-chevalier/Awesome-Lists">参考资料</a>
+
+  </p>
+</p>
+
+<!-- ABOUT THE PROJECT -->
+
 # 现代 C 与 C++ 开发基础
 
 C++ 是一种令人兴奋的语言，它在 C 语言的基础 上添加了对面向对象编程和泛型编程的支持，在 20 世纪 90 年代便是最重要的编程语言之一，并在 21 世纪仍保持强劲势头。C++继承了 C 语言高 效、简洁、快速和可移植性的传统。C++ 1x (C++11/14, 甚至 C++17) 为传统 C++ 注入的大量特性使得整个 C++ 变得更加像一门现代化的语言。C++1x 不仅仅增强了 C++ 语言自身的可用性，auto 关键字语义的修改使得我们更加有信心来操控极度复杂的模板类型。同时还对语言运行期进行了大量的强化，Lambda 表达式的出现让 C++ 具有了几乎在现代的编程语言中已经司空见惯的匿名函数的闭包特性，右值引用的出现解决了 C++ 长期以来被人诟病的临时对象效率问题等等。C++ 1x 为自身的标准库增加了非常多的工具和方法，诸如在语言层面上提供了 std::thread 支持了并发编程，在不同平台上不再依赖于系统底层的 API，实现了语言层面的跨平台支持；std::regex 提供了完整的正则表达式支持等等。C++98 已经被实践证明了是一种非常成功的范型，而 C++ 1x 的出现，则进一步推动这种范型，让 C++ 成为系统程序设计和库开发更好的语言。
@@ -19,3 +45,27 @@ C++ 是一种令人兴奋的语言，它在 C 语言的基础 上添加了对面
   - Coroutines：由于协程，C++ 中的异步编程成为主流。协程是协作任务，事件循环，无限数据流或管道的基础。
   - Modules：模块克服了头文件的限制。头文件和源文件的分离变得和预处理器一样过时了。最后，我们有更快的构建时间和更轻松的构建软件包的方法。
   - Concurrency：Atomic Smart Pointers, Joining & Cancellable Threads,The C20 Synchronization Library，增强了 C++ 并发编程能力；
+
+# About
+
+## Links
+
+## Copyright & More | 延伸阅读
+
+笔者所有文章遵循[知识共享 署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh)，欢迎转载，尊重版权。您还可以前往 [NGTE Books](https://ng-tech.icu/books-gallery/) 主页浏览包含知识体系、编程语言、软件工程、模式与架构、Web 与大前端、服务端开发实践与工程架构、分布式基础架构、人工智能与深度学习、产品运营与创业等多类目的书籍列表：
+
+[![NGTE Books](https://s2.ax1x.com/2020/01/18/19uXtI.png)](https://ng-tech.icu/books-gallery/)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/wx-chevalier/Java-Series.svg?style=flat-square
+[contributors-url]: https://github.com/wx-chevalier/Java-Series/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/wx-chevalier/Java-Series.svg?style=flat-square
+[forks-url]: https://github.com/wx-chevalier/Java-Series/network/members
+[stars-shield]: https://img.shields.io/github/stars/wx-chevalier/Java-Series.svg?style=flat-square
+[stars-url]: https://github.com/wx-chevalier/Java-Series/stargazers
+[issues-shield]: https://img.shields.io/github/issues/wx-chevalier/Java-Series.svg?style=flat-square
+[issues-url]: https://github.com/wx-chevalier/Java-Series/issues
+[license-shield]: https://img.shields.io/github/license/wx-chevalier/Java-Series.svg?style=flat-square
+[license-url]: https://github.com/wx-chevalier/Java-Series/blob/master/LICENSE.txt
