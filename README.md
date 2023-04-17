@@ -27,7 +27,7 @@
 
 # Introduction | 前言
 
-![](https://i.postimg.cc/632XHpJV/adding-programming-language-enterprise-blog-hero-1200x630.jpg)
+![](https://assets.ng-tech.icu/item/20230417213337.png)
 
 参考[某熊的技术之路指北 ☯](https://github.com/wx-chevalier/Developer-Zero-To-Mastery)中对于知识结构的划分，本仓库存放了笔者在编程语言方面学习与实践总结而来的笔记。
 
@@ -47,7 +47,7 @@
 
 在这样一个优秀编程语言百花齐放的时代，掌握多门编程语言无疑是一件必须要做的事情。学习一门语言的基本语法并无意义，但是这是你真正了解这门语言魅力的基石。语言无论其语法之间具备多大的差异性，从 Java、C 这样严谨的语言到 Ruby ,Python, JavaScript 这样想怎么写就怎么写的脚本语言，在学习一门语言时需要知道的基本知识却是大同小异。编程语言的两大要素分别是数据类型（字符，字符串，整形，浮点型，集合等）与操作类型（顺序，判断，选择，循环，分支等）。在下面的知识脑图中，我们会了解编程语言学习中通用的知识点。
 
-![mindmap](https://i.postimg.cc/K4Xpyxzq/Programming-Language.png)
+![mindmap](https://assets.ng-tech.icu/item/20230417213359.png)
 
 # About
 
