@@ -7,6 +7,6 @@ ASCII（American Standard Code for Information Interchange，美国信息交换�
 - 标点以及运算符：(33~47,58~64,91~96,123~126)，比如‘+’表示为 00101011。
 - 数字(48~57)，大写字母(65~90)，小写字母(97~122)。比如‘a’表示为 01100001。
 
-![ASCII 编码集合](https://i.postimg.cc/5tr44shb/image.png)
+![ASCII 编码集合](https://assets.ng-tech.icu/item/20230418222417.png)
 
 ASCII 是美国人设计的标准，只能支持 26 个基本拉丁字母、阿拉伯数字和英式标点符号，因此只能用于显示现代美国英语（而且在处理英语当中的外来词如 naïve、café、élite 等等时，所有重音符号都不得不去掉，即使这样做会违反拼写规则）。EASCII 扩展 ASCII（Extended ASCII）采用 8 位编码，基本解决了西欧语言的字符编码问题，但是对于欧洲其它地方如北欧，东欧地区，256 个字符还是不够用，如是出现了 ISO 8859。
