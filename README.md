@@ -7,12 +7,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/wx-chevalier/ProgrammingLanguage-Series">
+  <a href="https://github.com/wx-chevalier/ProgrammingLanguage-Notes">
     <img src="https://assets.ng-tech.icu/item/header.svg" alt="Logo" style="width: 100vw;height: 400px" />
   </a>
 
   <p align="center">
-    <a href="https://ng-tech.icu/books/ProgrammingLanguage-Series"><strong>在线阅读 >> </strong></a>
+    <a href="https://ng-tech.icu/books/ProgrammingLanguage-Notes"><strong>在线阅读 >> </strong></a>
     <br />
     <br />
     
@@ -60,13 +60,13 @@
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
-[contributors-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
-[forks-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/network/members
-[stars-shield]: https://img.shields.io/github/stars/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
-[stars-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/stargazers
-[issues-shield]: https://img.shields.io/github/issues/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
-[issues-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/issues
-[license-shield]: https://img.shields.io/github/license/wx-chevalier/ProgrammingLanguage-Series.svg?style=flat-square
-[license-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Series/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/wx-chevalier/ProgrammingLanguage-Notes.svg?style=flat-square
+[contributors-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Notes/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/wx-chevalier/ProgrammingLanguage-Notes.svg?style=flat-square
+[forks-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Notes/network/members
+[stars-shield]: https://img.shields.io/github/stars/wx-chevalier/ProgrammingLanguage-Notes.svg?style=flat-square
+[stars-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Notes/stargazers
+[issues-shield]: https://img.shields.io/github/issues/wx-chevalier/ProgrammingLanguage-Notes.svg?style=flat-square
+[issues-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Notes/issues
+[license-shield]: https://img.shields.io/github/license/wx-chevalier/ProgrammingLanguage-Notes.svg?style=flat-square
+[license-url]: https://github.com/wx-chevalier/ProgrammingLanguage-Notes/blob/master/LICENSE.txt
