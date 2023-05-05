@@ -34,3 +34,5 @@ C++11 提供了 std::move 这个方法将左值参数无条件的转换为右值
 - https://blog.csdn.net/michaeluo/article/details/124298507 C++11 精要学习：右值引用与完美转发
 - https://zhuanlan.zhihu.com/p/560643911 C++ 右值引用和移动语义
 - https://www.jianshu.com/p/d19fc8447eaa/
+- https://www.51cto.com/article/701636.html 【Modern C++】深入理解左值、右值
+- https://zhuanlan.zhihu.com/p/485140449
