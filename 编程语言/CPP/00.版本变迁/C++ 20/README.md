@@ -385,7 +385,7 @@ struct int_value {
 
 ### Class types in non-type template parameters
 
-Classes can now be used in non-type template parameters. Objects passed in as template arguments have the type `const T`, where `T` is the type of the object, and has static storage duration.
+现在可以在非类型模板参数中使用类，作为模板参数传递的对象具有类型的`const t`，其中`t`是对象的类型，并且具有静态存储持续时间。
 
 ```c++
 struct foo {
