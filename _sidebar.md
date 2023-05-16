@@ -64,9 +64,11 @@
         - [4.2.2.7 编译与运行 [6]](/编程语言/CPP/01.语法基础/编译与运行/README.md)
           - 4.2.2.7.1 01.程序编译 [1]
             - [4.2.2.7.1.1 不同的编译工具](/编程语言/CPP/01.语法基础/编译与运行/01.程序编译/不同的编译工具.md)
-          - 4.2.2.7.2 CMake [2]
-            - [4.2.2.7.2.1 CMake 简单示例](/编程语言/CPP/01.语法基础/编译与运行/CMake/CMake%20简单示例.md)
-            - [4.2.2.7.2.2 CMakeLists.txt](/编程语言/CPP/01.语法基础/编译与运行/CMake/CMakeLists.txt.md)
+          - 4.2.2.7.2 CMake [3]
+            - 4.2.2.7.2.1 99.参考资料 [1]
+              - [4.2.2.7.2.1.1 C++ 工程：总结 CMake 添加第三方库依赖方式git submodule、 find_library、FetchContent、CPM 等](/编程语言/CPP/01.语法基础/编译与运行/CMake/99.参考资料/2021-C++%20工程：总结%20CMake%20添加第三方库依赖方式git%20submodule、%20find_library、FetchContent、CPM%20等.md)
+            - [4.2.2.7.2.2 CMake 简单示例](/编程语言/CPP/01.语法基础/编译与运行/CMake/CMake%20简单示例.md)
+            - [4.2.2.7.2.3 CMakeLists.txt](/编程语言/CPP/01.语法基础/编译与运行/CMake/CMakeLists.txt.md)
           - [4.2.2.7.3 LLVM](/编程语言/CPP/01.语法基础/编译与运行/LLVM/README.md)
             
           - 4.2.2.7.4 Makefile [1]
