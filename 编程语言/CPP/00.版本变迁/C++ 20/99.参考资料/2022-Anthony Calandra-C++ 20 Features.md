@@ -1,4 +1,4 @@
-# C++20
+# C++ 20
 
 ## Overview
 
@@ -6,7 +6,7 @@ Many of these descriptions and examples are taken from various resources (see [A
 
 C++20 includes the following new language features:
 
-- [C++20](#c20)
+- [C++ 20](#c-20)
   - [Overview](#overview)
   - [C++20 Language Features](#c20-language-features)
     - [Coroutines](#coroutines)
@@ -41,7 +41,7 @@ C++20 includes the following new language features:
 
 C++20 includes the following new library features:
 
-- [C++20](#c20)
+- [C++ 20](#c-20)
   - [Overview](#overview)
   - [C++20 Language Features](#c20-language-features)
     - [Coroutines](#coroutines)

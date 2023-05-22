@@ -1,3 +1,5 @@
+# Semaphore
+
 简单来说，就是信号量太容易出错了（too error prone），通过组合互斥锁（mutex）和条件变量（condition variable）可以达到相同的效果，且更加安全。实现如下：
 
 ```cpp
