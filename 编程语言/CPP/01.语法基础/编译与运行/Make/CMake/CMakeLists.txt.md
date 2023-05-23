@@ -1,10 +1,10 @@
 # CMakeLists.txt
 
 ```h
-//声明要求的cmake最低版本,终端输入cmake -version可查看cmake的版本
+//声明要求的 cmake 最低版本,终端输入 cmake -version 可查看cmake的版本
 cmake_minimum_required(VERSION 2.8 )
 
-//声明cmake工程名字
+//声明 cmake 工程名字
 project(slam)
 
 //设置使用g++编译器,这是添加变量的用法set(KEY VALUE)接收两个参数，用来声明变量。在camke语法中使用${KEY}这种写法来取到VALUE
