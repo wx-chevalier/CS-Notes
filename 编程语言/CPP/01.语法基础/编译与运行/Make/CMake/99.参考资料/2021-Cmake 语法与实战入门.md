@@ -116,14 +116,14 @@ target_link_libraries(demo libface.a) # 链接libface.a
 target_link_libraries(demo libface.so) # 链接libface.so
 ```
 
-\2. 指定全路径
+2. 指定全路径
 
 ```text
 target_link_libraries(demo ${CMAKE_CURRENT_SOURCE_DIR}/libs/libface.a)
 target_link_libraries(demo ${CMAKE_CURRENT_SOURCE_DIR}/libs/libface.so)
 ```
 
-\3. 指定链接多个库
+3. 指定链接多个库
 
 ```text
 target_link_libraries(demo
