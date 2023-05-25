@@ -84,7 +84,7 @@
             - 4.2.2.6.2.1 CMake [3]
               - 4.2.2.6.2.1.1 99.参考资料 [2]
                 - [4.2.2.6.2.1.1.1 C++ 工程：总结 CMake 添加第三方库依赖方式 git submodule、 find_library、FetchContent、CPM 等](/编程语言/CPP/01.语法基础/编译与运行/Make/CMake/99.参考资料/2021-C++%20工程：总结%20CMake%20添加第三方库依赖方式%20git%20submodule、%20find_library、FetchContent、CPM%20等.md)
-                - [4.2.2.6.2.1.1.2 CMake 语法与实战入门](/编程语言/CPP/01.语法基础/编译与运行/Make/CMake/99.参考资料/2021-CMake%20语法与实战入门.md)
+                - [4.2.2.6.2.1.1.2 Cmake 语法与实战入门](/编程语言/CPP/01.语法基础/编译与运行/Make/CMake/99.参考资料/2021-Cmake%20语法与实战入门.md)
               - [4.2.2.6.2.1.2 CMake 简单示例](/编程语言/CPP/01.语法基础/编译与运行/Make/CMake/CMake%20简单示例.md)
               - [4.2.2.6.2.1.3 CMakeLists.txt](/编程语言/CPP/01.语法基础/编译与运行/Make/CMake/CMakeLists.txt.md)
             - 4.2.2.6.2.2 Makefile [1]
