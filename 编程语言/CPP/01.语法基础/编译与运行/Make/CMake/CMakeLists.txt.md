@@ -52,3 +52,96 @@ message("OpenCV_LIBS: \n" ${OpenCV_LIBS})
 set(Eigen3_DIR /usr/lib/cmake/eigen3/Eigen3Config.cmake)
 include_directories(/usr/local/include/eigen3)
 ```
+
+# 常用命令说明
+
+- add_executable
+
+`add_executable`命令用于将多个源文件编译成可执行文件。举个例子，假设我们有两个源文件`main.cpp`和`helper.cpp`，它们需要被编译成一个可执行文件`myapp`，我们可以使用下面的代码：
+
+```
+add_executable(myapp main.cpp helper.cpp)
+```
+
+其中，`myapp`表示生成的可执行文件的名称，`main.cpp`和`helper.cpp`表示源代码文件的名称。如果有多个源代码文件，可以将它们作为参数逐一列出。
+
+- add_library
+
+`add_library`命令用于将多个源文件编译成静态库或动态库。举个例子，假设我们有两个源文件`foo.cpp`和`bar.cpp`，它们需要被编译成一个静态库`libfoobar.a`，我们可以使用下面的代码：
+
+```
+add_library(foobar STATIC foo.cpp bar.cpp)
+```
+
+其中，`foobar`表示生成的库的名称，`foo.cpp`和`bar.cpp`表示源代码文件的名称。`STATIC`表示生成静态库，`SHARED`表示生成动态库，`MODULE`表示生成插件库。如果不指定库类型，则默认生成静态库。
+
+- target_link_libraries
+
+`target_link_libraries`命令用于将一个或多个库链接到可执行文件或其他库中。举个例子，假设我们需要将`libfoo.a`和`libbar.a`链接到可执行文件`myapp`中，我们可以使用下面的代码：
+
+```
+target_link_libraries(myapp foo bar)
+```
+
+其中，`myapp`表示可执行文件或其他库的名称，`foo`和`bar`表示需要链接的库的名称。如果有多个库，可以将它们作为参数逐一列出。
+
+- include_directories
+
+`include_directories`命令用于将头文件路径添加到编译器的搜索路径中。举个例子，假设我们需要将`/path/to/include`添加到编译器的头文件搜索路径中，我们可以使用下面的代码：
+
+```
+include_directories(/path/to/include)
+```
+
+如果有多个路径，可以将它们作为参数逐一列出。另外，`AFTER`和`BEFORE`表示添加的路径在搜索路径中的位置，`SYSTEM`表示添加的路径是系统头文件路径。
+
+- link_directories
+
+`link_directories`命令用于将库文件路径添加到链接器的搜索路径中。举个例子，假设我们需要将`/path/to/lib`添加到链接器的库文件搜索路径中，我们可以使用下面的代码：
+
+```
+link_directories(/path/to/lib)
+```
+
+如果有多个路径，可以将它们作为参数逐一列出。
+
+- set
+
+`set`命令用于设置变量的值。举个例子，假设我们需要将变量`MY_VARIABLE`的值设置为`hello world`，我们可以使用下面的代码：
+
+```
+set(MY_VARIABLE "hello world")
+```
+
+其中，`MY_VARIABLE`表示变量的名称，`hello world`表示变量的值。如果变量的值是一个字符串，需要用引号将其括起来。
+
+- if
+
+`if`命令用于判断条件是否成立。举个例子，假设我们需要判断变量`MY_VARIABLE`是否等于`hello world`，如果成立，则执行一些操作，我们可以使用下面的代码：
+
+```
+if(MY_VARIABLE STREQUAL "hello world")    # do somethingendif()
+```
+
+其中，`MY_VARIABLE`表示判断的条件，`STREQUAL`表示字符串相等。如果条件成立，则执行`do something`部分的代码。
+
+- endif
+
+`endif`命令用于结束`if`语句块。其实，在 CMake 中，所有的控制流语句都需要以`endif`命令结束。举个例子，假设我们需要判断变量`MY_VARIABLE`是否等于`hello world`，如果成立，则打印一条消息，否则打印另一条消息，我们可以使用下面的代码：
+
+```
+if(MY_VARIABLE STREQUAL "hello world")    message("MY_VARIABLE is hello world")else()    message("MY_VARIABLE is not hello world")endif()
+```
+
+其中，`message`命令用于打印消息。
+
+- foreach
+
+`foreach`命令用于遍历一个列表，并对其中的每个元素执行相同的操作。举个例子，假设我们有一个列表`mylist`，其中包含三个元素`foo`、`bar`和`baz`，我们需要将它们依次打印出来，我们可以使用下面的代码：
+
+```
+set(mylist foo bar baz)
+foreach(item IN LISTS mylist)    message(${item})endforeach()
+```
+
+其中，`item`表示列表中的元素，`mylist`表示需要遍历的列表。`LISTS`表示`mylist`是一个列表。
