@@ -1,21 +1,22 @@
   - [1 INTRODUCTION](/INTRODUCTION.md)
   - 2 开发工具 [3]
-    - [2.1 Git [4]](/开发工具/Git/README.md)
-      - [2.1.1 GitLab [1]](/开发工具/Git/GitLab/README.md)
-        - [2.1.1.1 CI](/开发工具/Git/GitLab/CI.md)
-      - [2.1.2 Github](/开发工具/Git/Github/README.md)
-        
-      - [2.1.3 基础 [6]](/开发工具/Git/基础/README.md)
-        - [2.1.3.1 Rebase](/开发工具/Git/基础/Rebase.md)
-        - [2.1.3.2 Workflow](/开发工具/Git/基础/Workflow.md)
-        - [2.1.3.3 仓库](/开发工具/Git/基础/仓库.md)
-        - [2.1.3.4 分支](/开发工具/Git/基础/分支.md)
-        - [2.1.3.5 提交](/开发工具/Git/基础/提交.md)
-        - [2.1.3.6 运行机制](/开发工具/Git/基础/运行机制.md)
-      - [2.1.4 工作流 [2]](/开发工具/Git/工作流/README.md)
-        - 2.1.4.1 99.参考资料 [1]
-          - [2.1.4.1.1 林宜丙 Monorepo 下 Git 工作流的最佳实践](/开发工具/Git/工作流/99.参考资料/2023-林宜丙-Monorepo%20下%20Git%20工作流的最佳实践.md)
-        - [2.1.4.2 功能分支](/开发工具/Git/工作流/功能分支.md)
+    - [2.1 Git [3]](/开发工具/Git/README.md)
+      - [2.1.1 01.基础 [6]](/开发工具/Git/01.基础/README.md)
+        - [2.1.1.1 Rebase](/开发工具/Git/01.基础/Rebase.md)
+        - [2.1.1.2 Workflow](/开发工具/Git/01.基础/Workflow.md)
+        - [2.1.1.3 仓库](/开发工具/Git/01.基础/仓库.md)
+        - [2.1.1.4 分支](/开发工具/Git/01.基础/分支.md)
+        - [2.1.1.5 提交](/开发工具/Git/01.基础/提交.md)
+        - [2.1.1.6 运行机制](/开发工具/Git/01.基础/运行机制.md)
+      - [2.1.2 02.工作流 [2]](/开发工具/Git/02.工作流/README.md)
+        - 2.1.2.1 99.参考资料 [1]
+          - [2.1.2.1.1 林宜丙 Monorepo 下 Git 工作流的最佳实践](/开发工具/Git/02.工作流/99.参考资料/2023-林宜丙-Monorepo%20下%20Git%20工作流的最佳实践.md)
+        - [2.1.2.2 功能分支](/开发工具/Git/02.工作流/功能分支.md)
+      - 2.1.3 10.Git 仓库 [2]
+        - [2.1.3.1 GitLab [1]](/开发工具/Git/10.Git%20仓库/GitLab/README.md)
+          - [2.1.3.1.1 CI](/开发工具/Git/10.Git%20仓库/GitLab/CI.md)
+        - [2.1.3.2 Github](/开发工具/Git/10.Git%20仓库/Github/README.md)
+          
     - [2.2 MAC](/开发工具/MAC/README.md)
       
     - 2.3 Markdown [1]
