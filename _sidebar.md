@@ -1,5 +1,5 @@
   - [1 INTRODUCTION](/INTRODUCTION.md)
-  - 2 开发工具 [3]
+  - 2 开发工具 [2]
     - [2.1 Git [3]](/开发工具/Git/README.md)
       - [2.1.1 01.基础 [6]](/开发工具/Git/01.基础/README.md)
         - [2.1.1.1 Rebase](/开发工具/Git/01.基础/Rebase.md)
@@ -19,8 +19,6 @@
           
     - [2.2 MAC](/开发工具/MAC/README.md)
       
-    - 2.3 Markdown [1]
-      - [2.3.1 图表](/开发工具/Markdown/图表.md)
   - 3 开源社区 [1]
     - [3.1 开源协议](/开源社区/开源协议.md)
   - 4 编程语言 [9]
