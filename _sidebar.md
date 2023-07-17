@@ -15,8 +15,29 @@
       - 2.1.3 10.Git 仓库 [2]
         - [2.1.3.1 GitLab [1]](/开发工具/Git/10.Git%20仓库/GitLab/README.md)
           - [2.1.3.1.1 CI](/开发工具/Git/10.Git%20仓库/GitLab/CI.md)
-        - [2.1.3.2 Github](/开发工具/Git/10.Git%20仓库/Github/README.md)
-          
+        - [2.1.3.2 Github [1]](/开发工具/Git/10.Git%20仓库/Github/README.md)
+          - 2.1.3.2.1 99.参考资料 [1]
+            - [2.1.3.2.1.1 Phodal 《Github 漫游指南》 [20]](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/README.md)
+              - [2.1.3.2.1.1.1 prelude](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/00-prelude.md)
+              - [2.1.3.2.1.1.2 introduction](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/01-introduction.md)
+              - [2.1.3.2.1.1.3 start project](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/01-start-project.md)
+              - [2.1.3.2.1.1.4 github fundamentals](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/02-github-fundamentals.md)
+              - [2.1.3.2.1.1.5 build github project](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/03-build-github-project.md)
+              - [2.1.3.2.1.1.6 commit message](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/04-commit-message.md)
+              - [2.1.3.2.1.1.7 create project documents](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/05-create-project-documents.md)
+              - [2.1.3.2.1.1.8 refactor project](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/06-refactor-project.md)
+              - [2.1.3.2.1.1.9 tdd with autotest](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/07-tdd-with-autotest.md)
+              - [2.1.3.2.1.1.10 github marketing](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/08-github-marketing.md)
+              - [2.1.3.2.1.1.11 maintain project](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/09-maintain-project.md)
+              - [2.1.3.2.1.1.12 git tools](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/10-git-tools.md)
+              - [2.1.3.2.1.1.13 analytics](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/11-analytics.md)
+              - [2.1.3.2.1.1.14 find github project](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/12-find-github-project.md)
+              - [2.1.3.2.1.1.15 streak your github](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/14-streak-your-github.md)
+              - [2.1.3.2.1.1.16 milestone](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/15-milestone.md)
+              - [2.1.3.2.1.1.17 find in github](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/16-find-in-github.md)
+              - [2.1.3.2.1.1.18 get star](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/18-get-star.md)
+              - [2.1.3.2.1.1.19 joke](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/19-joke.md)
+              - [2.1.3.2.1.1.20 faq](/开发工具/Git/10.Git%20仓库/Github/99.参考资料/2020-Phodal-《Github%20漫游指南》/999-faq.md)
     - [2.2 MAC](/开发工具/MAC/README.md)
       
   - 3 开源社区 [1]
