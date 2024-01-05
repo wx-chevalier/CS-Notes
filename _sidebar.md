@@ -53,9 +53,12 @@
     - 5.1 Assembly [1]
       - 5.1.1 99~参考资料 [1]
         - [5.1.1.1 Learn x86 64 assembly by writing a GUI from scratch](/编程语言/Assembly/99~参考资料/2023-Learn%20x86-64%20assembly%20by%20writing%20a%20GUI%20from%20scratch.md)
-    - [5.2 C [1]](/编程语言/C/README.md)
+    - [5.2 C [2]](/编程语言/C/README.md)
       - 5.2.1 88~实践案例 [1]
         - [5.2.1.1 Smallchat 简单聊天服务器](/编程语言/C/88~实践案例/Smallchat%20简单聊天服务器.md)
+      - 5.2.2 99~参考资料 [1]
+        - [5.2.2.1 Learn C The Hard Way](/编程语言/C/99~参考资料/Learn%20C%20The%20Hard%20Way/README.md)
+          
     - [5.3 CPP](/编程语言/CPP/README.md)
       
     - [5.4 CSharp](/编程语言/CSharp/README.md)
