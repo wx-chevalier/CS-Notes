@@ -1,12 +1,14 @@
 # 程序的机器级表示
+
 ---
+
 ![](.jpg)
 
 > ## 精通细节是理解更深和更基本概念的先决条件 "This is a subject where mastering the details is a prerequisite to understanding the deeper and more fundamental concepts"
 
-### 机器级编程的2种抽象：指令集结构，虚拟地址
+### 机器级编程的 2 种抽象：指令集结构，虚拟地址
 
-### 使用反汇编器，64位系统下指定-m32生成32位的，和书中给出的代码不一样，所以阅读本章的目的是读懂汇编代码
+### 使用反汇编器，64 位系统下指定-m32 生成 32 位的，和书中给出的代码不一样，所以阅读本章的目的是读懂汇编代码
 
 ```
 Disassembly of section .text:
@@ -14,8 +16,9 @@ Disassembly of section .text:
 0000000000000000 <sum>:
    0:	8d 04 37             	lea    (%rdi,%rsi,1),%eax
    3:	01 05 00 00 00 00    	add    %eax,0x0(%rip)        # 9 <sum+0x9>
-   9:	c3                   	retq   
+   9:	c3                   	retq
 ```
+
 指定-m32：
 
 ```
@@ -23,19 +26,21 @@ Disassembly of section .text:
    0:	8b 44 24 08          	mov    0x8(%esp),%eax
    4:	03 44 24 04          	add    0x4(%esp),%eax
    8:	01 05 00 00 00 00    	add    %eax,0x0
-   e:	c3                   	ret    
+   e:	c3                   	ret
 
 ```
 
-### IA32整数寄存器
+### IA32 整数寄存器
+
 ![](registers.jpg)
 
 ### 数据传送示例-P116
+
 [exchange.c](exchange.c)
 
 ```
-vonzhou@ubuntu:~/Github/CSAPP/chapter03$ gcc -m32 -O1 -c exchange.c 
-vonzhou@ubuntu:~/Github/CSAPP/chapter03$ objdump -d exchange.o 
+vonzhou@ubuntu:~/Github/CSAPP/chapter03$ gcc -m32 -O1 -c exchange.c
+vonzhou@ubuntu:~/Github/CSAPP/chapter03$ objdump -d exchange.o
 
 exchange.o:     file format elf32-i386
 
@@ -47,23 +52,24 @@ Disassembly of section .text:
    4:	8b 02                	mov    (%edx),%eax
    6:	8b 4c 24 08          	mov    0x8(%esp),%ecx
    a:	89 0a                	mov    %ecx,(%edx)
-   c:	c3                   	ret    
+   c:	c3                   	ret
 ```
 
-理解：过程加载后，xp和y分别存储在相对于寄存器esp偏移4，8的地方，这里是esp（**和书中不同**），说明了两个参数是存储在栈中，栈也是存储的一部分，只不过通过esp来控制访问的。mov    0x4(%esp),%edx 将xp的值加载到edx中，mov    (%edx),%eax 将xp对应的地址处的值加载到eax中，mov    0x8(%esp),%ecx将y的值加载到ecx中，mov    %ecx,(%edx)将y的值存储到xp对应的存储地址处，ret返回，返回值在eax中，正是*xp之前的值;
+理解：过程加载后，xp 和 y 分别存储在相对于寄存器 esp 偏移 4，8 的地方，这里是 esp（**和书中不同**），说明了两个参数是存储在栈中，栈也是存储的一部分，只不过通过 esp 来控制访问的。mov 0x4(%esp),%edx 将 xp 的值加载到 edx 中，mov (%edx),%eax 将 xp 对应的地址处的值加载到 eax 中，mov 0x8(%esp),%ecx 将 y 的值加载到 ecx 中，mov %ecx,(%edx)将 y 的值存储到 xp 对应的存储地址处，ret 返回，返回值在 eax 中，正是\*xp 之前的值;
 
-1. C语言中的指针其实就是地址，引用指针就是将指针取到寄存器中，然后在存储器访问中使用这个寄存器
-2. 函数体中的局部变量x存在寄存器，而非存储器中
-
+1. C 语言中的指针其实就是地址，引用指针就是将指针取到寄存器中，然后在存储器访问中使用这个寄存器
+2. 函数体中的局部变量 x 存在寄存器，而非存储器中
 
 ### 整数算术操作指令
+
 ![](arithmetic_instructions.jpg)
 
-LEA没用引用存储器，只是进行地址计算，而MOV是加载那个地址处的值到寄存器中。具体形式为 LEA Imm(ra,rb,n) D ：表示 n * rb + ra 的值写入寄存器D
+LEA 没用引用存储器，只是进行地址计算，而 MOV 是加载那个地址处的值到寄存器中。具体形式为 LEA Imm(ra,rb,n) D ：表示 n \* rb + ra 的值写入寄存器 D
 
-### 移位指令中，移位量是单字节编码，移位量是立即数或者放在单字节寄存器%cl中，注意只能是这个寄存器
+### 移位指令中，移位量是单字节编码，移位量是立即数或者放在单字节寄存器%cl 中，注意只能是这个寄存器
 
 ### 一个算术操作函数产生的汇编代码分析
+
 [arith.c](arith.c)
 
 ```c
@@ -76,9 +82,8 @@ int arith(int x, int y, int z){
 }
 ```
 
-
 ```bash
-vonzhou@ubuntu:~/Github/CSAPP/chapter03$ objdump -d arith.o 
+vonzhou@ubuntu:~/Github/CSAPP/chapter03$ objdump -d arith.o
 
 arith.o:     file format elf32-i386
 
@@ -93,29 +98,31 @@ Disassembly of section .text:
    e:	03 54 24 04          	add    0x4(%esp),%edx
   12:	0f b7 d2             	movzwl %dx,%edx
   15:	0f af c2             	imul   %edx,%eax
-  18:	c3                   	ret  
+  18:	c3                   	ret
 ```
 
-分析：可以看到参数 x,y,z 分别放在栈的临近位置，先计算的是z * 48 而不是按函数中给出的顺序，前3条指令意思是 z -> eax -> 2 * z + z = 3z -> 3z << 4 -> 3z * 16 = 48z; 接下来的2条计算x+y；然后利用MOVZ只保留低2B；最后相乘，并且结果保存在EAX中，返回
+分析：可以看到参数 x,y,z 分别放在栈的临近位置，先计算的是 z _ 48 而不是按函数中给出的顺序，前 3 条指令意思是 z -> eax -> 2 _ z + z = 3z -> 3z << 4 -> 3z \* 16 = 48z; 接下来的 2 条计算 x+y；然后利用 MOVZ 只保留低 2B；最后相乘，并且结果保存在 EAX 中，返回
 
 ### 机器代码提供两种低级机制来实现有条件的行为：测试数据值，然后根据测试的结果改变控制流或数据流
 
 ### 常用的条件码
+
 ![](condition_flag.jpg)
 
-### 对于不同的操作会设置/检查不同的条件码组合，下面是a，b是否相等的决策过程
+### 对于不同的操作会设置/检查不同的条件码组合，下面是 a，b 是否相等的决策过程
 
-SET指令的通用规则是：执行cmp指令，根据计算t=a-b设置条件码
+SET 指令的通用规则是：执行 cmp 指令，根据计算 t=a-b 设置条件码
 
-1. 如果是补码表示形式。零标志决定了是否相等，如果不等，看OF是否发生了溢出，如果没发生溢出的话，看符号位是正（a>b）是负(a<b); 如果发生溢出，则规则对应地
+1. 如果是补码表示形式。零标志决定了是否相等，如果不等，看 OF 是否发生了溢出，如果没发生溢出的话，看符号位是正（a>b）是负(a<b); 如果发生溢出，则规则对应地
 2. 如果是无符号表示。看零标志和进位标志
 
 ### 在汇编代码中跳转目标用符号标号书写，汇编器及后面的链接器，会产生跳转目标的适当编码：相对（PC-relative）或绝对地址。
 
-### 当执行PC-relative寻址时，程序计数器的值是跳转指令后面那条指令的地址，而不是跳转指令本身的地址，因为处理器将更新PC作为执行一条指令的first step
+### 当执行 PC-relative 寻址时，程序计数器的值是跳转指令后面那条指令的地址，而不是跳转指令本身的地址，因为处理器将更新 PC 作为执行一条指令的 first step
 
 ### 条件语句的编译
-[absdiff.c](absdiff.c),   [gotodiff.c](gotodiff.c)
+
+[absdiff.c](absdiff.c), [gotodiff.c](gotodiff.c)
 
 ```bash
 absdiff.o:     file format elf32-i386
@@ -134,12 +141,13 @@ Disassembly of section .text:
   11:	39 d1                	cmp    %edx,%ecx
   13:	0f 4c c3             	cmovl  %ebx,%eax
   16:	5b                   	pop    %ebx
-  17:	c3                   	ret    
+  17:	c3                   	ret
 ```
 
-**cmovl**：利用前面比较得到的条件码，进行有条件的mov，这里的条件是”less than“，后面有详述
+**cmovl**：利用前面比较得到的条件码，进行有条件的 mov，这里的条件是”less than“，后面有详述
 
-### 初探do-while的汇编代码
+### 初探 do-while 的汇编代码
+
 [fact_do.c](fact_do.c)
 
 ```bash
@@ -150,12 +158,13 @@ Disassembly of section .text:
    c:	83 ea 01             	sub    $0x1,%edx
    f:	83 fa 01             	cmp    $0x1,%edx
   12:	7f f5                	jg     9 <fact_do+0x9>
-  14:	f3 c3                	repz ret 
+  14:	f3 c3                	repz ret
 ```
 
-**可以看到：**循环控制变量n在edx中，result在eax中，跳转使用的相对地址，至于repz ret的含义不太理解，说AMD的分支预测有问题如果只用一个ret
+**可以看到：**循环控制变量 n 在 edx 中，result 在 eax 中，跳转使用的相对地址，至于 repz ret 的含义不太理解，说 AMD 的分支预测有问题如果只用一个 ret
 
-### 初探while的汇编代码
+### 初探 while 的汇编代码
+
 [fact_while.c](fact_while.c)
 
 ```
@@ -168,14 +177,15 @@ Disassembly of section .text:
   11:	83 ea 01             	sub    $0x1,%edx
   14:	83 fa 01             	cmp    $0x1,%edx
   17:	75 f5                	jne    e <fact_while+0xe>
-  19:	f3 c3                	repz ret 
+  19:	f3 c3                	repz ret
   1b:	b8 01 00 00 00       	mov    $0x1,%eax
   20:	c3                   	ret
 ```
 
-**可以看到：**先判断条件，然后和do-while一样，在每个条件跳转指令之后都加上了repz ret 
+**可以看到：**先判断条件，然后和 do-while 一样，在每个条件跳转指令之后都加上了 repz ret
 
-### 初探for-loop的汇编代码
+### 初探 for-loop 的汇编代码
+
 [fact_for.c](fact_for.c)
 
 ```
@@ -189,14 +199,15 @@ Disassembly of section .text:
   16:	83 c2 01             	add    $0x1,%edx
   19:	39 d1                	cmp    %edx,%ecx
   1b:	7d f6                	jge    13 <fact_for+0x13>
-  1d:	f3 c3                	repz ret 
+  1d:	f3 c3                	repz ret
   1f:	b8 01 00 00 00       	mov    $0x1,%eax
-  24:	c3                   	ret  
+  24:	c3                   	ret
 ```
 
 可以看到没啥区别，除了控制变量递增，上述三种循环控制效率是一样的
 
 ### 基于条件传送指令的代码比基于条件控制转移的代码性能好，控制流不依赖于数据，使得处理器更容易保持流水线是满的
+
 [absdiff_condition.c](absdiff_condition.c), [cmovdiff.c](cmovdiff.c)
 
 ```
@@ -211,16 +222,16 @@ Disassembly of section .text:
   11:	39 d1                	cmp    %edx,%ecx
   13:	0f 4f c3             	cmovg  %ebx,%eax
   16:	5b                   	pop    %ebx
-  17:	c3                   	ret  
+  17:	c3                   	ret
 ```
 
-### 和条件跳转不同，处理器执行条件传送无需预测测试的结果，处理器只是从source中读值，检查条件码，然后要么更新目的寄存器，要么保持不变，所以就没有预测错误的惩罚
+### 和条件跳转不同，处理器执行条件传送无需预测测试的结果，处理器只是从 source 中读值，检查条件码，然后要么更新目的寄存器，要么保持不变，所以就没有预测错误的惩罚
 
 ### 并非所有的条件表达式都可以用条件传送来编译。两个表达式中任何一个发生错误或副作用，都会导致非法行为
 
 ### 编译器必须权衡计算开销和由于分支预测错误导致的性能处罚之间的相对性能
 
-### 和使用一组很长的if-else相比，使用跳转表的优点是执行switch语句的时间与case的数量无关。当case数据量比较多，并且值得取值范围较小时就会使用jump table
+### 和使用一组很长的 if-else 相比，使用跳转表的优点是执行 switch 语句的时间与 case 的数量无关。当 case 数据量比较多，并且值得取值范围较小时就会使用 jump table
 
 [switch_eg.c](switch_eg.c)
 
@@ -263,26 +274,26 @@ Disassembly of section .text:
    e:	77 16                	ja     26 <switch_eg+0x26>
   10:	ff 24 95 00 00 00 00 	jmp    *0x0(,%edx,4)
   17:	83 c0 0d             	add    $0xd,%eax
-  1a:	c3                   	ret    
+  1a:	c3                   	ret
   1b:	83 c0 0a             	add    $0xa,%eax
   1e:	83 c0 0b             	add    $0xb,%eax
-  21:	c3                   	ret    
+  21:	c3                   	ret
   22:	0f af c0             	imul   %eax,%eax
-  25:	c3                   	ret    
+  25:	c3                   	ret
   26:	b8 00 00 00 00       	mov    $0x0,%eax
-  2b:	c3                   	ret 
+  2b:	c3                   	ret
 ```
 
-**分析**:没有生成像书中那么好看的jump table，也没有那么明显，但是的确有，主要的思想不是有个表赤裸裸的放在那里，而是快速定位要执行的指令。开始指令分析，n -> ecx , x -> eax, (n-100) -> edx , 100就是0X64， 然后比较如果edx超过6，那么就执行default（返回0），否则执行间接jump，间接地址是怎么计算的呢？4 * edx + 0， 立即数0说明跳转表就在该指令的后面，然后根据不同的情况定位到不同的指令块，比如说case 102, edx=2,就会jmp到：
+**分析**:没有生成像书中那么好看的 jump table，也没有那么明显，但是的确有，主要的思想不是有个表赤裸裸的放在那里，而是快速定位要执行的指令。开始指令分析，n -> ecx , x -> eax, (n-100) -> edx , 100 就是 0X64，然后比较如果 edx 超过 6，那么就执行 default（返回 0），否则执行间接 jump，间接地址是怎么计算的呢？4 \* edx + 0，立即数 0 说明跳转表就在该指令的后面，然后根据不同的情况定位到不同的指令块，比如说 case 102, edx=2,就会 jmp 到：
 
 ```
 1b:   83 c0 0a                add    $0xa,%eax
 1e:   83 c0 0b                add    $0xb,%eax
-21:   c3                      ret 
+21:   c3                      ret
 ```
 
+### C 语言层面上的跳转表
 
-### C语言层面上的跳转表
 [switch-eg-impl.c](switch_eg_impl.c)
 
 ```
@@ -292,41 +303,43 @@ Disassembly of section .text:
    7:	83 f8 06             	cmp    $0x6,%eax
    a:	77 07                	ja     13 <switch_eg_impl+0x13>
    c:	ff 24 85 00 00 00 00 	jmp    *0x0(,%eax,4)
-  13:	f3 c3                	repz ret 
+  13:	f3 c3                	repz ret
   15:	b8 00 00 00 00       	mov    $0x0,%eax
   1a:	eb 16                	jmp    32 <switch_eg_impl+0x32>
   1c:	8b 44 24 04          	mov    0x4(%esp),%eax
   20:	8d 04 40             	lea    (%eax,%eax,2),%eax
   23:	8b 54 24 04          	mov    0x4(%esp),%edx
   27:	8d 04 82             	lea    (%edx,%eax,4),%eax
-  2a:	c3                   	ret    
+  2a:	c3                   	ret
   2b:	8b 44 24 04          	mov    0x4(%esp),%eax
   2f:	83 c0 0a             	add    $0xa,%eax
   32:	83 c0 0b             	add    $0xb,%eax
-  35:	c3                   	ret    
+  35:	c3                   	ret
   36:	8b 44 24 04          	mov    0x4(%esp),%eax
   3a:	0f af c0             	imul   %eax,%eax
-  3d:	c3                   	ret  
+  3d:	c3                   	ret
 ```
 
-* GCC语法，&& 创建一个指向代码位置的指针
-* GCC支持 computed goto, 是对C的扩展，代码中的 go *jt[index]
-
+- GCC 语法，&& 创建一个指向代码位置的指针
+- GCC 支持 computed goto, 是对 C 的扩展，代码中的 go \*jt[index]
 
 ### 为单个过程分配的那部分栈称为栈帧 stack frame
+
 ![](stack_frame.jpg)
 
-调用者P调用被调用者Q，Q的参数放在P的栈帧中，栈帧的最后放的是当前调用者P的返回地址，栈帧以保存EBP开始。
+调用者 P 调用被调用者 Q，Q 的参数放在 P 的栈帧中，栈帧的最后放的是当前调用者 P 的返回地址，栈帧以保存 EBP 开始。
 
-### call指令将返回地址（紧跟call之后那条指令的地址）入栈，并跳转到被调用过程的起始处。ret指令从栈中弹出地址，并跳转到该处
+### call 指令将返回地址（紧跟 call 之后那条指令的地址）入栈，并跳转到被调用过程的起始处。ret 指令从栈中弹出地址，并跳转到该处
 
 ### 寄存器使用惯例
-eax,edx,ecx划为调用者保存寄存器，ebx,esi,edi划分为被调用者保存寄存器。意味着如果被调用者如果要使用那些寄存器，就在使用前保存，使用完后恢复
+
+eax,edx,ecx 划为调用者保存寄存器，ebx,esi,edi 划分为被调用者保存寄存器。意味着如果被调用者如果要使用那些寄存器，就在使用前保存，使用完后恢复
 
 ### 过程调用示例
+
 [caller.c](caller.c)
 
-注意通过链接后才看到caller的汇编代码，64bit对应的汇编：
+注意通过链接后才看到 caller 的汇编代码，64bit 对应的汇编：
 
 ```
 00000000004004f6 <swap_add>:
@@ -350,7 +363,7 @@ eax,edx,ecx划为调用者保存寄存器，ebx,esi,edi划分为被调用者保�
   400529:	8b 45 fc             	mov    -0x4(%rbp),%eax
   40052c:	01 d0                	add    %edx,%eax
   40052e:	5d                   	pop    %rbp
-  40052f:	c3                   	retq   
+  40052f:	c3                   	retq
 
 0000000000400530 <caller>:
   400530:	55                   	push   %rbp
@@ -371,13 +384,14 @@ eax,edx,ecx划为调用者保存寄存器，ebx,esi,edi划分为被调用者保�
   400566:	89 45 fc             	mov    %eax,-0x4(%rbp)
   400569:	8b 45 f8             	mov    -0x8(%rbp),%eax
   40056c:	0f af 45 fc          	imul   -0x4(%rbp),%eax
-  400570:	c9                   	leaveq 
-  400571:	c3                   	retq 
+  400570:	c9                   	leaveq
+  400571:	c3                   	retq
 ```
 
 **把书上的分析理解，很重要，不要逃避**
 
 ### 递归阶乘
+
 [rfact.c](rfact.c)
 
 ```
@@ -401,23 +415,17 @@ Disassembly of section .text:
   21:	0f af c3             	imul   %ebx,%eax
   24:	83 c4 08             	add    $0x8,%esp
   27:	5b                   	pop    %ebx
-  28:	c3                   	ret 
+  28:	c3                   	ret
 ```
 
-上面对应的是没有经过链接的反汇编，可以看到主体在，但是没有 push %ebp； movl %esp,%ebp等这些栈帧控制指令。
+上面对应的是没有经过链接的反汇编，可以看到主体在，但是没有 push %ebp；movl %esp,%ebp 等这些栈帧控制指令。
 
 ### 指针运算 P159
 
 ### 注意变长数组和定长数组在某些方面的区别
 
-### 一个struct的大小要根据内存对齐规则，union的大小是最大字段的大小
+### 一个 struct 的大小要根据内存对齐规则，union 的大小是最大字段的大小
 
 ### 指针对应的有类型
 
-### 
-
-
-
-
-
-
+###
