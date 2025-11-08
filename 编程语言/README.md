@@ -1,6 +1,6 @@
 # 编程语言
 
-![编程语言演化](https://assets.ng-tech.icu/item/20230622202942.png)
+![编程语言演化](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20230622202942.png)
 
 下图显示了编程语言的简要历史。
 
