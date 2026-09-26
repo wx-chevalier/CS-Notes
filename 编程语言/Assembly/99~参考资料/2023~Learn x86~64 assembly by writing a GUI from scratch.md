@@ -253,7 +253,6 @@ my_function:
 
   [...]
 
-
   add rsp, N
   pop rbp
   ret
@@ -426,7 +425,6 @@ _start:
   mov rsi, SOCK_STREAM ; Tcp-like.
   mov rdx, 0 ; automatic protocol.
   syscall
-
 
   ; The end.
   mov rax, SYSCALL_EXIT
@@ -934,7 +932,6 @@ static x11_open_font:function
   mov BYTE [rsp + 3*4 + 3], 'e'
   mov BYTE [rsp + 3*4 + 4], 'd'
 
-
   mov rax, SYSCALL_WRITE
   mov rdi, rdi
   lea rsi, [rsp]
@@ -1047,7 +1044,6 @@ static x11_create_window:function
   mov DWORD [rsp + 7*4], X11_FLAG_WIN_BG_COLOR | X11_FLAG_WIN_EVENT
   mov DWORD [rsp + 8*4], 0
   mov DWORD [rsp + 9*4], X11_EVENT_FLAG_KEY_RELEASE | X11_EVENT_FLAG_EXPOSURE
-
 
   mov rax, SYSCALL_WRITE
   mov rdi, rdi
@@ -1275,7 +1271,6 @@ static x11_draw_text:function
   shr eax, 2 ; Compute: eax /= 4
   add eax, 4 ; eax now contains the packet u32 count.
 
-
   %define X11_OP_REQ_IMAGE_TEXT8 0x4c
   mov DWORD [rsp + 0*4], r8d
   shl DWORD [rsp + 0*4], 8
@@ -1387,7 +1382,6 @@ static id_mask:data
 
 root_visual_id: dd 0
 static root_visual_id:data
-
 
 section .text
 
@@ -1573,7 +1567,6 @@ static x11_open_font:function
   mov BYTE [rsp + 3*4 + 3], 'e'
   mov BYTE [rsp + 3*4 + 4], 'd'
 
-
   mov rax, SYSCALL_WRITE
   mov rdi, rdi
   lea rsi, [rsp]
@@ -1669,7 +1662,6 @@ static x11_create_window:function
   mov DWORD [rsp + 8*4], 0
   mov DWORD [rsp + 9*4], X11_EVENT_FLAG_KEY_RELEASE | X11_EVENT_FLAG_EXPOSURE
 
-
   mov rax, SYSCALL_WRITE
   mov rdi, rdi
   lea rsi, [rsp]
@@ -1741,7 +1733,6 @@ die:
   mov rax, SYSCALL_EXIT
   mov rdi, 1
   syscall
-
 
 ; Set a file descriptor in non-blocking mode.
 ; @param rdi The file descriptor.
@@ -1847,9 +1838,7 @@ static poll_messages:function
       or r9d, 100 ; y
       call x11_draw_text
 
-
     jmp .loop
-
 
   add rsp, 16
   pop rbp
@@ -1890,7 +1879,6 @@ static x11_draw_text:function
   add eax, r9d
   shr eax, 2 ; Compute: eax /= 4
   add eax, 4 ; eax now contains the packet u32 count.
-
 
   %define X11_OP_REQ_IMAGE_TEXT8 0x4c
   mov DWORD [rsp + 0*4], r8d
@@ -1941,7 +1929,6 @@ global _start:function
   mov rdi, r15
   mov esi, r14d
   call x11_open_font
-
 
   mov rdi, r15
   mov esi, r13d

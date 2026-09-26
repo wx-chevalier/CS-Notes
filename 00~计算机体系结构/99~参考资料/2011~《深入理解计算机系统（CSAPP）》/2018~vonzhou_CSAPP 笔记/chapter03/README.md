@@ -44,7 +44,6 @@ vonzhou@ubuntu:~/Github/CSAPP/chapter03$ objdump -d exchange.o
 
 exchange.o:     file format elf32-i386
 
-
 Disassembly of section .text:
 
 00000000 <exchange>:
@@ -87,7 +86,6 @@ vonzhou@ubuntu:~/Github/CSAPP/chapter03$ objdump -d arith.o
 
 arith.o:     file format elf32-i386
 
-
 Disassembly of section .text:
 
 00000000 <arith>:
@@ -126,7 +124,6 @@ SET 指令的通用规则是：执行 cmp 指令，根据计算 t=a-b 设置条�
 
 ```bash
 absdiff.o:     file format elf32-i386
-
 
 Disassembly of section .text:
 
@@ -240,7 +237,6 @@ vonzhou@ubuntu:~/Github/CSAPP/chapter03$ objdump -D -j .rodata  switch_eg.o
 
 switch_eg.o:     file format elf32-i386
 
-
 Disassembly of section .rodata:
 
 00000000 <.rodata>:
@@ -262,7 +258,6 @@ Disassembly of section .rodata:
 vonzhou@ubuntu:~/Github/CSAPP/chapter03$ objdump -d switch_eg.o
 
 switch_eg.o:     file format elf32-i386
-
 
 Disassembly of section .text:
 
@@ -396,7 +391,6 @@ eax,edx,ecx 划为调用者保存寄存器，ebx,esi,edi 划分为被调用者�
 
 ```
 rfact.o:     file format elf32-i386
-
 
 Disassembly of section .text:
 

@@ -15,32 +15,32 @@ Well, with this tricks we can implement a chat that even has the ability to let 
 ```c
 /* smallchat.c -- Read clients input, send to all the other connected clients.
  *
- * Copyright (c) 2023, Salvatore Sanfilippo <antirez at gmail dot com>
- * All rights reserved.
+ - Copyright (c) 2023, Salvatore Sanfilippo <antirez at gmail dot com>
+ - All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ - Redistribution and use in source and binary forms, with or without
+ - modification, are permitted provided that the following conditions are met:
  *
- *   * Redistributions of source code must retain the above copyright notice,
- *     this list of conditions and the following disclaimer.
- *   * Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
- *   * Neither the name of Redis nor the names of its contributors may be used
- *     to endorse or promote products derived from this software without
- *     specific prior written permission.
+ -   * Redistributions of source code must retain the above copyright notice,
+ -     this list of conditions and the following disclaimer.
+ -   * Redistributions in binary form must reproduce the above copyright
+ -     notice, this list of conditions and the following disclaimer in the
+ -     documentation and/or other materials provided with the distribution.
+ -   * Neither the name of Redis nor the names of its contributors may be used
+ -     to endorse or promote products derived from this software without
+ -     specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+ - THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ - AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ - IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ - ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ - LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ - CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ - SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ - INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ - CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ - ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ - POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <sys/types.h>
@@ -58,17 +58,17 @@ Well, with this tricks we can implement a chat that even has the ability to let 
 #include <sys/select.h>
 
 /* ============================ Data structures =================================
- * The minimal stuff we can afford to have. This example must be simple
- * even for people that don't know a lot of C.
- * =========================================================================== */
+ - The minimal stuff we can afford to have. This example must be simple
+ - even for people that don't know a lot of C.
+ - =========================================================================== */
 
 #define MAX_CLIENTS 1000 // This is actually the higher file descriptor.
 #define SERVER_PORT 7711
 
 /* This structure represents a connected client. There is very little
- * info about it: the socket descriptor and the nick name, if set, otherwise
- * the first byte of the nickname is set to 0 if not set.
- * The client can set its nickname with /nick <nickname> command. */
+ - info about it: the socket descriptor and the nick name, if set, otherwise
+ - the first byte of the nickname is set to 0 if not set.
+ - The client can set its nickname with /nick <nickname> command. */
 struct client {
     int fd;     // Client socket.
     char *nick; // Nickname of the client.
@@ -86,11 +86,11 @@ struct chatState {
 struct chatState *Chat; // Initialized at startup.
 
 /* ======================== Low level networking stuff ==========================
- * Here you will find basic socket stuff that should be part of
- * a decent standard C library, but you know... there are other
- * crazy goals for the future of C: like to make the whole language an
- * Undefined Behavior.
- * =========================================================================== */
+ - Here you will find basic socket stuff that should be part of
+ - a decent standard C library, but you know... there are other
+ - crazy goals for the future of C: like to make the whole language an
+ - Undefined Behavior.
+ - =========================================================================== */
 
 /* Create a TCP socket lisetning to 'port' ready to accept connections. */
 int createTCPServer(int port) {
@@ -119,8 +119,8 @@ int socketSetNonBlockNoDelay(int fd) {
     int flags, yes = 1;
 
     /* Set the socket nonblocking.
-     * Note that fcntl(2) for F_GETFL and F_SETFL can't be
-     * interrupted by a signal. */
+     - Note that fcntl(2) for F_GETFL and F_SETFL can't be
+     - interrupted by a signal. */
     if ((flags = fcntl(fd, F_GETFL)) == -1) return -1;
     if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1) return -1;
 
@@ -130,8 +130,8 @@ int socketSetNonBlockNoDelay(int fd) {
 }
 
 /* If the listening socket signaled there is a new connection ready to
- * be accepted, we accept(2) it and return -1 on error or the new client
- * socket on success. */
+ - be accepted, we accept(2) it and return -1 on error or the new client
+ - socket on success. */
 int acceptClient(int server_socket) {
     int s;
 
@@ -151,9 +151,9 @@ int acceptClient(int server_socket) {
 }
 
 /* We also define an allocator that always crashes on out of memory: you
- * will discover that in most programs designed to run for a long time, that
- * are not libraries, trying to recover from out of memory is often futile
- * and at the same time makes the whole program terrible. */
+ - will discover that in most programs designed to run for a long time, that
+ - are not libraries, trying to recover from out of memory is often futile
+ - and at the same time makes the whole program terrible. */
 void *chatMalloc(size_t size) {
     void *ptr = malloc(size);
     if (ptr == NULL) {
@@ -174,14 +174,14 @@ void *chatRealloc(void *ptr, size_t size) {
 }
 
 /* ====================== Small chat core implementation ========================
- * Here the idea is very simple: we accept new connections, read what clients
- * write us and fan-out (that is, send-to-all) the message to everybody
- * with the exception of the sender. And that is, of course, the most
- * simple chat system ever possible.
- * =========================================================================== */
+ - Here the idea is very simple: we accept new connections, read what clients
+ - write us and fan-out (that is, send-to-all) the message to everybody
+ - with the exception of the sender. And that is, of course, the most
+ - simple chat system ever possible.
+ - =========================================================================== */
 
 /* Create a new client bound to 'fd'. This is called when a new client
- * connects. As a side effect updates the global Chat state. */
+ - connects. As a side effect updates the global Chat state. */
 struct client *createClient(int fd) {
     char nick[32]; // Used to create an initial nick for the user.
     int nicklen = snprintf(nick,sizeof(nick),"user:%d",fd);
@@ -199,7 +199,7 @@ struct client *createClient(int fd) {
 }
 
 /* Free a client, associated resources, and unbind it from the global
- * state in Chat. */
+ - state in Chat. */
 void freeClient(struct client *c) {
     free(c->nick);
     close(c->fd);
@@ -207,7 +207,7 @@ void freeClient(struct client *c) {
     Chat->numclients--;
     if (Chat->maxclient == c->fd) {
         /* Ooops, this was the max client set. Let's find what is
-         * the new highest slot used. */
+         - the new highest slot used. */
         int j;
         for (j = Chat->maxclient-1; j >= 0; j--) {
             if (Chat->clients[j] != NULL) Chat->maxclient = j;
@@ -227,7 +227,7 @@ void initChat(void) {
     Chat->numclients = 0;
 
     /* Create our listening socket, bound to the given port. This
-     * is where our clients will connect. */
+     - is where our clients will connect. */
     Chat->serversock = createTCPServer(SERVER_PORT);
     if (Chat->serversock == -1) {
         perror("Creating listening socket");
@@ -236,24 +236,24 @@ void initChat(void) {
 }
 
 /* Send the specified string to all connected clients but the one
- * having as socket descriptor 'excluded'. If you want to send something
- * to every client just set excluded to an impossible socket: -1. */
+ - having as socket descriptor 'excluded'. If you want to send something
+ - to every client just set excluded to an impossible socket: -1. */
 void sendMsgToAllClientsBut(int excluded, char *s, size_t len) {
     for (int j = 0; j <= Chat->maxclient; j++) {
         if (Chat->clients[j] == NULL ||
             Chat->clients[j]->fd == excluded) continue;
 
         /* Important: we don't do ANY BUFFERING. We just use the kernel
-         * socket buffers. If the content does not fit, we don't care.
-         * This is needed in order to keep this program simple. */
+         - socket buffers. If the content does not fit, we don't care.
+         - This is needed in order to keep this program simple. */
         write(Chat->clients[j]->fd,s,len);
     }
 }
 
 /* The main() function implements the main chat logic:
- * 1. Accept new clients connections if any.
- * 2. Check if any client sent us some new message.
- * 3. Send the message to all the other clients. */
+ - 1. Accept new clients connections if any.
+ - 2. Check if any client sent us some new message.
+ - 3. Send the message to all the other clients. */
 int main(void) {
     initChat();
 
@@ -264,8 +264,8 @@ int main(void) {
 
         FD_ZERO(&readfds);
         /* When we want to be notified by select() that there is
-         * activity? If the listening socket has pending clients to accept
-         * or if any other client wrote anything. */
+         - activity? If the listening socket has pending clients to accept
+         - or if any other client wrote anything. */
         FD_SET(Chat->serversock, &readfds);
 
         for (int j = 0; j <= Chat->maxclient; j++) {
@@ -273,13 +273,13 @@ int main(void) {
         }
 
         /* Set a timeout for select(), see later why this may be useful
-         * in the future (not now). */
+         - in the future (not now). */
         tv.tv_sec = 1; // 1 sec timeout
         tv.tv_usec = 0;
 
         /* Select wants as first argument the maximum file descriptor
-         * in use plus one. It can be either one of our clients or the
-         * server socket itself. */
+         - in use plus one. It can be either one of our clients or the
+         - server socket itself. */
         int maxfd = Chat->maxclient;
         if (maxfd < Chat->serversock) maxfd = Chat->serversock;
         retval = select(maxfd+1, &readfds, NULL, NULL, &tv);
@@ -289,7 +289,7 @@ int main(void) {
         } else if (retval) {
 
             /* If the listening socket is "readable", it actually means
-             * there are new clients connections pending to accept. */
+             - there are new clients connections pending to accept. */
             if (FD_ISSET(Chat->serversock, &readfds)) {
                 int fd = acceptClient(Chat->serversock);
                 struct client *c = createClient(fd);
@@ -302,41 +302,41 @@ int main(void) {
             }
 
             /* Here for each connected client, check if there are pending
-             * data the client sent us. */
+             - data the client sent us. */
             char readbuf[256];
             for (int j = 0; j <= Chat->maxclient; j++) {
                 if (Chat->clients[j] == NULL) continue;
                 if (FD_ISSET(j, &readfds)) {
                     /* Here we just hope that there is a well formed
-                     * message waiting for us. But it is entirely possible
-                     * that we read just half a message. In a normal program
-                     * that is not designed to be that simple, we should try
-                     * to buffer reads until the end-of-the-line is reached. */
+                     - message waiting for us. But it is entirely possible
+                     - that we read just half a message. In a normal program
+                     - that is not designed to be that simple, we should try
+                     - to buffer reads until the end-of-the-line is reached. */
                     int nread = read(j,readbuf,sizeof(readbuf)-1);
 
                     if (nread <= 0) {
                         /* Error or short read means that the socket
-                         * was closed. */
+                         - was closed. */
                         printf("Disconnected client fd=%d, nick=%s\n",
                             j, Chat->clients[j]->nick);
                         freeClient(Chat->clients[j]);
                     } else {
                         /* The client sent us a message. We need to
-                         * relay this message to all the other clients
-                         * in the chat. */
+                         - relay this message to all the other clients
+                         - in the chat. */
                         struct client *c = Chat->clients[j];
                         readbuf[nread] = 0;
 
                         /* If the user message starts with "/", we
-                         * process it as a client command. So far
-                         * only the /nick <newnick> command is implemented. */
+                         - process it as a client command. So far
+                         - only the /nick <newnick> command is implemented. */
                         if (readbuf[0] == '/') {
                             /* Remove any trailing newline. */
                             char *p;
                             p = strchr(readbuf,'\r'); if (p) *p = 0;
                             p = strchr(readbuf,'\n'); if (p) *p = 0;
                             /* Check for an argument of the command, after
-                             * the space. */
+                             - the space. */
                             char *arg = strchr(readbuf,' ');
                             if (arg) {
                                 *arg = 0; /* Terminate command name. */
@@ -355,8 +355,8 @@ int main(void) {
                             }
                         } else {
                             /* Create a message to send everybody (and show
-                             * on the server console) in the form:
-                             *   nick> some message. */
+                             - on the server console) in the form:
+                             -   nick> some message. */
                             char msg[256];
                             int msglen = snprintf(msg, sizeof(msg),
                                 "%s> %s", c->nick, readbuf);
@@ -370,8 +370,8 @@ int main(void) {
             }
         } else {
             /* Timeout occurred. We don't do anything right now, but in
-             * general this section can be used to wakeup periodically
-             * even if there is no clients activity. */
+             - general this section can be used to wakeup periodically
+             - even if there is no clients activity. */
         }
     }
     return 0;
