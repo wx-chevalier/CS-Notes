@@ -324,13 +324,6 @@ print_hello:
   push rbp
   mov rbp, rsp
 
-  sub rsp, 16
-  mov BYTE [rsp + 0], 'h'
-  mov BYTE [rsp + 1], 'e'
-  mov BYTE [rsp + 2], 'l'
-  mov BYTE [rsp + 3], 'l'
-  mov BYTE [rsp + 4], 'o'
-
   mov rax, SYSCALL_WRITE
   mov rdi, STDOUT
   lea rsi, [rsp]
@@ -484,14 +477,6 @@ static x11_connect_to_server:function
 
 First, let’s move the socket creation logic to our function and call it in the program:
 
-```x86asm
-; Create a UNIX domain socket and connect to the X11 server.
-; @returns The socket file descriptor.
-x11_connect_to_server:
-static x11_connect_to_server:function
-  push rbp
-  mov rbp, rsp
-
   ; Open a Unix socket: socket(2).
   mov rax, SYSCALL_SOCKET
   mov rdi, AF_UNIX ; Unix socket.
@@ -593,21 +578,6 @@ Then we copy the string:
 Then, we do the syscall, check the returned value, exit the program if the value is not 0, and finally return the socket file descriptor, which will be used every time in the rest of the program when talking to the X11 server.
 
 Everything together, it looks like:
-
-```x86asm
-; Create a UNIX domain socket and connect to the X11 server.
-; @returns The socket file descriptor.
-x11_connect_to_server:
-static x11_connect_to_server:function
-  push rbp
-  mov rbp, rsp
-
-  ; Open a Unix socket: socket(2).
-  mov rax, SYSCALL_SOCKET
-  mov rdi, AF_UNIX ; Unix socket.
-  mov rsi, SOCK_STREAM ; Tcp-like.
-  mov rdx, 0 ; Automatic protocol.
-  syscall
 
   cmp rax, 0
   jle die
@@ -842,19 +812,8 @@ static x11_send_handshake:function
   mov edx, DWORD [rsp + 8]
   mov DWORD [id_mask], edx
 
-  ; Read the information we need, skip over the rest.
-  lea rdi, [rsp] ; Pointer that will skip over some data.
-
   mov cx, WORD [rsp + 16] ; Vendor length (v).
   movzx rcx, cx
-
-  mov al, BYTE [rsp + 21]; Number of formats (n).
-  movzx rax, al ; Fill the rest of the register with zeroes to avoid garbage values.
-  imul rax, 8 ; sizeof(format) == 8
-
-  add rdi, 32 ; Skip the connection setup
-  add rdi, rcx ; Skip over the vendor information (v).
-  add rdi, rax ; Skip over the format information (n*8).
 
   mov eax, DWORD [rdi] ; Store (and return) the window root id.
 
@@ -1403,36 +1362,12 @@ static x11_connect_to_server:function
   push rbp
   mov rbp, rsp
 
-  ; Open a Unix socket: socket(2).
-  mov rax, SYSCALL_SOCKET
-  mov rdi, AF_UNIX ; Unix socket.
-  mov rsi, SOCK_STREAM ; Tcp-like.
-  mov rdx, 0 ; Automatic protocol.
-  syscall
-
   cmp rax, 0
   jle die
 
   mov rdi, rax ; Store socket fd in `rdi` for the remainder of the function.
 
   sub rsp, 112 ; Store struct sockaddr_un on the stack.
-
-  mov WORD [rsp], AF_UNIX ; Set sockaddr_un.sun_family to AF_UNIX
-  ; Fill sockaddr_un.sun_path with: "/tmp/.X11-unix/X0".
-  lea rsi, sun_path
-  mov r12, rdi ; Save the socket file descriptor in `rdi` in `r12`.
-  lea rdi, [rsp + 2]
-  cld ; Move forward
-  mov ecx, 19 ; Length is 19 with the null terminator.
-  rep movsb ; Copy.
-
-  ; Connect to the server: connect(2).
-  mov rax, SYSCALL_CONNECT
-  mov rdi, r12
-  lea rsi, [rsp]
-  %define SIZEOF_SOCKADDR_UN 2+108
-  mov rdx, SIZEOF_SOCKADDR_UN
-  syscall
 
   cmp rax, 0
   jne die
@@ -1451,42 +1386,14 @@ static x11_send_handshake:function
   push rbp
   mov rbp, rsp
 
-  sub rsp, 1<<15
-  mov BYTE [rsp + 0], 'l' ; Set order to 'l'.
-  mov WORD [rsp + 2], 11 ; Set major version to 11.
-
-  ; Send the handshake to the server: write(2).
-  mov rax, SYSCALL_WRITE
-  mov rdi, rdi
-  lea rsi, [rsp]
-  mov rdx, 12*8
-  syscall
-
   cmp rax, 12*8 ; Check that all bytes were written.
   jnz die
-
-  ; Read the server response: read(2).
-  ; Use the stack for the read buffer.
-  ; The X11 server first replies with 8 bytes. Once these are read, it replies with a much bigger message.
-  mov rax, SYSCALL_READ
-  mov rdi, rdi
-  lea rsi, [rsp]
-  mov rdx, 8
-  syscall
 
   cmp rax, 8 ; Check that the server replied with 8 bytes.
   jnz die
 
   cmp BYTE [rsp], 1 ; Check that the server sent 'success' (first byte is 1).
   jnz die
-
-  ; Read the rest of the server response: read(2).
-  ; Use the stack for the read buffer.
-  mov rax, SYSCALL_READ
-  mov rdi, rdi
-  lea rsi, [rsp]
-  mov rdx, 1<<15
-  syscall
 
   cmp rax, 0 ; Check that the server replied with something.
   jle die
@@ -1499,19 +1406,8 @@ static x11_send_handshake:function
   mov edx, DWORD [rsp + 8]
   mov DWORD [id_mask], edx
 
-  ; Read the information we need, skip over the rest.
-  lea rdi, [rsp] ; Pointer that will skip over some data.
-
   mov cx, WORD [rsp + 16] ; Vendor length (v).
   movzx rcx, cx
-
-  mov al, BYTE [rsp + 21]; Number of formats (n).
-  movzx rax, al ; Fill the rest of the register with zeroes to avoid garbage values.
-  imul rax, 8 ; sizeof(format) == 8
-
-  add rdi, 32 ; Skip the connection setup
-  add rdi, rcx ; Skip over the vendor information (v).
-  add rdi, rax ; Skip over the format information (n*8).
 
   mov eax, DWORD [rdi] ; Store (and return) the window root id.
 
@@ -1552,27 +1448,6 @@ static x11_open_font:function
   push rbp
   mov rbp, rsp
 
-  %define OPEN_FONT_NAME_BYTE_COUNT 5
-  %define OPEN_FONT_PADDING ((4 - (OPEN_FONT_NAME_BYTE_COUNT % 4)) % 4)
-  %define OPEN_FONT_PACKET_U32_COUNT (3 + (OPEN_FONT_NAME_BYTE_COUNT + OPEN_FONT_PADDING) / 4)
-  %define X11_OP_REQ_OPEN_FONT 0x2d
-
-  sub rsp, 6*8
-  mov DWORD [rsp + 0*4], X11_OP_REQ_OPEN_FONT | (OPEN_FONT_NAME_BYTE_COUNT << 16)
-  mov DWORD [rsp + 1*4], esi
-  mov DWORD [rsp + 2*4], OPEN_FONT_NAME_BYTE_COUNT
-  mov BYTE [rsp + 3*4 + 0], 'f'
-  mov BYTE [rsp + 3*4 + 1], 'i'
-  mov BYTE [rsp + 3*4 + 2], 'x'
-  mov BYTE [rsp + 3*4 + 3], 'e'
-  mov BYTE [rsp + 3*4 + 4], 'd'
-
-  mov rax, SYSCALL_WRITE
-  mov rdi, rdi
-  lea rsi, [rsp]
-  mov rdx, OPEN_FONT_PACKET_U32_COUNT*4
-  syscall
-
   cmp rax, OPEN_FONT_PACKET_U32_COUNT*4
   jnz die
 
@@ -1592,31 +1467,6 @@ static x11_create_gc:function
   mov rbp, rsp
 
   sub rsp, 8*8
-
-%define X11_OP_REQ_CREATE_GC 0x37
-%define X11_FLAG_GC_BG 0x00000004
-%define X11_FLAG_GC_FG 0x00000008
-%define X11_FLAG_GC_FONT 0x00004000
-%define X11_FLAG_GC_EXPOSE 0x00010000
-
-%define CREATE_GC_FLAGS X11_FLAG_GC_BG | X11_FLAG_GC_FG | X11_FLAG_GC_FONT
-%define CREATE_GC_PACKET_FLAG_COUNT 3
-%define CREATE_GC_PACKET_U32_COUNT (4 + CREATE_GC_PACKET_FLAG_COUNT)
-%define MY_COLOR_RGB 0x0000ffff
-
-  mov DWORD [rsp + 0*4], X11_OP_REQ_CREATE_GC | (CREATE_GC_PACKET_U32_COUNT<<16)
-  mov DWORD [rsp + 1*4], esi
-  mov DWORD [rsp + 2*4], edx
-  mov DWORD [rsp + 3*4], CREATE_GC_FLAGS
-  mov DWORD [rsp + 4*4], MY_COLOR_RGB
-  mov DWORD [rsp + 5*4], 0
-  mov DWORD [rsp + 6*4], ecx
-
-  mov rax, SYSCALL_WRITE
-  mov rdi, rdi
-  lea rsi, [rsp]
-  mov rdx, CREATE_GC_PACKET_U32_COUNT*4
-  syscall
 
   cmp rax, CREATE_GC_PACKET_U32_COUNT*4
   jnz die
@@ -1638,35 +1488,7 @@ static x11_create_window:function
   push rbp
   mov rbp, rsp
 
-  %define X11_OP_REQ_CREATE_WINDOW 0x01
-  %define X11_FLAG_WIN_BG_COLOR 0x00000002
-  %define X11_EVENT_FLAG_KEY_RELEASE 0x0002
-  %define X11_EVENT_FLAG_EXPOSURE 0x8000
-  %define X11_FLAG_WIN_EVENT 0x00000800
-
-  %define CREATE_WINDOW_FLAG_COUNT 2
-  %define CREATE_WINDOW_PACKET_U32_COUNT (8 + CREATE_WINDOW_FLAG_COUNT)
-  %define CREATE_WINDOW_BORDER 1
-  %define CREATE_WINDOW_GROUP 1
-
   sub rsp, 12*8
-
-  mov DWORD [rsp + 0*4], X11_OP_REQ_CREATE_WINDOW | (CREATE_WINDOW_PACKET_U32_COUNT << 16)
-  mov DWORD [rsp + 1*4], esi
-  mov DWORD [rsp + 2*4], edx
-  mov DWORD [rsp + 3*4], r8d
-  mov DWORD [rsp + 4*4], r9d
-  mov DWORD [rsp + 5*4], CREATE_WINDOW_GROUP | (CREATE_WINDOW_BORDER << 16)
-  mov DWORD [rsp + 6*4], ecx
-  mov DWORD [rsp + 7*4], X11_FLAG_WIN_BG_COLOR | X11_FLAG_WIN_EVENT
-  mov DWORD [rsp + 8*4], 0
-  mov DWORD [rsp + 9*4], X11_EVENT_FLAG_KEY_RELEASE | X11_EVENT_FLAG_EXPOSURE
-
-  mov rax, SYSCALL_WRITE
-  mov rdi, rdi
-  lea rsi, [rsp]
-  mov rdx, CREATE_WINDOW_PACKET_U32_COUNT*4
-  syscall
 
   cmp rax, CREATE_WINDOW_PACKET_U32_COUNT*4
   jnz die
@@ -1685,10 +1507,6 @@ static x11_map_window:function
   mov rbp, rsp
 
   sub rsp, 16
-
-  %define X11_OP_REQ_MAP_WINDOW 0x08
-  mov DWORD [rsp + 0*4], X11_OP_REQ_MAP_WINDOW | (2<<16)
-  mov DWORD [rsp + 1*4], esi
 
   mov rax, SYSCALL_WRITE
   mov rdi, rdi
@@ -1782,13 +1600,6 @@ static poll_messages:function
 
   sub rsp, 32
 
-  %define POLLIN 0x001
-  %define POLLPRI 0x002
-  %define POLLOUT 0x004
-  %define POLLERR  0x008
-  %define POLLHUP  0x010
-  %define POLLNVAL 0x020
-
   mov DWORD [rsp + 0*4], edi
   mov DWORD [rsp + 1*4], POLLIN
 
@@ -1857,50 +1668,6 @@ static x11_draw_text:function
   mov rbp, rsp
 
   sub rsp, 1024
-
-  mov DWORD [rsp + 1*4], ecx ; Store the window id directly in the packet data on the stack.
-  mov DWORD [rsp + 2*4], r8d ; Store the gc id directly in the packet data on the stack.
-  mov DWORD [rsp + 3*4], r9d ; Store x, y directly in the packet data on the stack.
-
-  mov r8d, edx ; Store the string length in r8 since edx will be overwritten next.
-  mov QWORD [rsp + 1024 - 8], rdi ; Store the socket file descriptor on the stack to free the register.
-
-  ; Compute padding and packet u32 count with division and modulo 4.
-  mov eax, edx ; Put dividend in eax.
-  mov ecx, 4 ; Put divisor in ecx.
-  cdq ; Sign extend.
-  idiv ecx ; Compute eax / ecx, and put the remainder (i.e. modulo) in edx.
-  ; LLVM optimizer magic: `(4-x)%4 == -x & 3`, for some reason.
-  neg edx
-  and edx, 3
-  mov r9d, edx ; Store padding in r9.
-
-  mov eax, r8d
-  add eax, r9d
-  shr eax, 2 ; Compute: eax /= 4
-  add eax, 4 ; eax now contains the packet u32 count.
-
-  %define X11_OP_REQ_IMAGE_TEXT8 0x4c
-  mov DWORD [rsp + 0*4], r8d
-  shl DWORD [rsp + 0*4], 8
-  or DWORD [rsp + 0*4], X11_OP_REQ_IMAGE_TEXT8
-  mov ecx, eax
-  shl ecx, 16
-  or [rsp + 0*4], ecx
-
-  ; Copy the text string into the packet data on the stack.
-  mov rsi, rsi ; Source string in rsi.
-  lea rdi, [rsp + 4*4] ; Destination
-  cld ; Move forward
-  mov ecx, r8d ; String length.
-  rep movsb ; Copy.
-
-  mov rdx, rax ; packet u32 count
-  imul rdx, 4
-  mov rax, SYSCALL_WRITE
-  mov rdi, QWORD [rsp + 1024 - 8] ; fd
-  lea rsi, [rsp]
-  syscall
 
   cmp rax, rdx
   jnz die
